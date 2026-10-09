@@ -91,7 +91,9 @@ jobs:
         working-directory: ${{ runner.temp }}/${{ matrix.source_directory }}
         env:
           FDROID_CACHE_DIR: ${{ runner.temp }}/${{ matrix.cache_directory }}
-        run: scripts/release/prepare-fdroid.sh "$ABI"
+        run: |
+          chmod 755 scripts/release/prepare-fdroid.sh
+          scripts/release/prepare-fdroid.sh "$ABI"
 
       - name: Build unsigned split APK without network access
         shell: bash
