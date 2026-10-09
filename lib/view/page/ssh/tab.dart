@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
@@ -49,20 +47,6 @@ class _SshSession {
 
   final SSHPage page;
   final GlobalKey<SSHPageState> pageKey;
-
-  /// What has to survive a relaunch. Read from the live page when there is
-  /// one, and from the arguments it was opened with when there is not — a tab
-  /// restored but never looked at has no state of its own yet.
-  Map<String, dynamic> toRestorable() {
-    final live = pageKey.currentState;
-    return {
-      // The source's id, not a server's: this device has one too, and it is
-      // what tells the two apart when the set is reopened.
-      'sourceId': live?.widget.args.source.id ?? page.args.source.id,
-      'tmuxSession': live?.tmuxCurrentSession ?? page.args.tmuxSession,
-      'tmuxWindow': live?.tmuxCurrentWindow ?? page.args.tmuxWindow,
-    };
-  }
 }
 
 class _SSHTabPageState extends ConsumerState<SSHTabPage>
@@ -105,11 +89,11 @@ class _SSHTabPageState extends ConsumerState<SSHTabPage>
   void initState() {
     super.initState();
     Rootfs.removed.addListener(_onRootfsRemoved);
-    // Both after the first frame, and in this order: a queued request is what
-    // the user just asked for, and it should end up beside the tabs that were
-    // already open rather than racing them.
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _restoreTabs();
+    // After the first frame: a queued request is what the user just asked
+    // for, and it should land on a settled page. Terminals are deliberately
+    // not reopened here — a fresh start shows the device list, and connecting
+    // is a tap on it, not something that happens on the way in.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       // Here and not only from the listener: a flag set before this tab was
       // ever built is not a *change* by the time the listener exists, so
@@ -285,29 +269,14 @@ extension _Sessions on _SSHTabPageState {
     Spi spi, {
     Snippet? snippet,
     TerminalSession? session,
-    String? tmuxSession,
-    int? tmuxWindow,
     bool select = true,
-  }) => _open(
-    ServerSource(spi),
-    snippet: snippet,
-    session: session,
-    tmuxSession: tmuxSession,
-    tmuxWindow: tmuxWindow,
-    select: select,
-  );
+  }) => _open(ServerSource(spi), snippet: snippet, session: session, select: select);
 
   /// Opens a shell wherever [source] says.
-  ///
-  /// [select] is off while restoring: selecting each tab as it arrives would
-  /// animate through all of them and land on the last, which is not where
-  /// anyone left off.
   void _open(
     TerminalSource source, {
     Snippet? snippet,
     TerminalSession? session,
-    String? tmuxSession,
-    int? tmuxWindow,
     bool select = true,
   }) {
     // Assigned once `add` returns. Only the callback below reads it, and only
@@ -333,9 +302,6 @@ extension _Sessions on _SSHTabPageState {
               onSessionEnd: () => _closeTab(id),
               focusNode: focus,
               visibleListenable: visible,
-              tmuxSession: tmuxSession,
-              tmuxWindow: tmuxWindow,
-              onTmuxStateChanged: _saveTabs,
               // Per tab: two shells on one server would otherwise share one
               // restoration bucket and overwrite each other's tmux state.
               //
@@ -351,7 +317,6 @@ extension _Sessions on _SSHTabPageState {
     );
     id = tab.id;
     if (!select) return;
-    _saveTabs();
     _sessions.select(_sessions.names.indexOf(tab.name));
   }
 
@@ -453,97 +418,6 @@ extension _Sessions on _SSHTabPageState {
 
   void _closeTab(String id) {
     _sessions.remove(id);
-    if (mounted) _saveTabs();
-  }
-
-  void _saveTabs() {
-    Stores.history.sshTabs.put(
-      jsonEncode([for (final tab in _sessions.tabs) tab.data.toRestorable()]),
-    );
-  }
-
-  /// Reopens whatever was open when the app last went away.
-  ///
-  /// Each entry is read defensively and skipped on its own. This is the one
-  /// path that runs against data an older build wrote, and a single malformed
-  /// record used to abort the loop — taking every other terminal with it.
-  Future<void> _restoreTabs() async {
-    final saved = Stores.history.sshTabs.fetch();
-    if (saved.isEmpty) return;
-
-    final List<dynamic> entries;
-    try {
-      entries = jsonDecode(saved) as List;
-    } catch (e, st) {
-      Loggers.app.warning('Unreadable SSH tab state', e, st);
-      return;
-    }
-
-    // Read once, not once per tab.
-    final servers = {for (final spi in Stores.server.fetch()) spi.id: spi};
-
-    var restored = 0;
-    for (final entry in entries) {
-      if (entry is! Map) continue;
-      // TODO(migration residue; remove once no saved tab set predates
-      // `sourceId`): `serverId` is what records written before this tab could
-      // open a shell on the device itself carry. Read as a fallback rather
-      // than migrated: one relaunch rewrites the lot, and a session that fails
-      // to reopen has cost nothing.
-      final id = entry['sourceId'] ?? entry['serverId'];
-      final TerminalSource source;
-      if (id is String && id.startsWith(LocalSource.rootfsId)) {
-        // Only where there is one to enter. A rootfs the user deleted, or a
-        // tab set restored onto a build without proot, would otherwise reopen
-        // as a terminal that can only print an error.
-        if (!Rootfs.isAvailable) continue;
-        if (!Rootfs.isReady) continue;
-        // A saved set from before profiles existed names no profile, and reads
-        // as "whichever is selected" — which is what it meant.
-        final profileId = LocalSource.profileIdOf(id);
-        // One that names a profile this device has not got is skipped like an
-        // unknown server: a backup restored onto another device is exactly how
-        // that happens.
-        if (profileId != null &&
-            !Rootfs.profiles.any((e) => e.id == profileId)) {
-          continue;
-        }
-        source = LocalSource(rootfs: true, profileId: profileId);
-      } else if (id == const LocalSource().id) {
-        // A tab set saved on a desktop can be restored on a phone — the same
-        // backup, the same account — and iOS has no shell to give. Skipped
-        // like an unknown server below, rather than opening a tab that can
-        // only fail when its pty is asked for.
-        if (!LocalShellBackend.isSupported) continue;
-        source = const LocalSource();
-      } else {
-        final spi = servers[id];
-        if (spi == null) continue;
-        source = ServerSource(spi);
-      }
-      // Tested rather than cast. `as String?` throws on a value that is
-      // neither — a number where a name was expected — and the throw leaves the
-      // loop, which is the whole-set abort the entry-by-entry reads above
-      // exist to prevent.
-      final tmuxSession = entry['tmuxSession'];
-      final tmuxWindow = entry['tmuxWindow'];
-      _open(
-        source,
-        tmuxSession: tmuxSession is String ? tmuxSession : null,
-        tmuxWindow: tmuxWindow is int ? tmuxWindow : null,
-        select: false,
-      );
-      restored++;
-    }
-
-    if (restored == 0) return;
-    // One write for the whole restore, and only once the set is final.
-    _saveTabs();
-    // Nothing to land on means every restored tab was a local shell: stay on
-    // the picker, where the rail lists them and one tap starts whichever was
-    // wanted.
-    final landOn = _firstTabToStart();
-    if (landOn != null) _sessions.select(landOn);
   }
 }
 
@@ -584,9 +458,18 @@ extension _Actions on _SSHTabPageState {
     if (current == null) return const [];
     final onServer = current.data.page.args.spi != null;
     return onServer
-        ? [_agentBtn, _snippetBtn, _settingsBtn, _floatBtn]
+        ? [_disconnectBtn, _agentBtn, _snippetBtn, _settingsBtn, _floatBtn]
         : [_snippetBtn, _settingsBtn, _floatBtn];
   }
+
+  /// Ends the connection of the terminal on screen and closes its tab, which
+  /// is what leaves the device list showing.
+  Widget get _disconnectBtn => Btn.icon(
+    text: l10n.disconnect,
+    icon: const Icon(Icons.link_off, size: 18),
+    onTap: () =>
+        _sessions.current?.data.pageKey.currentState?.disconnectFromToolbar(),
+  );
 
   /// Sends the terminal on screen into the window that floats over every tab,
   /// and brings it back.

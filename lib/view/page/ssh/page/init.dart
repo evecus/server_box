@@ -904,7 +904,6 @@ extension _Init on SSHPageState {
   /// longer be restored, e.g. after it was killed server-side).
   void _clearTmuxState() {
     _tmuxPageController.clear();
-    widget.args.onTmuxStateChanged?.call();
   }
 
   void _closeFailedReconnectClient() => _sess.closeBackend();
@@ -925,7 +924,6 @@ extension _Init on SSHPageState {
       sessionName: sessionName,
       windowIndex: windowIndex,
     );
-    widget.args.onTmuxStateChanged?.call();
   }
 
   /// Only where [_canTmux] says so — every caller checks, and the null
