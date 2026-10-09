@@ -104,7 +104,6 @@ final class SshPageArgs {
   final ValueListenable<bool>? visibleListenable;
   final String? tmuxSession;
   final int? tmuxWindow;
-  final VoidCallback? onTmuxStateChanged;
 
   /// Distinguishes this page's saved state from another page's.
   ///
@@ -133,7 +132,6 @@ final class SshPageArgs {
     this.visibleListenable,
     this.tmuxSession,
     this.tmuxWindow,
-    this.onTmuxStateChanged,
     this.restorationId,
     this.homeTab = AppTab.ssh,
   }) : assert(
@@ -206,7 +204,7 @@ class SSHPageState extends ConsumerState<SSHPage>
         ..answersSudo = widget.args.initCmdSudo);
 
   late final TmuxPageController _tmuxPageController = TmuxPageController(
-    onSnapshot: (_) => widget.args.onTmuxStateChanged?.call(),
+    onSnapshot: (_) {},
     onPhaseChanged: (_) => redrawTmuxWindowBar(),
   );
 
@@ -386,12 +384,6 @@ class SSHPageState extends ConsumerState<SSHPage>
     });
   }
 
-  /// Current tmux session name (for state restoration)
-  String? get tmuxCurrentSession => _tmuxCurrentSession;
-
-  /// Current tmux window index (for state restoration)
-  int? get tmuxCurrentWindow => _tmuxCurrentWindow;
-
   /// Used to activate the wake lock while at least one terminal page exists.
   static var _sshConnCount = 0;
   late final String _sessionId = ShortId.generate();
@@ -400,6 +392,23 @@ class SSHPageState extends ConsumerState<SSHPage>
   Future<void> pickSnippetFromToolbar() => _pickSnippet();
 
   Future<void> openAgentFromToolbar() => _showAskAiPanel();
+
+  /// Ends this terminal's connection and closes where it is shown.
+  ///
+  /// The tab's `onSessionEnd` (or the route's pop) then puts the device list
+  /// back on screen. `close` rather than only the shell: the point of the
+  /// button is that nothing is left connected, and it also aborts a connect
+  /// that is still on its way.
+  void disconnectFromToolbar() {
+    if (!mounted) return;
+    TermSessionManager.updateStatus(_sessionId, TermSessionStatus.disconnected);
+    _sess.close();
+    if (widget.args.notFromTab) {
+      context.pop();
+    } else {
+      widget.args.onSessionEnd?.call();
+    }
+  }
 
   @override
   void deactivate() {
@@ -878,12 +887,18 @@ class SSHPageState extends ConsumerState<SSHPage>
       // The agent's tools all name a server, so on this device the button
       // would look tappable and do nothing. Snippets are different: the ones
       // that do not mention a server run here fine — see [_pickSnippet].
-      if (widget.args.spi != null)
+      if (widget.args.spi != null) ...[
+        IconButton(
+          onPressed: disconnectFromToolbar,
+          tooltip: l10n.disconnect,
+          icon: const Icon(Icons.link_off),
+        ),
         IconButton(
           onPressed: openAgentFromToolbar,
           tooltip: 'SSH Agent',
           icon: const Icon(Icons.auto_awesome),
         ),
+      ],
       IconButton(
         onPressed: _pickSnippet,
         tooltip: libL10n.snippet,
