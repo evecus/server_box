@@ -1,0 +1,213 @@
+# ServerBox Monitor configuration example
+
+# Database configuration
+database_url = "sqlite:serverbox_monitor.db"
+
+# JWT secret for authentication (optional).
+# Omit to auto-generate a random secret on first start,
+# persisted next to the database as jwt.secret (0600).
+# If set explicitly, it must be at least 32 characters.
+# jwt_secret = ""
+
+# Server configuration
+[server]
+host = "0.0.0.0"
+port = 3770
+# What this machine is called in the app and in pushes. Unset derives it from
+# the host: SBM_HOSTNAME, then /etc/host_hostname, then the OS hostname.
+# name = "web-1"
+# Origins allowed to call the API cross-origin, e.g. a panel hosted on
+# Cloudflare Pages. Empty (default) = same-origin only.
+# cors_allowed_origins = ["https://panel.example.pages.dev"]
+
+# Optional TLS configuration
+# [server.tls]
+# cert_path = "/path/to/cert.pem"
+# key_path = "/path/to/key.pem"
+
+# Monitoring configuration
+[monitoring]
+interval_seconds = 7
+
+# How often a rule may fire, formatted "N/duration". Default: once per minute.
+# push_rate = "1/1m"
+
+# The slower cycle collects battery, sensor, SMART, and AMD GPU data — the only
+# fields that still need CLI tools (smartctl/sensors/amd-smi) after monitor's
+# native collection cutover. Core fields (cpu/mem/disk/net/uptime/...) no
+# longer depend on it and are collected every interval_seconds regardless of
+# this section. Values are cached and carried
+# forward between extended collections.
+[monitoring.extended]
+# Unset defaults to 10x interval_seconds, floored at 120s. Lower it only if
+# you need SMART/sensor data fresher than that; smartctl-class latency on
+# every core cycle adds avoidable latency for data that changes slowly.
+# interval_secs = 300
+
+# Skip the extended cycle while nobody is looking, i.e. while no authenticated
+# client has polled /metrics or /status recently. Core metrics and alert rules
+# are unaffected either way — this pauses only the section above.
+[monitoring.extended.idle_pause]
+enabled = true
+# How long without a poll counts as idle. Unset = interval_seconds * 4.
+# threshold_secs = 60
+
+# Data retention and cleanup settings
+[monitoring.data_retention]
+# How long to keep system metrics (in days)
+metrics_days = 30
+
+# How long to keep alert records (in days)
+alerts_days = 90
+
+# How often to run cleanup (in hours)
+cleanup_interval_hours = 24
+
+# Hard cap on the SQLite file size (MB); oldest time-series rows are dropped
+# until the database fits. 0 disables the cap.
+max_db_size_mb = 256
+
+# Monitoring rules
+[[monitoring.rules]]
+name = "High CPU Usage"
+monitor_type = "cpu"
+threshold = ">=77%"
+matcher = "cpu"
+
+[[monitoring.rules]]
+name = "High Memory Usage"
+monitor_type = "memory"
+threshold = ">=85%"
+matcher = "memory"
+
+[[monitoring.rules]]
+name = "High Disk Usage"
+monitor_type = "disk"
+threshold = ">=90%"
+matcher = "disk"
+
+# The machine side of reaching this machine through the agent, beyond reading
+# its metrics: where sshd is, what the file API may reach, how big a terminal
+# or a command may get, and whether plaintext is tolerated.
+#
+# *Who* may use any of it is not here. Each account has a role, and a role
+# holds grants — shell, ssh_terminal, files (read or write), connect (with an
+# allow list), listen (with public and a port range). Admins edit accounts and
+# roles from the app or the panel. A fresh install's admin starts with every
+# grant, or none with `install.sh --permissions read`
+# (SBM_INIT_PERMISSIONS=read, or `serve --init-permissions read`).
+#
+# This section is never required.
+[remote_access]
+# The SSH server the panel terminal connects to.
+ssh_addr = "127.0.0.1:22"
+
+# Serve everything beyond reading the numbers — terminals, commands, files,
+# relays — to a caller on a plaintext link. Off, that needs TLS (above) or a
+# loopback peer: a reverse proxy on this same host terminating TLS counts.
+# Only for a private network with transport encryption outside HTTP, such as
+# Tailscale. The App must also enable Allow insecure HTTP for the individual
+# Monitor connection; both opt-ins are required.
+# allow_insecure = false
+
+# Legacy, no longer read (TODO remove): full_access, listen_public,
+# [remote_access.terminal] enabled and [remote_access.fs] enabled moved to the
+# roles. An agent upgrading from a release before roles reads them once, to
+# give its admin role exactly what they granted, and logs that they can go.
+# terminal.allow_insecure and fs.allow_insecure still count, each for what it
+# used to cover only: the terminal's for shell, ssh_terminal, connect and
+# listen; the file API's for files.
+
+# The panel's in-browser terminal (the ssh_terminal grant) and the app's
+# terminal (the shell grant): capacities, which apply to both. The panel's
+# acts as an SSH client to ssh_addr, so a session there has exactly the
+# privileges of the SSH account the browser authenticates as.
+[remote_access.terminal]
+# How long a session survives the browser disconnecting, so a laptop that
+# sleeps or a phone that changes network reattaches to the same shell.
+# detached_timeout_secs = 300
+# Leave unset to size from physical memory.
+# max_sessions = 8
+# scrollback_bytes = 2097152
+
+# The file API (the files grant): GET /fs/list, /fs/stat, /fs/read; PUT
+# /fs/write; POST /fs/mkdir, /fs/rename, /fs/chmod; DELETE /fs/remove.
+#
+# This is how the app browses files on a server it reaches through this agent.
+# Such a server carries no SSH credentials at all, so SFTP is not available to
+# it and this endpoint is the only way. A server added to the app over SSH
+# browses over SFTP end to end and needs nothing here.
+#
+# roots is what the file API may reach, and it is not optional: with none,
+# nothing is served whatever a role grants. Every request is resolved to a real
+# path — symlinks followed, `..` refused — and anything landing outside these
+# roots is denied, so a link inside a root pointing at /etc is not a way out.
+#
+# roots = ["/"] is how you say "the whole machine", and it makes `files` with
+# mode = "write" worth a shell: anyone who can write ~/.ssh/authorized_keys has
+# one. The agent warns about it at startup. Prefer naming what actually needs
+# to be reachable.
+[remote_access.fs]
+roots = []
+# Largest single file a write will accept. Leave unset to size it from
+# physical memory. The body is streamed to disk and never buffered whole, so
+# this bounds the disk rather than memory.
+# max_write_bytes = 1073741824
+
+# Bounds on one `POST /api/v1/exec` command. Whether one may run at all is the
+# shell grant; these only decide how much a permitted command may take.
+#
+# The defaults suit the pages this endpoint was built for — listing processes,
+# units and containers — and suit nothing that takes minutes or prints more
+# than a megabyte. Raise them for a benchmark, a filesystem scan or a backup.
+# They are the agent's decision and cannot be raised by a request.
+[remote_access.exec]
+# How long a command may run before it is killed and the response says
+# timed_out. Default 60. A longer value holds a worker for as long as it says,
+# so prefer starting long work detached and polling it in short requests.
+# timeout_secs = 60
+# Bytes kept per output stream; past this the response says truncated.
+# Leave unset to size it from physical memory (at least 1 MiB).
+# max_output_bytes = 1048576
+# Largest request body accepted — the command, its stdin and its env. The App
+# sends scripts on stdin, so this is what decides whether a large one installs
+# at all. Leave unset to size it from physical memory (at least 1 MiB).
+# max_request_bytes = 1048576
+
+# Push notification configurations
+[[push]]
+name = "webhook"
+push_type = "webhook"
+url = "http://localhost:5700"
+method = "POST"
+
+[push.headers]
+"Content-Type" = "application/json"
+
+[push.body_template]
+message = "Server {{name}}: {{message}}"
+
+[[push]]
+name = "serverchan"
+push_type = "serverchan"
+sc_key = ""
+title = "ServerBox Monitor"
+desp = "{{message}}"
+
+[[push]]
+name = "bark"
+push_type = "bark"
+server = "https://api.day.app"
+key = ""
+title = "ServerBox Monitor"
+body = "{{message}}"
+level = "active"
+
+[[push]]
+name = "ios"
+push_type = "ios"
+token = ""
+title = "ServerBox Monitor"
+content = "{{message}}"
+body_regex = ".*"
+code = 200

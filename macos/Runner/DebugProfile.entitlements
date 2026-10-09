@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.tech.lolli.serverbox</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudDocuments</string>
+	</array>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>iCloud.tech.lolli.serverbox</string>
+	</array>
+	<!-- Off, matching the DMG rather than the App Store build. Debug and
+	     Profile are what the feature is developed and measured against, and a
+	     sandboxed process cannot open a pseudo-terminal — with this on, the
+	     local terminal is correctly hidden and there is no way to work on it.
+
+	     To check what the App Store build does instead, flip this to true: the
+	     app asks the running process which it is, so nothing else changes.
+	     See macos/Runner/ReleaseDmg.entitlements. -->
+	<key>com.apple.security.app-sandbox</key>
+	<false/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>keychain-access-groups</key>
+	<array/>
+</dict>
+</plist>

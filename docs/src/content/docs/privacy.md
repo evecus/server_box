@@ -1,0 +1,335 @@
+---
+title: Privacy Policy
+description: What Server Box stores, what it sends, and how to control those choices
+---
+
+Last updated: 2026-09-04.
+
+Server Box is a client for the servers you configure. It has no user account and
+no developer-operated relay for SSH, SFTP, or Monitor traffic. Connections to
+those services go directly from the app to the endpoint you selected.
+
+The app makes separate network requests for diagnostics and for features you
+use. Their destinations and payloads are described below. Server Box contains no
+ads, advertising identifiers, or cross-app tracking.
+
+## Data stored on this device
+
+| Data | Storage and behavior |
+|---|---|
+| Server names, addresses, ports, usernames and settings | Encrypted SQLite database |
+| SSH passwords, private keys, Monitor and BMC credentials | Encrypted SQLite database; the database encryption key is kept in the platform keychain |
+| AI provider API keys | Platform keychain, one entry per provider |
+| Backup password, WebDAV password and GitHub token | Platform secure storage |
+| App logs | Local log files only; the current and previous run are retained for troubleshooting |
+| Agent conversations, memory notes, AI providers and tool settings | Local encrypted database; conversations may contain prompts, model responses, command output, terminal text, file content and fetched pages |
+| Active terminal output | Kept in the active session; the terminal does not retain it after the session ends |
+| Downloaded city-level location data | Unencrypted files in the app's data directory, created only after you confirm the download; see [Globe and location data](#globe-and-location-data) |
+| Public-interface-address results reported by servers, including an explicit no-address result | Encrypted app database, one entry per server. Once seven days old, a record can be refreshed by a later status poll. Coordinates are not stored; each one is derived again from the downloaded data whenever needed |
+
+Agent conversations, memory notes, AI providers and tool settings are excluded
+from backups and device sync. Conversations remain on this device until you
+delete them from the conversation history. An Agent
+conversation can still be sent to the AI provider you configured; see
+[AI requests](#ai-requests).
+
+Backups are created only when you request one. Depending on the options and the
+backup format, a backup can contain server settings and credentials, private
+keys, snippets, port forwards, container settings, connection history and app
+settings. AI provider settings and API keys, Agent conversations and
+device-local state are not included.
+
+A local backup may be unencrypted when no backup password is set. When you set a
+backup password, the backup is encrypted before it is written or uploaded.
+Automatic remote backup requires a non-empty backup password. After a backup is
+sent to iCloud, WebDAV or GitHub Gist, that provider's storage, access and
+retention rules also apply.
+
+## Automatic diagnostic data
+
+Automatic diagnostics are the only telemetry sent to the developer's diagnostic
+services. The choice is shown on the intro page before the first upload and can
+be changed at any time in **Settings → App → Privacy**.
+
+| Level | What is sent automatically |
+|---|---|
+| **Nothing** | Nothing. Local logs remain on this device, and you can still prepare a manual report. |
+| **Basic information** | Captured crashes and errors, with build and platform information and deliberately recorded diagnostic breadcrumbs attached when relevant. Nothing is sent continuously while the app is operating normally. |
+| **Full information** | Everything in Basic, plus performance traces when available and coarse feature-use events while the app runs. |
+
+The Android default is **Nothing**. The iOS, macOS, Linux and Windows defaults
+are **Basic information**. On builds where automatic diagnostics is available,
+the intro page is shown before the first automatic upload.
+
+Changing the level to **Nothing** stops automatic delivery immediately; it does
+not wait for the next launch.
+
+### What automatic reports contain
+
+Depending on the platform and the error, an automatic report can contain:
+
+- The error type, message and stack trace
+- The app build number, storage schema version and whether the build includes a
+  local Linux userland
+- Operating-system and kernel information, hardware model, CPU count, memory
+  size and app memory use where the platform provides them
+- Language, locale and time zone
+- Dart and Flutter runtime versions
+- Structured diagnostic breadcrumbs such as the transport used, the kind of
+  terminal or file backend, and an operation's outcome where it was recorded
+- A platform-provided native-crash, ANR or hang reason and trace, where one is
+  available
+
+Breadcrumbs use fixed action names and coarse or redacted values. They do not
+include terminal output, file contents, passwords or private keys as diagnostic
+fields. The app's ordinary log stream is never uploaded at any level.
+
+An error message or stack trace comes from the underlying library and may contain
+text that the app did not create. Server details therefore cannot be ruled out
+for every possible exception. Automatic diagnostics should not be treated as a
+guarantee that arbitrary exception text is anonymous.
+
+The app does not install a native crash signal handler. Instead, when the
+platform provides a native-crash, ANR or hang record, Server Box reads it on the
+next launch. If automatic diagnostics is enabled, the record can then be sent as
+an error report; otherwise it remains available locally and can appear in a
+manual report.
+
+### What Full information adds
+
+Full information sends performance traces such as how long connecting to a
+server or listing a directory took, not the contents of those operations. It
+also turns the same structured breadcrumbs into coarse feature-use events, for
+example that a terminal was opened or that SFTP was used instead of SCP. These
+events do not include prompts, terminal output, file contents, keystrokes or
+screen recordings.
+
+The OpenPanel analytics destination used by this project is written into the
+source, as is the error-reporting destination. A build made from unmodified
+source by someone else — an F-Droid rebuild, a fork or your own checkout — uses
+the same destinations unless its builder changes them. Full information remains
+off by default and must be enabled manually; an untouched build sends no
+feature-use events until you choose Full information.
+
+Two analytics integrations are implemented, with different identifier behavior:
+
+- The OpenPanel integration used by this project accepts a **per-install
+  identifier**. It stores a random 128-bit value on the device — created when
+  Full information is enabled, deleted when you leave Full, kept outside the
+  backup file, and derived from no device identifier, account or hardware value.
+  Its purpose is to link events from the same installation across launches and
+  count distinct installations, not to identify a person or a device.
+- An Aptabase integration is also implemented, but published builds do not
+  configure it. It does not use a persistent installation identifier. Its events
+  carry a session ID that rotates after one hour of inactivity, so sessions from
+  separate launches cannot be linked.
+
+Depending on the destination, events carry the operating system and version,
+the device type and model where available, the app version and build number, and
+the locale. They contain no advertising identifier or account identifier.
+
+The analytics service may also derive an approximate location from the IP
+address used to connect: a country and city, with representative coordinates
+for that city rather than your exact location. For the OpenPanel data used by
+this project, that location is stored with the per-install identifier; the IP
+address itself is not an event field.
+
+## Redaction and manual crash reports
+
+Structured diagnostic breadcrumbs are made safe when they are created, before
+any reporting sink receives them. They use fixed action names and stand-ins for
+server-related values rather than recording a server name, address or username
+directly.
+
+A manual report is different. After a crash, Server Box creates a report from
+the previous run's retained log and any native-crash or hang details supplied by
+the platform. It replaces configured server names, SSH hosts, SSH usernames and
+Monitor addresses that it recognizes, but does not claim the complete report is
+anonymous.
+
+The newest report is kept under **Settings → App → Privacy → Crash report**;
+the row appears only while a report exists. You can review the complete text,
+copy it, copy it and open a GitHub issue page, or delete it. Nothing is posted
+automatically. This manual path is available at every diagnostic level,
+including **Nothing**.
+
+**The app log is never uploaded automatically, at any level.** Basic and Full
+may send the error and stack trace that ended a run, together with the build and
+platform information described above, but they do not send log lines. If the
+error happened before the reporting sink started, it may be sent as an error on
+the next launch. The saved manual report remains on the device until you delete
+it or a later crash replaces it.
+
+Older log lines, temporary hosts and values the app does not know may still be
+present in a manual report. The report is therefore not guaranteed to be
+anonymous. Anything pasted into GitHub is public and is covered by
+[GitHub's privacy statement](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement).
+
+## AI requests
+
+The Agent uses the providers you add at **Settings → App → AI → Providers**:
+built-in ones from the model catalog, and custom endpoints. No request is made
+until you send an Agent message, and each goes to the provider of the chat's
+model.
+
+Depending on the operation, a request can contain your prompt, selected terminal
+text, recent conversation history, the configured server name and context needed
+for the Agent to work. After a command or file operation, its result can be sent
+in a later request so the model can continue. Command output and file content may
+contain passwords, tokens or other secrets even when Server Box did not add them
+itself; check what you submit and review the provider's privacy policy.
+
+A provider's API key is stored in the platform keychain and sent only to that
+provider. A custom provider at a plain `http://` address on another machine is
+refused unless you allow it for that provider, since the key would travel
+unencrypted. The **Web fetch** tool requests a page from this device when the
+Agent uses it, and MCP servers you add receive the calls made to their tools.
+Installing or updating a skill from a remote source downloads it from the
+source you enter (GitHub, GitLab or the site), over `https`; one from a folder
+or a `.zip` on this device is read locally, with no request. Skills are kept
+as files on this device and are not backed up.
+An MCP server's headers and sign-in tokens are kept in the App's encrypted
+database on this device, never in a backup, and sent only to that server, and
+only over `https` unless the server is on this device.
+Server Box does not proxy AI requests through a developer service.
+
+## Globe and location data
+
+The globe draws each server at a coordinate. Server Box resolves geolocation
+from data stored on this device; it does not send a server address to a
+geolocation API or make a request to the dataset service for each lookup. A
+configured hostname may still be resolved through the device's DNS service, as
+it is when the app connects to that server.
+
+A server is placed from the first of these that answers:
+
+- A coordinate you typed in the server editor, under **More → Location**.
+- A public address the machine reported for itself, when the app connects
+  through a private address. It comes from the ordinary SSH or Monitor status
+  poll, then is resolved with the downloaded city dataset. No separate command
+  or external public-IP lookup is made.
+- The SSH or Monitor connection address, resolved with the downloaded city
+  dataset.
+
+The city dataset is not included in the app and is never fetched automatically.
+Tapping **Download** on the globe or in **Settings → Server → General →
+Globe** first retrieves a small manifest so the confirmation dialog can show
+the current download size, installed size, source URL and attribution. The data
+files are fetched only if you confirm. The dataset is currently about 25 MB to
+download and 52 MB after installation, but the manifest values shown by the app
+are authoritative. The data is updated monthly; **Update** replaces the
+installed files rather than retaining another copy. **Delete** removes the
+dataset. Location data is provided by [DB-IP](https://db-ip.com) under CC BY
+4.0.
+
+The download service can observe a manifest or data-file request from your
+network, including the network IP address and request time available to an HTTP
+service. After installation, every geolocation lookup reads a local file. The
+service receives no per-lookup request and cannot learn which server addresses
+are queried, how many are queried or when they are queried.
+
+Coordinates are not stored. Each one is derived again from the installed dataset
+whenever it is needed, so what the globe shows always reflects the dataset
+currently on the device and stops being available when that dataset is deleted.
+The device-local record kept for this feature is the latest public-interface-
+address result reported by a server, including the result that it reported no
+public address. It is stored in the encrypted app database because only that
+machine can supply it. The record is not included in backup or sync. Once it is
+seven days old, a later ordinary status poll can refresh it.
+
+Turning **Globe** off removes the button from the server tab and stops location
+resolution. It does not delete the downloaded dataset or the stored
+reported-address result. Use **Delete** on the dataset row to remove the data
+files. There is no separate manual-clear action for reported-address records;
+deleting a server removes its record.
+
+At the Full-information level, the globe can report coarse feature-use events
+like any other feature—for example, that the view was opened and how many
+servers each source placed. Relevant redacted breadcrumbs may also accompany an
+error at the Basic level. No coordinate, address, server name or country is
+included.
+
+## Other network requests
+
+These requests are made only for the corresponding feature and do not carry the
+automatic diagnostic payload described above.
+
+| Request | Destination | When and what it carries |
+|---|---|---|
+| AI request | The endpoint configured by you | When you send an Agent message; see [AI requests](#ai-requests) |
+| Backup or sync | iCloud, your WebDAV server, or GitHub Gist | When you upload, download or sync a backup; the selected backup file, which may be encrypted |
+| Update check | `api.github.com` | On launch when automatic update checks are enabled |
+| Linux userland manifest | `github.com` | When the app checks for a newer local Linux release; it contains release metadata and signatures |
+| Linux userland image | The distribution mirror or source URL selected by the verified manifest | When you install or update a local Linux environment; the image is checked against the manifest's digest |
+| City-level location data | `ipgeo.lollipopkit.com`, with GitHub Releases as fallback | When you tap **Download** on the globe or in **Settings → Server → General → Globe**, or tap **Update** in settings. The manifest is requested first; data archives follow only after confirmation. Later geolocation lookups are local—see [Globe and location data](#globe-and-location-data). |
+| Server logo or distribution mark | The URL configured by you | When a custom logo or mark URL is set; the image provider can receive the request |
+| Sponsor link | `cdn.lollipopkit.com` | When you open the sponsor link |
+| Documentation and issue links | `serverbox.lollipopkit.com` or `github.com` | When you open one of those links |
+
+Connections to your own servers, to a BMC you configured and to a Monitor agent
+you deployed go directly to those endpoints. They are not routed through the
+developer's infrastructure.
+
+## Where diagnostic data goes
+
+Error reports and performance traces go to the Sentry-compatible server operated
+by the developer at `sentry.lollipopkit.com`. In the published/default build,
+Full-information feature-use events go to the OpenPanel analytics server at
+`diag.lollipopkit.com`. The Aptabase integration is inactive unless a build
+supplies its own Aptabase endpoint and app key.
+
+The Sentry and OpenPanel destinations are written into the source, so a build
+made from unmodified source reports to them too unless its builder changes them.
+Full information is still off by default and requires an explicit choice.
+
+Diagnostic data is not used for advertising, shared with other companies, or
+used to track you across apps or websites. The services may retain reports for as
+long as they are useful for fixing the problems they describe. To request
+removal of a report, open an issue at
+[github.com/lollipopkit/flutter_server_box](https://github.com/lollipopkit/flutter_server_box/issues)
+with the approximate time, app version and a short description of the problem.
+Do not include passwords, keys or other sensitive content in a public issue.
+
+## Watch app and home-screen widgets
+
+The watch app, its complication, and the iOS and Android home-screen widgets
+read a Monitor agent you deployed directly. They use a read-only credential that
+Server Box mints for each surface. The credential can reach only the Monitor
+metrics endpoints (`/api/v1/status`, `/api/v1/metrics` and
+`/api/v1/metrics/history`); it cannot open a shell, execute commands or browse
+files.
+
+The credential is kept in the watch's own keychain, in a shared keychain group
+on iOS, and encrypted under an AndroidKeyStore key on Android. A widget's
+configuration list contains server names and Monitor addresses so you can pick a
+server; its credential is kept separately in the platform credential store.
+Servers are included automatically when they have a Monitor configuration. On
+the watch, you can exclude individual servers in **Settings**; widgets publish
+the Monitor-configured servers without a separate exclusion list. Excluding or
+deleting a server revokes the watch or widget credential as soon as the app can
+contact the Monitor agent.
+
+## Platform stores
+
+App Store and Google Play builds may also be subject to platform reporting.
+Apple and Google collect that information under their own policies, not through
+Server Box. See [Apple's privacy policy](https://www.apple.com/legal/privacy/)
+and [Google's privacy policy](https://policies.google.com/privacy). The F-Droid
+build has no store-provided crash-reporting channel, which is one reason its
+default diagnostic level is **Nothing**.
+
+## Children
+
+Server Box is a server-administration tool and is not directed at children. It
+does not knowingly collect information intended to identify children.
+
+## Changes
+
+If the collection arrangement changes materially, the diagnostics question is
+shown again. A previous answer is not treated as consent to a materially
+different arrangement.
+
+## Contact
+
+Open an issue at
+[github.com/lollipopkit/flutter_server_box](https://github.com/lollipopkit/flutter_server_box/issues).

@@ -1,0 +1,115 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:server_box/core/extension/context/inset.dart';
+import 'package:server_box/data/model/app/menu/server_func.dart';
+import 'package:server_box/data/res/store.dart';
+
+class ServerFuncBtnsOrderPage extends StatefulWidget {
+    /// Whether it is being shown inside the settings pane rather than pushed.
+  ///
+  /// The pane already names what it is showing, in the one bar the page has;
+  /// a second one under it would say it twice.
+  final bool embedded;
+
+  const ServerFuncBtnsOrderPage({super.key, this.embedded = false});
+
+  @override
+  State<ServerFuncBtnsOrderPage> createState() => _ServerDetailOrderPageState();
+
+  static const route = AppRouteNoArg(
+    page: ServerFuncBtnsOrderPage.new,
+    path: '/setting/seq/srv_func',
+  );
+}
+
+class _ServerDetailOrderPageState extends State<ServerFuncBtnsOrderPage> {
+  final prop = Stores.setting.serverFuncBtns;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.embedded) return _buildBody(context);
+    return Scaffold(
+      appBar: CustomAppBar(title: Text(libL10n.sequence)),
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return ValBuilder(
+      listenable: prop.listenable(),
+      builder: (keys) {
+        final disabled = ServerFuncBtn.values
+            .map((e) => e.name)
+            .where((e) => !keys.contains(e))
+            .toList();
+        final allKeys = [...keys, ...disabled];
+        return ReorderableListView.builder(
+          key: const PageStorageKey('srv_func_seq'),
+          padding: context.padBottom(const EdgeInsets.all(7)),
+          itemCount: allKeys.length,
+          itemBuilder: (_, idx) => _buildListItem(allKeys[idx], idx, keys),
+          onReorderItem: (o, n) {
+            if (o >= keys.length || n >= keys.length) {
+              Toast.show(libL10n.disabled);
+              return;
+            }
+            if (o == n) {
+              return;
+            }
+            final moved = keys.removeAt(o);
+            keys.insert(n, moved);
+            prop.set(keys);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildListItem(String key, int idx, List<String> keys) {
+    final funcBtn = ServerFuncBtn.byStored(key);
+    // A name this build does not have — a row synced from a newer one.
+    if (funcBtn == null) return const SizedBox.shrink(key: ValueKey('unknown'));
+    return CardX(
+      key: ValueKey(key),
+      child: ListTile(
+        title: Text.rich(
+          TextSpan(
+            children: [
+              WidgetSpan(child: Icon(funcBtn.icon)),
+              const WidgetSpan(child: UIs.width13),
+              TextSpan(text: funcBtn.toStr, style: UIs.textGrey),
+              if (funcBtn.mark case final mark?)
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 7),
+                    child: mark,
+                  ),
+                ),
+            ],
+          ),
+        ),
+        leading: _buildCheckBox(keys, key, idx, idx < keys.length),
+      ),
+    );
+  }
+
+  Widget _buildCheckBox(List<String> keys, String key, int idx, bool value) {
+    return Checkbox(
+      value: value,
+      onChanged: (val) {
+        if (val == null) return;
+        if (val) {
+          if (idx >= keys.length) {
+            keys.add(key);
+          } else {
+            keys.insert(idx - 1, key);
+          }
+        } else {
+          keys.remove(key);
+        }
+        prop.put(keys);
+      },
+    );
+  }
+}

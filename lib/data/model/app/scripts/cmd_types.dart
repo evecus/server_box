@@ -1,0 +1,140 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:material_ui/material_ui.dart';
+
+/// Platforms supported by status commands.
+enum CmdTypeSys {
+  linux('Linux'),
+  bsd('BSD'),
+  windows('Windows');
+
+  final String sign;
+  const CmdTypeSys(this.sign);
+
+  IconData get icon {
+    return switch (this) {
+      CmdTypeSys.linux => MingCute.linux_line,
+      CmdTypeSys.bsd => LineAwesome.freebsd,
+      CmdTypeSys.windows => MingCute.windows_line,
+    };
+  }
+}
+
+/// Base class for all command type enums.
+///
+/// Commands and script generation live in the shared Rust library
+/// (sbm_parser commands.rs / script.rs, see the shared-parser design); these enums remain
+/// as typed keys for UI (disable toggles, i18n) and parsed-output lookup.
+// TODO(migration): enum names must stay in sync with the sbm_parser
+// commands.rs keys (locked by test/unit/app/frb_parser_test.dart).
+sealed class ShellCmdType implements Enum {
+  /// Platform that provides this command.
+  CmdTypeSys get sysType;
+
+  static Set<ShellCmdType> get all {
+    return {
+      ...StatusCmdType.values,
+      ...BSDStatusCmdType.values,
+      ...WindowsStatusCmdType.values,
+    };
+  }
+}
+
+extension ShellCmdTypeX on ShellCmdType {
+  /// Display name and persisted key used to disable this command.
+  String get displayName => '${sysType.sign}.$name';
+}
+
+/// Linux/Unix status commands
+enum StatusCmdType implements ShellCmdType {
+  echo,
+  time,
+  net,
+  sys,
+  cpu,
+  uptime,
+  conn,
+  disk,
+  mem,
+  tempType,
+  tempVal,
+  host,
+  diskio,
+  battery,
+  nvidia,
+  gpu,
+  amd,
+  sensors,
+  diskSmart,
+  cpuBrand,
+  ip;
+
+  @override
+  CmdTypeSys get sysType => CmdTypeSys.linux;
+}
+
+/// BSD/macOS status commands
+enum BSDStatusCmdType implements ShellCmdType {
+  echo,
+  time,
+  net,
+  sys,
+  cpu,
+  uptime,
+  disk,
+  mem,
+  host,
+  diskSmart,
+  cpuBrand,
+  ip;
+
+  @override
+  CmdTypeSys get sysType => CmdTypeSys.bsd;
+}
+
+/// Windows PowerShell status commands
+enum WindowsStatusCmdType implements ShellCmdType {
+  echo,
+  time,
+  net,
+  sys,
+  cpu,
+  uptime,
+  conn,
+  disk,
+  mem,
+  temp,
+  host,
+  diskio,
+  battery,
+  nvidia,
+  amd,
+  sensors,
+  diskSmart,
+  cpuBrand,
+  ip;
+
+  @override
+  CmdTypeSys get sysType => CmdTypeSys.windows;
+}
+
+/// Presentation helpers for Unix status commands.
+extension StatusCmdTypeX on StatusCmdType {
+  String get i18n => switch (this) {
+    StatusCmdType.sys => libL10n.system,
+    StatusCmdType.host => libL10n.host,
+    StatusCmdType.uptime => libL10n.uptime,
+    StatusCmdType.battery => libL10n.battery,
+    StatusCmdType.sensors => libL10n.sensors,
+    StatusCmdType.disk => libL10n.disk,
+    final val => val.name,
+  };
+}
+
+/// Extension for CommandType to find content in parsed map
+extension CommandTypeX on ShellCmdType {
+  /// Find the command output from the parsed script output map
+  String findInMap(Map<String, String> parsedOutput) {
+    return parsedOutput[name] ?? '';
+  }
+}

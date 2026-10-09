@@ -1,0 +1,5217 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'l10n.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for French (`fr`).
+class AppLocalizationsFr extends AppLocalizations {
+  AppLocalizationsFr([String locale = 'fr']) : super(locale);
+
+  @override
+  String get crashCollect => 'Données de diagnostic';
+
+  @override
+  String get crashCollectIntro =>
+      'ServerBox enregistre ce qui se passe pendant son fonctionnement afin de pouvoir corriger les problèmes. Choisissez la quantité d\'informations envoyée.';
+
+  @override
+  String get crashCollectNone => 'Rien';
+
+  @override
+  String get crashCollectNoneTip =>
+      'Les rapports restent sur cet appareil ; après un plantage, vous pouvez en envoyer un manuellement.';
+
+  @override
+  String get crashCollectBasic => 'Informations de base';
+
+  @override
+  String get crashCollectBasicTip =>
+      'Seules les informations sur le plantage sont incluses ; les journaux et données de performance ne le sont pas. **Cela nous aide à améliorer l\'application et à corriger les bugs.**';
+
+  @override
+  String get crashCollectFull => 'Informations complètes';
+
+  @override
+  String get crashCollectFullTip =>
+      'En plus du journal du plantage, des données de performance et l\'usage des fonctionnalités sont inclus : **Cela permet de repérer ce qui est lent et quelles fonctionnalités servent vraiment.**';
+
+  @override
+  String get crashCollectFooter =>
+      'Quel que soit le niveau, les noms de serveurs connus, leurs adresses et noms d\'utilisateur sont remplacés par des espaces réservés dès l\'enregistrement. Vous pouvez modifier le niveau de collecte plus tard dans les réglages.';
+
+  @override
+  String get privacy => 'Confidentialité';
+
+  @override
+  String get privacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get crashLastRunFailed =>
+      'ServerBox s\'est fermé de manière inattendue lors de sa dernière exécution.';
+
+  @override
+  String get crashReportTitle => 'Rapport de plantage';
+
+  @override
+  String get crashReportHint =>
+      'Ceci est le journal de l\'exécution précédente. Les noms et adresses de serveurs connus ont été remplacés par des espaces réservés, mais d\'autres informations peuvent subsister. Lisez-le attentivement avant de l\'envoyer.';
+
+  @override
+  String get crashReportSubmit => 'Copier et signaler';
+
+  @override
+  String get preReleaseUpdates => 'Recevoir les mises à jour préliminaires';
+
+  @override
+  String get addSystemPrivateKeyTip =>
+      'Actuellement, vous n\'avez aucune clé privée. Souhaitez-vous ajouter celle qui vient avec le système (~/.ssh/id_rsa) ?';
+
+  @override
+  String get added2List => 'Ajouté à la liste des tâches';
+
+  @override
+  String get askAi => 'Demander à l\'IA';
+
+  @override
+  String get askAiInsertTerminal => 'Insérer dans le terminal';
+
+  @override
+  String get remoteDesktop => 'Bureau à distance';
+
+  @override
+  String get askAiRiskReadOnly => 'Lecture seule';
+
+  @override
+  String get askAiRiskCaution => 'Modifie le système';
+
+  @override
+  String get askAiRiskUnvetted => 'Hôte non vérifié';
+
+  @override
+  String get askAiRiskDestructive => 'Risque élevé';
+
+  @override
+  String get askAiAutoRunSafeCommands =>
+      'Exécuter automatiquement les commandes en lecture seule';
+
+  @override
+  String get askAiAutoRunSafeCommandsTip =>
+      'Ne s’exécute que si le modèle et la vérification locale le jugent en lecture seule';
+
+  @override
+  String get askAiHistory => 'Historique des conversations';
+
+  @override
+  String get askAiNewConversation => 'Nouvelle conversation';
+
+  @override
+  String get askAiUntitledConversation => 'Sans titre';
+
+  @override
+  String get askAiRenameConversation => 'Renommer la conversation';
+
+  @override
+  String get askAiDeleteConversationTitle => 'Supprimer cette conversation ?';
+
+  @override
+  String get askAiDeleteConversationTip =>
+      'La supprime de cet appareil. Irréversible.';
+
+  @override
+  String get agentNoHistory =>
+      'Aucune conversation globale de l\'Agent enregistrée';
+
+  @override
+  String get agentClearHistoryTitle =>
+      'Effacer l\'historique global de l\'Agent ?';
+
+  @override
+  String get agentClearHistoryTip =>
+      'Toutes les conversations globales de l\'Agent seront retirées de cet appareil.';
+
+  @override
+  String get agentToolShell => 'Shell';
+
+  @override
+  String get agentToolReadFile => 'Lire un fichier';
+
+  @override
+  String get agentToolWriteFile => 'Écrire un fichier';
+
+  @override
+  String get floatOverTabs => 'Flotter au-dessus des autres onglets';
+
+  @override
+  String get agentToolSshConnect => 'Connexion SSH';
+
+  @override
+  String get agentToolSshDisconnect => 'Déconnecter le SSH';
+
+  @override
+  String get agentSshConnectTitle => 'Se connecter à un nouvel hôte';
+
+  @override
+  String get agentAuthMethod => 'Authentification';
+
+  @override
+  String get agentSshConnectTip =>
+      'L’Agent veut une connexion SSH. Saisis le mot de passe ici';
+
+  @override
+  String get agentAdHocSessions => 'Connexions temporaires';
+
+  @override
+  String get agentSaveServerTitle => 'Enregistrer comme serveur';
+
+  @override
+  String get agentSaveServerTip =>
+      'Cet hôte et le mot de passe saisi sont enregistrés sur cet appareil';
+
+  @override
+  String get agentMonitorOptional => 'Agent monitor (facultatif)';
+
+  @override
+  String get authFailTip =>
+      'Échec de l’authentification. Vérifie les informations';
+
+  @override
+  String get autoBackupConflict =>
+      'Un seul sauvegarde automatique peut être activé en même temps.';
+
+  @override
+  String get autoConnect => 'Connexion automatique';
+
+  @override
+  String get autoRun => 'Exécution automatique';
+
+  @override
+  String get autoUpdateHomeWidget =>
+      'Mise à jour automatique du widget d\'accueil';
+
+  @override
+  String get availableTabs => 'Onglets disponibles';
+
+  @override
+  String get backupEncrypted => 'La sauvegarde est chiffrée';
+
+  @override
+  String get backupNotEncrypted => 'La sauvegarde n\'est pas chiffrée';
+
+  @override
+  String get backupPassword => 'Mot de passe de sauvegarde';
+
+  @override
+  String get backupPasswordRemoved => 'Mot de passe de sauvegarde supprimé';
+
+  @override
+  String get backupPasswordSet => 'Mot de passe de sauvegarde défini';
+
+  @override
+  String get backupPasswordTip =>
+      'Définissez un mot de passe pour chiffrer les fichiers de sauvegarde. Laissez vide pour désactiver le chiffrement.';
+
+  @override
+  String get backupPasswordWrong => 'Mot de passe de sauvegarde incorrect';
+
+  @override
+  String get connectAll => 'Tout connecter';
+
+  @override
+  String get disconnectAll => 'Tout déconnecter';
+
+  @override
+  String get distIcon => 'Marques de distribution';
+
+  @override
+  String get distIconIntroLegal =>
+      'Une marque indique seulement ce que cet appareil a lu sur le système distant, ce qui peut être erroné ou périmé, et ne désigne ni un dérivé, ni une reconstruction, ni une version particulière. Quand elle ne peut pas être déterminée, une icône neutre est affichée.\n\nChaque marque appartient à son propriétaire respectif et n\'est utilisée ici que pour désigner le système qu\'elle identifie.';
+
+  @override
+  String get distIconTip =>
+      'Afficher à côté de chaque serveur une petite marque du système qu’il semble exécuter';
+
+  @override
+  String get distNameMap => 'Correspondance des noms';
+
+  @override
+  String get distNameMapTip =>
+      'Uniquement pour une distribution dont le fichier porte un autre nom là où vous hébergez les marques. La clé est le nom utilisé par cette application ; la valeur est le nom à récupérer. Laissez vide tant qu\'aucune marque ne manque.';
+
+  @override
+  String get logoUrl => 'URL du logo';
+
+  @override
+  String get logoUrlTip =>
+      'La grande image en haut de la page d\'un serveur, dans ses propres couleurs.';
+
+  @override
+  String get globe => 'Globe';
+
+  @override
+  String get locationTip =>
+      'L\'endroit où ce serveur est dessiné sur le globe. Latitude puis longitude, en degrés — par exemple 39.9042, 116.4074.';
+
+  @override
+  String get markUrl => 'URL de la marque';
+
+  @override
+  String get markUrlTip =>
+      'La petite marque à côté du nom d\'un serveur dans les listes. Vide : aucune.\n\nCe n\'est pas la même image que le logo';
+
+  @override
+  String get navTabMenuTip =>
+      'Appuyez longuement sur un onglet — ou faites un clic droit — pour connecter ou déconnecter d\'un coup tout ce qu\'il contient.';
+
+  @override
+  String nTags(int count) {
+    return '$count tags';
+  }
+
+  @override
+  String get remoteBackupPasswordRequired =>
+      'Les sauvegardes distantes nécessitent un mot de passe de sauvegarde non vide';
+
+  @override
+  String get monitorHttpsRequired =>
+      'Un agent monitor distant exige HTTPS, sauf si HTTP est autorisé.';
+
+  @override
+  String get monitorAllowInsecureHttp => 'Autoriser HTTP';
+
+  @override
+  String get plainHttpTitle => 'Cet agent est servi en HTTP non chiffré';
+
+  @override
+  String get plainHttpTip =>
+      'Le mot de passe et tout ce que cette app demande circuleraient en clair. Rien n\'a encore été envoyé.';
+
+  @override
+  String get allowForThisServer => 'Autoriser pour ce serveur';
+
+  @override
+  String get viewError => 'Voir l\'erreur';
+
+  @override
+  String get monitorAllowInsecureHttpTip =>
+      'Uniquement sur un réseau privé de confiance qui chiffre lui-même le transport, comme Tailscale';
+
+  @override
+  String monitorHttpTip(String url) {
+    return 'Lire l\'état de ce serveur via l\'API HTTP d\'un agent **monitor**, au lieu d\'exécuter des commandes en SSH.\n\nL\'agent doit d\'abord être installé sur le serveur ; les tendances, l\'app Watch et les widgets en dépendent.\n\n[Installer un agent monitor]($url)';
+  }
+
+  @override
+  String get backupTip =>
+      'Les données exportées peuvent être chiffrées avec un mot de passe. \nVeuillez les garder en sécurité.';
+
+  @override
+  String get icloudBackupStatusTitle => 'État de la sauvegarde';
+
+  @override
+  String get icloudBackupStatusLoading =>
+      'Chargement de l\'état de la sauvegarde iCloud…';
+
+  @override
+  String get icloudBackupStatusError =>
+      'Impossible de lire les métadonnées de la sauvegarde iCloud';
+
+  @override
+  String get icloudBackupStatusEmpty =>
+      'Aucun fichier de sauvegarde iCloud trouvé pour l\'instant';
+
+  @override
+  String get icloudBackupStateUploading => 'Envoi en cours';
+
+  @override
+  String get icloudBackupStateConflict => 'Conflit détecté';
+
+  @override
+  String get icloudBackupStateUploaded => 'Envoyée';
+
+  @override
+  String get icloudBackupStateWaiting => 'En attente d\'iCloud';
+
+  @override
+  String icloudBackupStatusSummary(String lastModified, String remoteState) {
+    return 'Dernière sauvegarde : $lastModified\nÉtat : $remoteState';
+  }
+
+  @override
+  String get bgRun => 'Exécution en arrière-plan';
+
+  @override
+  String get bgRunTip =>
+      'Cette option signifie seulement que le programme essaiera de s\'exécuter en arrière-plan, que cela soit possible dépend de l\'autorisation activée ou non. Pour Android natif, veuillez désactiver l\'« Optimisation de la batterie » dans cette application, et pour MIUI, veuillez changer la politique d\'économie d\'énergie en « Illimité ».';
+
+  @override
+  String get trayReadings => 'Relevés';
+
+  @override
+  String get trayChart => 'Graphique';
+
+  @override
+  String get trayChartNone => 'Aucun';
+
+  @override
+  String get trayCompact => 'Lignes compactes';
+
+  @override
+  String get trayCompactTip =>
+      'Une ligne par serveur, sans graphique. Linux utilise toujours une disposition sur une seule ligne, car son menu de panneau est transmis par D-Bus, qui transporte un libellé plutôt qu’une disposition personnalisée ; il peut néanmoins inclure le graphique sélectionné sous forme d’image.';
+
+  @override
+  String get trayKeepRunning =>
+      'Continuer à s’exécuter dans la zone de notification';
+
+  @override
+  String get trayKeepRunningTip =>
+      'La fermeture de la fenêtre laisse l’application dans la barre des menus ou la zone de notification, où elle continue de surveiller vos serveurs. Désactivez cette option pour que le bouton de fermeture quitte l’application.';
+
+  @override
+  String get bgRunNeedsNotification =>
+      'Fonctionner en arrière-plan demande une notification permanente, et cette app n\'a pas la permission de notification. Touchez pour l\'accorder.';
+
+  @override
+  String get clearAllStatsContent =>
+      'Êtes-vous sûr de vouloir effacer toutes les statistiques de connexion des serveurs ? Cette action ne peut pas être annulée.';
+
+  @override
+  String get clearAllStatsTitle => 'Effacer toutes les statistiques';
+
+  @override
+  String clearServerStatsContent(String serverName) {
+    return 'Êtes-vous sûr de vouloir effacer les statistiques de connexion du serveur \"$serverName\" ? Cette action ne peut pas être annulée.';
+  }
+
+  @override
+  String clearServerStatsTitle(String serverName) {
+    return 'Effacer les statistiques de $serverName';
+  }
+
+  @override
+  String get clearThisServerStats => 'Effacer les statistiques de ce serveur';
+
+  @override
+  String get closeAfterSave => 'Enregistrer et fermer';
+
+  @override
+  String get collapseUITip =>
+      'Indique si les longues listes présentées dans l\'interface utilisateur doivent être réduites par défaut.';
+
+  @override
+  String get connectionDetails => 'Détails de connexion';
+
+  @override
+  String get connectionStats => 'Statistiques de connexion';
+
+  @override
+  String get connectionStatsDesc =>
+      'Voir le taux de réussite de connexion du serveur et l\'historique';
+
+  @override
+  String get containerTrySudoTip =>
+      'Par exemple : Dans l\'application, l\'utilisateur est défini comme aaa, mais Docker est installé sous l\'utilisateur root. Dans ce cas, vous devez activer cette option.';
+
+  @override
+  String get containerSudoPasswordRequired =>
+      'Un mot de passe sudo est requis pour accéder à Docker. Veuillez entrer votre mot de passe.';
+
+  @override
+  String get containerSudoPasswordIncorrect =>
+      'Le mot de passe sudo est incorrect ou non autorisé. Veuillez réessayer.';
+
+  @override
+  String get copyPath => 'Copier le chemin';
+
+  @override
+  String get customCmd => 'Commandes personnalisées';
+
+  @override
+  String get deleteServers => 'Supprimer des serveurs en lot';
+
+  @override
+  String get deleteDirRecursive => 'Supprimer le dossier et tout son contenu';
+
+  @override
+  String get dirEmpty => 'Assurez-vous que le répertoire est vide.';
+
+  @override
+  String get discoverSshServers => 'Découvrir les serveurs SSH';
+
+  @override
+  String get discoveryFailed => 'Échec de la découverte';
+
+  @override
+  String get discoverySettings => 'Paramètres de découverte';
+
+  @override
+  String get distro => 'Distribution';
+
+  @override
+  String get diskHealth => 'Santé du disque';
+
+  @override
+  String dl2Local(String fileName) {
+    return 'Télécharger $fileName localement ?';
+  }
+
+  @override
+  String get dockerEmptyRunningItems =>
+      'Aucun conteneur en cours d\'exécution.\nCela peut être dû à :\n- L\'utilisateur d\'installation de Docker n\'est pas le même que celui configuré dans l\'application.\n- La variable d\'environnement DOCKER_HOST n\'a pas été lue correctement. Vous pouvez l\'obtenir en exécutant `echo \$DOCKER_HOST` dans le terminal.';
+
+  @override
+  String get dockerProjectOther => 'Autres';
+
+  @override
+  String get dockerPruneTip =>
+      'Supprimez les données inutilisées pour libérer de l\'espace disque';
+
+  @override
+  String get dockerStatistics => 'Statistiques Docker';
+
+  @override
+  String get editVirtKeys => 'Touches virtuelles';
+
+  @override
+  String get editorHighlightTip =>
+      'La performance actuelle de mise en surbrillance du code est pire et peut être désactivée en option pour s\'améliorer.';
+
+  @override
+  String get enableMdns => 'Activer mDNS';
+
+  @override
+  String get enableMdnsDesc =>
+      'Utiliser mDNS/Bonjour pour découvrir les services SSH';
+
+  @override
+  String get envVars => 'Variable d’environnement';
+
+  @override
+  String get extraArgs => 'Arguments supplémentaires';
+
+  @override
+  String get fallbackSshDest => 'Destination SSH de secours';
+
+  @override
+  String get fdroidReleaseTip =>
+      'Si vous avez téléchargé cette application depuis F-Droid, il est recommandé de désactiver cette option.';
+
+  @override
+  String fileTooLarge(String file, String size, String sizeMax) {
+    return 'Fichier \'$file\' trop volumineux $size, max $sizeMax';
+  }
+
+  @override
+  String get fileDirGone => 'Ce dossier n\'est plus là';
+
+  @override
+  String get fileDirGoneTip => 'Il a été supprimé ou renommé';
+
+  @override
+  String get fullScreen => 'Plein écran';
+
+  @override
+  String get fullScreenJitter => 'Secousse en plein écran';
+
+  @override
+  String get fullScreenJitterHelp => 'Pour éviter les brûlures d\'écran';
+
+  @override
+  String get fullScreenTip =>
+      'Le mode plein écran doit-il être activé lorsque l\'appareil est orienté en mode paysage ? Cette option s\'applique uniquement à l\'onglet serveur.';
+
+  @override
+  String get githubGistIdOptional => 'ID du Gist (facultatif)';
+
+  @override
+  String get githubGistToken => 'Jeton GitHub Gist';
+
+  @override
+  String get githubGistTokenEmpty => 'Le jeton est vide';
+
+  @override
+  String get goto => 'Aller à';
+
+  @override
+  String get homeTabs => 'Onglets d\'accueil';
+
+  @override
+  String get homeTabsCustomizeDesc =>
+      'Personnalisez les onglets qui apparaissent sur la page d\'accueil et leur ordre';
+
+  @override
+  String get ignoreCert => 'Ignorer le certificat';
+
+  @override
+  String get image => 'Image';
+
+  @override
+  String get macDmgBody =>
+      'L’App Store impose un bac à sable, et un bac à sable ne peut pas ouvrir de terminal. La version DMG le peut.\n\nLa version App Store pourrait ne plus être mise à jour.';
+
+  @override
+  String get macDmgImportDenied =>
+      'macOS n’a pas autorisé la lecture des données de la version précédente';
+
+  @override
+  String get macDmgImported => 'Données de la version précédente importées';
+
+  @override
+  String get macDmgImportFailed =>
+      'Impossible de lire les données de la version précédente';
+
+  @override
+  String get macDmgTip =>
+      'Terminal local et exécution locale des snippets (version DMG)';
+
+  @override
+  String get macDmgTitle => 'Version DMG';
+
+  @override
+  String get showHiddenFiles => 'Afficher les fichiers cachés';
+
+  @override
+  String get sshKeyAlgorithm => 'Algorithme';
+
+  @override
+  String get sshKeyComment => 'Commentaire';
+
+  @override
+  String get sshKeyGenerate => 'Générer une paire de clés';
+
+  @override
+  String get sshKeyGenerating => 'Génération…';
+
+  @override
+  String sshKeyLockedFmt(String name) {
+    return 'La clé privée [$name] n\'a pas été déverrouillée.';
+  }
+
+  @override
+  String get sshKeyPassphraseTip =>
+      'Facultatif. Une clé avec phrase secrète est stockée chiffrée, et celle-ci est demandée à la première connexion qui l\'utilise.';
+
+  @override
+  String get sshKeyPassphraseWrong => 'Phrase secrète incorrecte.';
+
+  @override
+  String get sshKeyPublicKey => 'Clé publique';
+
+  @override
+  String get sshKeyPublicKeyTip =>
+      'Ajoutez cette ligne à ~/.ssh/authorized_keys sur le serveur.';
+
+  @override
+  String get sshKeyRecommended => 'Recommandé';
+
+  @override
+  String sshKeyUnlockTip(String name) {
+    return 'Saisissez la phrase secrète de la clé privée [$name].';
+  }
+
+  @override
+  String get ungrouped => 'Sans groupe';
+
+  @override
+  String get containerReclaimable => 'Reclaimable';
+
+  @override
+  String get unused => 'Inutilisé';
+
+  @override
+  String get dangling => 'Fantôme';
+
+  @override
+  String get pruneUnusedImages => 'Nettoyer les images inutilisées';
+
+  @override
+  String get pruneDanglingImages => 'Nettoyer les images fantômes';
+
+  @override
+  String get pruneImages => 'Nettoyer les images';
+
+  @override
+  String get unusedTaggedImages => 'Étiquetées inutilisées';
+
+  @override
+  String get pruneDanglingImagesTip =>
+      'Supprime uniquement les images orphelines.';
+
+  @override
+  String get pruneUnusedImagesTip =>
+      'Supprime aussi les images étiquetées qui ne sont utilisées par aucun conteneur.';
+
+  @override
+  String get includeUnusedVolumesTip =>
+      'Supprime aussi les volumes utilisés par aucun conteneur.';
+
+  @override
+  String get pruneCommandPreview => 'Aperçu de la commande';
+
+  @override
+  String get pruneForceSshTip =>
+      '-f ignore la confirmation interactive et reste toujours activé via SSH.';
+
+  @override
+  String get pruneVolumes => 'Nettoyer les volumes';
+
+  @override
+  String get pruneUnusedData => 'Nettoyer les données inutilisées';
+
+  @override
+  String get pull => 'Tirer';
+
+  @override
+  String get invalidHostFormat =>
+      'Format d\'hôte non valide. Seuls les caractères IPv4, IPv6 et de domaine sont autorisés.';
+
+  @override
+  String get jumpServer => 'Aller au serveur';
+
+  @override
+  String jumpServersNotFoundFmt(String serverName, String jumpIds) {
+    return 'Serveurs de rebond introuvables pour $serverName : $jumpIds';
+  }
+
+  @override
+  String nameAlreadyExistsFmt(String name) {
+    return '« $name » existe déjà';
+  }
+
+  @override
+  String get noJumpServerAvailable => 'Aucun serveur de rebond disponible.';
+
+  @override
+  String get jumpServerAndProxyCommandCannotBeUsedTogether =>
+      'Le serveur de rebond et ProxyCommand ne peuvent pas être utilisés ensemble.';
+
+  @override
+  String get noConnectionMethod =>
+      'Configurez SSH, un agent monitor, ou les deux';
+
+  @override
+  String get keepForeground => 'Garder l\'application en premier plan !';
+
+  @override
+  String get keepStatusWhenErr => 'Conserver l\'état du dernier serveur';
+
+  @override
+  String get keepStatusWhenErrTip =>
+      'Uniquement en cas d\'erreur lors de l\'exécution du script';
+
+  @override
+  String get keyAuth => 'Authentification par clé';
+
+  @override
+  String get lastFailure => 'Dernier échec';
+
+  @override
+  String get lastSuccess => 'Dernier succès';
+
+  @override
+  String get letterCache => 'Saisie clavier normale';
+
+  @override
+  String get letterCacheTip =>
+      'Lorsqu\'elle est activée, la saisie passe par l\'IME normal, ce qui peut éviter les invites de clavier sécurisé dans le terminal sur certains systèmes.';
+
+  @override
+  String get linuxShellTip =>
+      'Le shell avec lequel un terminal démarre. Vide restaure /bin/sh.';
+
+  @override
+  String get linuxNetTip =>
+      'Serveurs DNS. Vide restaure les valeurs par défaut';
+
+  @override
+  String madeWithLove(String myGithub) {
+    return 'Fabriqué avec ❤️ par $myGithub';
+  }
+
+  @override
+  String get maxConcurrency => 'Concurrence maximale';
+
+  @override
+  String get maxRetryCount => 'Nombre de reconnexions au serveur';
+
+  @override
+  String get mirror => 'Miroir';
+
+  @override
+  String get needRestart => 'Nécessite un redémarrage de l\'application';
+
+  @override
+  String get newContainer => 'Nouveau conteneur';
+
+  @override
+  String get noConnectionStatsData =>
+      'Aucune donnée de statistiques de connexion';
+
+  @override
+  String get noPrivateKeyTip =>
+      'La clé privée n\'existe pas, elle a peut-être été supprimée ou il y a une erreur de configuration.';
+
+  @override
+  String get noPromptAgain => 'Ne pas demander à nouveau';
+
+  @override
+  String get openLastPath => 'Ouvrir le dernier chemin';
+
+  @override
+  String get openLastPathTip =>
+      'Les différents serveurs auront des journaux différents, et le journal est le chemin vers la sortie';
+
+  @override
+  String get parseContainerStatsTip =>
+      'L\'analyse de l\'occupation des conteneurs Docker est relativement lente.';
+
+  @override
+  String get privateKey => 'Clé privée';
+
+  @override
+  String privateKeyNotFoundFmt(String keyId) {
+    return 'Clé privée [$keyId] introuvable.';
+  }
+
+  @override
+  String get bmcPowerOnAction => 'Allumer';
+
+  @override
+  String get bmcShutdown => 'Éteindre';
+
+  @override
+  String get bmcForceOff => 'Forcer l\'extinction';
+
+  @override
+  String get restart => 'Redémarrer';
+
+  @override
+  String get bmcPowerCycle => 'Cycle d\'alimentation';
+
+  @override
+  String bmcPowerConfirm(String server, String resetType) {
+    return 'Envoyer à $server ? Le service recevra « $resetType »';
+  }
+
+  @override
+  String get bmcPowerDone => 'L\'état d\'alimentation a changé';
+
+  @override
+  String get bmcPowerAccepted =>
+      'Accepté, mais l’état d’alimentation n’a pas changé. Une opération douce dépend du système d’exploitation';
+
+  @override
+  String get bmcPowerUnsupported =>
+      'Ce service n\'autorise rien pour cette action';
+
+  @override
+  String get bmcUnauthorized => 'Le BMC a refusé le compte';
+
+  @override
+  String get bmcAccountMissing => 'Aucun compte n\'est défini pour ce BMC';
+
+  @override
+  String get bmcPowerOn => 'Sous tension';
+
+  @override
+  String get bmcPowerOff => 'Hors tension';
+
+  @override
+  String get bmcCertRejected =>
+      'Certificat refusé — vérifiez-le dans les réglages du serveur';
+
+  @override
+  String get bmcNotAService => 'Aucun service Redfish à cette adresse';
+
+  @override
+  String get bmcNoSystem => 'Le service ne signale aucun système';
+
+  @override
+  String get bmcSensorsTruncated => 'Seuls les premiers capteurs sont affichés';
+
+  @override
+  String get bmcMultipleSystems => 'Seul le premier système est affiché';
+
+  @override
+  String get bmcTip =>
+      'Le BMC est un ordinateur distinct sur la carte mère, joignable quand le système d\'exploitation de l\'hôte ne l\'est pas. Configuré ici, il rapporte l\'état d\'alimentation et les capteurs matériels pendant que le serveur est éteint ou bloqué. Nécessite Redfish, présent sur la plupart du matériel professionnel depuis environ 2016.';
+
+  @override
+  String get bmcCert => 'Certificat';
+
+  @override
+  String get bmcCertPinned => 'Vérifié et épinglé';
+
+  @override
+  String get bmcCertUnreviewed =>
+      'Pas encore vérifié — touche pour voir le certificat';
+
+  @override
+  String get bmcCertReview =>
+      'Un certificat auto-signé. Compare-le avant d’accepter. Ensuite, seul celui-ci est approuvé.';
+
+  @override
+  String get bmcCertChanged => 'Le certificat ne correspond pas. Vérifie-le.';
+
+  @override
+  String get bmcCertExpired => 'Expiré.';
+
+  @override
+  String bmcCertWas(String fingerprint) {
+    return 'Accepté précédemment : $fingerprint';
+  }
+
+  @override
+  String get bmcAddrInvalid =>
+      'L\'adresse du BMC doit être une URL, par ex. https://10.0.0.9';
+
+  @override
+  String get proxyCommandSandboxed =>
+      'Cette version est en bac à sable : la commande reçoit un home vide, pas le tien, donc tout ce qui lit ~/.ssh échoue. La version DMG non.';
+
+  @override
+  String privateKeyFileUnreadable(String path, String reason) {
+    return 'Impossible de lire le fichier de clé privée $path : $reason';
+  }
+
+  @override
+  String privateKeyFileSandboxed(String path) {
+    return 'Cette version ne peut pas lire les fichiers hors de son conteneur, la clé située à $path est donc inaccessible. Importez la clé dans les réglages, ou utilisez la version DMG.';
+  }
+
+  @override
+  String get pushToken => 'Jeton d\'identification';
+
+  @override
+  String get liveActivity => 'Activité en direct';
+
+  @override
+  String get liveActivityTip =>
+      'Affichez les sessions du terminal sur l’écran verrouillé et dans Dynamic Island. Le nom du serveur et l’état de la connexion y sont visibles sans déverrouiller l’appareil.';
+
+  @override
+  String get liveActivitySystemDisabled =>
+      'iOS ne l’autorise pas. Les réglages se trouvent dans Réglages › ServerBox › Activités en direct et Réglages › Face ID et code › Activités en direct.';
+
+  @override
+  String get proxyCommandNeedsLinux =>
+      'ProxyCommand s\'exécute dans l\'environnement Linux de cet appareil. Installez d\'abord un système Linux.';
+
+  @override
+  String get proxyCommandMobileTip =>
+      'Sur un téléphone, la commande s\'exécute dans le système Linux sélectionné. Installez-y d\'abord les outils qu\'elle utilise (nc, socat, …).';
+
+  @override
+  String get pveIgnoreCertTip =>
+      'Il n\'est pas recommandé de l\'activer, attention aux risques de sécurité ! Si vous utilisez le certificat par défaut de PVE, vous devez activer cette option.';
+
+  @override
+  String get pvePasswordRequired =>
+      'Le mot de passe PVE est requis. Renseigne-le dans les réglages du serveur.';
+
+  @override
+  String get pveOtpRequired =>
+      'L\'authentification à deux facteurs est activée sur ce serveur PVE. Saisis le code OTP.';
+
+  @override
+  String get pveOtpCodeRequired => 'Le code OTP est requis.';
+
+  @override
+  String get pveOtpVerificationFailed =>
+      'Échec de la vérification OTP. Réessaie avec un nouveau code.';
+
+  @override
+  String get pveOtpTitle => 'Vérification OTP';
+
+  @override
+  String get pveOtpLabel => 'Code OTP';
+
+  @override
+  String get pveInvalidResponseBody =>
+      'La connexion PVE a renvoyé un corps de réponse non valide.';
+
+  @override
+  String get pveInvalidResponseData =>
+      'La réponse de connexion PVE ne contenait pas de données valides.';
+
+  @override
+  String get pveMissingAuthTicket =>
+      'La connexion PVE a réussi, mais aucun ticket d\'authentification n\'a été renvoyé.';
+
+  @override
+  String get pveLoadingConnect => 'Connexion…';
+
+  @override
+  String get pvePassword => 'Mot de passe PVE';
+
+  @override
+  String get pvePasswordHint => 'Requis avec l\'authentification SSH par clé';
+
+  @override
+  String get read => 'Lire';
+
+  @override
+  String get recentConnections => 'Connexions récentes';
+
+  @override
+  String get rememberPwdInMem => 'Mémoriser le mot de passe en mémoire';
+
+  @override
+  String get rememberPwdInMemTip =>
+      'Utilisé pour les conteneurs, la suspension, etc.';
+
+  @override
+  String get remotePath => 'Chemin distant';
+
+  @override
+  String rootfsUpdateTip(
+    String distro,
+    String installed,
+    String latest,
+    String pm,
+  ) {
+    return '$distro $installed est installé, $latest est disponible. La mise à jour remplace tout le conteneur : les données $pm sont perdues';
+  }
+
+  @override
+  String linuxSystemInUse(String name) {
+    return 'Ferme les terminaux de $name avant de le supprimer';
+  }
+
+  @override
+  String get rootfsSubtitle => 'Un espace utilisateur Linux sur cet appareil';
+
+  @override
+  String rootfsInstallTip(String distro, String version, int size) {
+    return 'Télécharge $distro $version (environ $size Mo) et l’extrait sur cet appareil.';
+  }
+
+  @override
+  String get sameIdServerExist => 'Un serveur avec le même ID existe déjà';
+
+  @override
+  String get second => 's';
+
+  @override
+  String get serverFilesUnavailableTip =>
+      'Nécessite SSH vers ce serveur, ou server_box_monitor avec son API fichiers activée.';
+
+  @override
+  String get back => 'Retour';
+
+  @override
+  String get history => 'Historique';
+
+  @override
+  String get homeDir => 'Dossier personnel';
+
+  @override
+  String selected(int count) {
+    return '$count sélectionnés';
+  }
+
+  @override
+  String get sendTo => 'Envoyer vers…';
+
+  @override
+  String get serverFuncBtns => 'Boutons de fonction du serveur';
+
+  @override
+  String get serverOrder => 'Ordre du serveur';
+
+  @override
+  String get serverOverview => 'Aperçu des serveurs';
+
+  @override
+  String get serverOverviewTip =>
+      'Affiche l\'aperçu en haut de la liste des serveurs, et la barre des serveurs au-dessus d\'un serveur ouvert';
+
+  @override
+  String get serverTabEmpty => 'Aucun serveur pour le moment';
+
+  @override
+  String get serverTabRequired => 'L\'onglet serveur ne peut pas être supprimé';
+
+  @override
+  String get shareCodeHint =>
+      'Communiquez ces chiffres séparément au destinataire. Ils ne sont pas inclus dans le QR code.';
+
+  @override
+  String get shareCodePrompt => 'Code à 6 chiffres';
+
+  @override
+  String get shareCodeTitle => 'Code à usage unique';
+
+  @override
+  String get shareExpired => 'Ce partage a expiré. Demandez-en un nouveau.';
+
+  @override
+  String get shareImportFile => 'Depuis un fichier partagé';
+
+  @override
+  String get shareImportTitle => 'Importer le serveur partagé';
+
+  @override
+  String get shareIncludesKey => 'Le partage inclut la clé privée.';
+
+  @override
+  String get shareOmittedBmc =>
+      'Les identifiants BMC. L’adresse est incluse, mais pas les identifiants.';
+
+  @override
+  String get shareOmittedJump =>
+      'Le serveur de rebond, car il est enregistré comme serveur distinct sur cet appareil.';
+
+  @override
+  String get shareOmittedKeyPath =>
+      'Le fichier de clé, car son chemin n’est valide que sur cet appareil.';
+
+  @override
+  String get shareOmittedMissingKey =>
+      'La clé privée, car elle ne se trouve pas dans le trousseau de cet appareil.';
+
+  @override
+  String get shareOmittedTip =>
+      'Non inclus ; le destinataire doit configurer :';
+
+  @override
+  String get sharePassphraseTip =>
+      'Cette phrase secrète chiffre le fichier. Le destinataire en a besoin pour importer le serveur et elle ne peut pas être récupérée.';
+
+  @override
+  String shareQrTip(int minutes) {
+    return 'Les données de connexion de ce QR code sont chiffrées. Le partage expire dans $minutes minutes.';
+  }
+
+  @override
+  String get shareScanQr => 'Scanner un QR code';
+
+  @override
+  String shareServerExists(String name) {
+    return '« $name » utilise déjà cette adresse sur cet appareil. Importer quand même ?';
+  }
+
+  @override
+  String get shareTooBigForQr =>
+      'Trop volumineux pour un QR code. Partagez-le plutôt sous forme de fichier.';
+
+  @override
+  String get shareTooNew =>
+      'Ce partage a été créé avec une version plus récente de ServerBox. Mettez l’application à jour pour l’ouvrir.';
+
+  @override
+  String get shareUnreadable => 'Ce partage ServerBox n’est pas valide.';
+
+  @override
+  String get shareVia => 'Partager via';
+
+  @override
+  String get sftpDlPrepare => 'Préparation de la connexion...';
+
+  @override
+  String get sftpEditorTip =>
+      'Vide utilise l’éditeur intégré. Par exemple `vim` (lire `EDITOR` est conseillé).';
+
+  @override
+  String get sftpRmrDirSummary =>
+      'Utilisez `rm -r` pour supprimer un dossier en SFTP.';
+
+  @override
+  String get sftpSSHConnected => 'SFTP Connecté';
+
+  @override
+  String get sftpShowFoldersFirst => 'Afficher d\'abord les dossiers';
+
+  @override
+  String get sftpUnavailableUseScp =>
+      'Si cet hôte n\'a pas de sous-système SFTP, comme beaucoup d\'appareils embarqués, réglez son transfert de fichiers sur SCP dans les paramètres du serveur.';
+
+  @override
+  String get sshFileTransportTip =>
+      'SFTP convient à tout matériel récent. Choisissez SCP pour un hôte ancien ou embarqué dont le serveur SSH n\'a pas de sous-système SFTP : il lui faut la commande `scp` et un shell disposant aussi des utilitaires de fichiers usuels (`find`, `stat`, `mv`, `chmod`).';
+
+  @override
+  String get specifyDev => 'Spécifier l\'appareil';
+
+  @override
+  String get specifyDevTip =>
+      'Le trafic réseau compte tous les appareils par défaut ; indique-en un ici';
+
+  @override
+  String get tempIsCelsiusTip =>
+      'Une fois activé, la valeur de température est traitée en degrés Celsius et non en millicelsius. À n\'activer que si la température s\'affiche mal (par exemple 0,1 °C au lieu de 58 °C).';
+
+  @override
+  String spentTime(String time) {
+    return 'Temps écoulé : $time';
+  }
+
+  @override
+  String sshConfigAllExist(int duplicateCount) {
+    return 'Tous les serveurs existent déjà ($duplicateCount doublons trouvés)';
+  }
+
+  @override
+  String sshConfigDuplicatesSkipped(int duplicateCount) {
+    return '$duplicateCount doublons seront ignorés';
+  }
+
+  @override
+  String get sshConfigFound =>
+      'Nous avons trouvé une configuration SSH sur votre système.';
+
+  @override
+  String sshConfigFoundServers(int totalCount) {
+    return '$totalCount serveurs trouvés';
+  }
+
+  @override
+  String get sshConfigImport => 'Importation de configuration SSH';
+
+  @override
+  String get sshConfigImportPermission =>
+      'Souhaitez-vous donner la permission de lire ~/.ssh/config et d\'importer automatiquement les paramètres du serveur ?';
+
+  @override
+  String get sshConfigImportTip =>
+      'Proposer de lire ~/.ssh/config lors de la première création de serveur';
+
+  @override
+  String sshConfigImported(int count) {
+    return '$count serveurs importés depuis la configuration SSH';
+  }
+
+  @override
+  String sshHostKeyChangedDesc(String serverName) {
+    return 'La clé d\'hôte SSH de $serverName a changé. Ne continuez que si vous faites confiance à ce serveur.';
+  }
+
+  @override
+  String get sshHostKeyType => 'Type de clé d\'hôte SSH';
+
+  @override
+  String get sshKnownHostKeys => 'Hôtes connus';
+
+  @override
+  String get sshKnownHostKeysTip => 'Les clés d’hôte que cette app a acceptées';
+
+  @override
+  String sshHostKeyNewDesc(String serverName) {
+    return 'Une nouvelle clé d\'hôte SSH a été reçue de $serverName. Vérifiez l\'empreinte avant de faire confiance.';
+  }
+
+  @override
+  String sshHostKeyStoredFingerprint(String fingerprint) {
+    return 'Empreinte enregistrée : $fingerprint';
+  }
+
+  @override
+  String get sshVerificationCode => 'Code de vérification';
+
+  @override
+  String get sshConfigManualSelect =>
+      'Souhaitez-vous sélectionner manuellement le fichier de configuration SSH ?';
+
+  @override
+  String get sshConfigNoServers =>
+      'Aucun serveur trouvé dans la configuration SSH';
+
+  @override
+  String get sshConfigPermissionDenied =>
+      'Impossible d\'accéder au fichier de configuration SSH en raison des permissions macOS.';
+
+  @override
+  String sshConfigServersToImport(int importCount) {
+    return '$importCount serveurs seront importés';
+  }
+
+  @override
+  String get sshTermHelp =>
+      'Lorsque le terminal est défilable, faire glisser horizontalement permet de sélectionner du texte. En cliquant sur le bouton du clavier, vous activez/désactivez le clavier. L\'icône de fichier ouvre le chemin actuel SFTP. Le bouton du presse-papiers copie le contenu lorsque du texte est sélectionné, et colle le contenu du presse-papiers dans le terminal lorsqu\'aucun texte n\'est sélectionné et qu\'il y a du contenu dans le presse-papiers. L\'icône de code colle des extraits de code dans le terminal et les exécute.';
+
+  @override
+  String get sshVirtualKeyAutoOff =>
+      'Activation automatique des touches virtuelles';
+
+  @override
+  String get supportFmtArgs =>
+      'Les paramètres de mise en forme suivants sont pris en charge :';
+
+  @override
+  String get suspendTip =>
+      'La fonction de suspension nécessite des privilèges root et le support de systemd.';
+
+  @override
+  String switchTo(String val) {
+    return 'Passer à $val';
+  }
+
+  @override
+  String get syncAppSettings => 'Synchroniser les réglages de l\'app';
+
+  @override
+  String get syncAppSettingsTip =>
+      'Inclure le thème, la disposition, l\'éditeur, le terminal et les autres préférences de l\'appareil dans la synchronisation automatique.';
+
+  @override
+  String get termFontSizeTip =>
+      'Ce paramètre affectera la taille du terminal (largeur et hauteur). Vous pouvez zoomer sur la page du terminal pour ajuster la taille de la police de la session en cours.';
+
+  @override
+  String get textScalerTip =>
+      '1.0 => 100% (taille originale), fonctionne uniquement sur la partie de la police de la page du serveur, il est déconseillé de la modifier.';
+
+  @override
+  String get times => 'Fois';
+
+  @override
+  String get trySudo => 'Essayer d\'utiliser sudo';
+
+  @override
+  String get sudoPromptNotFound =>
+      'Aucune invite de mot de passe sudo n\'est active.';
+
+  @override
+  String get updateServerStatusInterval =>
+      'Intervalle de mise à jour de l\'état du serveur';
+
+  @override
+  String get useNoPwd => 'Aucun mot de passe ne sera utilisé';
+
+  @override
+  String get usePodmanByDefault => 'Par défaut avec Podman';
+
+  @override
+  String get used => 'Utilisé';
+
+  @override
+  String get viewDetails => 'Voir les détails';
+
+  @override
+  String get virtKeyHelpIME => 'Activer/désactiver le clavier';
+
+  @override
+  String get virtKeyHelpSFTP => 'Ouvrir le répertoire actuel en SFTP.';
+
+  @override
+  String get virtKeyHelpSnippet =>
+      'Choisir un extrait et l\'exécuter dans ce terminal.';
+
+  @override
+  String get virtKeyHelpTmux =>
+      'Passer d\'une session ou fenêtre tmux à une autre.';
+
+  @override
+  String get virtKeyIntroActions => 'Raccourcis';
+
+  @override
+  String get virtKeyIntroActionsTip =>
+      'Ces touches n\'écrivent rien, elles ouvrent quelque chose. Maintenez-en une pour lire ce qu\'elle fait.';
+
+  @override
+  String get virtKeyIntroCustomizeTip =>
+      'Les réglages du terminal permettent de les réordonner, d’en activer d’autres (fichiers, sudo, F1–F12…) ou de masquer celles dont vous ne vous servez jamais.';
+
+  @override
+  String get virtKeyIntroModifiers => 'Modificateurs';
+
+  @override
+  String get virtKeyIntroModifiersTip =>
+      'Touchez-en une pour l\'armer, puis une lettre du clavier. Elle ne vaut que pour cette touche-là.';
+
+  @override
+  String get virtKeyIntroNav => 'Navigation';
+
+  @override
+  String get virtKeyIntroNavTip =>
+      'Ces touches déplacent le curseur. Maintenez une flèche pour la répéter.';
+
+  @override
+  String get virtKeyIntroSelect =>
+      'Tant que le terminal a de quoi défiler, un glissement latéral sélectionne du texte.';
+
+  @override
+  String get virtKeyRows => 'Lignes affichées à la fois';
+
+  @override
+  String get virtKeyRowsTip =>
+      'Le reste passe sur une page à part, que l\'on fait défiler latéralement.';
+
+  @override
+  String get waitConnection =>
+      'Veuillez attendre que la connexion soit établie.';
+
+  @override
+  String get wakeLock => 'Maintenir éveillé';
+
+  @override
+  String get watchNotPaired => 'Aucune Apple Watch associée';
+
+  @override
+  String get webdavSettingEmpty => 'Le paramètre Webdav est vide';
+
+  @override
+  String get whenOpenApp => 'À l\'ouverture de l\'application';
+
+  @override
+  String get wolTip =>
+      'Après avoir configuré le WOL (Wake-on-LAN), une requête WOL est envoyée chaque fois que le serveur est connecté.';
+
+  @override
+  String get write => 'Écrire';
+
+  @override
+  String get writeScriptFailTip =>
+      'Échec de l\'écriture dans le script, probablement en raison d\'un manque de permissions ou que le répertoire n\'existe pas.';
+
+  @override
+  String get writeScriptTip =>
+      'Après la connexion au serveur, un script sera écrit dans `~/.config/server_box` \n | `/tmp/server_box` pour surveiller l\'état du système. Vous pouvez examiner le contenu du script.';
+
+  @override
+  String get menuGitHubRepository => 'Dépôt GitHub';
+
+  @override
+  String get podmanDockerEmulationDetected =>
+      'Émulation Podman Docker détectée. Veuillez passer à Podman dans les paramètres.';
+
+  @override
+  String get betaTip =>
+      'Cette fonctionnalité est encore en bêta. Son fonctionnement n\'est pas garanti.';
+
+  @override
+  String get portForward_startPrompt =>
+      'Ajoute une règle de redirection de port pour commencer';
+
+  @override
+  String get portForward_localHost => 'Hôte local';
+
+  @override
+  String get portForward_localPort => 'Port local';
+
+  @override
+  String get portForward_remoteHost => 'Hôte distant';
+
+  @override
+  String get portForward_remotePort => 'Port distant';
+
+  @override
+  String portForward_deleteConfirmFmt(String name) {
+    return 'Supprimer $name ?';
+  }
+
+  @override
+  String get sponsor => 'Soutenir';
+
+  @override
+  String get sortByJoinTime => 'Par date d\'ajout';
+
+  @override
+  String get tmuxAutoAttach => 'Rattachement auto à tmux';
+
+  @override
+  String get tmuxAuto => 'tmux auto';
+
+  @override
+  String get tmuxAutoTip =>
+      'Démarrer ou rattacher tmux automatiquement lors d\'une connexion SSH';
+
+  @override
+  String get tmuxSessionSelector => 'Sélecteur de session';
+
+  @override
+  String get tmuxSessionSelectorTip =>
+      'Afficher le sélecteur de session à la connexion';
+
+  @override
+  String get tmuxDefaultSessionName => 'Nom de session par défaut';
+
+  @override
+  String get tmuxSessionName => 'Nom de la session';
+
+  @override
+  String get tmuxNewSession => 'Nouvelle session';
+
+  @override
+  String get tmuxNewWindow => 'Nouvelle fenêtre';
+
+  @override
+  String get tmuxNoWindowsFound => 'Aucune fenêtre trouvée';
+
+  @override
+  String tmuxWindowCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fenêtres',
+      one: '1 fenêtre',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tmuxAttached => 'Rattachée';
+
+  @override
+  String get tmuxSkip => 'Ignorer';
+
+  @override
+  String get tmuxNotAvailable => 'tmux n\'est pas disponible';
+
+  @override
+  String containerSegmentsMismatch(int count) {
+    return 'Nombre inattendu de segments dans la réponse du conteneur : $count';
+  }
+
+  @override
+  String get containerOperationInProgress =>
+      'Une autre opération sur les conteneurs est déjà en cours';
+
+  @override
+  String processCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count processus',
+      one: '1 processus',
+      zero: '0 processus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get processParseUnsupportedOutput =>
+      'Le format de la liste des processus n’est pas pris en charge.';
+
+  @override
+  String get processParseInvalidRows =>
+      'Certaines entrées de processus n’ont pas pu être lues.';
+
+  @override
+  String get processParseInvalidWindowsJson =>
+      'La réponse des processus Windows n’a pas pu être lue.';
+
+  @override
+  String get processParseInvalidWindowsRows =>
+      'Certaines entrées de processus Windows n’ont pas pu être lues.';
+
+  @override
+  String get processKillTargetChanged =>
+      'Le processus a changé ou s’est terminé. Actualisez la liste et réessayez.';
+
+  @override
+  String get processSearchHint => 'Nom, utilisateur ou PID';
+
+  @override
+  String processShowKernelThreads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count threads du noyau',
+      one: '1 thread du noyau',
+    );
+    return 'Afficher $_temp0';
+  }
+
+  @override
+  String get processForceKill => 'Force kill';
+
+  @override
+  String get processStarted => 'Started';
+
+  @override
+  String get processThreads => 'Threads';
+
+  @override
+  String get watchServers => 'Serveurs sur la montre';
+
+  @override
+  String get watchServersTip =>
+      'La montre interroge le monitor elle-même ; seuls les serveurs qui en ont un sont proposés.';
+
+  @override
+  String get watchNoMonitorServer =>
+      'Aucun serveur n\'a d\'agent monitor configuré';
+
+  @override
+  String get legacyStatusGoneTitle => 'Les URL de statut ne fonctionnent plus';
+
+  @override
+  String get legacyStatusGoneBody =>
+      'L\'app Watch et les widgets lisaient une adresse `/status` saisie à la main. Ce point d\'accès a été retiré : il ne renvoyait que des valeurs actuelles sous forme de texte, d\'où l\'impossibilité d\'afficher une courbe.\n\nIls lisent désormais l\'API authentifiée de l\'agent monitor, tracent les tendances et se synchronisent seuls avec l\'app. Configurez le serveur une fois dans l\'app et chaque montre et widget le reprend.';
+
+  @override
+  String get services => 'Services';
+
+  @override
+  String get status => 'État';
+
+  @override
+  String get enable => 'Activer';
+
+  @override
+  String get disable => 'Désactiver';
+
+  @override
+  String get starting => 'Démarrage en cours';
+
+  @override
+  String get stopping => 'Arrêt en cours';
+
+  @override
+  String get serviceManagerUnsupported =>
+      'Gestionnaire de services non pris en charge';
+
+  @override
+  String get serviceManagerUnsupportedTip =>
+      'Ce serveur utilise un gestionnaire que ServerBox ne prend pas encore en charge. systemd, procd et OpenRC sont pris en charge.';
+
+  @override
+  String serviceManagerFmt(String manager) {
+    return 'Géré par $manager';
+  }
+
+  @override
+  String get serviceListFailed => 'Impossible de lister les services';
+
+  @override
+  String get serviceDetailsUnavailable =>
+      'Certains détails des services sont indisponibles';
+
+  @override
+  String get serviceDetailsUnavailableTip =>
+      'La liste reste utilisable, mais le gestionnaire n\'a pas renvoyé toutes les informations d\'état ou de démarrage.';
+
+  @override
+  String get systemdUserScopeMissing =>
+      'Les unités utilisateur ne sont pas listées';
+
+  @override
+  String get systemdUserScopeMissingTip =>
+      'Ce compte n\'a pas de bus de session utilisateur sur le serveur, seules les unités système sont affichées.';
+
+  @override
+  String get serviceSearchHint => 'Unit name';
+
+  @override
+  String get serviceNeedsAttention => 'Needs attention';
+
+  @override
+  String serviceOtherUnits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count autres unités',
+      one: '1 autre unité',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get serviceUnit => 'Unit';
+
+  @override
+  String get serviceUnitType => 'Type';
+
+  @override
+  String get serviceScope => 'Scope';
+
+  @override
+  String get serviceStartup => 'Startup';
+
+  @override
+  String serviceUpFor(String duration) {
+    return 'up $duration';
+  }
+
+  @override
+  String serviceDownFor(String duration) {
+    return 'down $duration';
+  }
+
+  @override
+  String serviceNextIn(String duration) {
+    return 'next $duration';
+  }
+
+  @override
+  String serviceStoppedAgo(String duration) {
+    return 'Arrêté il y a $duration';
+  }
+
+  @override
+  String serviceExitStatus(int code) {
+    return 'code de sortie $code';
+  }
+
+  @override
+  String get serviceFullJournal => 'Full journal';
+
+  @override
+  String get serviceUnitFile => 'Unit file';
+
+  @override
+  String serviceJournalRecent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dernières lignes',
+      one: 'Dernière ligne',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get serviceJournalUnreadable =>
+      'Ce compte ne peut pas lire le journal';
+
+  @override
+  String get serverUnreachable =>
+      'Impossible d\'exécuter une commande sur ce serveur';
+
+  @override
+  String get containerNoRuntime =>
+      'Aucun environnement d\'exécution de conteneurs ici';
+
+  @override
+  String get containerNoRuntimeTip =>
+      'Ni `docker` ni `podman` n\'a répondu sur cette machine. Si l\'un d\'eux est installé pour un autre compte, activez « Essayer d\'utiliser sudo » dans les réglages.';
+
+  @override
+  String get containerUnreadable =>
+      'L\'environnement d\'exécution de conteneurs a répondu dans un format inattendu';
+
+  @override
+  String get power => 'Alimentation';
+
+  @override
+  String get fan => 'Ventilateur';
+
+  @override
+  String get clockSpeed => 'Fréquence';
+
+  @override
+  String get vendor => 'Fabricant';
+
+  @override
+  String get continueInTerminal => 'Continuer dans le terminal';
+
+  @override
+  String get askAiRiskUnknown => 'Non classé';
+
+  @override
+  String get agentLocalExec => 'Exécuter des commandes sur cet appareil';
+
+  @override
+  String get agentLocalExecTip =>
+      'Laisse l’Agent travailler sur la machine qui exécute ServerBox. Même les commandes en lecture seule sont examinées';
+
+  @override
+  String get agentLocalExecRootfsTip =>
+      'Laisse l’Agent travailler en local, limité au conteneur Linux installé par ServerBox';
+
+  @override
+  String macDmgImportedPartly(String path) {
+    return 'Les données de la version précédemment installée ont été importées. Les fichiers téléchargés sont restés dans $path.';
+  }
+
+  @override
+  String get bmcAccount => 'Compte';
+
+  @override
+  String get bmcAccountUnset =>
+      'Aucun sélectionné — touche pour en choisir ou en créer un';
+
+  @override
+  String bmcAccountShared(int count) {
+    return 'Utilisé par $count serveurs';
+  }
+
+  @override
+  String get bmcAccounts => 'Comptes BMC';
+
+  @override
+  String get bmcAccountSharedTip => 'Le modifier change ce que tous utilisent.';
+
+  @override
+  String bmcAccountInUse(int count) {
+    return '$count serveurs l\'utilisent. Ils gardent leur adresse et perdent le compte.';
+  }
+
+  @override
+  String get bmcStaleWrite => 'Le BMC a changé pendant l\'écriture. Réessaie.';
+
+  @override
+  String get privacyBlur => 'Confidentialité en arrière-plan';
+
+  @override
+  String get privacyBlurTip => 'Masquer le contenu dans le sélecteur d\'apps';
+
+  @override
+  String get floatReturnToTab => 'Revenir à l\'onglet';
+
+  @override
+  String get termInFloatWindow => 'Ce terminal est dans la fenêtre flottante';
+
+  @override
+  String get globeEnabledTip =>
+      'Dessiner les serveurs sur un globe, là où sont leurs adresses. Désactivé, le bouton disparaît et aucune recherche n\'a lieu.';
+
+  @override
+  String get geoShardsConsentAttribution =>
+      'Géolocalisation IP par [DB-IP](https://db-ip.com), CC BY 4.0.';
+
+  @override
+  String get geoMissPrivate => 'Adresse privée';
+
+  @override
+  String get geoMissNoData => 'Aucune donnée de localisation';
+
+  @override
+  String get globeGuide =>
+      'Appuyez ici pour voir vos serveurs sur un globe, à l\'emplacement de leurs adresses.';
+
+  @override
+  String get publicIp => 'IP publique';
+
+  @override
+  String get geoData => 'Données au niveau des villes';
+
+  @override
+  String get geoDataTip =>
+      'Après le téléchargement, toutes les recherches de localisation utilisent les données stockées sur cet appareil. Aucune adresse de serveur ni activité de recherche n’est transmise au service de téléchargement.';
+
+  @override
+  String get geoDataMissing => 'Non téléchargées';
+
+  @override
+  String get geoDataUnreachable => 'Impossible de récupérer les données.';
+
+  @override
+  String get geoDataRemoveFailed => 'Impossible de supprimer les données.';
+
+  @override
+  String geoDataCurrent(String month) {
+    return '$month est déjà installé.';
+  }
+
+  @override
+  String geoDataConsent(String download, String disk) {
+    return '**Téléchargement : $download · Stockage sur l’appareil : $disk.** Le jeu de données complet est stocké sur cet appareil et toutes les recherches de localisation ultérieures s’effectuent localement. Aucune adresse de serveur ni activité de recherche n’est transmise au service de téléchargement.\n\nMis à jour chaque mois. Une version plus récente remplace les données installées sans conserver de copie supplémentaire. Vous pouvez les supprimer à tout moment.';
+  }
+
+  @override
+  String get benchmark => 'Test de performances';
+
+  @override
+  String get benchmarkIntro =>
+      'Exécute Yet Another Bench Script sur ce serveur pour tester le disque, le réseau et le processeur. Un test complet dure 10 à 20 minutes et continue si vous quittez cette page ou fermez l’application.';
+
+  @override
+  String get benchmarkNoRuns => 'Aucun test de performances pour le moment.';
+
+  @override
+  String get benchmarkRunning => 'Test de performances en cours';
+
+  @override
+  String get benchmarkStartFailed =>
+      'Impossible de démarrer le test de performances';
+
+  @override
+  String get benchmarkCancelConfirm =>
+      'Arrêter ce test ? Toutes les mesures effectuées jusqu’ici seront perdues.';
+
+  @override
+  String get benchmarkDeleteConfirm => 'Supprimer le résultat de ce test ?';
+
+  @override
+  String get benchmarkNothingSelected =>
+      'Toutes les phases sont désactivées. Seules les informations système seront recueillies, en quelques secondes.';
+
+  @override
+  String get benchmarkDiskTip =>
+      'fio avec quatre tailles de bloc ; environ 3 minutes. Écrit un fichier de test de 2 Go dans le répertoire de travail et nécessite autant d’espace libre.';
+
+  @override
+  String get benchmarkNetworkTip =>
+      'iperf3 avec des serveurs publics ; environ 4 minutes.';
+
+  @override
+  String get benchmarkReducedNetwork => 'Moins de sites';
+
+  @override
+  String benchmarkReducedNetworkTip(String full, String reduced) {
+    return 'Trois sites au lieu de sept. Le trafic estimé passe de $full à $reduced.';
+  }
+
+  @override
+  String get benchmarkCpuTip =>
+      'Télécharge Geekbench, un logiciel propriétaire, et **publie le résultat sur une page publique de geekbench.com**, avec le modèle du processeur, le nombre de cœurs et la mémoire.';
+
+  @override
+  String get benchmarkSensitiveOptions =>
+      'Les options ci-dessous téléchargent et exécutent des logiciels tiers sur ce serveur ou envoient des informations du serveur à des tiers. Elles sont désactivées par défaut.';
+
+  @override
+  String get benchmarkIpInfoTip =>
+      'Envoie l’adresse publique de ce serveur à ip-api.com via HTTP non chiffré.';
+
+  @override
+  String get benchmarkIpInfo => 'Rechercher le propriétaire de l’IP';
+
+  @override
+  String get benchmarkPreferBin => 'Télécharger fio et iperf3';
+
+  @override
+  String get benchmarkPreferBinTip =>
+      'Les télécharge depuis GitHub au lieu d’utiliser les paquets de l’hôte. Activez cette option uniquement si aucun des deux n’est installé sur l’hôte.';
+
+  @override
+  String get benchmarkWorkDir => 'Répertoire de travail';
+
+  @override
+  String get benchmarkWorkDirTip =>
+      'Détermine le système de fichiers mesuré par le test de disque. Si ce champ est vide, le dossier personnel du compte de connexion est utilisé.';
+
+  @override
+  String benchmarkEstimatedTime(int minutes) {
+    return 'Environ $minutes min';
+  }
+
+  @override
+  String benchmarkEstimatedTraffic(String size) {
+    return 'Environ $size de trafic';
+  }
+
+  @override
+  String get benchmarkPhaseSystem => 'Lecture des informations système';
+
+  @override
+  String get benchmarkPhaseDisk => 'Test du disque';
+
+  @override
+  String get benchmarkPhaseNetwork => 'Test du réseau';
+
+  @override
+  String get benchmarkPhaseCpu => 'Test du processeur';
+
+  @override
+  String get benchmarkPhaseDone => 'Finalisation';
+
+  @override
+  String get benchmarkResultUnreadable =>
+      'Ce résultat n’a pas pu être lu au format JSON. Le texte brut figure ci-dessous.';
+
+  @override
+  String get benchmarkViewOnGeekbench => 'Voir sur Geekbench';
+
+  @override
+  String get benchmarkGeekbenchPublic =>
+      'Ce résultat est publié publiquement via le lien ci-dessus.';
+
+  @override
+  String get benchmarkSingleCore => 'Monocœur';
+
+  @override
+  String get benchmarkMultiCore => 'Multicœur';
+
+  @override
+  String get benchmarkIops => 'IOPS';
+
+  @override
+  String get benchmarkSend => 'Envoi';
+
+  @override
+  String get benchmarkRecv => 'Réception';
+
+  @override
+  String get benchmarkLatency => 'Latence';
+
+  @override
+  String get benchmarkVirt => 'Virtualisation';
+
+  @override
+  String get benchmarkRawLog => 'Journal d’exécution';
+
+  @override
+  String benchmarkUpstream(String version) {
+    return 'Fourni par Yet Another Bench Script ($version)';
+  }
+
+  @override
+  String get benchmarkPhaseStarting => 'Démarrage';
+
+  @override
+  String get benchmarkNoOutputYet =>
+      'Aucune sortie pour le moment. Avant d’afficher sa première ligne, YABS vérifie si google.com et icanhazip.com sont accessibles. Sur un réseau qui bloque l’un de ces sites, cette étape peut prendre plusieurs minutes.';
+
+  @override
+  String get tagsEmptyTip =>
+      'Aucun tag pour le moment. Ajoutez-en un en modifiant un serveur pour le voir apparaître ici.';
+
+  @override
+  String get benchmarkNoServers =>
+      'Ajoutez d’abord un serveur, puis revenez pour lancer le benchmark.';
+
+  @override
+  String get schemaTooNewTitle =>
+      'Ces données sont plus récentes que l’application';
+
+  @override
+  String schemaTooNewBody(int stored, int supported) {
+    return 'Elles ont été écrites par une version plus récente de ServerBox (stockage v$stored) ; cette version peut lire jusqu’à v$supported. Rien n’a été modifié.';
+  }
+
+  @override
+  String get schemaTooNewReinstall =>
+      'Réinstallez cette version plus récente pour retrouver toutes vos données.';
+
+  @override
+  String get schemaTooNewExportPlain => 'Exporter sans mot de passe';
+
+  @override
+  String get schemaTooNewPlainWarn =>
+      'Le fichier contiendra en clair toutes les clés privées SSH, les mots de passe des serveurs et les clés API. Toute personne qui obtient le fichier y aura accès.';
+
+  @override
+  String get schemaTooNewWipe => 'Supprimer toutes les données';
+
+  @override
+  String get schemaTooNewWipeConfirm =>
+      'Tous les serveurs, clés, extraits et réglages de cet appareil seront supprimés, sans possibilité d’annulation. Une sauvegarde exportée ici serait la seule copie restante.';
+
+  @override
+  String get schemaTooNewWipeDone =>
+      'Données supprimées. Rouvrez l’application pour repartir de zéro.';
+
+  @override
+  String get schemaTooNewWipeFailed =>
+      'Certaines données n’ont pas pu être supprimées et cette version ne peut toujours pas ouvrir ce qui reste. Réinstallez la version plus récente pour y accéder.';
+
+  @override
+  String get systemUsers => 'Users';
+
+  @override
+  String get userManagerLinuxOnly =>
+      'La gestion des utilisateurs système ne prend actuellement en charge que les serveurs Linux.';
+
+  @override
+  String get userRegularAccount => 'Regular';
+
+  @override
+  String get userCurrentAccount => 'Current account';
+
+  @override
+  String get userSystemAccount => 'System account';
+
+  @override
+  String get userUid => 'UID';
+
+  @override
+  String get userLoginStatus => 'Status';
+
+  @override
+  String get userLoginEnabled => 'Login enabled';
+
+  @override
+  String get userDetailAccount => 'Account';
+
+  @override
+  String get userDetailSecurity => 'Security';
+
+  @override
+  String get userSshKeys => 'SSH keys';
+
+  @override
+  String get userExpires => 'Expires';
+
+  @override
+  String get userNever => 'Never';
+
+  @override
+  String get userPasswordSet => 'Set';
+
+  @override
+  String get userPasswordLocked => 'Locked';
+
+  @override
+  String get userPasswordNone => 'None';
+
+  @override
+  String get userSuperuser => 'Superuser';
+
+  @override
+  String get userOpenShell => 'Open shell';
+
+  @override
+  String get userRootChangesWarning =>
+      'Les modifications de root s’appliquent immédiatement à toutes les sessions.';
+
+  @override
+  String get userComment => 'Comment';
+
+  @override
+  String get userPrimaryGroup => 'Primary group';
+
+  @override
+  String get userSupplementaryGroups => 'Groupes supplémentaires';
+
+  @override
+  String get userLoginShell => 'Login shell';
+
+  @override
+  String get userCreateHome => 'Créer le dossier personnel';
+
+  @override
+  String get userMoveHome =>
+      'Déplacer le dossier personnel existant lorsque le chemin change';
+
+  @override
+  String get userRemoveHome => 'Supprimer le dossier personnel';
+
+  @override
+  String get userPasswordCreateTip =>
+      'Laissez le mot de passe vide pour créer un compte dont la connexion par mot de passe est verrouillée.';
+
+  @override
+  String get userPasswordEditTip =>
+      'Laissez le mot de passe vide pour conserver le mot de passe actuel.';
+
+  @override
+  String funcUnavailableFmt(String func) {
+    return '$func n\'est pas disponible via la connexion de ce serveur.';
+  }
+
+  @override
+  String funcNeedsAgentGrant(String func, String setting) {
+    return '$func nécessite d\'activer $setting dans le Monitor agent.';
+  }
+
+  @override
+  String funcNeedsAgentUpdate(String func) {
+    return '$func nécessite un Monitor agent plus récent.';
+  }
+
+  @override
+  String get portForwardRemoteNeedsAgent =>
+      'Les redirections distantes via le Monitor agent nécessitent une version plus récente : mettez-le à jour sur le serveur.';
+
+  @override
+  String get rangeLive => 'En direct';
+
+  @override
+  String get diskIo => 'E/S disque';
+
+  @override
+  String get peak => 'pic';
+
+  @override
+  String get hardware => 'Matériel';
+
+  @override
+  String get cores => 'Cœurs';
+
+  @override
+  String get historyNoStored =>
+      'Seul un agent monitor stocke l\'historique. Cette connexion ne garde que ce que l\'app a vu depuis sa connexion.';
+
+  @override
+  String get noHistoryYet => 'Rien de mesuré pour l\'instant';
+
+  @override
+  String get noData => 'aucune donnée';
+
+  @override
+  String get from => 'Du';
+
+  @override
+  String get to => 'Au';
+
+  @override
+  String get beyondRetention => 'au-delà de ce que cet agent a conservé';
+
+  @override
+  String agentRetentionFmt(String kept) {
+    return 'L\'agent conserve $kept';
+  }
+
+  @override
+  String get agentServerTools => 'Outils serveur';
+
+  @override
+  String get agentServerToolsTip =>
+      'Exécuter des commandes et lire ou écrire des fichiers sur vos serveurs, se connecter à d\'autres hôtes en SSH et utiliser les actions de ServerBox.';
+
+  @override
+  String get agentTerminalTools => 'Terminal';
+
+  @override
+  String get agentTerminalToolsTip =>
+      'Dans les discussions propres à un terminal : lire ce qu\'il affiche et exécuter des commandes sur son serveur.';
+
+  @override
+  String get agentToolTerminalScreen => 'Lire l\'écran';
+
+  @override
+  String get agentProviders => 'Fournisseurs';
+
+  @override
+  String get agentProvidersTip =>
+      'Clés d\'API, modèles, et le modèle d\'une nouvelle discussion';
+
+  @override
+  String get agentTools => 'Outils';
+
+  @override
+  String get agentToolsTip =>
+      'Ce que l\'Agent peut utiliser, et ses serveurs MCP';
+
+  @override
+  String get agentSnippetToolsTip =>
+      'Lister, ajouter, modifier et supprimer vos snippets. Les modifications nécessitent votre accord.';
+
+  @override
+  String get agentVirtToolsTip =>
+      'Lire les VM et conteneurs chargés par l’onglet Virtualisation.';
+
+  @override
+  String get agentBenchmarkToolsTip =>
+      'Lire les résultats de benchmark et, avec votre accord, en lancer ou en arrêter un.';
+
+  @override
+  String get agentRemoteDesktopToolsTip =>
+      'Lister les profils de bureau à distance et, avec votre accord, se connecter ou se déconnecter.';
+
+  @override
+  String get agentSkills => 'Skills';
+
+  @override
+  String get agentSkillsTip =>
+      'Des instructions pour des tâches précises, installées depuis GitHub ou un lien';
+
+  @override
+  String get agentPermissions => 'Autorisations';
+
+  @override
+  String get agentEmptyHint =>
+      'Posez une question sur vos serveurs, ou demandez à l\'Agent d\'y faire quelque chose.';
+
+  @override
+  String get agentTerminalEmptyHint =>
+      'Posez une question sur ce serveur. L\'Agent peut lire ce terminal et y exécuter des commandes.';
+
+  @override
+  String oldestSampleFmt(String time) {
+    return 'relevé le plus ancien $time';
+  }
+
+  @override
+  String get rangeEndsBeforeItStarts =>
+      'La fin de l\'intervalle doit suivre son début.';
+
+  @override
+  String get samples => 'relevés';
+
+  @override
+  String get unavailable => 'indisponible';
+
+  @override
+  String get metricUnavailableTip =>
+      'Le reste de la page n\'est pas affecté. Vérifiez sur l\'hôte la commande dont vient ce relevé.';
+
+  @override
+  String get waitingFirstSample => 'En attente du premier relevé';
+
+  @override
+  String atTimeFmt(String time) {
+    return 'à $time';
+  }
+
+  @override
+  String get stored => 'stocké';
+
+  @override
+  String lastSampleFmt(String ago) {
+    return 'dernier relevé $ago';
+  }
+
+  @override
+  String staleSinceFmt(String ago, String time) {
+    return 'Tout ce qui suit date de $time, $ago.';
+  }
+
+  @override
+  String noDataBeforeFmt(String time) {
+    return 'aucune donnée avant $time';
+  }
+
+  @override
+  String loadingRangeFmt(String range) {
+    return 'Chargement de $range…';
+  }
+
+  @override
+  String noStoredHistoryFor(String metric) {
+    return 'Aucun historique stocké pour $metric';
+  }
+
+  @override
+  String devicesFmt(int count) {
+    return '$count périphériques';
+  }
+
+  @override
+  String devicesBusiestFmt(int count, String name) {
+    return '$count périphériques · $name le plus chargé';
+  }
+
+  @override
+  String devicesPlottedFmt(int plotted, int total) {
+    return '$plotted périphériques sur $total';
+  }
+
+  @override
+  String sensorsHottestFmt(int count, String name) {
+    return '$count capteurs · $name le plus chaud';
+  }
+
+  @override
+  String get oneDeviceAtLeast =>
+      'Au moins un périphérique reste sur le graphique.';
+
+  @override
+  String shownOfFmt(int shown, int total, String what) {
+    return '$shown sur $total $what';
+  }
+
+  @override
+  String countOfFmt(int count, String what) {
+    return '$count $what';
+  }
+
+  @override
+  String get unitDevices => 'périphériques';
+
+  @override
+  String get unitSensors => 'capteurs';
+
+  @override
+  String get unitBatteries => 'batteries';
+
+  @override
+  String get unitCommands => 'commandes';
+
+  @override
+  String get unitReadings => 'relevés';
+
+  @override
+  String get unitGpus => 'GPU';
+
+  @override
+  String get hottest => 'le plus chaud';
+
+  @override
+  String get oldest => 'le plus ancien';
+
+  @override
+  String get notApplicable => 'sans objet';
+
+  @override
+  String get attributes => 'attributs';
+
+  @override
+  String get powerOnHours => 'Heures de fonctionnement';
+
+  @override
+  String get powerCycles => 'Cycles d\'allumage';
+
+  @override
+  String get lifeLeft => 'Durée de vie restante';
+
+  @override
+  String get lifetimeWrite => 'Écriture totale';
+
+  @override
+  String get lifetimeRead => 'Lecture totale';
+
+  @override
+  String get averageErase => 'Effacements moyens';
+
+  @override
+  String get unsafeShutdowns => 'Arrêts brutaux';
+
+  @override
+  String get diskAllPassed => 'tous PASSED';
+
+  @override
+  String diskWarningFmt(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count avertissements',
+      one: '1 avertissement',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String diskWrongOfFmt(int total, int wrong) {
+    return '$wrong périphériques sur $total';
+  }
+
+  @override
+  String get diskSmartSortedTip => 'Les pires d\'abord';
+
+  @override
+  String readAgoFmt(String ago) {
+    return 'lu $ago';
+  }
+
+  @override
+  String processesFmt(int count) {
+    return '$count processus';
+  }
+
+  @override
+  String diskFailingFmt(int count) {
+    return '$count en échec';
+  }
+
+  @override
+  String get diskSmartOpenTip => 'Touchez pour voir ses attributs';
+
+  @override
+  String get cycle => 'Cycles';
+
+  @override
+  String get window => 'fenêtre';
+
+  @override
+  String ofFmt(String total) {
+    return 'sur $total';
+  }
+
+  @override
+  String get serverDetailCards => 'Cartes de la page de détails';
+
+  @override
+  String get connection => 'Connexion';
+
+  @override
+  String get connectionTip =>
+      'Les deux peuvent être actifs en même temps. L\'ordre est celui dans lequel ils sont appelés.';
+
+  @override
+  String get transportNoneOn =>
+      'Les deux sont désactivés — ce serveur ne peut pas être connecté.';
+
+  @override
+  String get thisDevice => 'Cet appareil';
+
+  @override
+  String get localServerTip =>
+      'Lit cet appareil directement en exécutant le script d’état ici. SSH et Monitor HTTP ne sont pas utilisés, et leurs réglages sont conservés.';
+
+  @override
+  String get localServerUnsupported =>
+      'Cette plateforme ne peut pas lire cet appareil comme serveur. Linux, Windows et la version DMG de macOS le peuvent.';
+
+  @override
+  String get remoteDesktopIntro =>
+      'Ouvre le bureau RDP ou VNC d’un serveur dans l’app. La connexion passe par la connexion SSH du serveur ou par son agent Monitor : le port du bureau n’a pas besoin d’être accessible depuis le réseau.';
+
+  @override
+  String get remoteDesktopIntroProfiles =>
+      'Enregistrez un profil par bureau depuis le bouton Bureau à distance d’un serveur ou depuis l’onglet Bureau à distance.';
+
+  @override
+  String get localServerIntro =>
+      'Ajoute l’appareil qui exécute ServerBox comme serveur. L’état, les processus, les services, les conteneurs, le terminal et les fichiers fonctionnent sans SSH ni agent Monitor.';
+
+  @override
+  String get localServerAdd => 'Ajouter cet appareil';
+
+  @override
+  String get localServerIntroFooter =>
+      'Cela peut aussi être activé plus tard, dans la page de modification d’un serveur, sous Connexion.';
+
+  @override
+  String get transportSectionOff =>
+      'Désactivé. Les champs ci-dessous sont conservés pour le jour où vous le réactiverez.';
+
+  @override
+  String get monitorAgent => 'Agent monitor';
+
+  @override
+  String get plainHttpEditTip =>
+      'Les identifiants et les mesures traversent le réseau en clair. Gardez cela sur un LAN ou une adresse Tailscale, ou placez l\'agent derrière TLS.';
+
+  @override
+  String get behaviour => 'Comportement';
+
+  @override
+  String get optional => 'Facultatif';
+
+  @override
+  String get sshAdvanced => 'SSH avancé';
+
+  @override
+  String get sshAdvancedTip =>
+      'Destination de repli, ProxyCommand, serveur de rebond, transfert de fichiers, chemin distant';
+
+  @override
+  String get sshLegacyAlgorithms => 'Algorithmes obsolètes';
+
+  @override
+  String get sshLegacyAlgorithmsTip =>
+      'Pour les anciens serveurs SSH, comme les routeurs ou les commutateurs, qui proposent uniquement une clé d’hôte SHA-1 `ssh-rsa` ou un échange de clés SHA-1. Moins sécurisé ; activez cette option uniquement pour les hôtes qui en ont besoin.';
+
+  @override
+  String get appearanceAndPlace => 'Apparence et lieu';
+
+  @override
+  String get appearanceAndPlaceTip => 'Logo, coordonnées';
+
+  @override
+  String get statusCollection => 'Collecte de l\'état';
+
+  @override
+  String get statusCollectionTip =>
+      'Quelles commandes s\'exécutent, commandes personnalisées, quel périphérique est lu';
+
+  @override
+  String get tagAllTags => 'Tous les tags';
+
+  @override
+  String get tagMatching => 'Correspondances';
+
+  @override
+  String get tagNewHint => 'Nouveau tag';
+
+  @override
+  String tagCreateFmt(String tag) {
+    return 'Créer #$tag';
+  }
+
+  @override
+  String get tagOnThisServer => 'sur ce serveur';
+
+  @override
+  String tagServersFmt(int count) {
+    return '$count serveurs';
+  }
+
+  @override
+  String tagOnThisServerFmt(int count) {
+    return '$count sur ce serveur';
+  }
+
+  @override
+  String get tagMatchesTyped => 'correspond à votre saisie';
+
+  @override
+  String get tagEditorTip =>
+      'La saisie filtre la liste ; le bouton crée le tag et le pose sur ce serveur en une seule étape. Le crayon le renomme sur tous les serveurs qui le portent. Un tag que plus aucun serveur ne porte disparaît à l\'enregistrement.';
+
+  @override
+  String get tagRenamesOnSave =>
+      'Les renommages s\'appliquent à l\'enregistrement';
+
+  @override
+  String get scheduledTasks => 'Scheduled tasks';
+
+  @override
+  String get scheduledTaskLinuxOnly =>
+      'La gestion des tâches planifiées ne prend actuellement en charge que les serveurs Linux.';
+
+  @override
+  String get scheduledTaskUnavailable =>
+      'crontab n’est pas disponible sur ce serveur.';
+
+  @override
+  String get scheduledTaskPreserveTip =>
+      'Les commentaires, les variables d’environnement et les lignes non reconnues de ce crontab sont conservés.';
+
+  @override
+  String get scheduledTaskSchedule => 'Schedule';
+
+  @override
+  String get scheduledTaskAdd => 'Add task';
+
+  @override
+  String get scheduledTaskNextRun => 'Next run';
+
+  @override
+  String scheduledTaskNextInFmt(String time) {
+    return 'in $time';
+  }
+
+  @override
+  String get scheduledTaskEnabled => 'Enabled';
+
+  @override
+  String get scheduledTaskCommentedOut => 'Commented out';
+
+  @override
+  String scheduledTaskSummaryFmt(int enabled, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: '$total tâches',
+      one: '1 tâche',
+      zero: '$total tâches',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      enabled,
+      locale: localeName,
+      other: '$enabled activées',
+      one: '1 activée',
+      zero: '$enabled activées',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get scheduledTaskFilterHint => 'Filter tasks';
+
+  @override
+  String get scheduledTaskPreserved => 'Preserved lines';
+
+  @override
+  String get scheduledTaskRaw => 'Raw crontab';
+
+  @override
+  String get scheduledTaskEnableNow => 'Enable now';
+
+  @override
+  String get scheduledTaskEnableNowTip =>
+      'Si cette option est désactivée, la ligne est enregistrée sous forme de commentaire.';
+
+  @override
+  String scheduledTaskEmptyFmt(String user) {
+    return 'Aucune tâche planifiée pour $user. Les ajouts effectués ici sont écrits dans le crontab de ce compte.';
+  }
+
+  @override
+  String get scheduledTaskFieldMinute => 'Minute';
+
+  @override
+  String get scheduledTaskFieldHour => 'Hour';
+
+  @override
+  String get scheduledTaskFieldDayOfMonth => 'Day of month';
+
+  @override
+  String get scheduledTaskFieldMonth => 'Month';
+
+  @override
+  String get scheduledTaskFieldDayOfWeek => 'Day of week';
+
+  @override
+  String get cronErrScheduleEmpty => 'Une planification est requise.';
+
+  @override
+  String get cronErrCommandEmpty => 'Une commande est requise.';
+
+  @override
+  String get cronErrLineBreak =>
+      'Une ligne crontab ne peut pas contenir de saut de ligne.';
+
+  @override
+  String get cronErrMacro =>
+      'Une macro est composée d’un seul mot, comme @reboot.';
+
+  @override
+  String get cronErrFieldCount =>
+      'Une planification cron comporte cinq champs, ou une macro comme @reboot.';
+
+  @override
+  String get cronAtBoot => 'At boot';
+
+  @override
+  String get cronEveryMin => 'Every minute';
+
+  @override
+  String cronEveryMinsFmt(int minutes) {
+    return 'Toutes les $minutes minutes';
+  }
+
+  @override
+  String cronHourlyAtFmt(String minute) {
+    return 'Toutes les heures à :$minute';
+  }
+
+  @override
+  String cronEveryHoursFmt(int hours) {
+    return 'Toutes les $hours heures';
+  }
+
+  @override
+  String cronEveryHoursAtFmt(int hours, String minute) {
+    return 'Toutes les $hours heures à :$minute';
+  }
+
+  @override
+  String cronDailyAtFmt(String time) {
+    return 'Tous les jours à $time';
+  }
+
+  @override
+  String cronWeekdaysAtFmt(String time) {
+    return 'En semaine à $time';
+  }
+
+  @override
+  String cronWeekdayAtFmt(String day, String time) {
+    return 'Chaque $day à $time';
+  }
+
+  @override
+  String cronMonthlyAtFmt(int day, String time) {
+    return 'Le $day de chaque mois à $time';
+  }
+
+  @override
+  String get monitorSettings => 'Monitor settings';
+
+  @override
+  String get monitorAgentDefault => 'Agent default';
+
+  @override
+  String get monitorNeedsRestart =>
+      'Prend effet après le redémarrage de l’agent';
+
+  @override
+  String get monitorCollection => 'Collection';
+
+  @override
+  String get extendedInterval => 'Intervalle de collecte étendue';
+
+  @override
+  String get idlePause => 'Suspendre lorsqu’aucun client ne consulte';
+
+  @override
+  String get idlePauseTip =>
+      'La collecte étendue exécute smartctl, sensors et amd-smi. La suspendre lorsqu’aucun client n’interroge l’agent évite de réveiller un disque pour des données que personne ne consulte.';
+
+  @override
+  String get idlePauseThreshold => 'Idle after';
+
+  @override
+  String get monitorAlerts => 'Alerts';
+
+  @override
+  String get monitoringRules => 'Alert rules';
+
+  @override
+  String get ruleMonitorType => 'Metric';
+
+  @override
+  String get ruleThreshold => 'Threshold';
+
+  @override
+  String get ruleMatcher => 'Matcher';
+
+  @override
+  String get ruleTip =>
+      'Métrique : cpu / memory / swap / disk / network / temperature. Cible : cpu0 pour un cœur, used / free / avail pour la mémoire, rx / tx pour le réseau ; disk et temperature ignorent ce champ. Seuil : un comparateur et une valeur, comme >=80%, >=70c ou >10m/s.';
+
+  @override
+  String get pushChannels => 'Canaux de notification';
+
+  @override
+  String get pushType => 'Type';
+
+  @override
+  String get pushRate => 'Rate limit';
+
+  @override
+  String get pushHeaders => 'Headers';
+
+  @override
+  String get pushSecretSet => 'Configuré sur l’agent, non affiché';
+
+  @override
+  String get pushSecretKeep => 'Laisser vide pour conserver';
+
+  @override
+  String get pushTestTip =>
+      'Envoie une notification par ce canal avec les réglages affichés, qu’ils soient enregistrés ou non.';
+
+  @override
+  String get pushTestSent => 'Le canal a accepté la notification';
+
+  @override
+  String get pushTestFailed => 'Le canal a refusé la notification';
+
+  @override
+  String get pushTestMessage => 'Notification de test de ServerBox Monitor';
+
+  @override
+  String get pushUnknownType =>
+      'Cet agent ne peut pas envoyer de notification par ce type de canal ; ses réglages ne sont donc pas affichés. Vous pouvez le supprimer ici ou le modifier dans le fichier config.toml de l’agent.';
+
+  @override
+  String get pushJsonInvalid => 'n’est pas un JSON valide';
+
+  @override
+  String get dataRetention => 'Data retention';
+
+  @override
+  String get dataRetentionTip =>
+      'Si cette option est désactivée, l’agent ne supprime rien et sa base de données augmente sans limite.';
+
+  @override
+  String get retentionMetrics => 'Keep metrics';
+
+  @override
+  String get retentionAlerts => 'Keep alerts';
+
+  @override
+  String get retentionCleanup => 'Exécuter le nettoyage toutes les';
+
+  @override
+  String get retentionMaxDbSize => 'Taille maximale de la base de données';
+
+  @override
+  String get corsOrigins => 'Origines autorisées par CORS';
+
+  @override
+  String get corsOriginsTip =>
+      'Origines depuis lesquelles un panneau web peut appeler cet agent. Une valeur vide limite les appels à la même origine.';
+
+  @override
+  String get monitorNoRemoteAccess =>
+      'Cet agent est configuré pour la surveillance uniquement. Vous ne pouvez pas ouvrir de terminal, exécuter de commandes ni parcourir les fichiers ici. Pour activer ces fonctions, modifiez [remote_access] dans le config.toml de l\'agent.';
+
+  @override
+  String get alerts => 'Alertes';
+
+  @override
+  String get online => 'en ligne';
+
+  @override
+  String get densityCards => 'Cartes';
+
+  @override
+  String get densityRows => 'Lignes';
+
+  @override
+  String get densityGrid => 'Grille';
+
+  @override
+  String get connect => 'Connecter';
+
+  @override
+  String get disconnect => 'Déconnecter';
+
+  @override
+  String get searchServerTip =>
+      'Recherche les noms et les adresses — les deux informations demandées en premier par l’éditeur.';
+
+  @override
+  String get addServerTip =>
+      'Remplissez-en un, scannez un QR code ou importez un fichier partagé par quelqu’un.';
+
+  @override
+  String get move => 'Déplacer';
+
+  @override
+  String get moveToTop => 'Déplacer en haut';
+
+  @override
+  String get moveToBottom => 'Déplacer en bas';
+
+  @override
+  String get groupByTag => 'Grouper par tag';
+
+  @override
+  String get groupByTagTip =>
+      'Les tags se définissent dans l’éditeur du serveur.';
+
+  @override
+  String get connecting => 'Connexion…';
+
+  @override
+  String get authShort => 'Auth';
+
+  @override
+  String get remoteDesktopFitToWindow => 'Ajuster à la fenêtre';
+
+  @override
+  String get remoteDesktopActualSize => 'Taille réelle';
+
+  @override
+  String get remoteDesktopZoom => 'Agrandissement';
+
+  @override
+  String get remoteDesktopViewOnly => 'Lecture seule';
+
+  @override
+  String get remoteDesktopDisableViewOnly => 'Désactiver la lecture seule';
+
+  @override
+  String get remoteDesktopSendClipboardText =>
+      'Envoyer le texte du presse-papiers';
+
+  @override
+  String get remoteDesktopShowKeyboard => 'Afficher le clavier';
+
+  @override
+  String get remoteDesktopMoreControls => 'Plus de commandes';
+
+  @override
+  String get remoteDesktopUseDirectPointer => 'Utiliser le pointeur direct';
+
+  @override
+  String get remoteDesktopUseTouchpadPointer =>
+      'Utiliser le pointeur du pavé tactile';
+
+  @override
+  String get remoteDesktopSendCtrlAltDelete => 'Envoyer Ctrl+Alt+Suppr';
+
+  @override
+  String get remoteDesktopReconnect => 'Reconnecter';
+
+  @override
+  String get remoteDesktopFullScreen => 'Plein écran';
+
+  @override
+  String get remoteDesktopExitFullScreen => 'Quitter le plein écran';
+
+  @override
+  String get remoteDesktopCloseSession => 'Fermer la session';
+
+  @override
+  String get remoteDesktopConnected => 'Connecté';
+
+  @override
+  String get remoteDesktopConnecting => 'Connexion en cours';
+
+  @override
+  String get remoteDesktopReconnecting => 'Reconnexion en cours';
+
+  @override
+  String get remoteDesktopDisconnected => 'Déconnecté';
+
+  @override
+  String get remoteDesktopGuideTouch => 'Pavé tactile';
+
+  @override
+  String get remoteDesktopGuideTouchTip =>
+      'Un doigt déplace le pointeur comme un pavé tactile, et un appui clique. Appuyez avec deux doigts pour un clic droit, glissez avec deux doigts pour défiler et pincez pour zoomer. Appuyez deux fois et gardez le doigt posé pour faire glisser.';
+
+  @override
+  String get remoteDesktopGuideKeyboardTip =>
+      'Ouvre le clavier à l\'écran. Ce que vous tapez est envoyé au bureau à distance.';
+
+  @override
+  String get remoteDesktopGuideViewOnlyTip =>
+      'Arrête d\'envoyer le pointeur et les touches, pour regarder sans cliquer par erreur.';
+
+  @override
+  String get remoteDesktopGuideMoreTip =>
+      'Ctrl+Alt+Suppr, la reconnexion et le plein écran sont ici.';
+
+  @override
+  String get remoteDesktopGuidePointerTip =>
+      'Tout comme le pointeur direct, où un doigt clique là où il touche.';
+
+  @override
+  String get remoteDesktopVncClipboardLatin1Only =>
+      'Le presse-papiers VNC ne prend en charge que le texte Latin-1.';
+
+  @override
+  String get remoteDesktopAddProfile => 'Ajouter un profil';
+
+  @override
+  String get remoteDesktopNoProfiles => 'Aucun profil de bureau à distance';
+
+  @override
+  String get remoteDesktopAdd => 'Ajouter un bureau à distance';
+
+  @override
+  String get remoteDesktopEdit => 'Modifier le bureau à distance';
+
+  @override
+  String get remoteDesktopTargetTip =>
+      'La cible est résolue depuis le serveur SSH ou l\'agent Monitor. localhost désigne cette machine.';
+
+  @override
+  String get remoteDesktopDomain => 'Domaine (facultatif)';
+
+  @override
+  String get remoteDesktopPassword => 'Mot de passe (facultatif)';
+
+  @override
+  String get remoteDesktopSavePassword => 'Enregistrer le mot de passe';
+
+  @override
+  String get remoteDesktopSavePasswordTip =>
+      'Stocké dans la base chiffrée. Les sauvegardes incluent les mots de passe enregistrés et ne sont chiffrées que si un mot de passe de sauvegarde est défini.';
+
+  @override
+  String get remoteDesktopShareSession => 'Partager la session';
+
+  @override
+  String get remoteDesktopProtocol => 'Protocole';
+
+  @override
+  String get remoteDesktopUniqueName =>
+      'Les noms de profil doivent être uniques pour ce serveur.';
+
+  @override
+  String get remoteDesktopVncPasswordLength =>
+      'Les mots de passe VNC classiques sont limités à 8 octets ASCII.';
+
+  @override
+  String get remoteDesktopNameRequired => 'Saisissez un nom de profil.';
+
+  @override
+  String get remoteDesktopHostRequired => 'Saisissez un hôte cible.';
+
+  @override
+  String get remoteDesktopPortRequired => 'Saisissez un port valide.';
+
+  @override
+  String get remoteDesktopUsernameRequired =>
+      'Saisissez le nom d\'utilisateur RDP.';
+
+  @override
+  String get remoteDesktopVncPasswordAscii =>
+      'Les mots de passe VNC classiques ne peuvent contenir que des caractères ASCII.';
+
+  @override
+  String get remoteDesktopCertificateRequired =>
+      'Confirmation du certificat requise';
+
+  @override
+  String get remoteDesktopWaiting => 'En attente du bureau…';
+
+  @override
+  String get remoteDesktopCertificateChanged =>
+      'Le certificat du bureau à distance a changé';
+
+  @override
+  String get remoteDesktopTrustCertificate => 'Faire confiance au certificat ?';
+
+  @override
+  String get remoteDesktopCertificateChangedTip =>
+      'L\'empreinte du certificat ne correspond plus à la valeur enregistrée. Vérifiez la nouvelle empreinte avant de remplacer la confiance.';
+
+  @override
+  String get remoteDesktopCertificateUnverifiedTip =>
+      'Le système n\'a pas pu vérifier ce certificat. Vérifiez son empreinte SHA-256 avant de continuer.';
+
+  @override
+  String get remoteDesktopReplaceTrust => 'Remplacer la confiance';
+
+  @override
+  String get remoteDesktopTrustReconnect => 'Faire confiance et reconnecter';
+
+  @override
+  String remoteDesktopDeleteProfile(String name) {
+    return 'Supprimer le profil de bureau à distance « $name » ?';
+  }
+
+  @override
+  String remoteDesktopReconnectAttempt(int attempt) {
+    return 'Reconnexion ($attempt/3)…';
+  }
+
+  @override
+  String remoteDesktopPreviousCertificate(String fingerprint) {
+    return 'Approuvé précédemment\n$fingerprint';
+  }
+
+  @override
+  String remoteDesktopCertificateSubject(String subject) {
+    return 'Sujet : $subject';
+  }
+
+  @override
+  String remoteDesktopCertificateIssuer(String issuer) {
+    return 'Émetteur : $issuer';
+  }
+
+  @override
+  String remoteDesktopCertificateValidity(String start, String end) {
+    return 'Valide : $start – $end';
+  }
+
+  @override
+  String get pveAuthToken => 'Jeton d\'API';
+
+  @override
+  String get pveVersionLow =>
+      'Cette fonctionnalité est actuellement en phase de test et n\'a été testée que sur PVE 8+. Veuillez l\'utiliser avec prudence.';
+
+  @override
+  String get pveTokenId => 'ID du jeton';
+
+  @override
+  String get pveTokenSecret => 'Secret du jeton';
+
+  @override
+  String get pveTokenTip =>
+      'Créez-le dans PVE sous Centre de données → Permissions → API Tokens. Il lui faut VM.Audit, VM.PowerMgmt, VM.Console, VM.Snapshot, VM.Snapshot.Rollback, Datastore.Audit et Sys.Audit sur les chemins à afficher ; avec la séparation des privilèges activée, accordez-les au jeton lui-même.';
+
+  @override
+  String pveTokenNoPrivileges(String account, String command) {
+    return 'Le jeton $account ne peut rien voir sur cet hôte. Un jeton avec séparation des privilèges n\'a pas les droits de son utilisateur ; accordez-lui-en sur l\'hôte PVE :\n$command\nou décochez « Privilege Separation » pour ce jeton.';
+  }
+
+  @override
+  String pveUserNoPrivileges(String account, String command) {
+    return '$account ne peut rien voir sur cet hôte. Accordez-lui des droits sur l\'hôte PVE :\n$command';
+  }
+
+  @override
+  String get pveTokenIdInvalid =>
+      'L\'ID du jeton doit avoir la forme user@realm!tokenid';
+
+  @override
+  String get pvePasswordAuthTip =>
+      'Se connecte en tant qu\'utilisateur SSH dans le realm PAM, avec le mot de passe SSH, ou avec le mot de passe PVE ci-dessous lorsque SSH utilise une clé. Un code à deux facteurs est demandé si nécessaire.';
+
+  @override
+  String get pveCertUnpinned =>
+      'Aucun confirmé pour l\'instant. Sauf s\'il est signé par une CA de confiance, la prochaine connexion affichera le certificat pour confirmation.';
+
+  @override
+  String get pveCertForget => 'Oublier le certificat';
+
+  @override
+  String get pveCertForgetTip =>
+      'La prochaine connexion affichera de nouveau le certificat PVE pour confirmation.';
+
+  @override
+  String get virtualization => 'Virtualisation';
+
+  @override
+  String get virtIntro =>
+      'Gérez les machines virtuelles et conteneurs sur les hôtes Proxmox VE et libvirt/KVM : état, actions d\'alimentation et consoles.';
+
+  @override
+  String get virtIntroPveMoved =>
+      'Proxmox VE a quitté la page du serveur pour cet onglet. La carte PVE d\'un serveur l\'ouvre ici.';
+
+  @override
+  String get virtIntroLibvirt =>
+      'Un serveur où virsh de libvirt est installé apparaît comme hôte, avec ses machines virtuelles QEMU/KVM.';
+
+  @override
+  String get virtIntroTransports =>
+      'Les deux fonctionnent via SSH, via un agent Monitor ou sur cet appareil.';
+
+  @override
+  String get virtIntroTokens =>
+      'PVE peut se connecter avec un jeton d\'API au lieu d\'un mot de passe. Réglez-le dans la page de modification du serveur, sous PVE.';
+
+  @override
+  String get virtIntroInBar => 'Il a été ajouté à la barre d\'onglets.';
+
+  @override
+  String get virtIntroInMore =>
+      'Il se trouve sous Plus. Onglets d\'accueil, dans les réglages, permet de le déplacer dans la barre d\'onglets.';
+
+  @override
+  String get virtGuests => 'Machines virtuelles';
+
+  @override
+  String get virtHosts => 'Hôtes';
+
+  @override
+  String get virtCheckServer => 'Vérifier ce serveur';
+
+  @override
+  String get virtCheckAll => 'Vérifier tous les serveurs';
+
+  @override
+  String get virtProbeNotChecked => 'Pas encore vérifié';
+
+  @override
+  String get virtProbeAbsent => 'Pas un hôte';
+
+  @override
+  String virtProbeContainer(String kind) {
+    return 'Conteneur $kind';
+  }
+
+  @override
+  String get virtProbeContainerTip =>
+      'Ce serveur tourne dans un conteneur : c\'est un invité, pas un hôte. Il se gère depuis l\'hôte qui l\'exécute.';
+
+  @override
+  String get virtProbePve => 'PVE, non configuré';
+
+  @override
+  String virtPveSetupTip(String version) {
+    return '$version tourne sur ce serveur. Renseignez son accès API dans les réglages du serveur (un jeton API est recommandé) pour gérer ici ses machines virtuelles et conteneurs.';
+  }
+
+  @override
+  String get virtNoHosts => 'Aucun hôte de virtualisation';
+
+  @override
+  String get virtNoHostsTip =>
+      'Un serveur sous Proxmox VE dont l\'accès API est renseigné est un hôte, tout comme un serveur où virsh répond. Les autres serveurs peuvent être vérifiés depuis le sélecteur d\'hôtes.';
+
+  @override
+  String get virtNoGuests => 'Aucune machine virtuelle ni conteneur';
+
+  @override
+  String get virtPaused => 'En pause';
+
+  @override
+  String get virtStarting => 'Démarrage…';
+
+  @override
+  String get virtStopping => 'Arrêt…';
+
+  @override
+  String get virtRebooting => 'Redémarrage…';
+
+  @override
+  String get virtMigrating => 'Migration…';
+
+  @override
+  String get virtBackingUp => 'Sauvegarde…';
+
+  @override
+  String get virtResume => 'Reprendre';
+
+  @override
+  String get virtOverview => 'Aperçu';
+
+  @override
+  String get virtConsole => 'Console';
+
+  @override
+  String get virtConsoleNone =>
+      'Aucune console n\'est configurée pour cet invité';
+
+  @override
+  String get virtConsoleGraphical => 'Graphique';
+
+  @override
+  String get virtVncPasswordNeeded => 'Cet affichage demande un mot de passe';
+
+  @override
+  String get virtConsoleSerialTip =>
+      'Ouvre la console série de l\'invité avec virsh sur l\'hôte. Déconnecter, ou Ctrl+], revient au shell de l\'hôte.';
+
+  @override
+  String virtConsoleVia(String transport) {
+    return 'via $transport';
+  }
+
+  @override
+  String get virtConsoleEnterTip => 'Aucune sortie ? Appuyez sur Entrée';
+
+  @override
+  String virtConsoleAutoEnter(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds secondes',
+      one: '1 seconde',
+    );
+    return 'Appui sur Entrée dans $_temp0 pour afficher l\'invite';
+  }
+
+  @override
+  String get virtConsoleEnterNow => 'Maintenant';
+
+  @override
+  String get virtOffTip =>
+      'Démarrez-la pour voir ici le processeur, la mémoire, le disque et le réseau en direct.';
+
+  @override
+  String get virtAllocated => 'Alloué';
+
+  @override
+  String virtRunningCount(int running, int total) {
+    return '$running en cours · $total au total';
+  }
+
+  @override
+  String get virtTemplate => 'Modèle';
+
+  @override
+  String get virtAutostart => 'Démarre avec l\'hôte';
+
+  @override
+  String get virtErrUnreachable => 'Impossible de joindre cet hôte';
+
+  @override
+  String get virtErrNotConfigured =>
+      'Les réglages PVE de ce serveur sont incomplets';
+
+  @override
+  String get virtErrNotConfiguredTip =>
+      'Vérifiez l\'adresse, ainsi que le mot de passe ou le jeton d\'API, dans les réglages du serveur.';
+
+  @override
+  String get virtErrAuthFailed => 'L\'hôte a refusé la connexion';
+
+  @override
+  String get virtErrCertUnconfirmed => 'Confirmez le certificat de l\'hôte';
+
+  @override
+  String get virtErrCertChanged => 'Le certificat de l\'hôte a changé';
+
+  @override
+  String get virtErrRelayNotGranted =>
+      'L\'agent Monitor ne relaie pas les connexions';
+
+  @override
+  String get virtErrExecNotGranted =>
+      'L\'agent Monitor n\'exécute pas de commandes';
+
+  @override
+  String get virtErrNotInstalled => 'virsh n\'est pas installé sur ce serveur';
+
+  @override
+  String get virtErrServerRemoved => 'Ce serveur n\'existe plus';
+
+  @override
+  String get virtErrSudoRequired =>
+      'sudo a besoin d\'un mot de passe pour accéder à libvirt';
+
+  @override
+  String get virtErrSudoRejected => 'sudo a refusé le mot de passe';
+
+  @override
+  String get virtErrInvalidResponse =>
+      'L\'hôte a répondu sous une forme inattendue';
+
+  @override
+  String get virtErrActionFailed => 'L\'hôte a refusé l\'action';
+
+  @override
+  String get remoteSessionIdleTimeout => 'Fermer après l\'avoir quittée';
+
+  @override
+  String get remoteSessionIdleTimeoutTip =>
+      'Durée pendant laquelle un bureau à distance ou la console d\'un invité reste connecté après l\'avoir quitté. Avant la fermeture, une notification vous laisse 10 secondes pour le garder.';
+
+  @override
+  String get remoteSessionKeepAlive => 'Garder';
+
+  @override
+  String get remoteSessionClosedAway => 'Fermé pour inactivité';
+
+  @override
+  String remoteSessionClosingIn(int seconds) {
+    return 'Fermeture dans $seconds s';
+  }
+
+  @override
+  String get virtSnapshots => 'Instantanés';
+
+  @override
+  String get virtSnapshotCreate => 'Prendre un instantané';
+
+  @override
+  String get virtSnapshotNone => 'Aucun instantané pour l\'instant';
+
+  @override
+  String get virtSnapshotWithMemory => 'Disques et mémoire';
+
+  @override
+  String get virtSnapshotDiskOnly => 'Disques uniquement';
+
+  @override
+  String get virtSnapshotParent => 'Parent';
+
+  @override
+  String get virtSnapshotRevert => 'Restaurer';
+
+  @override
+  String get virtSnapshotMemory => 'Inclure la mémoire';
+
+  @override
+  String get virtSnapshotMemoryTip =>
+      'La restauration reprend l\'invité à cet instant.';
+
+  @override
+  String get virtSnapshotMemoryAlways =>
+      'Ici, l\'instantané d\'un invité en cours d\'exécution inclut toujours sa mémoire.';
+
+  @override
+  String get virtSnapshotMemoryOff =>
+      'L\'invité n\'est pas en cours d\'exécution : seuls ses disques sont enregistrés.';
+
+  @override
+  String get virtSnapshotNameInvalid =>
+      'Une lettre d\'abord, puis lettres, chiffres, - ou _ ; 2 à 40 caractères.';
+
+  @override
+  String get virtSnapshotNameTaken => 'Un instantané porte déjà ce nom.';
+
+  @override
+  String get virtSnapshotRevertTip =>
+      'La restauration annule toutes les modifications faites depuis l\'instantané.';
+
+  @override
+  String virtSnapshotRevertAsk(String guest, String snapshot) {
+    return 'Restaurer $guest à $snapshot ? Toutes les modifications depuis seront perdues.';
+  }
+
+  @override
+  String virtSnapshotRevertStops(String guest) {
+    return 'Cet instantané n\'a pas de mémoire : $guest sera arrêté.';
+  }
+
+  @override
+  String get virtSnapshotStartAfter => 'Le démarrer ensuite';
+
+  @override
+  String get virtVolumes => 'Volumes';
+
+  @override
+  String get virtNoPools => 'Aucun pool de stockage';
+
+  @override
+  String get virtNoNetworks => 'Aucun réseau';
+
+  @override
+  String get virtPoolInactive =>
+      'Le pool n\'est pas actif : ses volumes ne peuvent pas être listés.';
+
+  @override
+  String get virtShared => 'Partagé entre les nœuds';
+
+  @override
+  String get virtBackingFile => 'Fichier de base';
+
+  @override
+  String get virtNetIsolated => 'Isolé';
+
+  @override
+  String get virtNetBridged => 'Pont';
+
+  @override
+  String get virtNetRouted => 'Routé';
+
+  @override
+  String get virtBridge => 'Pont';
+
+  @override
+  String get virtPorts => 'Ports';
+
+  @override
+  String get virtAttachedGuests => 'Invités connectés';
+
+  @override
+  String get virtNoAttachedGuests => 'Aucun invité connecté';
+
+  @override
+  String get virtCreateVm => 'Nouvelle machine virtuelle';
+
+  @override
+  String get virtCreateLxc => 'Nouveau conteneur';
+
+  @override
+  String get virtCreateGuest =>
+      'Nouvelle machine virtuelle ou nouveau conteneur';
+
+  @override
+  String get virtKindVm => 'Machine virtuelle';
+
+  @override
+  String get virtKindLxc => 'Conteneur';
+
+  @override
+  String get virtHostname => 'Nom d\'hôte';
+
+  @override
+  String get virtInstallMedia => 'Support d\'installation';
+
+  @override
+  String get virtNoIsos => 'Aucune image ISO sur cet hôte';
+
+  @override
+  String get virtNoTemplates =>
+      'Aucun modèle de conteneur sur cet hôte. Les modèles CT d\'un stockage dans PVE permettent d\'en télécharger un.';
+
+  @override
+  String get virtNoDiskStorage =>
+      'Aucun stockage de cet hôte n\'accepte un nouveau disque';
+
+  @override
+  String get virtStartAfterCreate => 'Le démarrer une fois créé';
+
+  @override
+  String get virtUnprivileged => 'Conteneur non privilégié';
+
+  @override
+  String get virtUnprivilegedTip =>
+      'Son root est un utilisateur ordinaire sur l\'hôte.';
+
+  @override
+  String get virtSshKeys => 'Clés publiques SSH';
+
+  @override
+  String get virtCredentialsTip =>
+      'Un mot de passe root, des clés SSH, ou les deux.';
+
+  @override
+  String virtCreated(String name) {
+    return '$name créé';
+  }
+
+  @override
+  String virtCreatedNotStarted(String name) {
+    return '$name a été créé mais n\'a pas démarré';
+  }
+
+  @override
+  String get virtErrExists => 'Un invité ou un disque de ce nom existe déjà';
+
+  @override
+  String get virtCreateNameInvalidLibvirt =>
+      'Lettres, chiffres, ., _ et -, commençant par une lettre ou un chiffre ; 63 caractères au plus.';
+
+  @override
+  String get virtCreateNameInvalidPve =>
+      'Lettres, chiffres et -, en parties séparées par des points ; 63 caractères au plus.';
+
+  @override
+  String get virtCreateNameTaken => 'Un invité de ce nom existe.';
+
+  @override
+  String get virtCreateVmidTaken => 'Ce VMID est pris.';
+
+  @override
+  String get virtCreateCoresInvalid =>
+      'Plus de cœurs que cet hôte n\'en permet.';
+
+  @override
+  String get virtCreateMemoryInvalid => 'Pas assez de mémoire.';
+
+  @override
+  String get virtCreateStorageMissing => 'Choisissez où va son disque.';
+
+  @override
+  String get virtCreateDiskInvalid => 'De 1 Gio à 64 Tio.';
+
+  @override
+  String get virtCreateTemplateMissing => 'Choisissez un modèle.';
+
+  @override
+  String get virtCreateCredentialsMissing =>
+      'Définissez un mot de passe root ou une clé SSH.';
+
+  @override
+  String virtCreatePasswordShort(int min) {
+    return 'Au moins $min caractères.';
+  }
+
+  @override
+  String get virtCreateSshKeysInvalid => 'Une clé publique OpenSSH par ligne.';
+
+  @override
+  String get virtDeleteDisks => 'Supprimer aussi ses disques';
+
+  @override
+  String get virtDeleteDisksPve =>
+      'Ses disques sont supprimés avec lui ; le support d\'installation est conservé.';
+
+  @override
+  String virtDeleted(String name) {
+    return '$name supprimé';
+  }
+
+  @override
+  String get pveTokenTipCreate =>
+      'Créer et supprimer des invités demande aussi VM.Allocate, VM.Config.*, Datastore.AllocateSpace et SDN.Use.';
+
+  @override
+  String get pveTokenTipHardware =>
+      'Modifier le matériel requiert VM.Config.CPU, VM.Config.Memory, VM.Config.Disk, VM.Config.CDROM, VM.Config.Network et VM.Config.Options ; les nouveaux disques et interfaces requièrent aussi Datastore.AllocateSpace et SDN.Use. La carte graphique et les périphériques USB et PCI demandent aussi VM.Config.HWType ; un périphérique transmis par un mappage de ressources demande Mapping.Use sur celui-ci, et Mapping.Audit pour lister les mappages.';
+
+  @override
+  String get pveTokenTipBackup =>
+      'Le clonage nécessite VM.Clone, la sauvegarde et la restauration VM.Backup, et la conversion en modèle VM.Allocate ; les tâches de sauvegarde nécessitent aussi Sys.Audit pour les lire et Sys.Modify sur / pour les créer, modifier et supprimer, avec Datastore.AllocateSpace là où va la copie ou la sauvegarde.';
+
+  @override
+  String get virtErrConflict => 'Modifié ailleurs';
+
+  @override
+  String get virtErrConflictTip =>
+      'Quelqu\'un a modifié cette configuration après sa lecture ici, donc rien n\'a été changé. Elle a été relue : refaites la modification si elle s\'applique encore.';
+
+  @override
+  String get virtHardware => 'Matériel';
+
+  @override
+  String get virtHwAddDisk => 'Ajouter un disque';
+
+  @override
+  String get virtHwAddMount => 'Ajouter un point de montage';
+
+  @override
+  String get virtHwAddNic => 'Ajouter une interface réseau';
+
+  @override
+  String get virtHwAppliesOnRestart =>
+      'Enregistré. Effectif au prochain démarrage.';
+
+  @override
+  String get virtHwAutostart => 'Démarrer avec l\'hôte';
+
+  @override
+  String get virtHwAutostartPve => 'onboot · démarrés dans l\'ordre des VMID';
+
+  @override
+  String get virtHwBalloonLibvirt => 'Mémoire actuelle';
+
+  @override
+  String get virtHwBalloonNote =>
+      'Permet à l\'hôte de reprendre la mémoire inutilisée de l\'invité quand elle manque';
+
+  @override
+  String get virtHwBoot => 'Démarrage';
+
+  @override
+  String get virtHwBootOrder => 'Ordre de démarrage';
+
+  @override
+  String get virtHwBootTip =>
+      'Les flèches déplacent un périphérique ; un appui active ou non le démarrage dessus.';
+
+  @override
+  String get virtHwCdrom => 'CD-ROM';
+
+  @override
+  String get virtHwConfigFile => 'Fichier de configuration';
+
+  @override
+  String get virtHwCores => 'Cœurs';
+
+  @override
+  String get virtHwCpuTypeDefault => 'Par défaut';
+
+  @override
+  String get virtHwDeleteVolume => 'Supprimer aussi son volume';
+
+  @override
+  String get virtHwDetach => 'Détacher';
+
+  @override
+  String get virtHwDiskHotplug =>
+      'Enfichable à chaud : ajout possible en marche';
+
+  @override
+  String get virtHwDisksLxc => 'Disque racine et points de montage';
+
+  @override
+  String get virtHwEject => 'Éjecter';
+
+  @override
+  String get virtHwEmpty => 'Aucun média';
+
+  @override
+  String get virtHwFirewall => 'Pare-feu';
+
+  @override
+  String virtHwFree(String size) {
+    return '$size libres';
+  }
+
+  @override
+  String get virtHwGrow => 'Agrandir';
+
+  @override
+  String get virtHwGrowNote => 'Les disques ne font que grandir.';
+
+  @override
+  String get virtHwGrowNoteRunning =>
+      'Les disques ne font que grandir. Agrandi en marche, la partition doit être étendue dans l\'invité.';
+
+  @override
+  String get virtHwGuestUsed => 'Utilisée par l\'invité';
+
+  @override
+  String virtHwHostCpus(int threads, int allocated) {
+    return 'Hôte $threads threads · $allocated attribués';
+  }
+
+  @override
+  String virtHwHostMem(String total, String allocated) {
+    return 'Hôte $total · $allocated attribués';
+  }
+
+  @override
+  String get virtHwHotplugNow => 'Enfichable à chaud : effectif immédiatement.';
+
+  @override
+  String get virtHwIssueBootEmpty => 'Cochez au moins un périphérique';
+
+  @override
+  String virtHwIssueCpuCount(int max) {
+    return 'Entre 1 et $max vCPU au total';
+  }
+
+  @override
+  String get virtHwIssueCpuOnline => 'vCPU actifs : de 1 au total';
+
+  @override
+  String get virtHwIssueDiskShrink =>
+      'Plus grand qu\'actuellement : les disques ne font que grandir';
+
+  @override
+  String get virtHwIssueDiskSize => 'De 1 à 65536 Gio';
+
+  @override
+  String virtHwIssueMemory(int min, int max) {
+    return 'De $min à $max Mio';
+  }
+
+  @override
+  String get virtHwIssueMemoryMin => 'Pas plus que la mémoire';
+
+  @override
+  String get virtHwIssueMountPoint => 'Un chemin absolu, comme /data';
+
+  @override
+  String get virtHwIssueStorageSpace => 'Plus que l\'espace libre du stockage';
+
+  @override
+  String get virtHwIssueSwap => 'Pas négatif';
+
+  @override
+  String get virtHwLater => 'Effectif au redémarrage';
+
+  @override
+  String get virtHwLess => 'Moins';
+
+  @override
+  String get virtHwLinkDown => 'Déconnectée';
+
+  @override
+  String get virtHwLinkNote =>
+      'Coupé, l\'invité voit son câble débranché ; pas de redémarrage';
+
+  @override
+  String get virtHwLinkUp => 'Connectée';
+
+  @override
+  String get virtHwMac => 'Adresse MAC';
+
+  @override
+  String get virtHwModel => 'Modèle';
+
+  @override
+  String get virtHwMore => 'Plus';
+
+  @override
+  String get virtHwMountFromPool =>
+      'Les points de montage sont alloués directement depuis un stockage';
+
+  @override
+  String get virtHwMountPoint => 'Point de montage';
+
+  @override
+  String get virtHwMoveDown => 'Descendre';
+
+  @override
+  String get virtHwMoveUp => 'Monter';
+
+  @override
+  String get virtHwNewDisk => 'Nouveau disque';
+
+  @override
+  String get virtHwNewMount => 'Nouveau point de montage';
+
+  @override
+  String get virtHwNewNic => 'Nouvelle interface réseau';
+
+  @override
+  String get virtHwNicHotplug =>
+      'Les interfaces virtio sont enfichables à chaud';
+
+  @override
+  String get virtHwNics => 'Interfaces réseau';
+
+  @override
+  String get virtHwNoMedia => 'Aucun média';
+
+  @override
+  String get virtHwNoNetworks => 'Aucun réseau ni pont ici';
+
+  @override
+  String get virtHwNoStorage => 'Aucun stockage ici n\'accepte de disques';
+
+  @override
+  String get virtHwOnline => 'vCPU actifs';
+
+  @override
+  String get virtHwPendingBanner =>
+      'Certaines modifications matérielles s\'appliquent au redémarrage';
+
+  @override
+  String get virtHwPickNet => 'Choisissez un réseau';
+
+  @override
+  String get virtHwPickPool => 'Choisissez un stockage et une taille';
+
+  @override
+  String get virtHwProcessor => 'Processeur';
+
+  @override
+  String get virtHwRemove => 'Retirer';
+
+  @override
+  String get virtHwRemoveCdrom => 'Retirer le CD-ROM';
+
+  @override
+  String virtHwRemoveDiskAsk(String disk, String guest) {
+    return 'Retirer $disk de $guest ?';
+  }
+
+  @override
+  String virtHwRemoveNicAsk(String nic, String guest) {
+    return 'Retirer $nic de $guest ?';
+  }
+
+  @override
+  String get virtHwResources => 'Ressources';
+
+  @override
+  String get virtHwRestartNow => 'Redémarrer maintenant';
+
+  @override
+  String get virtHwRevert => 'Annuler';
+
+  @override
+  String get virtHwRevertAll => 'Tout annuler';
+
+  @override
+  String get virtSetRenameStopped =>
+      'Arrêtez l\'invité pour le renommer : libvirt ne renomme qu\'un invité à l\'arrêt.';
+
+  @override
+  String virtSetIssueDescription(int max) {
+    return '$max octets (UTF-8) au plus, sans caractères de contrôle.';
+  }
+
+  @override
+  String get virtSetManualStart => 'Démarré à la main';
+
+  @override
+  String get virtSetProtection => 'Protection';
+
+  @override
+  String get virtSetProtectionNote =>
+      'Empêche de supprimer l\'invité et de modifier ses disques';
+
+  @override
+  String get virtSetIrreversible => 'Irréversible';
+
+  @override
+  String get virtSetDeleteStopFirst => 'Arrêtez-le avant de le supprimer.';
+
+  @override
+  String get virtSetDeleteProtected =>
+      'La protection est active : désactivez-la d\'abord dans Général.';
+
+  @override
+  String get virtSetDeleteAgain => 'Appuyez à nouveau pour confirmer';
+
+  @override
+  String virtSetDeleteConfirm(String name) {
+    return 'Supprimer $name';
+  }
+
+  @override
+  String get virtSetDeleteVm => 'Supprimer la machine virtuelle';
+
+  @override
+  String get virtSetDeleteLxc => 'Supprimer le conteneur';
+
+  @override
+  String get virtHwSockets => 'Sockets';
+
+  @override
+  String get virtHwSource => 'Source';
+
+  @override
+  String get virtHwSwap => 'Swap';
+
+  @override
+  String get virtHwTopology => 'Sockets × cœurs';
+
+  @override
+  String virtHwTopologyValue(int sockets, int cores, int threads) {
+    return '$sockets sockets × $cores cœurs × $threads threads';
+  }
+
+  @override
+  String virtHwTotal(String size) {
+    return '$size au total';
+  }
+
+  @override
+  String get virtHwVolumeKept =>
+      'Retiré, mais l\'invité en cours utilise encore le disque, donc son volume a été conservé. Il sera détaché au prochain démarrage.';
+
+  @override
+  String get virtHwBus => 'Bus';
+
+  @override
+  String get virtHwCache => 'Cache';
+
+  @override
+  String get virtHwBusStopped =>
+      'Le bus ne change que lorsque l\'invité est arrêté.';
+
+  @override
+  String get virtHwMacGenerate => 'Générer';
+
+  @override
+  String get virtHwIssueMac =>
+      'Doit être une adresse MAC unicast, par ex. 52:54:00:12:34:56';
+
+  @override
+  String get virtHwIssueStopFirst => 'Arrêtez d\'abord l\'invité';
+
+  @override
+  String get virtHwIssueStorageMissing => 'Choisissez d\'abord un stockage';
+
+  @override
+  String get virtHwIssueDevice => 'Choisissez d\'abord un périphérique';
+
+  @override
+  String get virtHwDevices => 'CD-ROM et passthrough';
+
+  @override
+  String get virtHwDevicesEmpty => 'Passthrough USB et PCI, CD-ROM, TPM';
+
+  @override
+  String get virtHwAddDevice => 'Ajouter un périphérique';
+
+  @override
+  String get virtHwNewDevice => 'Nouveau périphérique';
+
+  @override
+  String get virtHwUsbHotplug => 'Le passthrough USB est enfichable à chaud.';
+
+  @override
+  String get virtHwPci => 'Passthrough PCI';
+
+  @override
+  String get virtHwIommuOffTitle => 'L\'hôte n\'a pas d\'IOMMU';
+
+  @override
+  String get virtHwIommuOffBody =>
+      'Activez d\'abord VT-d ou AMD-Vi dans le BIOS de l\'hôte et l\'IOMMU dans son noyau. D\'ici là, un invité doté d\'un périphérique PCI ne démarrera pas.';
+
+  @override
+  String get virtHwPciTitle => 'Nécessite l\'IOMMU sur l\'hôte';
+
+  @override
+  String get virtHwPciBody =>
+      'Une fois transmis, l\'hôte ne peut plus utiliser le périphérique et l\'invité ne peut plus migrer à chaud.';
+
+  @override
+  String virtHwIommuGroup(int group) {
+    return 'Groupe IOMMU $group';
+  }
+
+  @override
+  String virtHwIommuShared(int count) {
+    return '$count périphériques partagent son groupe IOMMU et sont transmis ensemble';
+  }
+
+  @override
+  String get virtHwNoHostDevices =>
+      'Aucun périphérique à transmettre sur cet hôte';
+
+  @override
+  String get virtHwMappingsOnly =>
+      'Seuls les mappages de ressources sont utilisables ici : PVE ne laisse que root@pam, connecté avec son mot de passe, transmettre un périphérique brut. Créez des mappages sous Centre de données → Mappages de ressources.';
+
+  @override
+  String get virtHwTpmNote => 'Windows 11 exige TPM 2.0.';
+
+  @override
+  String get virtHwDisplay => 'Affichage';
+
+  @override
+  String get virtHwProtocol => 'Protocole';
+
+  @override
+  String get virtHwListen => 'Écoute';
+
+  @override
+  String get virtHwGpu => 'Carte graphique';
+
+  @override
+  String get virtHwListenAllTitle => 'La console est ouverte au réseau';
+
+  @override
+  String get virtHwListenAllBody =>
+      'Écouter sur toutes les adresses permet à quiconque atteint l\'hôte d\'ouvrir la console. Gardez 127.0.0.1 et connectez-vous via un tunnel SSH.';
+
+  @override
+  String get virtHwFirmware => 'Micrologiciel';
+
+  @override
+  String get virtHwUefiSub =>
+      'OVMF · compatible Secure Boot, exigé par Windows 11';
+
+  @override
+  String get virtHwBiosSub => 'SeaBIOS · anciens systèmes et disques MBR';
+
+  @override
+  String get virtHwSecureBootNote =>
+      'Ne démarre que des noyaux et chargeurs signés';
+
+  @override
+  String get virtHwFirmwareWarnTitle =>
+      'Ne changez pas le micrologiciel d\'un système installé';
+
+  @override
+  String get virtHwFirmwareWarnBody =>
+      'Passer de UEFI à BIOS ou l\'inverse empêche un système installé de démarrer.';
+
+  @override
+  String get virtHwFirmwareStopped =>
+      'Le micrologiciel ne change que lorsque l\'invité est arrêté.';
+
+  @override
+  String get virtHwSecureBootVars =>
+      'Activer ou désactiver Secure Boot recrée les variables EFI ; les entrées de démarrage qui y sont enregistrées sont perdues.';
+
+  @override
+  String get virtHwEfiStorage => 'Où vont les variables EFI';
+
+  @override
+  String virtHwSwitchFirmwareAsk(String guest, String firmware) {
+    return 'Passer $guest en $firmware ?';
+  }
+
+  @override
+  String get virtCloneName => 'Nouveau nom';
+
+  @override
+  String get virtCloneFull => 'Clone complet';
+
+  @override
+  String get virtCloneCopyDisks => 'Copier le contenu des disques';
+
+  @override
+  String get virtCloneLinkedNote =>
+      'Désactivé : un clone lié, qui dépend des disques du modèle';
+
+  @override
+  String get virtCloneFullOnly => 'Seul un modèle peut être cloné en clone lié';
+
+  @override
+  String get virtCloneEmptyNote =>
+      'Désactivé : de nouveaux disques vides de même taille';
+
+  @override
+  String get virtCloneStopFirst => 'Éteignez-la avant de la cloner.';
+
+  @override
+  String get virtCloneFullShort => 'Complet';
+
+  @override
+  String get virtCloneLinkedShort => 'Lié';
+
+  @override
+  String get virtCloneEmptyShort => 'Disques vides';
+
+  @override
+  String get virtCloning => 'Clonage…';
+
+  @override
+  String virtCloned(String name) {
+    return 'Cloné sous $name';
+  }
+
+  @override
+  String get virtBackupPlan => 'Planification';
+
+  @override
+  String get virtBackupPlanWhere => 'Centre de données → Sauvegarde';
+
+  @override
+  String get virtBackupNoPlanShort => 'Aucune planification';
+
+  @override
+  String get virtBackupNoPlan =>
+      'Aucune tâche de sauvegarde planifiée n\'inclut cet invité.';
+
+  @override
+  String get virtBackupKeep => 'Conservation';
+
+  @override
+  String get virtBackupJobDisabled => 'Cette tâche est désactivée.';
+
+  @override
+  String virtBackupCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sauvegardes',
+      one: '1 sauvegarde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String virtSnapshotCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count instantanés',
+      one: '1 instantané',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get virtBackupNoStorage =>
+      'Aucun stockage de ce nœud ne contient de sauvegardes.';
+
+  @override
+  String get virtBackupLiveTip =>
+      'En marche : mode snapshot, sans interruption';
+
+  @override
+  String get virtBackupStoppedTip => 'Arrêté : sauvegardé tel quel';
+
+  @override
+  String get virtBackupNow => 'Sauvegarder maintenant';
+
+  @override
+  String get virtBackupNotes => 'Notes';
+
+  @override
+  String get virtBackupProtected =>
+      'Protégée : elle ne peut pas être supprimée tant que la protection n\'est pas retirée dans PVE.';
+
+  @override
+  String virtBackupVerified(String state) {
+    return 'Vérification : $state';
+  }
+
+  @override
+  String get virtBackupRestoreOverwrites =>
+      'La restauration écrase les disques actuels';
+
+  @override
+  String get virtBackupStopFirst => 'Éteignez-la avant de restaurer.';
+
+  @override
+  String get virtBackupRestoreAgain =>
+      'Les disques et la configuration de l\'invité sont remplacés par ceux de la sauvegarde.';
+
+  @override
+  String get virtBackupDeleteConfirm => 'Supprimer la sauvegarde';
+
+  @override
+  String get virtBackupRestoreNew => 'Restaurer en nouveau';
+
+  @override
+  String get virtBackupRestoreConfirm => 'Restaurer par-dessus';
+
+  @override
+  String get virtBackupDone => 'Sauvegarde terminée';
+
+  @override
+  String get virtBackupDeleted => 'Sauvegarde supprimée';
+
+  @override
+  String virtBackupRestored(String time) {
+    return 'Restauré depuis $time';
+  }
+
+  @override
+  String pveNeedsPrivilege(
+    String account,
+    String privilege,
+    String path,
+    String command,
+  ) {
+    return '$account n\'a pas $privilege sur $path. Accordez-le sur l\'hôte PVE :\n$command';
+  }
+
+  @override
+  String get virtCanDelete => 'Peut être supprimé';
+
+  @override
+  String get virtInUse => 'Utilisé';
+
+  @override
+  String get virtOps => 'Opérations';
+
+  @override
+  String get virtPool => 'Pool de stockage';
+
+  @override
+  String get virtPoolNew => 'Nouveau pool de stockage';
+
+  @override
+  String get virtStorageAdd => 'Ajouter un stockage';
+
+  @override
+  String virtPoolUsedPct(String pct) {
+    return '$pct % utilisé';
+  }
+
+  @override
+  String get virtPoolInUse =>
+      'Une VM utilise un volume ici : le pool ne peut être ni arrêté ni supprimé.';
+
+  @override
+  String get virtPoolDelete => 'Supprimer le pool';
+
+  @override
+  String get virtStorageRemove => 'Retirer le stockage';
+
+  @override
+  String virtPoolDeleteAsk(String name) {
+    return 'Supprimer le pool $name ? Sa définition disparaît ; ses volumes restent où ils sont.';
+  }
+
+  @override
+  String virtStorageRemoveAsk(String name) {
+    return 'Retirer le stockage $name de la configuration de PVE ? Son contenu est conservé.';
+  }
+
+  @override
+  String virtPoolDeleteKeepsVolumes(int count) {
+    return 'Ses $count volumes restent sur le disque.';
+  }
+
+  @override
+  String get virtPoolDeleteStorage =>
+      'Supprimer aussi son répertoire (seulement s\'il est vide)';
+
+  @override
+  String virtPoolStopAsk(String name) {
+    return 'Arrêter le pool $name ? Ses volumes ne pourront être ni listés ni créés avant son redémarrage.';
+  }
+
+  @override
+  String get virtStorageClusterWide =>
+      'Cela s\'applique à chaque nœud du cluster qui a ce stockage.';
+
+  @override
+  String get virtStorageDisable => 'Désactiver';
+
+  @override
+  String get virtStorageEnable => 'Activer';
+
+  @override
+  String virtStorageDisableAsk(String name) {
+    return 'Désactiver le stockage $name ? Les VM ayant des disques dessus ne démarreront pas avant sa réactivation.';
+  }
+
+  @override
+  String get virtPoolLogicalNote =>
+      'Un groupe de volumes existant est utilisé tel quel ; rien n\'est formaté.';
+
+  @override
+  String get virtPoolMountPoint => 'Point de montage';
+
+  @override
+  String get virtPoolSourceNfs => 'Source (hôte:/chemin)';
+
+  @override
+  String get virtPoolSourceVg => 'Groupe de volumes';
+
+  @override
+  String get virtPoolSourceThin => 'Groupe de volumes / thin pool';
+
+  @override
+  String get virtPoolSourceZfs => 'Pool ZFS';
+
+  @override
+  String get virtPoolTypeVg => 'Groupe de volumes LVM';
+
+  @override
+  String get virtResNameEmpty => 'Saisissez un nom';
+
+  @override
+  String get virtResNameInvalid =>
+      'Nom refusé par cet hôte (lettres, chiffres, . _ -)';
+
+  @override
+  String get virtResSourceInvalid => 'Chemin ou source non valide';
+
+  @override
+  String get virtResTargetInvalid => 'Un chemin absolu';
+
+  @override
+  String get virtResCidrInvalid =>
+      'Une adresse avec son préfixe, p. ex. 192.168.150.1/24';
+
+  @override
+  String get virtResDhcpInvalid =>
+      'Deux adresses du réseau, dans l\'ordre, sans celle de l\'hôte';
+
+  @override
+  String get virtResSubnetTaken => 'Un autre réseau ici est sur ce sous-réseau';
+
+  @override
+  String get virtResBridgeInvalid => 'Pas un nom d\'interface';
+
+  @override
+  String get virtResFormat => 'Ce pool n\'accepte pas ce format';
+
+  @override
+  String get virtVolNew => 'Nouveau volume';
+
+  @override
+  String virtVolCount(int count) {
+    return '$count volumes';
+  }
+
+  @override
+  String get virtVolNone => 'Ce pool n\'a encore aucun volume.';
+
+  @override
+  String get virtVolEmptyAttach =>
+      'Un nouveau volume peut être attaché plus tard à n\'importe quelle VM';
+
+  @override
+  String get virtVolEmptyUpload =>
+      'Un ISO peut aussi être téléversé directement';
+
+  @override
+  String get virtVolPveName =>
+      'PVE nomme un volume d\'après sa VM : vm-<VMID>-disk-<N>';
+
+  @override
+  String get virtVolUsers => 'Utilisé par';
+
+  @override
+  String get virtVolAllocated => 'Alloué';
+
+  @override
+  String get virtVolGrowFromGuest =>
+      'Une VM l\'utilise : agrandissez-le depuis la vue Matériel de cette VM';
+
+  @override
+  String get virtVolInUse => 'Une VM utilise ce volume';
+
+  @override
+  String virtVolBackingOf(String names) {
+    return 'Fichier de base de $names';
+  }
+
+  @override
+  String get virtVolIsBase =>
+      'D\'autres volumes reposent sur celui-ci ; le supprimer les casserait';
+
+  @override
+  String get virtVolAttach => 'Attacher à la VM';
+
+  @override
+  String get virtVolAttachNote =>
+      'Attaché comme nouveau disque, sur le bus de son premier disque';
+
+  @override
+  String virtVolAttached(String name) {
+    return 'Attaché à $name';
+  }
+
+  @override
+  String get virtVolInsert => 'Insérer dans le CD-ROM';
+
+  @override
+  String virtVolInserted(String name) {
+    return 'Inséré dans le lecteur CD-ROM de $name';
+  }
+
+  @override
+  String virtVolNoCdrom(String name) {
+    return '$name n\'a pas de lecteur CD-ROM';
+  }
+
+  @override
+  String virtVolDeleteAsk(String name, String pool) {
+    return 'Supprimer le volume $name de $pool ? Son contenu sera définitivement perdu.';
+  }
+
+  @override
+  String get virtUploadIso => 'Téléverser un ISO';
+
+  @override
+  String virtUploadTo(String pool) {
+    return 'Téléverser vers $pool';
+  }
+
+  @override
+  String virtUploadDone(String name) {
+    return '$name téléversé';
+  }
+
+  @override
+  String get virtNetConfig => 'Configuration';
+
+  @override
+  String get virtNetConfigFile => 'Fichier de configuration';
+
+  @override
+  String get virtNetInternal => 'Interne';
+
+  @override
+  String get virtNetBridgePorts => 'Ports du pont';
+
+  @override
+  String get virtNetHostBridge => 'Pont de l\'hôte';
+
+  @override
+  String get virtNetPortsHint => 'eno2 ; vide pour un pont interne';
+
+  @override
+  String get virtNetDhcpRange => 'Plage DHCP';
+
+  @override
+  String get virtNetDhcpTip => 'dnsmasq attribue les adresses des VM';
+
+  @override
+  String get virtNetVlanTip =>
+      'Les cartes réseau des VM peuvent porter une étiquette VLAN';
+
+  @override
+  String get virtNetNatTip => 'Via l\'hôte : les VM sortent, rien n\'entre';
+
+  @override
+  String get virtNetRoutedTip =>
+      'Routé par l\'hôte sans NAT : le LAN a besoin d\'une route de retour';
+
+  @override
+  String get virtNetIsolatedTip =>
+      'Seuls les VM et l\'hôte communiquent entre eux';
+
+  @override
+  String get virtNetBridgedTip =>
+      'Les VM rejoignent un pont de l\'hôte, sur son réseau physique';
+
+  @override
+  String get virtNetNew => 'Nouveau réseau';
+
+  @override
+  String get virtNetNewBridge => 'Nouveau pont Linux';
+
+  @override
+  String get virtNetVirtual => 'Réseau virtuel';
+
+  @override
+  String get virtNetDelete => 'Supprimer le réseau';
+
+  @override
+  String virtNetDeleteAsk(String name) {
+    return 'Supprimer le réseau $name ? Il est arrêté et sa définition supprimée.';
+  }
+
+  @override
+  String virtNetDeleteAskPve(String name, String node) {
+    return 'Retirer le pont $name de $node ? Il quitte maintenant la configuration en attente, et l\'hôte une fois celle-ci appliquée.';
+  }
+
+  @override
+  String virtNetInUse(int count) {
+    return 'VM dessus : $count. Impossible de le supprimer.';
+  }
+
+  @override
+  String virtNetStopAsk(String name, int count) {
+    return 'Arrêter $name ? Les $count VM dessus perdent le réseau jusqu\'à son redémarrage.';
+  }
+
+  @override
+  String get virtNetInactivePve =>
+      'Inactif : un nouveau pont attend dans la configuration en attente jusqu\'à son application.';
+
+  @override
+  String get virtNetPveApplyNote =>
+      'Enregistré comme modification en attente : effectif à l\'application de la configuration (ifreload -a).';
+
+  @override
+  String get virtNetPendingSaved =>
+      'Enregistré en attente : appliquez la configuration pour que cela prenne effet';
+
+  @override
+  String virtNetPendingTitle(String node) {
+    return 'Modifications réseau en attente sur $node';
+  }
+
+  @override
+  String get virtNetPendingTip =>
+      'PVE garde les modifications réseau dans interfaces.new jusqu\'à leur application.';
+
+  @override
+  String get virtNetPendingShow => 'Voir les modifications';
+
+  @override
+  String get virtNetApply => 'Appliquer la configuration';
+
+  @override
+  String virtNetApplyAsk(String node) {
+    return 'Appliquer la configuration réseau en attente sur $node ? PVE recharge le réseau de l\'hôte (ifreload -a) : une erreur peut couper l\'hôte.';
+  }
+
+  @override
+  String virtNetRevertAsk(String node) {
+    return 'Abandonner la configuration réseau en attente sur $node ?';
+  }
+
+  @override
+  String get pveTokenTipStorage =>
+      'Gérer le stockage nécessite Datastore.Allocate sur /storage (ajout, désactivation, retrait), Datastore.AllocateSpace (volumes) et Datastore.AllocateTemplate (téléversements) ; les ponts Linux et l\'application de la configuration réseau nécessitent Sys.Modify sur le nœud.';
+
+  @override
+  String get virtCreateUnnamed => 'Sans nom';
+
+  @override
+  String get virtCreateNotChosen => 'Non choisi';
+
+  @override
+  String get virtCreateKindVmSub => 'qm · une machine virtuelle KVM complète';
+
+  @override
+  String get virtCreateKindLxcSub =>
+      'pct · partage le noyau de l\'hôte, plus léger';
+
+  @override
+  String get virtCloudImage => 'Image cloud';
+
+  @override
+  String get virtCloudImageTip =>
+      'Un disque avec un système déjà installé : copié, agrandi à la taille indiquée sous Stockage et configuré par cloud-init au premier démarrage. L\'image elle-même reste intacte.';
+
+  @override
+  String get virtNoCloudImagesLibvirt =>
+      'Aucune image cloud ici : placez une image qcow2 ou raw dans un pool (téléversez-la dans Stockage), qu\'aucune VM n\'utilise.';
+
+  @override
+  String get virtNoCloudImagesPve =>
+      'Aucune image cloud ici : téléversez une image qcow2, raw ou vmdk vers un stockage avec le type de contenu Import (PVE 8.2+).';
+
+  @override
+  String get virtCreateWindowsTitle => 'Windows 11 exige UEFI et TPM 2.0';
+
+  @override
+  String get virtCreateWindowsBody =>
+      'Choisissez UEFI et activez le TPM ci-dessus.';
+
+  @override
+  String get virtCreateWindowsNoTpm =>
+      'Cet hôte n\'a pas de TPM logiciel (swtpm) : installez-le pour en donner un à la VM.';
+
+  @override
+  String virtCreateImageSize(String size) {
+    return 'L\'image fait $size : le disque doit être au moins aussi grand.';
+  }
+
+  @override
+  String get virtCreateImageMissing => 'Choisissez une image cloud.';
+
+  @override
+  String get virtCreateIncomplete =>
+      'Complétez d\'abord les parties marquées en orange.';
+
+  @override
+  String virtCreateOn(String host) {
+    return 'Créé sur $host';
+  }
+
+  @override
+  String get virtCiTip =>
+      'Un compte avec sudo, accessible par son mot de passe, une clé SSH ou les deux.';
+
+  @override
+  String get virtCiUserInvalid =>
+      'Minuscules, chiffres, _ et -, commençant par une lettre ou _';
+
+  @override
+  String get virtCiCredentialsMissing =>
+      'Définissez un mot de passe ou une clé SSH.';
+
+  @override
+  String get virtCiHostnamePve => 'Le nom d\'hôte est le nom de la VM.';
+
+  @override
+  String get virtCiStatic => 'Statique';
+
+  @override
+  String get virtCiAddressInvalid =>
+      'Une adresse IPv4 avec son préfixe, comme 10.0.0.5/24';
+
+  @override
+  String get virtCiGatewayInvalid => 'Une adresse IPv4, comme 10.0.0.1';
+
+  @override
+  String get virtCiDnsFromDhcp => 'Vide : depuis DHCP';
+
+  @override
+  String get virtCiDnsInvalid =>
+      'Adresses IP, séparées par des espaces ou des virgules';
+
+  @override
+  String get virtCiSearch => 'Domaine de recherche';
+
+  @override
+  String get virtCiSeedNote =>
+      'Écrit dans une petite ISO à côté du disque, attachée comme CD-ROM et supprimée avec la VM. Seul le hachage du mot de passe est conservé.';
+
+  @override
+  String get virtCiNoToolTitle =>
+      'Aucun outil sur l\'hôte pour créer les données cloud-init';
+
+  @override
+  String virtCiNoToolBody(String tools) {
+    return 'Installez l\'un de $tools sur l\'hôte. Sans cloud-init, l\'image démarre sans compte pour se connecter.';
+  }
+
+  @override
+  String get virtHwCloudInitNote =>
+      'Ce que cloud-init lit au premier démarrage. Pas un support d\'installation : rien à insérer ici.';
+
+  @override
+  String get virtHwCdromLater =>
+      'Tant qu\'elle tourne, le lecteur est ajouté au prochain démarrage (SATA et IDE n\'en acceptent pas à chaud).';
+
+  @override
+  String virtCreateDiskKept(String size) {
+    return 'Le disque est resté à $size, la taille de l\'image elle-même, plus que demandé : un disque n\'est jamais réduit sous le système qu\'il contient.';
+  }
+
+  @override
+  String get virtCiEditTip =>
+      'Ce que cloud-init configure dans cette VM : un compte avec sudo, la façon de s\'y connecter, le nom d\'hôte et l\'adresse.';
+
+  @override
+  String get virtCiForeignTitle =>
+      'Ce seed contient plus que ce que cette app écrit';
+
+  @override
+  String get virtCiForeignBody =>
+      'Les réglages faits ailleurs (paquets, commandes, autres comptes) ne sont pas affichés ici. Enregistrer remplace le seed par ce qui est affiché.';
+
+  @override
+  String get virtCiPasswordKept => 'Défini. Laisser vide pour le garder';
+
+  @override
+  String get virtCiRemovePassword => 'Supprimer le mot de passe';
+
+  @override
+  String get virtCiRemovePasswordNote => 'Connexion par clé SSH uniquement';
+
+  @override
+  String get virtCiKeysAdded =>
+      'Les clés sont ajoutées au compte. Une clé retirée ici reste dans le système jusqu\'à ce qu\'on l\'y retire, et un nouveau nom d\'utilisateur crée un compte à côté de l\'ancien.';
+
+  @override
+  String get virtCiEffectTitle => 'Prend effet au prochain démarrage';
+
+  @override
+  String get virtCiEffectLibvirt =>
+      'Enregistrer écrit un nouveau seed avec un nouvel ID d\'instance.';
+
+  @override
+  String get virtCiEffectPve =>
+      'PVE réécrit tout de suite son lecteur cloud-init, avec un ID d\'instance dérivé de ces réglages : tout changement ici en crée un nouveau.';
+
+  @override
+  String get virtCiNewInstance =>
+      'Au prochain démarrage, cloud-init traite le système comme une nouvelle instance : il redéfinit le nom d\'hôte, crée le compte s\'il manque, définit son mot de passe, ajoute les clés et réécrit la configuration réseau. Il crée aussi de nouvelles clés d\'hôte SSH : les clients SSH signaleront que la clé d\'hôte a changé. Rien ne change avant ce démarrage.';
+
+  @override
+  String get virtCiSaved => 'Enregistré. Prend effet au prochain démarrage.';
+
+  @override
+  String get virtSnapshotExternal => 'Disques seuls à chaud';
+
+  @override
+  String get virtSnapshotExternalTip =>
+      'L\'invité continue de tourner. Chaque disque reçoit une surcouche qcow2 dans le pool choisi ; l\'invité reste sur une chaîne.';
+
+  @override
+  String get virtSnapshotFormInternal => 'Interne (dans l\'image)';
+
+  @override
+  String get virtSnapshotOverlayPool => 'Pool de surcouches';
+
+  @override
+  String get virtSnapshotOverlayBeside => 'À côté de chaque disque';
+
+  @override
+  String get virtSnapshotExternalNoMemory =>
+      'Un instantané externe ne contient jamais la mémoire : l\'invité n\'est pas arrêté.';
+
+  @override
+  String get virtSnapshotChain => 'Chaîne de disques';
+
+  @override
+  String virtSnapshotChainDepth(String count) {
+    return '$count couches';
+  }
+
+  @override
+  String get virtSnapshotChainFile => 'Fichier';
+
+  @override
+  String get virtSnapshotChainActive => 'Utilisé actuellement';
+
+  @override
+  String get virtSnapshotChainBase => 'Image de base';
+
+  @override
+  String get virtSnapshotNoSupport =>
+      'Le stockage de l\'invité ne prend pas en charge les instantanés ; aucun ne peut être créé.';
+
+  @override
+  String get virtSnapshotRevertChain =>
+      'Un retour sur une chaîne fusionne la surcouche en cours dans l\'image et rend inutilisable tout instantané ultérieur. Seul le plus récent peut être restauré.';
+
+  @override
+  String get virtSnapshotRevertHasChildren =>
+      'Refusé tant qu’un instantané ultérieur repose sur celui-ci.';
+
+  @override
+  String get virtSnapshotDiff => 'Différences avec maintenant';
+
+  @override
+  String get virtSnapshotDiffNone =>
+      'La configuration n\'a pas changé depuis cet instantané.';
+
+  @override
+  String get virtSnapshotDiffShow => 'Comparer avec maintenant';
+
+  @override
+  String get virtSnapshotDiffGroupCpu => 'Processeur';
+
+  @override
+  String get virtSnapshotDiffGroupMemory => 'Mémoire';
+
+  @override
+  String get virtSnapshotDiffGroupDisks => 'Disques';
+
+  @override
+  String get virtSnapshotDiffGroupNic => 'Interfaces';
+
+  @override
+  String get virtSnapshotDiffGroupFirmware => 'Micrologiciel';
+
+  @override
+  String get virtSnapshotDiffGroupBoot => 'Démarrage';
+
+  @override
+  String get virtSnapshotDiffGroupOther => 'Autre';
+
+  @override
+  String virtSnapshotDiffValue(String after, String before) {
+    return '$before → $after';
+  }
+
+  @override
+  String get virtSnapshotDiffRemoved => 'supprimé';
+
+  @override
+  String get virtSnapshotDiffAdded => 'ajouté';
+
+  @override
+  String virtSnapshotDiffAsk(String snapshot) {
+    return 'Ce qui change en revenant à $snapshot :';
+  }
+
+  @override
+  String virtSnapshotDiffHost(String error) {
+    return 'L\'hôte n\'a pas pu dire ce qui diffère : $error';
+  }
+
+  @override
+  String virtSnapshotExternalExists(String count) {
+    return 'L\'invité est déjà sur $count couches ; cet instantané en ajoute une.';
+  }
+
+  @override
+  String get virtToTemplate => 'Convertir en modèle';
+
+  @override
+  String get virtToTemplateNote =>
+      'Un modèle ne peut être démarré ni reconverti en invité. Ses disques deviennent des images de base, ce qu\'un clone lié partage.';
+
+  @override
+  String virtToTemplateConfirm(String name) {
+    return 'Convertir $name en modèle ?';
+  }
+
+  @override
+  String get virtToTemplateIrreversible =>
+      'Cela est irréversible : un modèle ne peut pas redevenir un invité.';
+
+  @override
+  String get virtToTemplateStopped => 'Éteignez-le d\'abord.';
+
+  @override
+  String get virtToTemplateSnapshots =>
+      'Un invité avec des instantanés ne peut pas devenir un modèle.';
+
+  @override
+  String virtTemplateCreated(String name) {
+    return '$name est maintenant un modèle';
+  }
+
+  @override
+  String get virtTemplateTip => 'Un modèle ne s\'exécute qu\'une fois cloné.';
+
+  @override
+  String get virtCloneStorageSame => 'Comme la source';
+
+  @override
+  String get virtCloneNodeSame => 'Comme la source';
+
+  @override
+  String get virtCloneStorageContent =>
+      'Ce stockage ne contient pas de disques de VM.';
+
+  @override
+  String get virtCloneStorageShared =>
+      'Copier vers un autre nœud nécessite un stockage partagé.';
+
+  @override
+  String get virtCloneNodeUnknown => 'Cet hôte n\'a pas ce nœud.';
+
+  @override
+  String get virtCloneLinkedTarget =>
+      'Un clone lié partage les disques du modèle : il ne peut indiquer ni stockage ni nœud.';
+
+  @override
+  String get virtBackupJobs => 'Tâches de sauvegarde';
+
+  @override
+  String get virtBackupJobsNone =>
+      'Aucune tâche de sauvegarde planifiée. Ajoutez-en une pour sauvegarder les invités régulièrement.';
+
+  @override
+  String get virtBackupJobNew => 'Nouvelle tâche';
+
+  @override
+  String get virtBackupJobRun => 'Exécuter maintenant';
+
+  @override
+  String get virtBackupJobRunAsk =>
+      'Lancer cette tâche de sauvegarde maintenant ?';
+
+  @override
+  String virtBackupJobDeleteAsk(String id) {
+    return 'Supprimer la tâche de sauvegarde $id ? Les sauvegardes restent.';
+  }
+
+  @override
+  String get virtBackupJobSaved => 'Tâche enregistrée';
+
+  @override
+  String get virtBackupJobDeleted => 'Tâche supprimée';
+
+  @override
+  String get virtBackupJobStarted => 'Tâche de sauvegarde lancée';
+
+  @override
+  String get virtBackupSchedule => 'Planification';
+
+  @override
+  String get virtBackupScheduleHelp =>
+      'Un sous-ensemble des événements de calendrier systemd : 02:30, mon..fri 02:30, sat 03:00, daily, hourly, */15.';
+
+  @override
+  String get virtBackupScheduleInvalid =>
+      'L\'hôte n\'accepte pas cette planification.';
+
+  @override
+  String virtBackupScheduleNext(String times) {
+    return 'Prochaines exécutions : $times';
+  }
+
+  @override
+  String get virtBackupSelection => 'Invités';
+
+  @override
+  String get virtBackupSelectionAll => 'Tous les invités';
+
+  @override
+  String get virtBackupSelectionList => 'Invités sélectionnés';
+
+  @override
+  String get virtBackupSelectionNone => 'Choisissez au moins un invité.';
+
+  @override
+  String get virtBackupMail => 'Notification';
+
+  @override
+  String get virtBackupNotesTemplate => 'Notes de sauvegarde';
+
+  @override
+  String virtBackupNotesTemplateTip(String vars) {
+    return 'Les notes sont ajoutées à chaque sauvegarde de la tâche. Remplacés : $vars.';
+  }
+
+  @override
+  String get virtBackupPrune => 'Rétention';
+
+  @override
+  String get virtBackupPruneTip =>
+      'Les options de rétention de PVE, par ex. keep-last=7,keep-daily=4. Vide : celles du stockage ou du nœud.';
+
+  @override
+  String get virtBackupJobNode => 'Nœud';
+
+  @override
+  String get virtBackupJobNodeAny => 'Tous les nœuds';
+
+  @override
+  String get virtBackupEnabled => 'Activée';
+
+  @override
+  String get virtBackupOptions => 'Options';
+
+  @override
+  String get virtBackupProtect => 'Protéger';
+
+  @override
+  String get virtBackupProtectTip =>
+      'Une sauvegarde protégée n\'est pas élaguée et ne peut être supprimée tant que la protection est active.';
+
+  @override
+  String get virtBackupEditNotes => 'Notes';
+
+  @override
+  String get virtBackupSaveNotes => 'Enregistrer';
+
+  @override
+  String get virtBackupEdited => 'Sauvegarde mise à jour';
+
+  @override
+  String get virtBackupRestoreStorage => 'Restaurer vers le stockage';
+
+  @override
+  String get virtBackupRestoreStorageSame => 'Comme dans la sauvegarde';
+
+  @override
+  String get virtCloneStorageMissing =>
+      'Aucun stockage de ce nœud ne contient de disques de VM.';
+
+  @override
+  String get virtBackupCompress => 'Compression';
+
+  @override
+  String get virtBackupUnprotect => 'Déprotéger';
+
+  @override
+  String get virtBackupModeStops =>
+      'suspend et stop interrompent un invité en cours d\'exécution pendant la copie.';
+
+  @override
+  String get virtBackupScheduleValidate => 'Vérifier auprès de l\'hôte';
+
+  @override
+  String virtBackupSelected(int count) {
+    return '$count sélectionnés';
+  }
+
+  @override
+  String get virtBackupExcludeTip =>
+      'Tous les invités du nœud sont pris. Désactivez-en un pour l\'exclure.';
+
+  @override
+  String virtNetEditAsk(int count) {
+    return 'Le réseau en cours garde son état jusqu\'à son redémarrage. Redémarrer coupe les VM qui y sont ($count).';
+  }
+
+  @override
+  String get virtNetEditAskNoGuest =>
+      'Le réseau en cours garde son état jusqu\'à son redémarrage.';
+
+  @override
+  String get virtNetEditRestart => 'Le redémarrer pour appliquer maintenant';
+
+  @override
+  String get virtNetEditRestartNote =>
+      'Les VM qui y sont perdent le réseau pendant le redémarrage.';
+
+  @override
+  String get virtNetEditPending =>
+      'La définition contient une modification que le réseau en cours n\'a pas encore prise.';
+
+  @override
+  String get virtNetRestart => 'Redémarrer';
+
+  @override
+  String virtNetRestartAsk(String name, int count) {
+    return 'Redémarrer $name ? Les VM qui y sont ($count) perdent le réseau jusqu\'à son retour.';
+  }
+
+  @override
+  String virtNetRestartAskNone(String name) {
+    return 'Redémarrer $name ? Rien n\'y est connecté.';
+  }
+
+  @override
+  String get virtNetHosts => 'Adresses statiques';
+
+  @override
+  String get virtNetHostAdd => 'Ajouter une adresse';
+
+  @override
+  String get virtNetHostMac => 'MAC';
+
+  @override
+  String get virtNetHostIp => 'Adresse';
+
+  @override
+  String get virtNetHostName => 'Nom (facultatif)';
+
+  @override
+  String get virtNetHostEmpty =>
+      'Aucune MAC n\'a d\'adresse attitrée : chaque VM en reçoit une de la plage DHCP.';
+
+  @override
+  String get virtNetHostOthers =>
+      'Les autres VM en reçoivent une de la plage DHCP.';
+
+  @override
+  String get virtNetHostInvalid =>
+      'Une MAC, une adresse ou un nom que l\'hôte refuserait, ou la même MAC deux fois.';
+
+  @override
+  String get virtNetManagementIface =>
+      'Cette interface porte l\'adresse de l\'hôte lui-même. La modifier ou l\'appliquer couperait l\'accès à l\'hôte.';
+
+  @override
+  String get virtNetManagementTip =>
+      'Elle porte le trafic de gestion de l\'hôte, ou se trouve sous une interface qui le porte : l\'app ne la modifie pas.';
+
+  @override
+  String get virtNetPhysicalTip =>
+      'Une interface physique appartient à l\'hôte : l\'app ne modifie que les ponts.';
+
+  @override
+  String get virtNetVlanAware => 'Compatible VLAN';
+
+  @override
+  String get virtCiExpire => 'Le mot de passe expire';
+
+  @override
+  String get virtCiExpireNote =>
+      'La première connexion avec lui doit en définir un nouveau. libvirt uniquement : PVE écrit \"expire: false\" et n\'a pas d\'option pour cela.';
+
+  @override
+  String get virtCiSearchHint => 'lab.example dev.lab.example';
+
+  @override
+  String get virtCiSearchTip =>
+      'Plusieurs, séparés par un espace ; resolv.conf garde les premiers.';
+
+  @override
+  String virtCiNicsTip(int count) {
+    return '$count cartes réseau dans la configuration réseau du seed ; le formulaire modifie la première.';
+  }
+
+  @override
+  String get virtUsbByVendor => 'Par fabricant et produit';
+
+  @override
+  String get virtUsbByAddress => 'Par adresse';
+
+  @override
+  String get virtUsbAddressTip =>
+      'Le périphérique suit cette adresse : ce qui y est branché est donné à la VM. libvirt désigne un hostdev USB par numéro de bus et de périphérique.';
+
+  @override
+  String virtUsbPortNote(int bus, String port) {
+    return 'bus $bus · port $port';
+  }
+
+  @override
+  String get virtSbUnsupported =>
+      'Les descripteurs de firmware de l\'hôte n\'ont aucun firmware Secure Boot avec des clés enregistrées, donc un domaine qui l\'utilise ne peut pas démarrer.';
+
+  @override
+  String get virtCreateSecureBoot => 'Secure Boot';
+
+  @override
+  String get virtCreateSecureBootNote =>
+      'Seuls les noyaux et chargeurs d\'amorçage signés sont démarrés.';
+
+  @override
+  String virtUsbAddressNote(int bus, int device) {
+    return 'bus $bus · périphérique $device';
+  }
+
+  @override
+  String get virtHwRevertPendingTitle =>
+      'Abandonner les modifications en attente';
+
+  @override
+  String virtHwRevertPendingBody(String name) {
+    return '$name est remis sur ce qu\'il exécute : la définition est réécrite à partir de celle en cours, et le prochain démarrage obtient exactement ce que celui-ci a. Son fichier NVRAM et son firmware restent tels quels.';
+  }
+
+  @override
+  String virtHwRevertAllAsk(String name) {
+    return 'Abandonner toutes les modifications en attente du prochain démarrage de $name ?';
+  }
+
+  @override
+  String get virtBackupPlanNew => 'Nouveau plan';
+
+  @override
+  String get virtBackupPlanNewTip =>
+      'Une planification qui sauvegarde cet invité seul.';
+
+  @override
+  String virtBackupPlanOthers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Sauvegarde aussi $count autres invités',
+      one: 'Sauvegarde aussi 1 autre invité',
+      zero: 'Aucun autre invité',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reduceMotion => 'Réduire les animations';
+
+  @override
+  String get copyLink => 'Copier le lien';
+
+  @override
+  String funcNeedsAgentPermission(String func) {
+    return 'Votre compte sur ce Monitor agent n\'a pas la permission pour $func. Demandez à l\'administrateur de l\'agent.';
+  }
+
+  @override
+  String funcNeedsAgentHttps(String func) {
+    return '$func nécessite HTTPS vers ce Monitor agent, ou HTTP autorisé à la fois sur l\'agent et dans cette app.';
+  }
+
+  @override
+  String funcNeedsAgentSetup(String func) {
+    return '$func n\'est pas configuré sur ce Monitor agent ; son opérateur doit le configurer.';
+  }
+
+  @override
+  String get monitorFilesReadOnly =>
+      'Lecture seule : ce compte peut parcourir les fichiers de l\'agent sans les modifier.';
+
+  @override
+  String get monitorAccess => 'Accès';
+
+  @override
+  String get monitorAccounts => 'Comptes';
+
+  @override
+  String get monitorRoles => 'Rôles';
+
+  @override
+  String get monitorRole => 'Rôle';
+
+  @override
+  String get monitorChangePassword => 'Changer le mot de passe';
+
+  @override
+  String get monitorNewPassword => 'Nouveau mot de passe';
+
+  @override
+  String get monitorCurrentPassword => 'Votre mot de passe actuel';
+
+  @override
+  String get monitorReauthTip =>
+      'Modifier les accès demande à nouveau votre mot de passe.';
+
+  @override
+  String get monitorPasswordTooShort => 'Au moins 8 caractères';
+
+  @override
+  String get monitorPasswordMismatch =>
+      'Les mots de passe ne correspondent pas';
+
+  @override
+  String get monitorErrReauth => 'Votre mot de passe était incorrect.';
+
+  @override
+  String get monitorErrLastAdmin =>
+      'L\'agent a besoin d\'au moins un compte administrateur.';
+
+  @override
+  String get monitorErrConflict => 'Existe déjà, ou est encore utilisé.';
+
+  @override
+  String get monitorErrForbidden => 'Seul un administrateur peut faire cela.';
+
+  @override
+  String get monitorRoleNameRule =>
+      'Minuscules, chiffres, - et _, jusqu\'à 32 caractères';
+
+  @override
+  String get monitorGrantShell => 'Shell et commandes';
+
+  @override
+  String get monitorGrantShellTip =>
+      'Terminal, processus, services, conteneurs, snippets, alimentation — avec le compte de l\'agent';
+
+  @override
+  String get monitorGrantSshTerminal => 'Terminal du panneau via SSH';
+
+  @override
+  String get monitorGrantFiles => 'Fichiers';
+
+  @override
+  String get monitorGrantConnect => 'Connexions sortantes';
+
+  @override
+  String get monitorGrantConnectTip =>
+      'Redirections de ports locales et dynamiques, bureau à distance';
+
+  @override
+  String get monitorGrantConnectAllow =>
+      'Cibles autorisées (IP ou CIDR, éventuellement :port ou :de-à ; une par ligne, vide = partout)';
+
+  @override
+  String get monitorGrantListen => 'Écouter sur le serveur';
+
+  @override
+  String get monitorGrantListenTip => 'Redirections de ports distantes';
+
+  @override
+  String get monitorGrantListenPublic => 'Adresses non loopback';
+
+  @override
+  String get monitorGrantPorts => 'Plage de ports (vide = toutes)';
+
+  @override
+  String get monitorGrantOff => 'Désactivé';
+
+  @override
+  String get monitorBuiltin => 'Intégré';
+
+  @override
+  String get monitorAdminRoleTip =>
+      'Gère les comptes, les rôles et les réglages de l\'agent';
+
+  @override
+  String get monitorYou => 'Vous';
+
+  @override
+  String get monitorNoAccessToSettings =>
+      'Seul un administrateur peut modifier les réglages de cet agent.';
+
+  @override
+  String get monitorPasswordNotSaved =>
+      'Le mot de passe a été modifié sur l\'agent, mais l\'application n\'a pas pu l\'enregistrer. Mettez à jour le mot de passe Monitor dans les réglages de ce serveur.';
+}

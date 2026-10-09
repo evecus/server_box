@@ -1,0 +1,8870 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'l10n_az.dart';
+import 'l10n_de.dart';
+import 'l10n_en.dart';
+import 'l10n_es.dart';
+import 'l10n_fr.dart';
+import 'l10n_id.dart';
+import 'l10n_it.dart';
+import 'l10n_ja.dart';
+import 'l10n_ko.dart';
+import 'l10n_nl.dart';
+import 'l10n_pt.dart';
+import 'l10n_ru.dart';
+import 'l10n_tr.dart';
+import 'l10n_uk.dart';
+import 'l10n_zh.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/l10n.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('az'),
+    Locale('de'),
+    Locale('en'),
+    Locale('es'),
+    Locale('fr'),
+    Locale('id'),
+    Locale('it'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('nl'),
+    Locale('pt'),
+    Locale('ru'),
+    Locale('tr'),
+    Locale('uk'),
+    Locale('zh'),
+    Locale('zh', 'TW'),
+  ];
+
+  /// User-facing label or message for crash collect.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostic data'**
+  String get crashCollect;
+
+  /// Introductory text for the crash collect screen or section.
+  ///
+  /// In en, this message translates to:
+  /// **'ServerBox records what happens while it runs so problems can be fixed. Choose how much information to send.'**
+  String get crashCollectIntro;
+
+  /// Empty-state message for crash collect none.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get crashCollectNone;
+
+  /// Help text for the crash collect none setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports remain on this device; after a crash, you can send one manually.'**
+  String get crashCollectNoneTip;
+
+  /// User-facing label or message for crash collect basic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get crashCollectBasic;
+
+  /// Help text for the crash collect basic setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Only crash information is included; logs and performance data are not. **This helps us improve the app and fix bugs.**'**
+  String get crashCollectBasicTip;
+
+  /// User-facing label or message for crash collect full.
+  ///
+  /// In en, this message translates to:
+  /// **'Full information'**
+  String get crashCollectFull;
+
+  /// Help text for the crash collect full setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Along with the crash log, performance data and which features are used are included: **they show what is slow, and which features are worth keeping.**'**
+  String get crashCollectFullTip;
+
+  /// User-facing label or message for crash collect footer.
+  ///
+  /// In en, this message translates to:
+  /// **'At every level, known server names, addresses and usernames are replaced with placeholders when recorded. You can change the collection level later in Settings.'**
+  String get crashCollectFooter;
+
+  /// User-facing label or message for privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// User-facing label or message for privacy policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
+  /// Error message shown when crash last run failed.
+  ///
+  /// In en, this message translates to:
+  /// **'ServerBox exited unexpectedly during its last run.'**
+  String get crashLastRunFailed;
+
+  /// Title shown for the crash report dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Crash report'**
+  String get crashReportTitle;
+
+  /// Hint shown in the crash report field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the log from the previous run. Known server names and addresses have been replaced with placeholders, but other details may remain. Please read it carefully before submitting.'**
+  String get crashReportHint;
+
+  /// User-facing label or message for crash report submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy & report'**
+  String get crashReportSubmit;
+
+  /// User-facing label or message for pre release updates.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive pre-release updates'**
+  String get preReleaseUpdates;
+
+  /// Help text for the add system private key setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently private keys don\'t exist, do you want to add the one that comes with the system (~/.ssh/id_rsa)?'**
+  String get addSystemPrivateKeyTip;
+
+  /// Action label for added 2 list.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to task list'**
+  String get added2List;
+
+  /// User-facing label or message for ask AI.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI'**
+  String get askAi;
+
+  /// User-facing label or message for ask AI insert terminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert into terminal'**
+  String get askAiInsertTerminal;
+
+  /// User-facing label or message for remote desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote desktop'**
+  String get remoteDesktop;
+
+  /// User-facing label or message for ask AI risk read only.
+  ///
+  /// In en, this message translates to:
+  /// **'Read-only'**
+  String get askAiRiskReadOnly;
+
+  /// User-facing label or message for ask AI risk caution.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes system'**
+  String get askAiRiskCaution;
+
+  /// User-facing label or message for ask AI risk unvetted.
+  ///
+  /// In en, this message translates to:
+  /// **'Unvetted host'**
+  String get askAiRiskUnvetted;
+
+  /// User-facing label or message for ask AI risk destructive.
+  ///
+  /// In en, this message translates to:
+  /// **'High risk'**
+  String get askAiRiskDestructive;
+
+  /// User-facing label or message for ask AI auto run safe commands.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-run read-only commands'**
+  String get askAiAutoRunSafeCommands;
+
+  /// Help text for the ask AI auto run safe commands setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Runs only when both the model and the local check call it read-only'**
+  String get askAiAutoRunSafeCommandsTip;
+
+  /// User-facing label or message for ask AI history.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversation history'**
+  String get askAiHistory;
+
+  /// User-facing label or message for ask AI new conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'New conversation'**
+  String get askAiNewConversation;
+
+  /// User-facing label or message for ask AI untitled conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get askAiUntitledConversation;
+
+  /// User-facing label or message for ask AI rename conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename conversation'**
+  String get askAiRenameConversation;
+
+  /// Title shown for the ask AI delete conversation dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this conversation?'**
+  String get askAiDeleteConversationTitle;
+
+  /// Help text for the ask AI delete conversation setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes it from this device. Cannot be undone.'**
+  String get askAiDeleteConversationTip;
+
+  /// User-facing label or message for agent no history.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved global Agent conversations'**
+  String get agentNoHistory;
+
+  /// Title shown for the agent clear history dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear global Agent history?'**
+  String get agentClearHistoryTitle;
+
+  /// Help text for the agent clear history setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'All global Agent conversations will be removed from this device.'**
+  String get agentClearHistoryTip;
+
+  /// User-facing label or message for agent tool shell.
+  ///
+  /// In en, this message translates to:
+  /// **'Shell'**
+  String get agentToolShell;
+
+  /// User-facing label or message for agent tool read file.
+  ///
+  /// In en, this message translates to:
+  /// **'Read file'**
+  String get agentToolReadFile;
+
+  /// User-facing label or message for agent tool write file.
+  ///
+  /// In en, this message translates to:
+  /// **'Write file'**
+  String get agentToolWriteFile;
+
+  /// User-facing label or message for float over tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Float over other tabs'**
+  String get floatOverTabs;
+
+  /// User-facing label or message for agent tool SSH connect.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH connect'**
+  String get agentToolSshConnect;
+
+  /// User-facing label or message for agent tool SSH disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect SSH'**
+  String get agentToolSshDisconnect;
+
+  /// Title shown for the agent SSH connect dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to a new host'**
+  String get agentSshConnectTitle;
+
+  /// User-facing label or message for agent auth method.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get agentAuthMethod;
+
+  /// Help text for the agent SSH connect setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The Agent wants an SSH connection. Enter the password here'**
+  String get agentSshConnectTip;
+
+  /// User-facing label or message for agent ad hoc sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary connections'**
+  String get agentAdHocSessions;
+
+  /// Title shown for the agent save server dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a server'**
+  String get agentSaveServerTitle;
+
+  /// Help text for the agent save server setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This host and the password you enter are saved on this device'**
+  String get agentSaveServerTip;
+
+  /// User-facing label or message for agent monitor optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor agent (optional)'**
+  String get agentMonitorOptional;
+
+  /// Help text for the auth fail setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed. Check the details'**
+  String get authFailTip;
+
+  /// User-facing label or message for auto backup conflict.
+  ///
+  /// In en, this message translates to:
+  /// **'Only one automatic backup can be turned on at the same time.'**
+  String get autoBackupConflict;
+
+  /// User-facing label or message for auto connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto connect'**
+  String get autoConnect;
+
+  /// User-facing label or message for auto run.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto run'**
+  String get autoRun;
+
+  /// User-facing label or message for auto update home widget.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic home widget update'**
+  String get autoUpdateHomeWidget;
+
+  /// User-facing label or message for available tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Tabs'**
+  String get availableTabs;
+
+  /// User-facing label or message for backup encrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup is encrypted'**
+  String get backupEncrypted;
+
+  /// User-facing label or message for backup not encrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup is not encrypted'**
+  String get backupNotEncrypted;
+
+  /// User-facing label or message for backup password.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup password'**
+  String get backupPassword;
+
+  /// User-facing label or message for backup password removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup password removed'**
+  String get backupPasswordRemoved;
+
+  /// User-facing label or message for backup password set.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup password set'**
+  String get backupPasswordSet;
+
+  /// Help text for the backup password setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password to encrypt backup files. Leave empty to disable encryption.'**
+  String get backupPasswordTip;
+
+  /// User-facing label or message for backup password wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect backup password'**
+  String get backupPasswordWrong;
+
+  /// Action label for connect all.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect all'**
+  String get connectAll;
+
+  /// Action label for disconnect all.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect all'**
+  String get disconnectAll;
+
+  /// User-facing label or message for dist icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution marks'**
+  String get distIcon;
+
+  /// User-facing label or message for dist icon intro legal.
+  ///
+  /// In en, this message translates to:
+  /// **'A mark says only what this device read from the remote system, which can be wrong or out of date, and identifies neither a derivative, a rebuild, nor any particular version. Where it cannot be identified, a plain icon is drawn.\n\nEach mark is a trademark of its respective owner and is used only to refer to the system it identifies.'**
+  String get distIconIntroLegal;
+
+  /// Help text for the dist icon setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a small mark beside each server for the system it appears to be running.'**
+  String get distIconTip;
+
+  /// User-facing label or message for dist name map.
+  ///
+  /// In en, this message translates to:
+  /// **'Name overrides'**
+  String get distNameMap;
+
+  /// Help text for the dist name map setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Only for a distribution whose file is named something else where you host the marks. The key is the name this app uses; the value is the name to fetch. Leave it empty unless a mark is missing.'**
+  String get distNameMapTip;
+
+  /// User-facing label or message for logo URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo URL'**
+  String get logoUrl;
+
+  /// Help text for the logo URL setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The large image at the top of a server\'s own page, drawn in its own colours.'**
+  String get logoUrlTip;
+
+  /// User-facing label or message for globe.
+  ///
+  /// In en, this message translates to:
+  /// **'Globe'**
+  String get globe;
+
+  /// Help text for the location setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Where this server is drawn on the globe. Latitude then longitude, in degrees — for example 39.9042, 116.4074.'**
+  String get locationTip;
+
+  /// User-facing label or message for mark URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark URL'**
+  String get markUrl;
+
+  /// Help text for the mark URL setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The small mark beside a server\'s name in lists. Empty means none is drawn.\n\nNot the same picture as the logo'**
+  String get markUrlTip;
+
+  /// Help text for the nav tab menu setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press a tab — or right-click it — to connect or disconnect everything on it at once.'**
+  String get navTabMenuTip;
+
+  /// User-facing label or message for n tags.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Tags'**
+  String nTags(int count);
+
+  /// User-facing label or message for remote backup password required.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote backups require a non-empty backup password'**
+  String get remoteBackupPasswordRequired;
+
+  /// User-facing label or message for monitor HTTPS required.
+  ///
+  /// In en, this message translates to:
+  /// **'A remote monitor agent needs HTTPS, unless HTTP is allowed for it.'**
+  String get monitorHttpsRequired;
+
+  /// User-facing label or message for monitor allow insecure HTTP.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow HTTP'**
+  String get monitorAllowInsecureHttp;
+
+  /// Title shown for the plain HTTP dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'This agent is served over plain HTTP'**
+  String get plainHttpTitle;
+
+  /// Help text for the plain HTTP setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The password and everything this app asks for would travel unencrypted. Nothing has been sent yet.'**
+  String get plainHttpTip;
+
+  /// User-facing label or message for allow for this server.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow for this server'**
+  String get allowForThisServer;
+
+  /// Error message shown when view error.
+  ///
+  /// In en, this message translates to:
+  /// **'View error'**
+  String get viewError;
+
+  /// Help text for the monitor allow insecure HTTP setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Only on a trusted private network that encrypts the transport itself, such as Tailscale'**
+  String get monitorAllowInsecureHttpTip;
+
+  /// Help text for the monitor HTTP setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Read this server\'s status from a **monitor** agent\'s HTTP API instead of running commands over SSH.\n\nThe agent has to be installed on the server first, and it is what makes trends, the watch app and the home-screen widgets possible.\n\n[Setting up a monitor agent]({url})'**
+  String monitorHttpTip(String url);
+
+  /// Help text for the backup setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The exported data can be encrypted with password. \nPlease keep it safe.'**
+  String get backupTip;
+
+  /// Title shown for the iCloud backup status dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup status'**
+  String get icloudBackupStatusTitle;
+
+  /// Status message shown while iCloud backup status loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading iCloud backup status...'**
+  String get icloudBackupStatusLoading;
+
+  /// Error message shown when iCloud backup status error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to read iCloud backup metadata'**
+  String get icloudBackupStatusError;
+
+  /// Empty-state message for iCloud backup status empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No iCloud backup file found yet'**
+  String get icloudBackupStatusEmpty;
+
+  /// User-facing label or message for iCloud backup state uploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading'**
+  String get icloudBackupStateUploading;
+
+  /// User-facing label or message for iCloud backup state conflict.
+  ///
+  /// In en, this message translates to:
+  /// **'Conflict detected'**
+  String get icloudBackupStateConflict;
+
+  /// User-facing label or message for iCloud backup state uploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded'**
+  String get icloudBackupStateUploaded;
+
+  /// User-facing label or message for iCloud backup state waiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for iCloud'**
+  String get icloudBackupStateWaiting;
+
+  /// User-facing label or message for iCloud backup status summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {lastModified}\nStatus: {remoteState}'**
+  String icloudBackupStatusSummary(String lastModified, String remoteState);
+
+  /// User-facing label or message for bg run.
+  ///
+  /// In en, this message translates to:
+  /// **'Run in background'**
+  String get bgRun;
+
+  /// Help text for the bg run setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This switch only means the program will try to run in the background. Whether it can run in the background depends on whether the permission is enabled or not. For AOSP-based Android ROMs, please disable \"Battery Optimization\" in this app. For MIUI / HyperOS, please change the power saving policy to \"Unlimited\".'**
+  String get bgRunTip;
+
+  /// User-facing label or message for tray readings.
+  ///
+  /// In en, this message translates to:
+  /// **'Readings'**
+  String get trayReadings;
+
+  /// User-facing label or message for tray chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart'**
+  String get trayChart;
+
+  /// Empty-state message for tray chart none.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get trayChartNone;
+
+  /// User-facing label or message for tray compact.
+  ///
+  /// In en, this message translates to:
+  /// **'Compact rows'**
+  String get trayCompact;
+
+  /// Help text for the tray compact setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'One line per server, without the chart. Linux always uses a single-line layout because its panel menu is sent over D-Bus, which carries a label rather than a custom layout; it may still include the selected chart as an image.'**
+  String get trayCompactTip;
+
+  /// Status message shown while tray keep running.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep running in the tray'**
+  String get trayKeepRunning;
+
+  /// Help text for the tray keep running setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing the window leaves the app in the menu bar or notification area, still watching your servers. Turn this off to have the close button end the app.'**
+  String get trayKeepRunningTip;
+
+  /// User-facing label or message for bg run needs notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Running in the background needs an ongoing notification, and this app has no notification permission. Tap to allow notifications.'**
+  String get bgRunNeedsNotification;
+
+  /// Action label for clear all stats content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear all server connection statistics? This action cannot be undone.'**
+  String get clearAllStatsContent;
+
+  /// Title shown for the clear all stats dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Statistics'**
+  String get clearAllStatsTitle;
+
+  /// Action label for clear server stats content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear connection statistics for server \"{serverName}\"? This action cannot be undone.'**
+  String clearServerStatsContent(String serverName);
+
+  /// Title shown for the clear server stats dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear {serverName} Statistics'**
+  String clearServerStatsTitle(String serverName);
+
+  /// Action label for clear this server stats.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear This Server Statistics'**
+  String get clearThisServerStats;
+
+  /// Action label for close after save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and close'**
+  String get closeAfterSave;
+
+  /// Help text for the collapse UI setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether to collapse long lists present in the UI by default'**
+  String get collapseUITip;
+
+  /// Action label for connection details.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection Details'**
+  String get connectionDetails;
+
+  /// Action label for connection stats.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection Statistics'**
+  String get connectionStats;
+
+  /// Description of the connection stats desc feature or option.
+  ///
+  /// In en, this message translates to:
+  /// **'View server connection success rate and history'**
+  String get connectionStatsDesc;
+
+  /// Help text for the container try sudo setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: In the app, the user is set to aaa, but Docker is installed under the root user. In this case, you need to enable this option.'**
+  String get containerTrySudoTip;
+
+  /// User-facing label or message for container sudo password required.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudo password is required to access Docker. Please enter your password.'**
+  String get containerSudoPasswordRequired;
+
+  /// User-facing label or message for container sudo password incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudo password is incorrect or not allowed. Please try again.'**
+  String get containerSudoPasswordIncorrect;
+
+  /// Action label for copy path.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy path'**
+  String get copyPath;
+
+  /// User-facing label or message for custom cmd.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom commands'**
+  String get customCmd;
+
+  /// Action label for delete servers.
+  ///
+  /// In en, this message translates to:
+  /// **'Batch delete servers'**
+  String get deleteServers;
+
+  /// Action label for delete dir recursive.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the folder and everything in it'**
+  String get deleteDirRecursive;
+
+  /// Empty-state message for dir empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure the folder is empty.'**
+  String get dirEmpty;
+
+  /// User-facing label or message for discover SSH servers.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover SSH Servers'**
+  String get discoverSshServers;
+
+  /// Error message shown when discovery failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovery failed'**
+  String get discoveryFailed;
+
+  /// User-facing label or message for discovery settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovery Settings'**
+  String get discoverySettings;
+
+  /// User-facing label or message for distro.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution'**
+  String get distro;
+
+  /// User-facing label or message for disk health.
+  ///
+  /// In en, this message translates to:
+  /// **'Disk Health'**
+  String get diskHealth;
+
+  /// User-facing label or message for dl 2 local.
+  ///
+  /// In en, this message translates to:
+  /// **'Download {fileName} to local?'**
+  String dl2Local(String fileName);
+
+  /// User-facing label or message for docker empty running items.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no running containers.\nThis could be because:\n- The Docker installation user is not the same as the username configured within the App.\n- The environment variable DOCKER_HOST was not read correctly. You can get it by running `echo \$DOCKER_HOST` in the terminal.'**
+  String get dockerEmptyRunningItems;
+
+  /// User-facing label or message for docker project other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get dockerProjectOther;
+
+  /// Help text for the docker prune setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove unused data to free up disk space'**
+  String get dockerPruneTip;
+
+  /// User-facing label or message for docker statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Docker Statistics'**
+  String get dockerStatistics;
+
+  /// Action label for edit virt keys.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual keys'**
+  String get editVirtKeys;
+
+  /// Help text for the editor highlight setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The current code highlighting performance is not ideal and can be optionally turned off to improve.'**
+  String get editorHighlightTip;
+
+  /// Action label for enable mDNS.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable mDNS'**
+  String get enableMdns;
+
+  /// Description of the enable mDNS desc feature or option.
+  ///
+  /// In en, this message translates to:
+  /// **'Use mDNS/Bonjour to discover SSH services'**
+  String get enableMdnsDesc;
+
+  /// User-facing label or message for env vars.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment variable'**
+  String get envVars;
+
+  /// User-facing label or message for extra args.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra arguments'**
+  String get extraArgs;
+
+  /// User-facing label or message for fallback SSH dest.
+  ///
+  /// In en, this message translates to:
+  /// **'Fallback SSH destination'**
+  String get fallbackSshDest;
+
+  /// Help text for the F-Droid release setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'If you downloaded this app from F-Droid, it is recommended to turn off this option.'**
+  String get fdroidReleaseTip;
+
+  /// User-facing label or message for file too large.
+  ///
+  /// In en, this message translates to:
+  /// **'File \'{file}\' too large {size}, max {sizeMax}'**
+  String fileTooLarge(String file, String size, String sizeMax);
+
+  /// User-facing label or message for file dir gone.
+  ///
+  /// In en, this message translates to:
+  /// **'This folder is no longer here'**
+  String get fileDirGone;
+
+  /// Help text for the file dir gone setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'It was deleted or renamed'**
+  String get fileDirGoneTip;
+
+  /// User-facing label or message for full screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get fullScreen;
+
+  /// User-facing label or message for full screen jitter.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen jitter'**
+  String get fullScreenJitter;
+
+  /// User-facing label or message for full screen jitter help.
+  ///
+  /// In en, this message translates to:
+  /// **'To avoid screen burn-in'**
+  String get fullScreenJitterHelp;
+
+  /// Help text for the full screen setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Should full-screen mode be enabled when the device is rotated to landscape mode? This option only applies to the server tab.'**
+  String get fullScreenTip;
+
+  /// User-facing label or message for github gist id optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Gist ID (optional)'**
+  String get githubGistIdOptional;
+
+  /// User-facing label or message for github gist token.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Gist token'**
+  String get githubGistToken;
+
+  /// Empty-state message for github gist token empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Token is empty'**
+  String get githubGistTokenEmpty;
+
+  /// User-facing label or message for goto.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to'**
+  String get goto;
+
+  /// User-facing label or message for home tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Tabs'**
+  String get homeTabs;
+
+  /// Description of the home tabs customize desc feature or option.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize which tabs appear on the home page and their order'**
+  String get homeTabsCustomizeDesc;
+
+  /// User-facing label or message for ignore cert.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore certificate'**
+  String get ignoreCert;
+
+  /// A container image, as in Docker. NOT a picture — do not replace this with libL10n.image, whose German is "Bild" and Japanese "画像".
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get image;
+
+  /// Explanatory message shown in the mac DMG dialog or notice.
+  ///
+  /// In en, this message translates to:
+  /// **'The App Store requires this app to be sandboxed, and a sandbox cannot open a terminal. The DMG build can.\n\nThe App Store build may stop being updated.'**
+  String get macDmgBody;
+
+  /// User-facing label or message for mac DMG import denied.
+  ///
+  /// In en, this message translates to:
+  /// **'macOS would not let this read the previous build’s data'**
+  String get macDmgImportDenied;
+
+  /// User-facing label or message for mac DMG imported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported the previous build’s data'**
+  String get macDmgImported;
+
+  /// Error message shown when mac DMG import failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the previous build’s data'**
+  String get macDmgImportFailed;
+
+  /// Help text for the mac DMG setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Local terminal and running snippets locally (DMG build)'**
+  String get macDmgTip;
+
+  /// Title shown for the mac DMG dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'DMG build'**
+  String get macDmgTitle;
+
+  /// User-facing label or message for show hidden files.
+  ///
+  /// In en, this message translates to:
+  /// **'Show hidden files'**
+  String get showHiddenFiles;
+
+  /// User-facing label or message for SSH key algorithm.
+  ///
+  /// In en, this message translates to:
+  /// **'Algorithm'**
+  String get sshKeyAlgorithm;
+
+  /// User-facing label or message for SSH key comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get sshKeyComment;
+
+  /// User-facing label or message for SSH key generate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate key pair'**
+  String get sshKeyGenerate;
+
+  /// User-facing label or message for SSH key generating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating…'**
+  String get sshKeyGenerating;
+
+  /// Formatted user-facing message for SSH key locked; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'The private key [{name}] was not unlocked.'**
+  String sshKeyLockedFmt(String name);
+
+  /// Help text for the SSH key passphrase setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. A key with a passphrase is stored encrypted, and you are asked for it the first time a connection uses the key.'**
+  String get sshKeyPassphraseTip;
+
+  /// User-facing label or message for SSH key passphrase wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong passphrase.'**
+  String get sshKeyPassphraseWrong;
+
+  /// User-facing label or message for SSH key public key.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key'**
+  String get sshKeyPublicKey;
+
+  /// Help text for the SSH key public key setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Append this line to ~/.ssh/authorized_keys on the server.'**
+  String get sshKeyPublicKeyTip;
+
+  /// User-facing label or message for SSH key recommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get sshKeyRecommended;
+
+  /// Help text for the SSH key unlock setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the passphrase for the private key [{name}].'**
+  String sshKeyUnlockTip(String name);
+
+  /// User-facing label or message for ungrouped.
+  ///
+  /// In en, this message translates to:
+  /// **'Ungrouped'**
+  String get ungrouped;
+
+  /// User-facing label or message for container reclaimable.
+  ///
+  /// In en, this message translates to:
+  /// **'Reclaimable'**
+  String get containerReclaimable;
+
+  /// User-facing label or message for unused.
+  ///
+  /// In en, this message translates to:
+  /// **'Unused'**
+  String get unused;
+
+  /// User-facing label or message for dangling.
+  ///
+  /// In en, this message translates to:
+  /// **'Dangling'**
+  String get dangling;
+
+  /// User-facing label or message for prune unused images.
+  ///
+  /// In en, this message translates to:
+  /// **'Prune unused images'**
+  String get pruneUnusedImages;
+
+  /// User-facing label or message for prune dangling images.
+  ///
+  /// In en, this message translates to:
+  /// **'Prune dangling images'**
+  String get pruneDanglingImages;
+
+  /// User-facing label or message for prune images.
+  ///
+  /// In en, this message translates to:
+  /// **'Prune images'**
+  String get pruneImages;
+
+  /// User-facing label or message for unused tagged images.
+  ///
+  /// In en, this message translates to:
+  /// **'Unused tagged'**
+  String get unusedTaggedImages;
+
+  /// Help text for the prune dangling images setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes dangling images only.'**
+  String get pruneDanglingImagesTip;
+
+  /// Help text for the prune unused images setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Also remove tagged images not used by any container.'**
+  String get pruneUnusedImagesTip;
+
+  /// Help text for the include unused volumes setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Also remove volumes not used by any container.'**
+  String get includeUnusedVolumesTip;
+
+  /// User-facing label or message for prune command preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Command preview'**
+  String get pruneCommandPreview;
+
+  /// Help text for the prune force SSH setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'-f skips the interactive prompt and is always enabled for SSH execution.'**
+  String get pruneForceSshTip;
+
+  /// User-facing label or message for prune volumes.
+  ///
+  /// In en, this message translates to:
+  /// **'Prune volumes'**
+  String get pruneVolumes;
+
+  /// User-facing label or message for prune unused data.
+  ///
+  /// In en, this message translates to:
+  /// **'Prune unused data'**
+  String get pruneUnusedData;
+
+  /// User-facing label or message for pull.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull'**
+  String get pull;
+
+  /// User-facing label or message for invalid host format.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid host format. Only IPv4, IPv6, and domain characters are allowed.'**
+  String get invalidHostFormat;
+
+  /// User-facing label or message for jump server.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump server'**
+  String get jumpServer;
+
+  /// Formatted user-facing message for jump servers not found; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump servers not found for {serverName}: {jumpIds}'**
+  String jumpServersNotFoundFmt(String serverName, String jumpIds);
+
+  /// Formatted user-facing message for name already exists; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{name}\" already exists'**
+  String nameAlreadyExistsFmt(String name);
+
+  /// User-facing label or message for no jump server available.
+  ///
+  /// In en, this message translates to:
+  /// **'No jump server available.'**
+  String get noJumpServerAvailable;
+
+  /// User-facing label or message for jump server and proxy command cannot be used together.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump server and ProxyCommand cannot be used together.'**
+  String get jumpServerAndProxyCommandCannotBeUsedTogether;
+
+  /// User-facing label or message for no connection method.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure SSH, a monitor agent, or both'**
+  String get noConnectionMethod;
+
+  /// User-facing label or message for keep foreground.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep app foreground!'**
+  String get keepForeground;
+
+  /// User-facing label or message for keep status when err.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserve the last server state'**
+  String get keepStatusWhenErr;
+
+  /// Help text for the keep status when err setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Only in the event of an error during script execution'**
+  String get keepStatusWhenErrTip;
+
+  /// User-facing label or message for key auth.
+  ///
+  /// In en, this message translates to:
+  /// **'Key Auth'**
+  String get keyAuth;
+
+  /// Error message shown when last failure.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Failure'**
+  String get lastFailure;
+
+  /// User-facing label or message for last success.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Success'**
+  String get lastSuccess;
+
+  /// User-facing label or message for letter cache.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal keyboard input'**
+  String get letterCache;
+
+  /// Help text for the letter cache setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, input goes through the regular IME, which can avoid secure keyboard prompts in the terminal on some systems.'**
+  String get letterCacheTip;
+
+  /// Help text for the linux shell setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Which shell a terminal starts. Empty restores /bin/sh.'**
+  String get linuxShellTip;
+
+  /// Help text for the linux net setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS servers. Empty restores the defaults'**
+  String get linuxNetTip;
+
+  /// User-facing label or message for made with love.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with ❤️ by {myGithub}'**
+  String madeWithLove(String myGithub);
+
+  /// User-facing label or message for max concurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Concurrency'**
+  String get maxConcurrency;
+
+  /// User-facing label or message for max retry count.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of server reconnections'**
+  String get maxRetryCount;
+
+  /// User-facing label or message for mirror.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror'**
+  String get mirror;
+
+  /// User-facing label or message for need restart.
+  ///
+  /// In en, this message translates to:
+  /// **'App needs to be restarted'**
+  String get needRestart;
+
+  /// User-facing label or message for new container.
+  ///
+  /// In en, this message translates to:
+  /// **'New container'**
+  String get newContainer;
+
+  /// User-facing label or message for no connection stats data.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection statistics data'**
+  String get noConnectionStatsData;
+
+  /// Help text for the no private key setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The private key does not exist, it may have been deleted or there is a configuration error.'**
+  String get noPrivateKeyTip;
+
+  /// User-facing label or message for no prompt again.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not prompt again'**
+  String get noPromptAgain;
+
+  /// Action label for open last path.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the last path'**
+  String get openLastPath;
+
+  /// Help text for the open last path setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Different servers will have different logs, and the log is the path to the exit'**
+  String get openLastPathTip;
+
+  /// Help text for the parse container stats setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Parsing the occupancy status of Docker is relatively slow.'**
+  String get parseContainerStatsTip;
+
+  /// User-facing label or message for private key.
+  ///
+  /// In en, this message translates to:
+  /// **'Private Key'**
+  String get privateKey;
+
+  /// Formatted user-facing message for private key not found; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Private key [{keyId}] not found.'**
+  String privateKeyNotFoundFmt(String keyId);
+
+  /// User-facing label or message for BMC power on action.
+  ///
+  /// In en, this message translates to:
+  /// **'Power on'**
+  String get bmcPowerOnAction;
+
+  /// User-facing label or message for BMC shutdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut down'**
+  String get bmcShutdown;
+
+  /// User-facing label or message for BMC force off.
+  ///
+  /// In en, this message translates to:
+  /// **'Force off'**
+  String get bmcForceOff;
+
+  /// Action label for restart.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get restart;
+
+  /// User-facing label or message for BMC power cycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cycle'**
+  String get bmcPowerCycle;
+
+  /// Confirmation prompt for BMC power confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this to {server}? The service will be asked for \"{resetType}\"'**
+  String bmcPowerConfirm(String server, String resetType);
+
+  /// User-facing label or message for BMC power done.
+  ///
+  /// In en, this message translates to:
+  /// **'The power state changed'**
+  String get bmcPowerDone;
+
+  /// User-facing label or message for BMC power accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted, but the power state has not changed. A graceful operation depends on the OS'**
+  String get bmcPowerAccepted;
+
+  /// User-facing label or message for BMC power unsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This service allows nothing for that action'**
+  String get bmcPowerUnsupported;
+
+  /// User-facing label or message for BMC unauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'The BMC refused the account'**
+  String get bmcUnauthorized;
+
+  /// User-facing label or message for BMC account missing.
+  ///
+  /// In en, this message translates to:
+  /// **'No account is set for this BMC'**
+  String get bmcAccountMissing;
+
+  /// User-facing label or message for BMC power on.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered on'**
+  String get bmcPowerOn;
+
+  /// User-facing label or message for BMC power off.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered off'**
+  String get bmcPowerOff;
+
+  /// User-facing label or message for BMC cert rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate refused — review it in the server settings'**
+  String get bmcCertRejected;
+
+  /// User-facing label or message for BMC not a service.
+  ///
+  /// In en, this message translates to:
+  /// **'No Redfish service at this address'**
+  String get bmcNotAService;
+
+  /// User-facing label or message for BMC no system.
+  ///
+  /// In en, this message translates to:
+  /// **'The service reports no system'**
+  String get bmcNoSystem;
+
+  /// User-facing label or message for BMC sensors truncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first sensors are shown'**
+  String get bmcSensorsTruncated;
+
+  /// User-facing label or message for BMC multiple systems.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first system is shown'**
+  String get bmcMultipleSystems;
+
+  /// Help text for the BMC setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The BMC is a separate computer on the motherboard, reachable when the host OS is not. Configured here, it can report power state and hardware sensors while the server is off or hung. Needs Redfish, which most enterprise hardware from about 2016 on has.'**
+  String get bmcTip;
+
+  /// User-facing label or message for BMC cert.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get bmcCert;
+
+  /// User-facing label or message for BMC cert pinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed and pinned'**
+  String get bmcCertPinned;
+
+  /// User-facing label or message for BMC cert unreviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not reviewed yet — tap to see the certificate'**
+  String get bmcCertUnreviewed;
+
+  /// User-facing label or message for BMC cert review.
+  ///
+  /// In en, this message translates to:
+  /// **'A self-signed certificate. Compare it before accepting. Only this exact one is trusted afterwards.'**
+  String get bmcCertReview;
+
+  /// User-facing label or message for BMC cert changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The certificate does not match. Check it.'**
+  String get bmcCertChanged;
+
+  /// User-facing label or message for BMC cert expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired.'**
+  String get bmcCertExpired;
+
+  /// User-facing label or message for BMC cert was.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously accepted: {fingerprint}'**
+  String bmcCertWas(String fingerprint);
+
+  /// User-facing label or message for BMC addr invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The BMC address must be a URL, e.g. https://10.0.0.9'**
+  String get bmcAddrInvalid;
+
+  /// User-facing label or message for proxy command sandboxed.
+  ///
+  /// In en, this message translates to:
+  /// **'This build is sandboxed: the command gets an empty home, not yours, so anything reading ~/.ssh fails. The DMG build is not.'**
+  String get proxyCommandSandboxed;
+
+  /// User-facing label or message for private key file unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot read the private key file {path}: {reason}'**
+  String privateKeyFileUnreadable(String path, String reason);
+
+  /// User-facing label or message for private key file sandboxed.
+  ///
+  /// In en, this message translates to:
+  /// **'This build cannot read files outside its own container, so the key at {path} is unreachable. Import the key in Settings, or use the DMG build.'**
+  String privateKeyFileSandboxed(String path);
+
+  /// User-facing label or message for push token.
+  ///
+  /// In en, this message translates to:
+  /// **'Push token'**
+  String get pushToken;
+
+  /// User-facing label or message for live activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Activity'**
+  String get liveActivity;
+
+  /// Help text for the live activity setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Show terminal sessions on the Lock Screen and Dynamic Island. Without unlocking, the server name and connection state are visible there.'**
+  String get liveActivityTip;
+
+  /// User-facing label or message for live activity system disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS is not allowing one. The switches are at Settings › ServerBox › Live Activities and Settings › Face ID & Passcode › Live Activities.'**
+  String get liveActivitySystemDisabled;
+
+  /// Shown when a ProxyCommand is used on a phone with no Linux system installed to run it in.
+  ///
+  /// In en, this message translates to:
+  /// **'ProxyCommand runs in this device\'s Linux environment. Install a Linux system first.'**
+  String get proxyCommandNeedsLinux;
+
+  /// Note under the ProxyCommand field on Android and iOS.
+  ///
+  /// In en, this message translates to:
+  /// **'On a phone, the command runs in the selected Linux system. Install the tools it uses (nc, socat, …) there first.'**
+  String get proxyCommandMobileTip;
+
+  /// Help text for the pve ignore cert setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Not recommended to enable, beware of security risks! If you are using the default certificate from PVE, you need to enable this option.'**
+  String get pveIgnoreCertTip;
+
+  /// User-facing label or message for pve password required.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE password is required. Please set it in server settings.'**
+  String get pvePasswordRequired;
+
+  /// User-facing label or message for pve otp required.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication is enabled on this PVE server. Please enter the OTP code.'**
+  String get pveOtpRequired;
+
+  /// User-facing label or message for pve otp code required.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP code is required.'**
+  String get pveOtpCodeRequired;
+
+  /// Error message shown when pve otp verification failed.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP verification failed. Please try again with a fresh code.'**
+  String get pveOtpVerificationFailed;
+
+  /// Title shown for the pve otp dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Verification'**
+  String get pveOtpTitle;
+
+  /// User-facing label or message for pve otp label.
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Code'**
+  String get pveOtpLabel;
+
+  /// Explanatory message shown in the pve invalid response dialog or notice.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE login returned an invalid response body.'**
+  String get pveInvalidResponseBody;
+
+  /// User-facing label or message for pve invalid response data.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE login response did not contain a valid data payload.'**
+  String get pveInvalidResponseData;
+
+  /// User-facing label or message for pve missing auth ticket.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE login succeeded but no authentication ticket was returned.'**
+  String get pveMissingAuthTicket;
+
+  /// User-facing label or message for pve loading connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting...'**
+  String get pveLoadingConnect;
+
+  /// User-facing label or message for pve password.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE Password'**
+  String get pvePassword;
+
+  /// Hint shown in the pve password field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Required when using key-based SSH authentication'**
+  String get pvePasswordHint;
+
+  /// User-facing label or message for read.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get read;
+
+  /// User-facing label or message for recent connections.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Connections'**
+  String get recentConnections;
+
+  /// User-facing label or message for remember pwd in mem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember password in memory'**
+  String get rememberPwdInMem;
+
+  /// Help text for the remember pwd in mem setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Used for containers, suspending, etc.'**
+  String get rememberPwdInMemTip;
+
+  /// User-facing label or message for remote path.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote path'**
+  String get remotePath;
+
+  /// Help text for the rootfs update setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'{distro} {installed} is installed; {latest} is available. Updating replaces the whole container: {pm} data is lost'**
+  String rootfsUpdateTip(
+    String distro,
+    String installed,
+    String latest,
+    String pm,
+  );
+
+  /// User-facing label or message for linux system in use.
+  ///
+  /// In en, this message translates to:
+  /// **'Close the terminals on {name} before deleting it'**
+  String linuxSystemInUse(String name);
+
+  /// User-facing label or message for rootfs subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A Linux userland on this device'**
+  String get rootfsSubtitle;
+
+  /// Help text for the rootfs install setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads {distro} {version} (about {size} MB) and unpacks it on this device.'**
+  String rootfsInstallTip(String distro, String version, int size);
+
+  /// User-facing label or message for same id server exist.
+  ///
+  /// In en, this message translates to:
+  /// **'A server with the same ID already exists'**
+  String get sameIdServerExist;
+
+  /// User-facing label or message for second.
+  ///
+  /// In en, this message translates to:
+  /// **'s'**
+  String get second;
+
+  /// Help text for the server files unavailable setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs SSH to this server, or server_box_monitor installed with its file API on.'**
+  String get serverFilesUnavailableTip;
+
+  /// User-facing label or message for back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// User-facing label or message for history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
+
+  /// User-facing label or message for home dir.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeDir;
+
+  /// User-facing label or message for selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String selected(int count);
+
+  /// Action label for send to.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to…'**
+  String get sendTo;
+
+  /// User-facing label or message for server func btns.
+  ///
+  /// In en, this message translates to:
+  /// **'Server function buttons'**
+  String get serverFuncBtns;
+
+  /// User-facing label or message for server order.
+  ///
+  /// In en, this message translates to:
+  /// **'Server order'**
+  String get serverOrder;
+
+  /// Setting that shows the summary strip at the top of the server tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Server overview'**
+  String get serverOverview;
+
+  /// Help text for the server overview setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the summary at the top of the server list, and the row of servers above an open one'**
+  String get serverOverviewTip;
+
+  /// Empty-state message for server tab empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No servers yet'**
+  String get serverTabEmpty;
+
+  /// User-facing label or message for server tab required.
+  ///
+  /// In en, this message translates to:
+  /// **'Server tab cannot be removed'**
+  String get serverTabRequired;
+
+  /// Hint shown in the share code field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell the recipient these digits separately. They are not included in the QR code.'**
+  String get shareCodeHint;
+
+  /// User-facing label or message for share code prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get shareCodePrompt;
+
+  /// Title shown for the share code dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time code'**
+  String get shareCodeTitle;
+
+  /// User-facing label or message for share expired.
+  ///
+  /// In en, this message translates to:
+  /// **'This share has expired. Ask for a new one.'**
+  String get shareExpired;
+
+  /// User-facing label or message for share import file.
+  ///
+  /// In en, this message translates to:
+  /// **'From a shared file'**
+  String get shareImportFile;
+
+  /// Title shown for the share import dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Import shared server'**
+  String get shareImportTitle;
+
+  /// User-facing label or message for share includes key.
+  ///
+  /// In en, this message translates to:
+  /// **'The share includes the private key.'**
+  String get shareIncludesKey;
+
+  /// User-facing label or message for share omitted BMC.
+  ///
+  /// In en, this message translates to:
+  /// **'BMC credentials. The address is included, but the credentials are not.'**
+  String get shareOmittedBmc;
+
+  /// User-facing label or message for share omitted jump.
+  ///
+  /// In en, this message translates to:
+  /// **'The jump server, because it is stored as a separate server on this device.'**
+  String get shareOmittedJump;
+
+  /// User-facing label or message for share omitted key path.
+  ///
+  /// In en, this message translates to:
+  /// **'The key file, because its path is only valid on this device.'**
+  String get shareOmittedKeyPath;
+
+  /// User-facing label or message for share omitted missing key.
+  ///
+  /// In en, this message translates to:
+  /// **'The private key, because it is not in this device’s key store.'**
+  String get shareOmittedMissingKey;
+
+  /// Help text for the share omitted setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Not included; the recipient must configure:'**
+  String get shareOmittedTip;
+
+  /// Help text for the share passphrase setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This passphrase encrypts the file. The recipient needs it to import the server, and it cannot be recovered.'**
+  String get sharePassphraseTip;
+
+  /// Help text for the share qr setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The connection details in this QR code are encrypted. The share expires in {minutes} minutes.'**
+  String shareQrTip(int minutes);
+
+  /// User-facing label or message for share scan qr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR code'**
+  String get shareScanQr;
+
+  /// User-facing label or message for share server exists.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” on this device already uses this address. Import anyway?'**
+  String shareServerExists(String name);
+
+  /// User-facing label or message for share too big for qr.
+  ///
+  /// In en, this message translates to:
+  /// **'Too large for a QR code. Share it as a file instead.'**
+  String get shareTooBigForQr;
+
+  /// User-facing label or message for share too new.
+  ///
+  /// In en, this message translates to:
+  /// **'This share was created with a newer version of ServerBox. Update the app to open it.'**
+  String get shareTooNew;
+
+  /// User-facing label or message for share unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a valid ServerBox share.'**
+  String get shareUnreadable;
+
+  /// User-facing label or message for share via.
+  ///
+  /// In en, this message translates to:
+  /// **'Share via'**
+  String get shareVia;
+
+  /// User-facing label or message for sftp dl prepare.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing to connect...'**
+  String get sftpDlPrepare;
+
+  /// Help text for the sftp editor setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty uses the built-in editor. For example `vim` (reading `EDITOR` is suggested).'**
+  String get sftpEditorTip;
+
+  /// User-facing label or message for sftp rmr dir summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Use `rm -r` to delete a folder in SFTP.'**
+  String get sftpRmrDirSummary;
+
+  /// User-facing label or message for sftp SSH connected.
+  ///
+  /// In en, this message translates to:
+  /// **'SFTP Connected'**
+  String get sftpSSHConnected;
+
+  /// User-facing label or message for sftp show folders first.
+  ///
+  /// In en, this message translates to:
+  /// **'Display folders first'**
+  String get sftpShowFoldersFirst;
+
+  /// User-facing label or message for sftp unavailable use scp.
+  ///
+  /// In en, this message translates to:
+  /// **'If this host has no SFTP subsystem, as many embedded devices do not, set its file transfer to SCP in the server settings.'**
+  String get sftpUnavailableUseScp;
+
+  /// Help text for the SSH file transport setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'SFTP suits anything current. Choose SCP for an old or embedded host whose SSH server has no SFTP subsystem: it needs the `scp` command and a shell that also has the usual file utilities (`find`, `stat`, `mv`, `chmod`).'**
+  String get sshFileTransportTip;
+
+  /// User-facing label or message for specify dev.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify device'**
+  String get specifyDev;
+
+  /// Help text for the specify dev setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Network traffic counts every device by default; name one here instead'**
+  String get specifyDevTip;
+
+  /// Help text for the temp is celsius setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, the temperature value will be treated as Celsius instead of millicelsius. Turn on only if the temperature displays incorrectly (e.g., showing 0.1°C instead of 58°C).'**
+  String get tempIsCelsiusTip;
+
+  /// User-facing label or message for spent time.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent time: {time}'**
+  String spentTime(String time);
+
+  /// User-facing label or message for SSH config all exist.
+  ///
+  /// In en, this message translates to:
+  /// **'All servers already exist ({duplicateCount} duplicates found)'**
+  String sshConfigAllExist(int duplicateCount);
+
+  /// User-facing label or message for SSH config duplicates skipped.
+  ///
+  /// In en, this message translates to:
+  /// **'{duplicateCount} duplicates will be skipped'**
+  String sshConfigDuplicatesSkipped(int duplicateCount);
+
+  /// User-facing label or message for SSH config found.
+  ///
+  /// In en, this message translates to:
+  /// **'We found SSH configuration on your system.'**
+  String get sshConfigFound;
+
+  /// User-facing label or message for SSH config found servers.
+  ///
+  /// In en, this message translates to:
+  /// **'Found {totalCount} servers'**
+  String sshConfigFoundServers(int totalCount);
+
+  /// User-facing label or message for SSH config import.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH Config Import'**
+  String get sshConfigImport;
+
+  /// User-facing label or message for SSH config import permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to give permission to read ~/.ssh/config and automatically import server settings?'**
+  String get sshConfigImportPermission;
+
+  /// Help text for the SSH config import setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Prompt to read ~/.ssh/config on first server creation'**
+  String get sshConfigImportTip;
+
+  /// User-facing label or message for SSH config imported.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported {count} servers from SSH config'**
+  String sshConfigImported(int count);
+
+  /// Description of the SSH host key changed desc feature or option.
+  ///
+  /// In en, this message translates to:
+  /// **'The SSH host key changed for {serverName}. Only continue if you trust this server.'**
+  String sshHostKeyChangedDesc(String serverName);
+
+  /// Label for the SSH host key type displayed in the host key verification dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH host key type'**
+  String get sshHostKeyType;
+
+  /// User-facing label or message for SSH known host keys.
+  ///
+  /// In en, this message translates to:
+  /// **'Known hosts'**
+  String get sshKnownHostKeys;
+
+  /// Help text for the SSH known host keys setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The host keys this app has accepted'**
+  String get sshKnownHostKeysTip;
+
+  /// Description of the SSH host key new desc feature or option.
+  ///
+  /// In en, this message translates to:
+  /// **'A new SSH host key was received from {serverName}. Review the fingerprint before trusting.'**
+  String sshHostKeyNewDesc(String serverName);
+
+  /// User-facing label or message for SSH host key stored fingerprint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored fingerprint: {fingerprint}'**
+  String sshHostKeyStoredFingerprint(String fingerprint);
+
+  /// Label for a one-time verification code requested during SSH keyboard-interactive authentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get sshVerificationCode;
+
+  /// User-facing label or message for SSH config manual select.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to select the SSH config file manually?'**
+  String get sshConfigManualSelect;
+
+  /// User-facing label or message for SSH config no servers.
+  ///
+  /// In en, this message translates to:
+  /// **'No servers found in SSH config'**
+  String get sshConfigNoServers;
+
+  /// User-facing label or message for SSH config permission denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot access SSH config file due to macOS permissions.'**
+  String get sshConfigPermissionDenied;
+
+  /// User-facing label or message for SSH config servers to import.
+  ///
+  /// In en, this message translates to:
+  /// **'{importCount} servers will be imported'**
+  String sshConfigServersToImport(int importCount);
+
+  /// User-facing label or message for SSH term help.
+  ///
+  /// In en, this message translates to:
+  /// **'When the terminal is scrollable, dragging horizontally can select text. Clicking the keyboard button turns the keyboard on/off. The file icon opens the current path SFTP. The clipboard button copies the content when text is selected, and pastes content from the clipboard into the terminal when no text is selected and there is content on the clipboard. The code icon pastes code snippets into the terminal and executes them.'**
+  String get sshTermHelp;
+
+  /// User-facing label or message for SSH virtual key auto off.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto switching of virtual keys'**
+  String get sshVirtualKeyAutoOff;
+
+  /// User-facing label or message for support fmt args.
+  ///
+  /// In en, this message translates to:
+  /// **'The following formatting parameters are supported:'**
+  String get supportFmtArgs;
+
+  /// Help text for the suspend setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The suspend function requires root permission and systemd support.'**
+  String get suspendTip;
+
+  /// User-facing label or message for switch to.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to {val}'**
+  String switchTo(String val);
+
+  /// User-facing label or message for sync app settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync app settings'**
+  String get syncAppSettings;
+
+  /// Help text for the sync app settings setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Include theme, layout, editor, terminal and other device preferences in automatic sync.'**
+  String get syncAppSettingsTip;
+
+  /// Help text for the term font size setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This setting will affect the terminal size (width and height). You can zoom in on the terminal page to adjust the font size of the current session.'**
+  String get termFontSizeTip;
+
+  /// Help text for the text scaler setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'1.0 => 100% (original size), only works on server page part of the font, not recommended to change.'**
+  String get textScalerTip;
+
+  /// User-facing label or message for times.
+  ///
+  /// In en, this message translates to:
+  /// **'Times'**
+  String get times;
+
+  /// User-facing label or message for try sudo.
+  ///
+  /// In en, this message translates to:
+  /// **'Try using sudo'**
+  String get trySudo;
+
+  /// User-facing label or message for sudo prompt not found.
+  ///
+  /// In en, this message translates to:
+  /// **'No sudo password prompt is active.'**
+  String get sudoPromptNotFound;
+
+  /// Action label for update server status interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Server status update interval'**
+  String get updateServerStatusInterval;
+
+  /// User-facing label or message for use no pwd.
+  ///
+  /// In en, this message translates to:
+  /// **'No password will be used'**
+  String get useNoPwd;
+
+  /// User-facing label or message for use podman by default.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Podman by default'**
+  String get usePodmanByDefault;
+
+  /// User-facing label or message for used.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get used;
+
+  /// User-facing label or message for view details.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// User-facing label or message for virt key help ime.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on/off the keyboard'**
+  String get virtKeyHelpIME;
+
+  /// User-facing label or message for virt key help sftp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open current directory in SFTP.'**
+  String get virtKeyHelpSFTP;
+
+  /// User-facing label or message for virt key help snippet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a snippet and run it in this terminal.'**
+  String get virtKeyHelpSnippet;
+
+  /// User-facing label or message for virt key help tmux.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between tmux sessions and windows.'**
+  String get virtKeyHelpTmux;
+
+  /// User-facing label or message for virt key intro actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get virtKeyIntroActions;
+
+  /// Help text for the virt key intro actions setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'These open something instead of typing. Hold one to read what it does.'**
+  String get virtKeyIntroActionsTip;
+
+  /// Help text for the virt key intro customize setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder these keys, turn on more (the file browser, sudo, F1–F12…), or hide the ones you never reach for, in the terminal settings.'**
+  String get virtKeyIntroCustomizeTip;
+
+  /// User-facing label or message for virt key intro modifiers.
+  ///
+  /// In en, this message translates to:
+  /// **'Modifiers'**
+  String get virtKeyIntroModifiers;
+
+  /// Help text for the virt key intro modifiers setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap one to arm it, then tap a letter on the keyboard. It stays on for that one key.'**
+  String get virtKeyIntroModifiersTip;
+
+  /// User-facing label or message for virt key intro nav.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation'**
+  String get virtKeyIntroNav;
+
+  /// Help text for the virt key intro nav setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'These move the cursor. Hold an arrow to repeat it.'**
+  String get virtKeyIntroNavTip;
+
+  /// User-facing label or message for virt key intro select.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag sideways over the terminal to select text, whenever it has something to scroll.'**
+  String get virtKeyIntroSelect;
+
+  /// User-facing label or message for virt key rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows shown at once'**
+  String get virtKeyRows;
+
+  /// Help text for the virt key rows setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The rest go on a page of their own, swiped sideways.'**
+  String get virtKeyRowsTip;
+
+  /// User-facing label or message for wait connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait for the connection to be established.'**
+  String get waitConnection;
+
+  /// User-facing label or message for wake lock.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep awake'**
+  String get wakeLock;
+
+  /// User-facing label or message for watch not paired.
+  ///
+  /// In en, this message translates to:
+  /// **'No paired Apple Watch'**
+  String get watchNotPaired;
+
+  /// Empty-state message for webdav setting empty.
+  ///
+  /// In en, this message translates to:
+  /// **'WebDav setting is empty'**
+  String get webdavSettingEmpty;
+
+  /// User-facing label or message for when open app.
+  ///
+  /// In en, this message translates to:
+  /// **'When opening the app'**
+  String get whenOpenApp;
+
+  /// Help text for the wol setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'After configuring WOL (Wake-on-LAN), a WOL request is sent each time the server is connected.'**
+  String get wolTip;
+
+  /// User-facing label or message for write.
+  ///
+  /// In en, this message translates to:
+  /// **'Write'**
+  String get write;
+
+  /// Help text for the write script fail setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing to the script failed, possibly due to lack of permissions or the directory does not exist.'**
+  String get writeScriptFailTip;
+
+  /// Help text for the write script setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'After connecting to the server, a script will be written to `~/.config/server_box` \n | `/tmp/server_box` to monitor the system status. You can review the script content.'**
+  String get writeScriptTip;
+
+  /// User-facing label or message for menu git hub repository.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Repository'**
+  String get menuGitHubRepository;
+
+  /// User-facing label or message for podman docker emulation detected.
+  ///
+  /// In en, this message translates to:
+  /// **'Podman Docker emulation detected. Please switch to Podman in settings.'**
+  String get podmanDockerEmulationDetected;
+
+  /// Help text for the beta setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is still in beta testing. Functionality is not guaranteed.'**
+  String get betaTip;
+
+  /// User-facing label or message for port forward start prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a port forward rule to get started'**
+  String get portForward_startPrompt;
+
+  /// User-facing label or message for port forward local host.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Host'**
+  String get portForward_localHost;
+
+  /// User-facing label or message for port forward local port.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Port'**
+  String get portForward_localPort;
+
+  /// User-facing label or message for port forward remote host.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote Host'**
+  String get portForward_remoteHost;
+
+  /// User-facing label or message for port forward remote port.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote Port'**
+  String get portForward_remotePort;
+
+  /// Formatted user-facing message for port forward delete confirm; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String portForward_deleteConfirmFmt(String name);
+
+  /// User-facing label or message for sponsor.
+  ///
+  /// In en, this message translates to:
+  /// **'Sponsor'**
+  String get sponsor;
+
+  /// User-facing label or message for sort by join time.
+  ///
+  /// In en, this message translates to:
+  /// **'By join time'**
+  String get sortByJoinTime;
+
+  /// User-facing label or message for tmux auto attach.
+  ///
+  /// In en, this message translates to:
+  /// **'tmux auto-attach'**
+  String get tmuxAutoAttach;
+
+  /// User-facing label or message for tmux auto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto tmux'**
+  String get tmuxAuto;
+
+  /// Help text for the tmux auto setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically start or attach tmux when connecting over SSH'**
+  String get tmuxAutoTip;
+
+  /// User-facing label or message for tmux session selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Session selector'**
+  String get tmuxSessionSelector;
+
+  /// Help text for the tmux session selector setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the session picker when connecting'**
+  String get tmuxSessionSelectorTip;
+
+  /// User-facing label or message for tmux default session name.
+  ///
+  /// In en, this message translates to:
+  /// **'Default session name'**
+  String get tmuxDefaultSessionName;
+
+  /// User-facing label or message for tmux session name.
+  ///
+  /// In en, this message translates to:
+  /// **'Session name'**
+  String get tmuxSessionName;
+
+  /// User-facing label or message for tmux new session.
+  ///
+  /// In en, this message translates to:
+  /// **'New session'**
+  String get tmuxNewSession;
+
+  /// User-facing label or message for tmux new window.
+  ///
+  /// In en, this message translates to:
+  /// **'New window'**
+  String get tmuxNewWindow;
+
+  /// User-facing label or message for tmux no windows found.
+  ///
+  /// In en, this message translates to:
+  /// **'No windows found'**
+  String get tmuxNoWindowsFound;
+
+  /// User-facing label or message for tmux window count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 window} other{{count} windows}}'**
+  String tmuxWindowCount(int count);
+
+  /// User-facing label or message for tmux attached.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached'**
+  String get tmuxAttached;
+
+  /// User-facing label or message for tmux skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get tmuxSkip;
+
+  /// User-facing label or message for tmux not available.
+  ///
+  /// In en, this message translates to:
+  /// **'tmux is not available'**
+  String get tmuxNotAvailable;
+
+  /// User-facing label or message for container segments mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Unexpected container response segment count: {count}'**
+  String containerSegmentsMismatch(int count);
+
+  /// User-facing label or message for container operation in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Another container operation is already in progress'**
+  String get containerOperationInProgress;
+
+  /// User-facing label or message for process count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 process} other{{count} processes}}'**
+  String processCount(int count);
+
+  /// User-facing label or message for process parse unsupported output.
+  ///
+  /// In en, this message translates to:
+  /// **'The process list format is not supported.'**
+  String get processParseUnsupportedOutput;
+
+  /// User-facing label or message for process parse invalid rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Some process entries could not be read.'**
+  String get processParseInvalidRows;
+
+  /// User-facing label or message for process parse invalid windows json.
+  ///
+  /// In en, this message translates to:
+  /// **'The Windows process response could not be read.'**
+  String get processParseInvalidWindowsJson;
+
+  /// User-facing label or message for process parse invalid windows rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Some Windows process entries could not be read.'**
+  String get processParseInvalidWindowsRows;
+
+  /// User-facing label or message for process kill target changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The process changed or exited. Refresh and try again.'**
+  String get processKillTargetChanged;
+
+  /// Hint shown in the process search field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, user or PID'**
+  String get processSearchHint;
+
+  /// User-facing label or message for process show kernel threads.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Show 1 kernel thread} other{Show {count} kernel threads}}'**
+  String processShowKernelThreads(int count);
+
+  /// User-facing label or message for process force kill.
+  ///
+  /// In en, this message translates to:
+  /// **'Force kill'**
+  String get processForceKill;
+
+  /// User-facing label or message for process started.
+  ///
+  /// In en, this message translates to:
+  /// **'Started'**
+  String get processStarted;
+
+  /// User-facing label or message for process threads.
+  ///
+  /// In en, this message translates to:
+  /// **'Threads'**
+  String get processThreads;
+
+  /// User-facing label or message for watch servers.
+  ///
+  /// In en, this message translates to:
+  /// **'Servers on the watch'**
+  String get watchServers;
+
+  /// Help text for the watch servers setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The watch fetches from the monitor on its own, so only servers with one can be picked.'**
+  String get watchServersTip;
+
+  /// User-facing label or message for watch no monitor server.
+  ///
+  /// In en, this message translates to:
+  /// **'No server has a monitor agent configured'**
+  String get watchNoMonitorServer;
+
+  /// Title shown for the legacy status gone dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Status URLs no longer work'**
+  String get legacyStatusGoneTitle;
+
+  /// Explanatory message shown in the legacy status gone dialog or notice.
+  ///
+  /// In en, this message translates to:
+  /// **'The watch app and home widgets used to read a `/status` address typed by hand. That endpoint is gone: it could only report current values as text, which is why they could never show a chart.\n\nThey now read the monitor agent\'s authenticated API, so they draw trends and stay in step with the app on their own. Configure the server in the app once, and every watch and widget picks it up.'**
+  String get legacyStatusGoneBody;
+
+  /// User-facing label or message for services.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get services;
+
+  /// User-facing label or message for status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// Action label for enable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get enable;
+
+  /// User-facing label or message for disable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable'**
+  String get disable;
+
+  /// Action label for starting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get starting;
+
+  /// Action label for stopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopping'**
+  String get stopping;
+
+  /// User-facing label or message for service manager unsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported service manager'**
+  String get serviceManagerUnsupported;
+
+  /// Help text for the service manager unsupported setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This server uses a service manager that ServerBox does not support yet. Supported managers: systemd, procd, and OpenRC.'**
+  String get serviceManagerUnsupportedTip;
+
+  /// Formatted user-facing message for service manager; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Managed by {manager}'**
+  String serviceManagerFmt(String manager);
+
+  /// Error message shown when service list failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not list services'**
+  String get serviceListFailed;
+
+  /// User-facing label or message for service details unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Some service details are unavailable'**
+  String get serviceDetailsUnavailable;
+
+  /// Help text for the service details unavailable setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The service list is usable, but the manager did not return all status or startup information.'**
+  String get serviceDetailsUnavailableTip;
+
+  /// User-facing label or message for systemd user scope missing.
+  ///
+  /// In en, this message translates to:
+  /// **'User units are not listed'**
+  String get systemdUserScopeMissing;
+
+  /// Help text for the systemd user scope missing setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has no user session bus on the server, so only system units are shown.'**
+  String get systemdUserScopeMissingTip;
+
+  /// Hint shown in the service search field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit name'**
+  String get serviceSearchHint;
+
+  /// User-facing label or message for service needs attention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get serviceNeedsAttention;
+
+  /// User-facing label or message for service other units.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 other unit} other{{count} other units}}'**
+  String serviceOtherUnits(int count);
+
+  /// User-facing label or message for service unit.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit'**
+  String get serviceUnit;
+
+  /// User-facing label or message for service unit type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get serviceUnitType;
+
+  /// User-facing label or message for service scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope'**
+  String get serviceScope;
+
+  /// User-facing label or message for service startup.
+  ///
+  /// In en, this message translates to:
+  /// **'Startup'**
+  String get serviceStartup;
+
+  /// User-facing label or message for service up for.
+  ///
+  /// In en, this message translates to:
+  /// **'up {duration}'**
+  String serviceUpFor(String duration);
+
+  /// User-facing label or message for service down for.
+  ///
+  /// In en, this message translates to:
+  /// **'down {duration}'**
+  String serviceDownFor(String duration);
+
+  /// User-facing label or message for service next in.
+  ///
+  /// In en, this message translates to:
+  /// **'next {duration}'**
+  String serviceNextIn(String duration);
+
+  /// User-facing label or message for service stopped ago.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped {duration} ago'**
+  String serviceStoppedAgo(String duration);
+
+  /// User-facing label or message for service exit status.
+  ///
+  /// In en, this message translates to:
+  /// **'exit status {code}'**
+  String serviceExitStatus(int code);
+
+  /// User-facing label or message for service full journal.
+  ///
+  /// In en, this message translates to:
+  /// **'Full journal'**
+  String get serviceFullJournal;
+
+  /// User-facing label or message for service unit file.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit file'**
+  String get serviceUnitFile;
+
+  /// User-facing label or message for service journal recent.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Last line} other{Last {count} lines}}'**
+  String serviceJournalRecent(int count);
+
+  /// User-facing label or message for service journal unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'This account cannot read the journal'**
+  String get serviceJournalUnreadable;
+
+  /// User-facing label or message for server unreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not run a command on this server'**
+  String get serverUnreachable;
+
+  /// User-facing label or message for container no runtime.
+  ///
+  /// In en, this message translates to:
+  /// **'No container runtime here'**
+  String get containerNoRuntime;
+
+  /// Help text for the container no runtime setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither `docker` nor `podman` answered on this machine. If one is installed for another account, turn on \"Try using sudo\" in Settings.'**
+  String get containerNoRuntimeTip;
+
+  /// User-facing label or message for container unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'The container runtime answered in an unexpected form'**
+  String get containerUnreadable;
+
+  /// User-facing label or message for power.
+  ///
+  /// In en, this message translates to:
+  /// **'Power'**
+  String get power;
+
+  /// User-facing label or message for fan.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan'**
+  String get fan;
+
+  /// User-facing label or message for clock speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock'**
+  String get clockSpeed;
+
+  /// User-facing label or message for vendor.
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor'**
+  String get vendor;
+
+  /// User-facing label or message for continue in terminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue in terminal'**
+  String get continueInTerminal;
+
+  /// User-facing label or message for ask AI risk unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclassified'**
+  String get askAiRiskUnknown;
+
+  /// User-facing label or message for agent local exec.
+  ///
+  /// In en, this message translates to:
+  /// **'Run commands on this device'**
+  String get agentLocalExec;
+
+  /// Help text for the agent local exec setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets the Agent work on the machine running ServerBox. Even read-only commands are reviewed'**
+  String get agentLocalExecTip;
+
+  /// Help text for the agent local exec rootfs setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets the Agent work locally, confined to the Linux container ServerBox installed'**
+  String get agentLocalExecRootfsTip;
+
+  /// User-facing label or message for mac DMG imported partly.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported the data of the previously installed build. Downloaded files were left where they were, in {path}.'**
+  String macDmgImportedPartly(String path);
+
+  /// User-facing label or message for BMC account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get bmcAccount;
+
+  /// User-facing label or message for BMC account unset.
+  ///
+  /// In en, this message translates to:
+  /// **'None picked - tap to choose or create one'**
+  String get bmcAccountUnset;
+
+  /// User-facing label or message for BMC account shared.
+  ///
+  /// In en, this message translates to:
+  /// **'Used by {count} servers'**
+  String bmcAccountShared(int count);
+
+  /// User-facing label or message for BMC accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'BMC accounts'**
+  String get bmcAccounts;
+
+  /// Help text for the BMC account shared setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing this changes what all of them use.'**
+  String get bmcAccountSharedTip;
+
+  /// User-facing label or message for BMC account in use.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} servers use it. They keep their address and lose the account.'**
+  String bmcAccountInUse(int count);
+
+  /// User-facing label or message for BMC stale write.
+  ///
+  /// In en, this message translates to:
+  /// **'The BMC changed while this was being written. Try again.'**
+  String get bmcStaleWrite;
+
+  /// User-facing label or message for privacy blur.
+  ///
+  /// In en, this message translates to:
+  /// **'Background privacy'**
+  String get privacyBlur;
+
+  /// Help text for the privacy blur setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide app content in the app switcher'**
+  String get privacyBlurTip;
+
+  /// User-facing label or message for float return to tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to tab'**
+  String get floatReturnToTab;
+
+  /// User-facing label or message for term in float window.
+  ///
+  /// In en, this message translates to:
+  /// **'This terminal is in the floating window'**
+  String get termInFloatWindow;
+
+  /// Help text for the globe enabled setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Draw servers on a globe, at where their addresses are. Off removes the button from the server tab and stops every lookup.'**
+  String get globeEnabledTip;
+
+  /// User-facing label or message for geo shards consent attribution.
+  ///
+  /// In en, this message translates to:
+  /// **'IP geolocation by [DB-IP](https://db-ip.com), CC BY 4.0.'**
+  String get geoShardsConsentAttribution;
+
+  /// User-facing label or message for geo miss private.
+  ///
+  /// In en, this message translates to:
+  /// **'Private address'**
+  String get geoMissPrivate;
+
+  /// Empty-state message for geo miss no data.
+  ///
+  /// In en, this message translates to:
+  /// **'No location data'**
+  String get geoMissNoData;
+
+  /// User-facing label or message for globe guide.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to see your servers on a globe, at where their addresses are.'**
+  String get globeGuide;
+
+  /// User-facing label or message for public IP.
+  ///
+  /// In en, this message translates to:
+  /// **'Public IP'**
+  String get publicIp;
+
+  /// User-facing label or message for geo data.
+  ///
+  /// In en, this message translates to:
+  /// **'City-level data'**
+  String get geoData;
+
+  /// Help text for the geo data setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'After download, every geolocation lookup uses data stored on this device. Server addresses and lookup activity are not sent to the download service.'**
+  String get geoDataTip;
+
+  /// User-facing label or message for geo data missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not downloaded'**
+  String get geoDataMissing;
+
+  /// User-facing label or message for geo data unreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch the data.'**
+  String get geoDataUnreachable;
+
+  /// Error message shown when geo data remove failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the data.'**
+  String get geoDataRemoveFailed;
+
+  /// User-facing label or message for geo data current.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} is already installed.'**
+  String geoDataCurrent(String month);
+
+  /// User-facing label or message for geo data consent.
+  ///
+  /// In en, this message translates to:
+  /// **'**Download: {download} · On-device storage: {disk}.** The complete dataset is stored on this device, and every later geolocation lookup is performed locally. Server addresses and lookup activity are not sent to the download service.\n\nUpdated monthly. A newer version replaces the installed data without keeping an extra copy. You can delete it at any time.'**
+  String geoDataConsent(String download, String disk);
+
+  /// User-facing label or message for benchmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Benchmark'**
+  String get benchmark;
+
+  /// Introductory text for the benchmark screen or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Runs Yet Another Bench Script on this server: disk, network and CPU. A full run takes 10–20 minutes and keeps going if you leave this page or close the app.'**
+  String get benchmarkIntro;
+
+  /// User-facing label or message for benchmark no runs.
+  ///
+  /// In en, this message translates to:
+  /// **'No benchmarks yet.'**
+  String get benchmarkNoRuns;
+
+  /// Status message shown while benchmark running.
+  ///
+  /// In en, this message translates to:
+  /// **'Benchmark running'**
+  String get benchmarkRunning;
+
+  /// Error message shown when benchmark start failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the benchmark'**
+  String get benchmarkStartFailed;
+
+  /// Confirmation prompt for benchmark cancel confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop this benchmark? What it has measured so far is lost.'**
+  String get benchmarkCancelConfirm;
+
+  /// Confirmation prompt for benchmark delete confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this benchmark result?'**
+  String get benchmarkDeleteConfirm;
+
+  /// User-facing label or message for benchmark nothing selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Every phase is off. The run will collect system information only, and take a few seconds.'**
+  String get benchmarkNothingSelected;
+
+  /// Help text for the benchmark disk setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'fio at four block sizes, about 3 minutes. Writes a 2 GB test file into the working directory and needs that much free.'**
+  String get benchmarkDiskTip;
+
+  /// Help text for the benchmark network setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'iperf3 against public servers, about 4 minutes.'**
+  String get benchmarkNetworkTip;
+
+  /// User-facing label or message for benchmark reduced network.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer locations'**
+  String get benchmarkReducedNetwork;
+
+  /// Help text for the benchmark reduced network setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Three locations instead of seven. Roughly {full} of traffic becomes {reduced}.'**
+  String benchmarkReducedNetworkTip(String full, String reduced);
+
+  /// Help text for the benchmark CPU setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads Geekbench, a proprietary program, and **publishes the result to a public page on geekbench.com** — CPU model, core count and memory included.'**
+  String get benchmarkCpuTip;
+
+  /// User-facing label or message for benchmark sensitive options.
+  ///
+  /// In en, this message translates to:
+  /// **'The options below download and run third-party software on this server or send server information to third parties. They are off by default.'**
+  String get benchmarkSensitiveOptions;
+
+  /// Help text for the benchmark IP info setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends this server\'s public address to ip-api.com over plain HTTP.'**
+  String get benchmarkIpInfoTip;
+
+  /// User-facing label or message for benchmark IP info.
+  ///
+  /// In en, this message translates to:
+  /// **'Look up IP owner'**
+  String get benchmarkIpInfo;
+
+  /// User-facing label or message for benchmark prefer bin.
+  ///
+  /// In en, this message translates to:
+  /// **'Download fio and iperf3'**
+  String get benchmarkPreferBin;
+
+  /// Help text for the benchmark prefer bin setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads them from GitHub instead of using the host\'s packages. Turn on only if the host has neither installed.'**
+  String get benchmarkPreferBinTip;
+
+  /// User-facing label or message for benchmark work dir.
+  ///
+  /// In en, this message translates to:
+  /// **'Working directory'**
+  String get benchmarkWorkDir;
+
+  /// Help text for the benchmark work dir setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Decides which filesystem the disk test measures. Empty means the login account\'s home directory.'**
+  String get benchmarkWorkDirTip;
+
+  /// User-facing label or message for benchmark estimated time.
+  ///
+  /// In en, this message translates to:
+  /// **'About {minutes} min'**
+  String benchmarkEstimatedTime(int minutes);
+
+  /// User-facing label or message for benchmark estimated traffic.
+  ///
+  /// In en, this message translates to:
+  /// **'About {size} of traffic'**
+  String benchmarkEstimatedTraffic(String size);
+
+  /// User-facing label or message for benchmark phase system.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading system information'**
+  String get benchmarkPhaseSystem;
+
+  /// User-facing label or message for benchmark phase disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Testing disk'**
+  String get benchmarkPhaseDisk;
+
+  /// User-facing label or message for benchmark phase network.
+  ///
+  /// In en, this message translates to:
+  /// **'Testing network'**
+  String get benchmarkPhaseNetwork;
+
+  /// User-facing label or message for benchmark phase CPU.
+  ///
+  /// In en, this message translates to:
+  /// **'Testing CPU'**
+  String get benchmarkPhaseCpu;
+
+  /// User-facing label or message for benchmark phase done.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing'**
+  String get benchmarkPhaseDone;
+
+  /// User-facing label or message for benchmark result unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'This result could not be read as JSON. The raw text is below.'**
+  String get benchmarkResultUnreadable;
+
+  /// User-facing label or message for benchmark view on geekbench.
+  ///
+  /// In en, this message translates to:
+  /// **'View on Geekbench'**
+  String get benchmarkViewOnGeekbench;
+
+  /// User-facing label or message for benchmark geekbench public.
+  ///
+  /// In en, this message translates to:
+  /// **'This result is published publicly at the link above.'**
+  String get benchmarkGeekbenchPublic;
+
+  /// User-facing label or message for benchmark single core.
+  ///
+  /// In en, this message translates to:
+  /// **'Single core'**
+  String get benchmarkSingleCore;
+
+  /// User-facing label or message for benchmark multi core.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi core'**
+  String get benchmarkMultiCore;
+
+  /// User-facing label or message for benchmark IOPS.
+  ///
+  /// In en, this message translates to:
+  /// **'IOPS'**
+  String get benchmarkIops;
+
+  /// User-facing label or message for benchmark send.
+  ///
+  /// In en, this message translates to:
+  /// **'Up'**
+  String get benchmarkSend;
+
+  /// User-facing label or message for benchmark recv.
+  ///
+  /// In en, this message translates to:
+  /// **'Down'**
+  String get benchmarkRecv;
+
+  /// User-facing label or message for benchmark latency.
+  ///
+  /// In en, this message translates to:
+  /// **'Latency'**
+  String get benchmarkLatency;
+
+  /// User-facing label or message for benchmark virt.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtualization'**
+  String get benchmarkVirt;
+
+  /// User-facing label or message for benchmark raw log.
+  ///
+  /// In en, this message translates to:
+  /// **'Run log'**
+  String get benchmarkRawLog;
+
+  /// User-facing label or message for benchmark upstream.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by Yet Another Bench Script ({version})'**
+  String benchmarkUpstream(String version);
+
+  /// User-facing label or message for benchmark phase starting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting'**
+  String get benchmarkPhaseStarting;
+
+  /// User-facing label or message for benchmark no output yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No output yet. Before printing its first line, YABS checks whether google.com and icanhazip.com are reachable. On networks that block either site, this can take several minutes.'**
+  String get benchmarkNoOutputYet;
+
+  /// Help text for the tags empty setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'No tags yet. Add one while editing a server and it will appear here.'**
+  String get tagsEmptyTip;
+
+  /// User-facing label or message for benchmark no servers.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a server first, then return here to benchmark it.'**
+  String get benchmarkNoServers;
+
+  /// Title shown for the schema too new dialog or section.
+  ///
+  /// In en, this message translates to:
+  /// **'This data is newer than the app'**
+  String get schemaTooNewTitle;
+
+  /// Explanatory message shown in the schema too new dialog or notice.
+  ///
+  /// In en, this message translates to:
+  /// **'It was written by a newer version of ServerBox (storage v{stored}). This version reads up to v{supported}; nothing has been changed.'**
+  String schemaTooNewBody(int stored, int supported);
+
+  /// User-facing label or message for schema too new reinstall.
+  ///
+  /// In en, this message translates to:
+  /// **'Reinstall the newer version to open all your data again.'**
+  String get schemaTooNewReinstall;
+
+  /// User-facing label or message for schema too new export plain.
+  ///
+  /// In en, this message translates to:
+  /// **'Export without a password'**
+  String get schemaTooNewExportPlain;
+
+  /// User-facing label or message for schema too new plain warn.
+  ///
+  /// In en, this message translates to:
+  /// **'The file will contain every SSH private key, server password and API key in plain text. Anyone who gets the file can access them all.'**
+  String get schemaTooNewPlainWarn;
+
+  /// User-facing label or message for schema too new wipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data'**
+  String get schemaTooNewWipe;
+
+  /// Confirmation prompt for schema too new wipe confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'All servers, keys, snippets and settings on this device will be deleted. This cannot be undone. A backup exported here would be the only copy left.'**
+  String get schemaTooNewWipeConfirm;
+
+  /// User-facing label or message for schema too new wipe done.
+  ///
+  /// In en, this message translates to:
+  /// **'Data deleted. Open the app again to start fresh.'**
+  String get schemaTooNewWipeDone;
+
+  /// Error message shown when schema too new wipe failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Some of the data could not be deleted, and this build still cannot open what is left. Reinstall the newer version to reach it.'**
+  String get schemaTooNewWipeFailed;
+
+  /// User-facing label or message for system users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get systemUsers;
+
+  /// User-facing label or message for user manager linux only.
+  ///
+  /// In en, this message translates to:
+  /// **'System user management currently supports Linux servers.'**
+  String get userManagerLinuxOnly;
+
+  /// User-facing label or message for user regular account.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get userRegularAccount;
+
+  /// User-facing label or message for user current account.
+  ///
+  /// In en, this message translates to:
+  /// **'Current account'**
+  String get userCurrentAccount;
+
+  /// User-facing label or message for user system account.
+  ///
+  /// In en, this message translates to:
+  /// **'System account'**
+  String get userSystemAccount;
+
+  /// User-facing label or message for user UID.
+  ///
+  /// In en, this message translates to:
+  /// **'UID'**
+  String get userUid;
+
+  /// User-facing label or message for user login status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get userLoginStatus;
+
+  /// User-facing label or message for user login enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Login enabled'**
+  String get userLoginEnabled;
+
+  /// User-facing label or message for user detail account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get userDetailAccount;
+
+  /// User-facing label or message for user detail security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get userDetailSecurity;
+
+  /// User-facing label or message for user SSH keys.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH keys'**
+  String get userSshKeys;
+
+  /// User-facing label or message for user expires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get userExpires;
+
+  /// User-facing label or message for user never.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get userNever;
+
+  /// User-facing label or message for user password set.
+  ///
+  /// In en, this message translates to:
+  /// **'Set'**
+  String get userPasswordSet;
+
+  /// User-facing label or message for user password locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get userPasswordLocked;
+
+  /// Empty-state message for user password none.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get userPasswordNone;
+
+  /// User-facing label or message for user superuser.
+  ///
+  /// In en, this message translates to:
+  /// **'Superuser'**
+  String get userSuperuser;
+
+  /// User-facing label or message for user open shell.
+  ///
+  /// In en, this message translates to:
+  /// **'Open shell'**
+  String get userOpenShell;
+
+  /// User-facing label or message for user root changes warning.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to root take effect in every session at once.'**
+  String get userRootChangesWarning;
+
+  /// User-facing label or message for user comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get userComment;
+
+  /// User-facing label or message for user primary group.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary group'**
+  String get userPrimaryGroup;
+
+  /// User-facing label or message for user supplementary groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplementary groups'**
+  String get userSupplementaryGroups;
+
+  /// User-facing label or message for user login shell.
+  ///
+  /// In en, this message translates to:
+  /// **'Login shell'**
+  String get userLoginShell;
+
+  /// User-facing label or message for user create home.
+  ///
+  /// In en, this message translates to:
+  /// **'Create home directory'**
+  String get userCreateHome;
+
+  /// User-facing label or message for user move home.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the existing home directory when the path changes'**
+  String get userMoveHome;
+
+  /// User-facing label or message for user remove home.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the home directory'**
+  String get userRemoveHome;
+
+  /// Help text for the user password create setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the password empty to create a password-locked account.'**
+  String get userPasswordCreateTip;
+
+  /// Help text for the user password edit setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the password empty to keep the existing password.'**
+  String get userPasswordEditTip;
+
+  /// Formatted user-facing message for func unavailable; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{func} is not available over this server\'s connection.'**
+  String funcUnavailableFmt(String func);
+
+  /// No description provided for @funcNeedsAgentGrant.
+  ///
+  /// In en, this message translates to:
+  /// **'{func} needs the Monitor agent\'s {setting} to be turned on.'**
+  String funcNeedsAgentGrant(String func, String setting);
+
+  /// No description provided for @funcNeedsAgentUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'{func} needs a newer Monitor agent.'**
+  String funcNeedsAgentUpdate(String func);
+
+  /// No description provided for @portForwardRemoteNeedsAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote forwards through the Monitor agent need a newer agent: update it on the server.'**
+  String get portForwardRemoteNeedsAgent;
+
+  /// User-facing label or message for range live.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get rangeLive;
+
+  /// User-facing label or message for disk io.
+  ///
+  /// In en, this message translates to:
+  /// **'Disk I/O'**
+  String get diskIo;
+
+  /// User-facing label or message for peak.
+  ///
+  /// In en, this message translates to:
+  /// **'peak'**
+  String get peak;
+
+  /// User-facing label or message for hardware.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware'**
+  String get hardware;
+
+  /// User-facing label or message for cores.
+  ///
+  /// In en, this message translates to:
+  /// **'Cores'**
+  String get cores;
+
+  /// User-facing label or message for history no stored.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a monitor agent stores history. This connection keeps what this app has seen since it connected.'**
+  String get historyNoStored;
+
+  /// User-facing label or message for no history yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing measured yet'**
+  String get noHistoryYet;
+
+  /// User-facing label or message for no data.
+  ///
+  /// In en, this message translates to:
+  /// **'no data'**
+  String get noData;
+
+  /// User-facing label or message for from.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get from;
+
+  /// User-facing label or message for to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// User-facing label or message for beyond retention.
+  ///
+  /// In en, this message translates to:
+  /// **'beyond what this agent kept'**
+  String get beyondRetention;
+
+  /// Formatted user-facing message for agent retention; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent keeps {kept}'**
+  String agentRetentionFmt(String kept);
+
+  /// Agent: agentServerTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Server tools'**
+  String get agentServerTools;
+
+  /// Agent: agentServerToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Run commands and read or write files on your servers, connect to other hosts over SSH, and use ServerBox\'s own actions.'**
+  String get agentServerToolsTip;
+
+  /// Agent: agentTerminalTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminal'**
+  String get agentTerminalTools;
+
+  /// Agent: agentTerminalToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'In a terminal\'s own chats: read what the terminal shows, and run commands on its server.'**
+  String get agentTerminalToolsTip;
+
+  /// Agent: agentToolTerminalScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the screen'**
+  String get agentToolTerminalScreen;
+
+  /// Agent: agentProviders.
+  ///
+  /// In en, this message translates to:
+  /// **'Providers'**
+  String get agentProviders;
+
+  /// Agent: agentProvidersTip.
+  ///
+  /// In en, this message translates to:
+  /// **'API keys, models, and the model a new chat uses'**
+  String get agentProvidersTip;
+
+  /// Agent: agentTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get agentTools;
+
+  /// Agent: agentToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'What the Agent may use, and its MCP servers'**
+  String get agentToolsTip;
+
+  /// Agent: agentSnippetToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'List, add, change and delete your snippets. Changes are asked about.'**
+  String get agentSnippetToolsTip;
+
+  /// Agent: agentVirtToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the VMs and containers the Virtualization tab has loaded.'**
+  String get agentVirtToolsTip;
+
+  /// Agent: agentBenchmarkToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Read benchmark results, and run or stop a benchmark with your approval.'**
+  String get agentBenchmarkToolsTip;
+
+  /// Agent: agentRemoteDesktopToolsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'List remote desktop profiles, and connect or disconnect with your approval.'**
+  String get agentRemoteDesktopToolsTip;
+
+  /// Agent: agentSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get agentSkills;
+
+  /// Agent: agentSkillsTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Instructions for particular tasks, installed from GitHub or a link'**
+  String get agentSkillsTip;
+
+  /// Agent: agentPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions'**
+  String get agentPermissions;
+
+  /// Agent: agentEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about your servers, or ask the Agent to do something on them.'**
+  String get agentEmptyHint;
+
+  /// Agent: agentTerminalEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about this server. The Agent can read this terminal and run commands here.'**
+  String get agentTerminalEmptyHint;
+
+  /// Formatted user-facing message for oldest sample; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'oldest sample {time}'**
+  String oldestSampleFmt(String time);
+
+  /// User-facing label or message for range ends before it starts.
+  ///
+  /// In en, this message translates to:
+  /// **'The end of the range has to be after its start.'**
+  String get rangeEndsBeforeItStarts;
+
+  /// User-facing label or message for samples.
+  ///
+  /// In en, this message translates to:
+  /// **'samples'**
+  String get samples;
+
+  /// User-facing label or message for unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'unavailable'**
+  String get unavailable;
+
+  /// Help text for the metric unavailable setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The rest of this page is unaffected. Check the command this reading comes from on the host.'**
+  String get metricUnavailableTip;
+
+  /// User-facing label or message for waiting first sample.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the first sample'**
+  String get waitingFirstSample;
+
+  /// Formatted user-facing message for at time; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'at {time}'**
+  String atTimeFmt(String time);
+
+  /// User-facing label or message for stored.
+  ///
+  /// In en, this message translates to:
+  /// **'stored'**
+  String get stored;
+
+  /// Formatted user-facing message for last sample; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'last sample {ago}'**
+  String lastSampleFmt(String ago);
+
+  /// Formatted user-facing message for stale since; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything below is from {time}, {ago}.'**
+  String staleSinceFmt(String ago, String time);
+
+  /// Formatted user-facing message for no data before; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'no data before {time}'**
+  String noDataBeforeFmt(String time);
+
+  /// Formatted user-facing message for loading range; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading {range}…'**
+  String loadingRangeFmt(String range);
+
+  /// User-facing label or message for no stored history for.
+  ///
+  /// In en, this message translates to:
+  /// **'No stored history for {metric}'**
+  String noStoredHistoryFor(String metric);
+
+  /// Formatted user-facing message for devices; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices'**
+  String devicesFmt(int count);
+
+  /// Formatted user-facing message for devices busiest; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices · {name} busiest'**
+  String devicesBusiestFmt(int count, String name);
+
+  /// Formatted user-facing message for devices plotted; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{plotted} of {total} devices'**
+  String devicesPlottedFmt(int plotted, int total);
+
+  /// Formatted user-facing message for sensors hottest; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} sensors · {name} hottest'**
+  String sensorsHottestFmt(int count, String name);
+
+  /// User-facing label or message for one device at least.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one device stays on the chart.'**
+  String get oneDeviceAtLeast;
+
+  /// Formatted user-facing message for shown of; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total} {what}'**
+  String shownOfFmt(int shown, int total, String what);
+
+  /// Formatted user-facing message for count of; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} {what}'**
+  String countOfFmt(int count, String what);
+
+  /// User-facing label or message for unit devices.
+  ///
+  /// In en, this message translates to:
+  /// **'devices'**
+  String get unitDevices;
+
+  /// User-facing label or message for unit sensors.
+  ///
+  /// In en, this message translates to:
+  /// **'sensors'**
+  String get unitSensors;
+
+  /// User-facing label or message for unit batteries.
+  ///
+  /// In en, this message translates to:
+  /// **'batteries'**
+  String get unitBatteries;
+
+  /// User-facing label or message for unit commands.
+  ///
+  /// In en, this message translates to:
+  /// **'commands'**
+  String get unitCommands;
+
+  /// User-facing label or message for unit readings.
+  ///
+  /// In en, this message translates to:
+  /// **'readings'**
+  String get unitReadings;
+
+  /// User-facing label or message for unit gpus.
+  ///
+  /// In en, this message translates to:
+  /// **'GPUs'**
+  String get unitGpus;
+
+  /// User-facing label or message for hottest.
+  ///
+  /// In en, this message translates to:
+  /// **'hottest'**
+  String get hottest;
+
+  /// User-facing label or message for oldest.
+  ///
+  /// In en, this message translates to:
+  /// **'oldest'**
+  String get oldest;
+
+  /// User-facing label or message for not applicable.
+  ///
+  /// In en, this message translates to:
+  /// **'not applicable'**
+  String get notApplicable;
+
+  /// User-facing label or message for attributes.
+  ///
+  /// In en, this message translates to:
+  /// **'attributes'**
+  String get attributes;
+
+  /// User-facing label or message for power on hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Power-on hours'**
+  String get powerOnHours;
+
+  /// User-facing label or message for power cycles.
+  ///
+  /// In en, this message translates to:
+  /// **'Power cycles'**
+  String get powerCycles;
+
+  /// User-facing label or message for life left.
+  ///
+  /// In en, this message translates to:
+  /// **'Life left'**
+  String get lifeLeft;
+
+  /// User-facing label or message for lifetime write.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime write'**
+  String get lifetimeWrite;
+
+  /// User-facing label or message for lifetime read.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime read'**
+  String get lifetimeRead;
+
+  /// User-facing label or message for average erase.
+  ///
+  /// In en, this message translates to:
+  /// **'Average erase'**
+  String get averageErase;
+
+  /// User-facing label or message for unsafe shutdowns.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsafe shutdowns'**
+  String get unsafeShutdowns;
+
+  /// User-facing label or message for disk all passed.
+  ///
+  /// In en, this message translates to:
+  /// **'all PASSED'**
+  String get diskAllPassed;
+
+  /// Formatted user-facing message for disk warning; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 warning} other{{count} warnings}}'**
+  String diskWarningFmt(int count);
+
+  /// Formatted user-facing message for disk wrong of; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{wrong} of {total} devices'**
+  String diskWrongOfFmt(int total, int wrong);
+
+  /// Help text for the disk smart sorted setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorted worst first'**
+  String get diskSmartSortedTip;
+
+  /// Formatted user-facing message for read ago; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'read {ago}'**
+  String readAgoFmt(String ago);
+
+  /// Formatted user-facing message for processes; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} processes'**
+  String processesFmt(int count);
+
+  /// Formatted user-facing message for disk failing; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} failing'**
+  String diskFailingFmt(int count);
+
+  /// Help text for the disk smart open setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Open one for its attributes'**
+  String get diskSmartOpenTip;
+
+  /// User-facing label or message for cycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle'**
+  String get cycle;
+
+  /// User-facing label or message for window.
+  ///
+  /// In en, this message translates to:
+  /// **'window'**
+  String get window;
+
+  /// Formatted user-facing message for of; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'of {total}'**
+  String ofFmt(String total);
+
+  /// User-facing label or message for server detail cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail page cards'**
+  String get serverDetailCards;
+
+  /// Action label for connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection'**
+  String get connection;
+
+  /// Help text for the connection setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Both can be on at once. The order is the order they are dialled.'**
+  String get connectionTip;
+
+  /// User-facing label or message for transport none on.
+  ///
+  /// In en, this message translates to:
+  /// **'Both are off — this server cannot be connected.'**
+  String get transportNoneOn;
+
+  /// User-facing label or message for this device.
+  ///
+  /// In en, this message translates to:
+  /// **'This device'**
+  String get thisDevice;
+
+  /// Help text for the local server setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Reads this device directly, by running the status script here. SSH and Monitor HTTP are not used, and their settings are kept.'**
+  String get localServerTip;
+
+  /// User-facing label or message for local server unsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This platform cannot read this device as a server. Linux, Windows and the macOS DMG build can.'**
+  String get localServerUnsupported;
+
+  /// Introductory text for the remote desktop screen or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a server\'s RDP or VNC desktop inside the app. The connection goes through the server\'s SSH connection or its Monitor agent, so the desktop port does not have to be reachable from the network.'**
+  String get remoteDesktopIntro;
+
+  /// User-facing label or message for remote desktop intro profiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a profile per desktop from the Remote desktop button on a server, or from the Remote desktop tab.'**
+  String get remoteDesktopIntroProfiles;
+
+  /// Introductory text for the local server screen or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the device running ServerBox as a server. Status, processes, services, containers, the terminal and files all work without SSH or a Monitor agent.'**
+  String get localServerIntro;
+
+  /// User-facing label or message for local server add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this device'**
+  String get localServerAdd;
+
+  /// User-facing label or message for local server intro footer.
+  ///
+  /// In en, this message translates to:
+  /// **'It can also be turned on later, in a server\'s edit page under Connection.'**
+  String get localServerIntroFooter;
+
+  /// User-facing label or message for transport section off.
+  ///
+  /// In en, this message translates to:
+  /// **'Off. The fields below are kept for when you turn it back on.'**
+  String get transportSectionOff;
+
+  /// User-facing label or message for monitor agent.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor agent'**
+  String get monitorAgent;
+
+  /// Help text for the plain HTTP edit setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Credentials and metrics cross the network unencrypted. Keep it to a LAN or a Tailscale address, or put the agent behind TLS.'**
+  String get plainHttpEditTip;
+
+  /// User-facing label or message for behaviour.
+  ///
+  /// In en, this message translates to:
+  /// **'Behaviour'**
+  String get behaviour;
+
+  /// User-facing label or message for optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
+  /// User-facing label or message for SSH advanced.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH advanced'**
+  String get sshAdvanced;
+
+  /// Help text for the SSH advanced setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Fallback destination, ProxyCommand, jump server, file transport, remote path'**
+  String get sshAdvancedTip;
+
+  /// User-facing label or message for SSH legacy algorithms.
+  ///
+  /// In en, this message translates to:
+  /// **'Legacy algorithms'**
+  String get sshLegacyAlgorithms;
+
+  /// Help text for the SSH legacy algorithms setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'For an old SSH daemon (a router, a switch) that only offers the SHA-1 `ssh-rsa` host key or a SHA-1 key exchange. Less secure; turn it on only for a host that needs it.'**
+  String get sshLegacyAlgorithmsTip;
+
+  /// User-facing label or message for appearance and place.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance & location'**
+  String get appearanceAndPlace;
+
+  /// Help text for the appearance and place setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo, coordinates'**
+  String get appearanceAndPlaceTip;
+
+  /// User-facing label or message for status collection.
+  ///
+  /// In en, this message translates to:
+  /// **'Status collection'**
+  String get statusCollection;
+
+  /// Help text for the status collection setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Which commands run, custom commands, which device to read'**
+  String get statusCollectionTip;
+
+  /// User-facing label or message for tag all tags.
+  ///
+  /// In en, this message translates to:
+  /// **'All tags'**
+  String get tagAllTags;
+
+  /// User-facing label or message for tag matching.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching'**
+  String get tagMatching;
+
+  /// Hint shown in the tag new field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'New tag'**
+  String get tagNewHint;
+
+  /// Formatted user-facing message for tag create; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Create #{tag}'**
+  String tagCreateFmt(String tag);
+
+  /// User-facing label or message for tag on this server.
+  ///
+  /// In en, this message translates to:
+  /// **'on this server'**
+  String get tagOnThisServer;
+
+  /// Formatted user-facing message for tag servers; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} servers'**
+  String tagServersFmt(int count);
+
+  /// Formatted user-facing message for tag on this server; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on this server'**
+  String tagOnThisServerFmt(int count);
+
+  /// User-facing label or message for tag matches typed.
+  ///
+  /// In en, this message translates to:
+  /// **'matches what you typed'**
+  String get tagMatchesTyped;
+
+  /// Help text for the tag editor setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Typing filters the list; the button creates the tag and puts it on this server in one step. Renaming from the pencil renames it on every server that carries it. A tag no server carries disappears on save.'**
+  String get tagEditorTip;
+
+  /// User-facing label or message for tag renames on save.
+  ///
+  /// In en, this message translates to:
+  /// **'Renames apply on save'**
+  String get tagRenamesOnSave;
+
+  /// User-facing label or message for scheduled tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled tasks'**
+  String get scheduledTasks;
+
+  /// User-facing label or message for scheduled task linux only.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled task management currently supports Linux servers.'**
+  String get scheduledTaskLinuxOnly;
+
+  /// User-facing label or message for scheduled task unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'crontab is not available on this server.'**
+  String get scheduledTaskUnavailable;
+
+  /// Help text for the scheduled task preserve setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments, environment variables, and unrecognized lines in this crontab are preserved.'**
+  String get scheduledTaskPreserveTip;
+
+  /// User-facing label or message for scheduled task schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get scheduledTaskSchedule;
+
+  /// User-facing label or message for scheduled task add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get scheduledTaskAdd;
+
+  /// User-facing label or message for scheduled task next run.
+  ///
+  /// In en, this message translates to:
+  /// **'Next run'**
+  String get scheduledTaskNextRun;
+
+  /// Formatted user-facing message for scheduled task next in; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'in {time}'**
+  String scheduledTaskNextInFmt(String time);
+
+  /// User-facing label or message for scheduled task enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get scheduledTaskEnabled;
+
+  /// User-facing label or message for scheduled task commented out.
+  ///
+  /// In en, this message translates to:
+  /// **'Commented out'**
+  String get scheduledTaskCommentedOut;
+
+  /// Formatted user-facing message for scheduled task summary; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} tasks · {enabled} enabled'**
+  String scheduledTaskSummaryFmt(int enabled, int total);
+
+  /// Hint shown in the scheduled task filter field or section.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter tasks'**
+  String get scheduledTaskFilterHint;
+
+  /// User-facing label or message for scheduled task preserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserved lines'**
+  String get scheduledTaskPreserved;
+
+  /// User-facing label or message for scheduled task raw.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw crontab'**
+  String get scheduledTaskRaw;
+
+  /// User-facing label or message for scheduled task enable now.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable now'**
+  String get scheduledTaskEnableNow;
+
+  /// Help text for the scheduled task enable now setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Off writes the line commented out.'**
+  String get scheduledTaskEnableNowTip;
+
+  /// Formatted user-facing message for scheduled task empty; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'No scheduled tasks for {user}. What is added here is written into that account\'s crontab.'**
+  String scheduledTaskEmptyFmt(String user);
+
+  /// User-facing label or message for scheduled task field minute.
+  ///
+  /// In en, this message translates to:
+  /// **'Minute'**
+  String get scheduledTaskFieldMinute;
+
+  /// User-facing label or message for scheduled task field hour.
+  ///
+  /// In en, this message translates to:
+  /// **'Hour'**
+  String get scheduledTaskFieldHour;
+
+  /// User-facing label or message for scheduled task field day of month.
+  ///
+  /// In en, this message translates to:
+  /// **'Day of month'**
+  String get scheduledTaskFieldDayOfMonth;
+
+  /// User-facing label or message for scheduled task field month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get scheduledTaskFieldMonth;
+
+  /// User-facing label or message for scheduled task field day of week.
+  ///
+  /// In en, this message translates to:
+  /// **'Day of week'**
+  String get scheduledTaskFieldDayOfWeek;
+
+  /// Empty-state message for cron err schedule empty.
+  ///
+  /// In en, this message translates to:
+  /// **'A schedule is required.'**
+  String get cronErrScheduleEmpty;
+
+  /// Empty-state message for cron err command empty.
+  ///
+  /// In en, this message translates to:
+  /// **'A command is required.'**
+  String get cronErrCommandEmpty;
+
+  /// User-facing label or message for cron err line break.
+  ///
+  /// In en, this message translates to:
+  /// **'A crontab line cannot contain line breaks.'**
+  String get cronErrLineBreak;
+
+  /// User-facing label or message for cron err macro.
+  ///
+  /// In en, this message translates to:
+  /// **'A macro is one word, such as @reboot.'**
+  String get cronErrMacro;
+
+  /// User-facing label or message for cron err field count.
+  ///
+  /// In en, this message translates to:
+  /// **'A cron schedule has five fields, or a macro such as @reboot.'**
+  String get cronErrFieldCount;
+
+  /// User-facing label or message for cron at boot.
+  ///
+  /// In en, this message translates to:
+  /// **'At boot'**
+  String get cronAtBoot;
+
+  /// User-facing label or message for cron every min.
+  ///
+  /// In en, this message translates to:
+  /// **'Every minute'**
+  String get cronEveryMin;
+
+  /// Formatted user-facing message for cron every mins; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {minutes} minutes'**
+  String cronEveryMinsFmt(int minutes);
+
+  /// Formatted user-facing message for cron hourly at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every hour at :{minute}'**
+  String cronHourlyAtFmt(String minute);
+
+  /// Formatted user-facing message for cron every hours; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {hours} hours'**
+  String cronEveryHoursFmt(int hours);
+
+  /// Formatted user-facing message for cron every hours at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {hours} hours at :{minute}'**
+  String cronEveryHoursAtFmt(int hours, String minute);
+
+  /// Formatted user-facing message for cron daily at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day at {time}'**
+  String cronDailyAtFmt(String time);
+
+  /// Formatted user-facing message for cron weekdays at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'On weekdays at {time}'**
+  String cronWeekdaysAtFmt(String time);
+
+  /// Formatted user-facing message for cron weekday at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {day} at {time}'**
+  String cronWeekdayAtFmt(String day, String time);
+
+  /// Formatted user-facing message for cron monthly at; runtime values are supplied by placeholders.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of every month at {time}'**
+  String cronMonthlyAtFmt(int day, String time);
+
+  /// User-facing label or message for monitor settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor settings'**
+  String get monitorSettings;
+
+  /// User-facing label or message for monitor agent default.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent default'**
+  String get monitorAgentDefault;
+
+  /// User-facing label or message for monitor needs restart.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes effect after the agent restarts'**
+  String get monitorNeedsRestart;
+
+  /// User-facing label or message for monitor collection.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection'**
+  String get monitorCollection;
+
+  /// User-facing label or message for extended interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Extended cycle interval'**
+  String get extendedInterval;
+
+  /// User-facing label or message for idle pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause when nothing is watching'**
+  String get idlePause;
+
+  /// Help text for the idle pause setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'The extended cycle runs smartctl, sensors and amd-smi. Pausing it while no client is polling keeps a disk from being woken for data nobody is reading.'**
+  String get idlePauseTip;
+
+  /// User-facing label or message for idle pause threshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Idle after'**
+  String get idlePauseThreshold;
+
+  /// User-facing label or message for monitor alerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get monitorAlerts;
+
+  /// User-facing label or message for monitoring rules.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert rules'**
+  String get monitoringRules;
+
+  /// User-facing label or message for rule monitor type.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get ruleMonitorType;
+
+  /// User-facing label or message for rule threshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Threshold'**
+  String get ruleThreshold;
+
+  /// User-facing label or message for rule matcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Matcher'**
+  String get ruleMatcher;
+
+  /// Help text for the rule setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric: cpu / memory / swap / disk / network / temperature. Matcher: cpu0 for one core, used / free / avail for memory, rx / tx for network; disk and temperature ignore it. Threshold: a comparator and a value, such as >=80%, >=70c or >10m/s.'**
+  String get ruleTip;
+
+  /// User-facing label or message for push channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification channels'**
+  String get pushChannels;
+
+  /// User-facing label or message for push type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get pushType;
+
+  /// User-facing label or message for push rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate limit'**
+  String get pushRate;
+
+  /// User-facing label or message for push headers.
+  ///
+  /// In en, this message translates to:
+  /// **'Headers'**
+  String get pushHeaders;
+
+  /// User-facing label or message for push secret set.
+  ///
+  /// In en, this message translates to:
+  /// **'Set on the agent, not shown'**
+  String get pushSecretSet;
+
+  /// User-facing label or message for push secret keep.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave blank to keep'**
+  String get pushSecretKeep;
+
+  /// Help text for the push test setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends one notification through this channel as it stands here, saved or not.'**
+  String get pushTestTip;
+
+  /// User-facing label or message for push test sent.
+  ///
+  /// In en, this message translates to:
+  /// **'The channel accepted it'**
+  String get pushTestSent;
+
+  /// Error message shown when push test failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The channel refused it'**
+  String get pushTestFailed;
+
+  /// User-facing label or message for push test message.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification from ServerBox Monitor'**
+  String get pushTestMessage;
+
+  /// User-facing label or message for push unknown type.
+  ///
+  /// In en, this message translates to:
+  /// **'This agent has no sender for this channel type, so its settings are not shown. It can be removed here, or edited in the agent\'s config.toml.'**
+  String get pushUnknownType;
+
+  /// User-facing label or message for push json invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'is not valid JSON'**
+  String get pushJsonInvalid;
+
+  /// User-facing label or message for data retention.
+  ///
+  /// In en, this message translates to:
+  /// **'Data retention'**
+  String get dataRetention;
+
+  /// Help text for the data retention setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Off means the agent never deletes anything and its database grows without limit.'**
+  String get dataRetentionTip;
+
+  /// User-facing label or message for retention metrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep metrics'**
+  String get retentionMetrics;
+
+  /// User-facing label or message for retention alerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep alerts'**
+  String get retentionAlerts;
+
+  /// User-facing label or message for retention cleanup.
+  ///
+  /// In en, this message translates to:
+  /// **'Run cleanup every'**
+  String get retentionCleanup;
+
+  /// User-facing label or message for retention max db size.
+  ///
+  /// In en, this message translates to:
+  /// **'Database size cap'**
+  String get retentionMaxDbSize;
+
+  /// User-facing label or message for cors origins.
+  ///
+  /// In en, this message translates to:
+  /// **'CORS allowed origins'**
+  String get corsOrigins;
+
+  /// Help text for the cors origins setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Origins a browser panel may call this agent from. Empty means same-origin only.'**
+  String get corsOriginsTip;
+
+  /// User-facing label or message for monitor no remote access.
+  ///
+  /// In en, this message translates to:
+  /// **'This agent is set up for monitoring only. You can\'t open a terminal, run commands, or browse files here. To enable these features, edit [remote_access] in the agent\'s config.toml.'**
+  String get monitorNoRemoteAccess;
+
+  /// User-facing label or message for alerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get alerts;
+
+  /// User-facing label or message for online.
+  ///
+  /// In en, this message translates to:
+  /// **'online'**
+  String get online;
+
+  /// User-facing label or message for density cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get densityCards;
+
+  /// User-facing label or message for density rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows'**
+  String get densityRows;
+
+  /// User-facing label or message for density grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid'**
+  String get densityGrid;
+
+  /// Action label for connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get connect;
+
+  /// Action label for disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get disconnect;
+
+  /// Help text for the search server setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Searches names and addresses — the two the editor asks for first.'**
+  String get searchServerTip;
+
+  /// Help text for the add server setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill one in, scan a QR code, or import a file somebody shared.'**
+  String get addServerTip;
+
+  /// User-facing label or message for move.
+  ///
+  /// In en, this message translates to:
+  /// **'Move'**
+  String get move;
+
+  /// User-facing label or message for move to top.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to top'**
+  String get moveToTop;
+
+  /// User-facing label or message for move to bottom.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to bottom'**
+  String get moveToBottom;
+
+  /// User-facing label or message for group by tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Group by tag'**
+  String get groupByTag;
+
+  /// Help text for the group by tag setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags are set in a server’s own editor.'**
+  String get groupByTagTip;
+
+  /// Action label for connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get connecting;
+
+  /// User-facing label or message for auth short.
+  ///
+  /// In en, this message translates to:
+  /// **'Auth'**
+  String get authShort;
+
+  /// User-facing label or message for remote desktop fit to window.
+  ///
+  /// In en, this message translates to:
+  /// **'Fit to window'**
+  String get remoteDesktopFitToWindow;
+
+  /// User-facing label or message for remote desktop actual size.
+  ///
+  /// In en, this message translates to:
+  /// **'Actual size'**
+  String get remoteDesktopActualSize;
+
+  /// User-facing label or message for remote desktop zoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom'**
+  String get remoteDesktopZoom;
+
+  /// User-facing label or message for remote desktop view only.
+  ///
+  /// In en, this message translates to:
+  /// **'View only'**
+  String get remoteDesktopViewOnly;
+
+  /// User-facing label or message for remote desktop disable view only.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable view only'**
+  String get remoteDesktopDisableViewOnly;
+
+  /// User-facing label or message for remote desktop send clipboard text.
+  ///
+  /// In en, this message translates to:
+  /// **'Send clipboard text'**
+  String get remoteDesktopSendClipboardText;
+
+  /// User-facing label or message for remote desktop show keyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Show keyboard'**
+  String get remoteDesktopShowKeyboard;
+
+  /// User-facing label or message for remote desktop more controls.
+  ///
+  /// In en, this message translates to:
+  /// **'More controls'**
+  String get remoteDesktopMoreControls;
+
+  /// User-facing label or message for remote desktop use direct pointer.
+  ///
+  /// In en, this message translates to:
+  /// **'Use direct pointer'**
+  String get remoteDesktopUseDirectPointer;
+
+  /// User-facing label or message for remote desktop use touchpad pointer.
+  ///
+  /// In en, this message translates to:
+  /// **'Use touchpad pointer'**
+  String get remoteDesktopUseTouchpadPointer;
+
+  /// User-facing label or message for remote desktop send ctrl alt delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Ctrl+Alt+Delete'**
+  String get remoteDesktopSendCtrlAltDelete;
+
+  /// User-facing label or message for remote desktop reconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect'**
+  String get remoteDesktopReconnect;
+
+  /// User-facing label or message for remote desktop full screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get remoteDesktopFullScreen;
+
+  /// No description provided for @remoteDesktopExitFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get remoteDesktopExitFullScreen;
+
+  /// User-facing label or message for remote desktop close session.
+  ///
+  /// In en, this message translates to:
+  /// **'Close session'**
+  String get remoteDesktopCloseSession;
+
+  /// User-facing label or message for remote desktop connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get remoteDesktopConnected;
+
+  /// Status message shown while remote desktop connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting'**
+  String get remoteDesktopConnecting;
+
+  /// User-facing label or message for remote desktop reconnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting'**
+  String get remoteDesktopReconnecting;
+
+  /// User-facing label or message for remote desktop disconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get remoteDesktopDisconnected;
+
+  /// User-facing label or message for remote desktop guide touch.
+  ///
+  /// In en, this message translates to:
+  /// **'Touchpad'**
+  String get remoteDesktopGuideTouch;
+
+  /// Help text for the remote desktop guide touch setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'One finger moves the pointer like a touchpad, and a tap clicks. Tap with two fingers to right-click, drag with two to scroll, and pinch to zoom. Tap twice and keep the finger down to drag.'**
+  String get remoteDesktopGuideTouchTip;
+
+  /// Help text for the remote desktop guide keyboard setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the on-screen keyboard. What you type is sent to the remote desktop.'**
+  String get remoteDesktopGuideKeyboardTip;
+
+  /// Help text for the remote desktop guide view only setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops sending the pointer and keys, so you can look without clicking anything by accident.'**
+  String get remoteDesktopGuideViewOnlyTip;
+
+  /// Help text for the remote desktop guide more setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'Ctrl+Alt+Delete, reconnecting and full screen are in here.'**
+  String get remoteDesktopGuideMoreTip;
+
+  /// Help text for the remote desktop guide pointer setting or action.
+  ///
+  /// In en, this message translates to:
+  /// **'So is a direct pointer, where a finger clicks what it touches.'**
+  String get remoteDesktopGuidePointerTip;
+
+  /// User-facing label or message for remote desktop VNC clipboard latin 1 only.
+  ///
+  /// In en, this message translates to:
+  /// **'VNC clipboard supports Latin-1 text only.'**
+  String get remoteDesktopVncClipboardLatin1Only;
+
+  /// No description provided for @remoteDesktopAddProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Add profile'**
+  String get remoteDesktopAddProfile;
+
+  /// No description provided for @remoteDesktopNoProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'No remote desktop profiles'**
+  String get remoteDesktopNoProfiles;
+
+  /// No description provided for @remoteDesktopAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add remote desktop'**
+  String get remoteDesktopAdd;
+
+  /// No description provided for @remoteDesktopEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit remote desktop'**
+  String get remoteDesktopEdit;
+
+  /// No description provided for @remoteDesktopTargetTip.
+  ///
+  /// In en, this message translates to:
+  /// **'The target is resolved from the SSH server or monitor agent. Localhost refers to that machine.'**
+  String get remoteDesktopTargetTip;
+
+  /// No description provided for @remoteDesktopDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain (optional)'**
+  String get remoteDesktopDomain;
+
+  /// No description provided for @remoteDesktopPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password (optional)'**
+  String get remoteDesktopPassword;
+
+  /// No description provided for @remoteDesktopSavePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Save password'**
+  String get remoteDesktopSavePassword;
+
+  /// No description provided for @remoteDesktopSavePasswordTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored in the encrypted database. Backups include saved passwords, and are encrypted only when a backup password is set.'**
+  String get remoteDesktopSavePasswordTip;
+
+  /// No description provided for @remoteDesktopShareSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Share session'**
+  String get remoteDesktopShareSession;
+
+  /// No description provided for @remoteDesktopProtocol.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol'**
+  String get remoteDesktopProtocol;
+
+  /// No description provided for @remoteDesktopUniqueName.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile names must be unique for this server.'**
+  String get remoteDesktopUniqueName;
+
+  /// No description provided for @remoteDesktopVncPasswordLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic VNC passwords are limited to 8 ASCII bytes.'**
+  String get remoteDesktopVncPasswordLength;
+
+  /// No description provided for @remoteDesktopNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a profile name.'**
+  String get remoteDesktopNameRequired;
+
+  /// No description provided for @remoteDesktopHostRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a target host.'**
+  String get remoteDesktopHostRequired;
+
+  /// No description provided for @remoteDesktopPortRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid port.'**
+  String get remoteDesktopPortRequired;
+
+  /// No description provided for @remoteDesktopUsernameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the RDP username.'**
+  String get remoteDesktopUsernameRequired;
+
+  /// No description provided for @remoteDesktopVncPasswordAscii.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic VNC passwords must contain ASCII characters only.'**
+  String get remoteDesktopVncPasswordAscii;
+
+  /// No description provided for @remoteDesktopCertificateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate confirmation required'**
+  String get remoteDesktopCertificateRequired;
+
+  /// No description provided for @remoteDesktopWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for desktop…'**
+  String get remoteDesktopWaiting;
+
+  /// No description provided for @remoteDesktopCertificateChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote desktop certificate changed'**
+  String get remoteDesktopCertificateChanged;
+
+  /// No description provided for @remoteDesktopTrustCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust certificate?'**
+  String get remoteDesktopTrustCertificate;
+
+  /// No description provided for @remoteDesktopCertificateChangedTip.
+  ///
+  /// In en, this message translates to:
+  /// **'The certificate fingerprint no longer matches the saved value. Verify the new fingerprint before replacing trust.'**
+  String get remoteDesktopCertificateChangedTip;
+
+  /// No description provided for @remoteDesktopCertificateUnverifiedTip.
+  ///
+  /// In en, this message translates to:
+  /// **'The system could not verify this certificate. Verify its SHA-256 fingerprint before continuing.'**
+  String get remoteDesktopCertificateUnverifiedTip;
+
+  /// No description provided for @remoteDesktopReplaceTrust.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace trust'**
+  String get remoteDesktopReplaceTrust;
+
+  /// No description provided for @remoteDesktopTrustReconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust and reconnect'**
+  String get remoteDesktopTrustReconnect;
+
+  /// No description provided for @remoteDesktopDeleteProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete remote desktop profile “{name}”?'**
+  String remoteDesktopDeleteProfile(String name);
+
+  /// No description provided for @remoteDesktopReconnectAttempt.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnecting ({attempt}/3)…'**
+  String remoteDesktopReconnectAttempt(int attempt);
+
+  /// No description provided for @remoteDesktopPreviousCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously trusted\n{fingerprint}'**
+  String remoteDesktopPreviousCertificate(String fingerprint);
+
+  /// No description provided for @remoteDesktopCertificateSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject: {subject}'**
+  String remoteDesktopCertificateSubject(String subject);
+
+  /// No description provided for @remoteDesktopCertificateIssuer.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuer: {issuer}'**
+  String remoteDesktopCertificateIssuer(String issuer);
+
+  /// No description provided for @remoteDesktopCertificateValidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid: {start} – {end}'**
+  String remoteDesktopCertificateValidity(String start, String end);
+
+  /// Label for logging in to Proxmox VE with an API token.
+  ///
+  /// In en, this message translates to:
+  /// **'API token'**
+  String get pveAuthToken;
+
+  /// Notice on a Proxmox VE host older than 8.0: the feature was only tested on PVE 8 and later.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is currently in the testing phase and has only been tested on PVE 8+. Please use it with caution.'**
+  String get pveVersionLow;
+
+  /// Label for the Proxmox VE API token ID field (user@realm!tokenid).
+  ///
+  /// In en, this message translates to:
+  /// **'Token ID'**
+  String get pveTokenId;
+
+  /// Label for the Proxmox VE API token secret field.
+  ///
+  /// In en, this message translates to:
+  /// **'Token secret'**
+  String get pveTokenSecret;
+
+  /// Help text explaining how to create a Proxmox VE API token and which privileges it needs.
+  ///
+  /// In en, this message translates to:
+  /// **'Create one in PVE under Datacenter → Permissions → API Tokens. It needs VM.Audit, VM.PowerMgmt, VM.Console, VM.Snapshot, VM.Snapshot.Rollback, Datastore.Audit and Sys.Audit on the paths to show; with privilege separation on, grant them to the token itself.'**
+  String get pveTokenTip;
+
+  /// A PVE API token that may see nothing: explains privilege separation and gives the command that grants it permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'The token {account} may not see anything on this host. A token with privilege separation does not have its user\'s permissions; grant it some, on the PVE host:\n{command}\nor untick \"Privilege Separation\" for the token.'**
+  String pveTokenNoPrivileges(String account, String command);
+
+  /// A PVE user that may see nothing: gives the command that grants it permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'{account} may not see anything on this host. Grant it permissions, on the PVE host:\n{command}'**
+  String pveUserNoPrivileges(String account, String command);
+
+  /// Error shown when the Proxmox VE API token ID has the wrong format.
+  ///
+  /// In en, this message translates to:
+  /// **'The token ID must look like user@realm!tokenid'**
+  String get pveTokenIdInvalid;
+
+  /// Help text for logging in to Proxmox VE with a password.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs in as the SSH user in the PAM realm, with the SSH password, or with the PVE password below when SSH uses a key. A two-factor code is asked for when needed.'**
+  String get pvePasswordAuthTip;
+
+  /// Shown when no Proxmox VE certificate has been confirmed yet.
+  ///
+  /// In en, this message translates to:
+  /// **'None confirmed yet. Unless a trusted CA signed it, the next connection shows the certificate for confirmation.'**
+  String get pveCertUnpinned;
+
+  /// Action that forgets the confirmed Proxmox VE certificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget certificate'**
+  String get pveCertForget;
+
+  /// Confirmation text for forgetting the confirmed Proxmox VE certificate.
+  ///
+  /// In en, this message translates to:
+  /// **'The next connection will show the PVE certificate for confirmation again.'**
+  String get pveCertForgetTip;
+
+  /// Name of the Virtualization tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtualization'**
+  String get virtualization;
+
+  /// Intro page text describing the Virtualization tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage virtual machines and containers on Proxmox VE and libvirt/KVM hosts: their state, power actions and consoles.'**
+  String get virtIntro;
+
+  /// Intro page text telling Proxmox VE users where PVE moved.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxmox VE has moved from the server page into this tab. A server\'s PVE card opens it there.'**
+  String get virtIntroPveMoved;
+
+  /// Intro page text about libvirt/KVM hosts.
+  ///
+  /// In en, this message translates to:
+  /// **'A server with libvirt\'s virsh installed shows up as a host, with its QEMU/KVM virtual machines.'**
+  String get virtIntroLibvirt;
+
+  /// Intro page text about the transports the Virtualization tab works over.
+  ///
+  /// In en, this message translates to:
+  /// **'Both work over SSH, through a Monitor agent, or on this device.'**
+  String get virtIntroTransports;
+
+  /// Intro page text about Proxmox VE API token support.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE can log in with an API token instead of a password. Set it in a server\'s edit page, under PVE.'**
+  String get virtIntroTokens;
+
+  /// Intro page text saying the Virtualization tab is in the tab bar.
+  ///
+  /// In en, this message translates to:
+  /// **'It has been added to the tab bar.'**
+  String get virtIntroInBar;
+
+  /// Intro page text saying the Virtualization tab is under More.
+  ///
+  /// In en, this message translates to:
+  /// **'It is under More. Home Tabs in Settings can move it to the tab bar.'**
+  String get virtIntroInMore;
+
+  /// Section of the Virtualization tab listing virtual machines.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual machines'**
+  String get virtGuests;
+
+  /// Heading over the virtualization hosts in the host switcher.
+  ///
+  /// In en, this message translates to:
+  /// **'Hosts'**
+  String get virtHosts;
+
+  /// Heading over servers not known to be virtualization hosts; tapping one checks it for virsh.
+  ///
+  /// In en, this message translates to:
+  /// **'Check this server'**
+  String get virtCheckServer;
+
+  /// Action that checks every server for libvirt again.
+  ///
+  /// In en, this message translates to:
+  /// **'Check all servers'**
+  String get virtCheckAll;
+
+  /// A server not yet checked for libvirt.
+  ///
+  /// In en, this message translates to:
+  /// **'Not checked yet'**
+  String get virtProbeNotChecked;
+
+  /// A server checked for virtualization that has neither Proxmox VE nor virsh.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a host'**
+  String get virtProbeAbsent;
+
+  /// A checked server that is itself a container (a guest), e.g. 'LXC container'.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind} container'**
+  String virtProbeContainer(String kind);
+
+  /// Tooltip on a checked server that runs in a container.
+  ///
+  /// In en, this message translates to:
+  /// **'This server runs in a container, so it is a guest rather than a host. It is managed from the host that runs it.'**
+  String get virtProbeContainerTip;
+
+  /// A checked server that runs Proxmox VE but has no PVE API access configured.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE, not set up'**
+  String get virtProbePve;
+
+  /// Dialog body offering to configure PVE API access for a server found running Proxmox VE.
+  ///
+  /// In en, this message translates to:
+  /// **'{version} is running on this server. Fill in its API access in the server\'s settings (an API token is recommended) to manage its virtual machines and containers here.'**
+  String virtPveSetupTip(String version);
+
+  /// Shown when no server is a virtualization host.
+  ///
+  /// In en, this message translates to:
+  /// **'No virtualization hosts'**
+  String get virtNoHosts;
+
+  /// Explains which servers count as virtualization hosts.
+  ///
+  /// In en, this message translates to:
+  /// **'A server running Proxmox VE, with its API access filled in, is a host, and so is one where virsh answers. The other servers can be checked from the host switcher.'**
+  String get virtNoHostsTip;
+
+  /// Shown when a virtualization host has no guests.
+  ///
+  /// In en, this message translates to:
+  /// **'No virtual machines or containers'**
+  String get virtNoGuests;
+
+  /// A guest that is paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get virtPaused;
+
+  /// A guest that is starting.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting…'**
+  String get virtStarting;
+
+  /// A guest that is stopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopping…'**
+  String get virtStopping;
+
+  /// A guest that is rebooting.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebooting…'**
+  String get virtRebooting;
+
+  /// A guest that is migrating to another node.
+  ///
+  /// In en, this message translates to:
+  /// **'Migrating…'**
+  String get virtMigrating;
+
+  /// A guest held by a running backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Backing up…'**
+  String get virtBackingUp;
+
+  /// Power action that resumes a paused guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get virtResume;
+
+  /// View of a guest with its readings and facts.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get virtOverview;
+
+  /// View of a guest with its console.
+  ///
+  /// In en, this message translates to:
+  /// **'Console'**
+  String get virtConsole;
+
+  /// Shown in a guest's console view when it has neither a text nor a graphical console.
+  ///
+  /// In en, this message translates to:
+  /// **'No console is configured for this guest'**
+  String get virtConsoleNone;
+
+  /// Toggle for a guest's graphical (VNC) console, beside the text one.
+  ///
+  /// In en, this message translates to:
+  /// **'Graphical'**
+  String get virtConsoleGraphical;
+
+  /// Over a guest's graphical console whose VNC server refused the connection for a password; beside a button to enter it.
+  ///
+  /// In en, this message translates to:
+  /// **'This display asks for a password'**
+  String get virtVncPasswordNeeded;
+
+  /// Under the button that opens a libvirt guest's serial console in the terminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens the guest\'s serial console with virsh on the host. Disconnect, or Ctrl+], returns to the host\'s shell.'**
+  String get virtConsoleSerialTip;
+
+  /// Under a guest's text console: what the connection goes through, e.g. 'via SSH'.
+  ///
+  /// In en, this message translates to:
+  /// **'via {transport}'**
+  String virtConsoleVia(String transport);
+
+  /// Under a guest's text console: a serial console prints nothing until it is sent a key, so Enter brings up its prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'No output? Press Enter'**
+  String get virtConsoleEnterTip;
+
+  /// Countdown under a silent serial console: Enter will be pressed automatically to make the guest draw its login prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Pressing Enter in {seconds, plural, =1{1 second} other{{seconds} seconds}} to bring up the prompt'**
+  String virtConsoleAutoEnter(int seconds);
+
+  /// Button beside the auto-Enter countdown: press Enter now instead of waiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get virtConsoleEnterNow;
+
+  /// Shown for a guest that is not running, in place of its charts.
+  ///
+  /// In en, this message translates to:
+  /// **'Start it to see live CPU, memory, disk and network here.'**
+  String get virtOffTip;
+
+  /// Card showing what running guests hold of the host.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocated'**
+  String get virtAllocated;
+
+  /// How many guests are running, of how many.
+  ///
+  /// In en, this message translates to:
+  /// **'{running} running · {total} in total'**
+  String virtRunningCount(int running, int total);
+
+  /// A PVE template: a guest image that does not run.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get virtTemplate;
+
+  /// A guest that starts with its host.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts with the host'**
+  String get virtAutostart;
+
+  /// Error: the virtualization host could not be reached.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach this host'**
+  String get virtErrUnreachable;
+
+  /// Error: the PVE configuration of a server is incomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'The PVE settings of this server are incomplete'**
+  String get virtErrNotConfigured;
+
+  /// What to do about incomplete PVE settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the address, and the password or API token, in the server\'s settings.'**
+  String get virtErrNotConfiguredTip;
+
+  /// Error: the virtualization host refused the login.
+  ///
+  /// In en, this message translates to:
+  /// **'The host refused the login'**
+  String get virtErrAuthFailed;
+
+  /// Error: the PVE certificate has to be confirmed first.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm the host\'s certificate'**
+  String get virtErrCertUnconfirmed;
+
+  /// Error: the PVE certificate is not the one confirmed before.
+  ///
+  /// In en, this message translates to:
+  /// **'The host\'s certificate has changed'**
+  String get virtErrCertChanged;
+
+  /// Error: the Monitor agent does not relay TCP connections to PVE.
+  ///
+  /// In en, this message translates to:
+  /// **'The Monitor agent does not relay connections'**
+  String get virtErrRelayNotGranted;
+
+  /// Error: the Monitor agent does not run commands (its full access is off), so libvirt cannot be reached through it.
+  ///
+  /// In en, this message translates to:
+  /// **'The Monitor agent does not run commands'**
+  String get virtErrExecNotGranted;
+
+  /// Error: virsh is not installed on the server.
+  ///
+  /// In en, this message translates to:
+  /// **'virsh is not installed on this server'**
+  String get virtErrNotInstalled;
+
+  /// Error: the server this virtualization host belonged to has been deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This server no longer exists'**
+  String get virtErrServerRemoved;
+
+  /// Error: reaching libvirt needs sudo, and sudo needs a password.
+  ///
+  /// In en, this message translates to:
+  /// **'sudo needs a password to reach libvirt'**
+  String get virtErrSudoRequired;
+
+  /// Error: sudo rejected the password given.
+  ///
+  /// In en, this message translates to:
+  /// **'sudo rejected the password'**
+  String get virtErrSudoRejected;
+
+  /// Error: the virtualization host answered with something unreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'The host answered in an unexpected form'**
+  String get virtErrInvalidResponse;
+
+  /// Error: the host refused a power action or it failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The host refused the action'**
+  String get virtErrActionFailed;
+
+  /// Settings row: how long a remote desktop or guest console stays connected after the user leaves it.
+  ///
+  /// In en, this message translates to:
+  /// **'Close when left idle'**
+  String get remoteSessionIdleTimeout;
+
+  /// Help text for the remote session idle timeout setting.
+  ///
+  /// In en, this message translates to:
+  /// **'How long a remote desktop or a guest\'s console stays connected after you leave it. Before it closes, a notice gives you 10 seconds to keep it.'**
+  String get remoteSessionIdleTimeoutTip;
+
+  /// Button on the notice before an idle remote session closes: keeps it open for another full timeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep alive'**
+  String get remoteSessionKeepAlive;
+
+  /// Toast title when the app comes back: an idle remote session (remote desktop, guest console) was closed while the app was in the background. The body names the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed while you were away'**
+  String get remoteSessionClosedAway;
+
+  /// Countdown on the notice before an idle remote session closes.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing in {seconds} s'**
+  String remoteSessionClosingIn(int seconds);
+
+  /// A guest view and its heading: the guest's snapshots.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshots'**
+  String get virtSnapshots;
+
+  /// Button that opens the form for a new snapshot, and the form's confirm button.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a snapshot'**
+  String get virtSnapshotCreate;
+
+  /// Shown when a guest has no snapshots.
+  ///
+  /// In en, this message translates to:
+  /// **'No snapshots yet'**
+  String get virtSnapshotNone;
+
+  /// What a snapshot holds: the disks and the running memory.
+  ///
+  /// In en, this message translates to:
+  /// **'Disks and memory'**
+  String get virtSnapshotWithMemory;
+
+  /// What a snapshot holds: the disks only, no memory.
+  ///
+  /// In en, this message translates to:
+  /// **'Disks only'**
+  String get virtSnapshotDiskOnly;
+
+  /// The snapshot another one was taken on top of.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent'**
+  String get virtSnapshotParent;
+
+  /// Action: revert the guest to a snapshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert'**
+  String get virtSnapshotRevert;
+
+  /// Switch in the snapshot form: also save the guest's memory.
+  ///
+  /// In en, this message translates to:
+  /// **'Include memory'**
+  String get virtSnapshotMemory;
+
+  /// Under the memory switch: what saving memory gives.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverting resumes the guest at this moment.'**
+  String get virtSnapshotMemoryTip;
+
+  /// Under the memory switch on libvirt: an internal snapshot of a running guest always includes its memory.
+  ///
+  /// In en, this message translates to:
+  /// **'A snapshot of a running guest always includes its memory here.'**
+  String get virtSnapshotMemoryAlways;
+
+  /// Snapshot form of a guest that is not running: only disks are saved.
+  ///
+  /// In en, this message translates to:
+  /// **'The guest is not running, so only its disks are saved.'**
+  String get virtSnapshotMemoryOff;
+
+  /// Error under the snapshot name field.
+  ///
+  /// In en, this message translates to:
+  /// **'A letter first, then letters, digits, - or _; 2 to 40 characters.'**
+  String get virtSnapshotNameInvalid;
+
+  /// Error under the snapshot name field.
+  ///
+  /// In en, this message translates to:
+  /// **'A snapshot with this name exists.'**
+  String get virtSnapshotNameTaken;
+
+  /// Note under the snapshot list.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverting discards every change made since the snapshot.'**
+  String get virtSnapshotRevertTip;
+
+  /// Revert confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert {guest} to {snapshot}? Every change since it was taken is lost.'**
+  String virtSnapshotRevertAsk(String guest, String snapshot);
+
+  /// Revert confirmation when the snapshot has no memory and the guest is running.
+  ///
+  /// In en, this message translates to:
+  /// **'This snapshot has no memory: {guest} will be stopped.'**
+  String virtSnapshotRevertStops(String guest);
+
+  /// Switch in the revert confirmation: start the guest after reverting to a snapshot without memory.
+  ///
+  /// In en, this message translates to:
+  /// **'Start it afterwards'**
+  String get virtSnapshotStartAfter;
+
+  /// Heading over the volumes of a storage pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Volumes'**
+  String get virtVolumes;
+
+  /// Shown when a host has no storage pools.
+  ///
+  /// In en, this message translates to:
+  /// **'No storage pools'**
+  String get virtNoPools;
+
+  /// Shown when a host has no networks.
+  ///
+  /// In en, this message translates to:
+  /// **'No networks'**
+  String get virtNoNetworks;
+
+  /// A storage pool that is not active: its volumes cannot be listed.
+  ///
+  /// In en, this message translates to:
+  /// **'The pool is not active, so its volumes cannot be listed.'**
+  String get virtPoolInactive;
+
+  /// A PVE storage shared between cluster nodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared between nodes'**
+  String get virtShared;
+
+  /// The file a qcow2 volume is layered on.
+  ///
+  /// In en, this message translates to:
+  /// **'Backing file'**
+  String get virtBackingFile;
+
+  /// libvirt network mode: guests reach each other and the host only.
+  ///
+  /// In en, this message translates to:
+  /// **'Isolated'**
+  String get virtNetIsolated;
+
+  /// libvirt network mode: guests are on a host bridge.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridged'**
+  String get virtNetBridged;
+
+  /// libvirt network mode: routed without NAT.
+  ///
+  /// In en, this message translates to:
+  /// **'Routed'**
+  String get virtNetRouted;
+
+  /// A network's bridge device.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridge'**
+  String get virtBridge;
+
+  /// The devices a bridge or bond uses.
+  ///
+  /// In en, this message translates to:
+  /// **'Ports'**
+  String get virtPorts;
+
+  /// Heading over the guests with a NIC on a network.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests on it'**
+  String get virtAttachedGuests;
+
+  /// No guest has a NIC on this network.
+  ///
+  /// In en, this message translates to:
+  /// **'No guest is on it'**
+  String get virtNoAttachedGuests;
+
+  /// Title and action: create a new virtual machine.
+  ///
+  /// In en, this message translates to:
+  /// **'New virtual machine'**
+  String get virtCreateVm;
+
+  /// Title: create a new Proxmox VE container.
+  ///
+  /// In en, this message translates to:
+  /// **'New container'**
+  String get virtCreateLxc;
+
+  /// Tooltip of the add button on a PVE host, where a VM or a container can be created.
+  ///
+  /// In en, this message translates to:
+  /// **'New virtual machine or container'**
+  String get virtCreateGuest;
+
+  /// Segment choosing to create a virtual machine.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual machine'**
+  String get virtKindVm;
+
+  /// Segment choosing to create a container.
+  ///
+  /// In en, this message translates to:
+  /// **'Container'**
+  String get virtKindLxc;
+
+  /// Label: a new container's hostname.
+  ///
+  /// In en, this message translates to:
+  /// **'Hostname'**
+  String get virtHostname;
+
+  /// Heading: the ISO a new VM boots from.
+  ///
+  /// In en, this message translates to:
+  /// **'Install media'**
+  String get virtInstallMedia;
+
+  /// Shown when the host has no ISO images to install from.
+  ///
+  /// In en, this message translates to:
+  /// **'No ISO images on this host'**
+  String get virtNoIsos;
+
+  /// Shown when the PVE host has no container templates.
+  ///
+  /// In en, this message translates to:
+  /// **'No container templates on this host. A storage\'s CT Templates in PVE can download one.'**
+  String get virtNoTemplates;
+
+  /// Shown when no storage on the host can hold a new disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Nowhere on this host takes a new disk'**
+  String get virtNoDiskStorage;
+
+  /// Switch: start the new guest once it is created.
+  ///
+  /// In en, this message translates to:
+  /// **'Start it once created'**
+  String get virtStartAfterCreate;
+
+  /// Switch: create an unprivileged container.
+  ///
+  /// In en, this message translates to:
+  /// **'Unprivileged container'**
+  String get virtUnprivileged;
+
+  /// Explains what an unprivileged container is.
+  ///
+  /// In en, this message translates to:
+  /// **'Its root is an ordinary user on the host.'**
+  String get virtUnprivilegedTip;
+
+  /// Label: SSH public keys for a new container's root.
+  ///
+  /// In en, this message translates to:
+  /// **'SSH public keys'**
+  String get virtSshKeys;
+
+  /// Explains a new container needs a root password, SSH keys or both.
+  ///
+  /// In en, this message translates to:
+  /// **'A root password, SSH keys, or both.'**
+  String get virtCredentialsTip;
+
+  /// Toast after a guest was created.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} created'**
+  String virtCreated(String name);
+
+  /// Toast title when a guest was created but failed to start; the host's error follows.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was created but did not start'**
+  String virtCreatedNotStarted(String name);
+
+  /// Error title: the new guest's name, VMID or disk already exists on the host.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest or disk with this name already exists'**
+  String get virtErrExists;
+
+  /// Rule for a new libvirt guest's name.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters, digits, ., _ and -, starting with a letter or digit; up to 63 characters.'**
+  String get virtCreateNameInvalidLibvirt;
+
+  /// Rule for a new PVE guest's name (a DNS name).
+  ///
+  /// In en, this message translates to:
+  /// **'Letters, digits and -, in parts separated by dots; up to 63 characters.'**
+  String get virtCreateNameInvalidPve;
+
+  /// The new guest's name is already used.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest with this name exists.'**
+  String get virtCreateNameTaken;
+
+  /// The VMID is already used.
+  ///
+  /// In en, this message translates to:
+  /// **'This VMID is taken.'**
+  String get virtCreateVmidTaken;
+
+  /// More cores than the host allows.
+  ///
+  /// In en, this message translates to:
+  /// **'More cores than this host allows.'**
+  String get virtCreateCoresInvalid;
+
+  /// Too little memory for a new guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough memory.'**
+  String get virtCreateMemoryInvalid;
+
+  /// No storage chosen for the new disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where its disk goes.'**
+  String get virtCreateStorageMissing;
+
+  /// Disk size out of range.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 GiB to 64 TiB.'**
+  String get virtCreateDiskInvalid;
+
+  /// No container template chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a template.'**
+  String get virtCreateTemplateMissing;
+
+  /// A new container needs a root password or an SSH key.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a root password or an SSH key.'**
+  String get virtCreateCredentialsMissing;
+
+  /// The container's root password is too short.
+  ///
+  /// In en, this message translates to:
+  /// **'At least {min} characters.'**
+  String virtCreatePasswordShort(int min);
+
+  /// The SSH keys field has a line that is not an OpenSSH public key.
+  ///
+  /// In en, this message translates to:
+  /// **'One OpenSSH public key per line.'**
+  String get virtCreateSshKeysInvalid;
+
+  /// Checkbox: delete the guest's disks as well.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete its disks too'**
+  String get virtDeleteDisks;
+
+  /// On PVE a guest's disks always go with it.
+  ///
+  /// In en, this message translates to:
+  /// **'Its disks are deleted with it; install media is kept.'**
+  String get virtDeleteDisksPve;
+
+  /// Toast after a guest was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} deleted'**
+  String virtDeleted(String name);
+
+  /// Second part of the PVE API token help: the extra privileges creating and deleting guests needs.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating and deleting guests also needs VM.Allocate, VM.Config.*, Datastore.AllocateSpace and SDN.Use.'**
+  String get pveTokenTipCreate;
+
+  /// Token help: privileges for the Hardware view.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing hardware needs VM.Config.CPU, VM.Config.Memory, VM.Config.Disk, VM.Config.CDROM, VM.Config.Network and VM.Config.Options; new disks and interfaces also need Datastore.AllocateSpace and SDN.Use. The video card and USB and PCI devices also need VM.Config.HWType; a device given through a resource mapping needs Mapping.Use on it, and Mapping.Audit to list mappings.'**
+  String get pveTokenTipHardware;
+
+  /// PVE API token help: the privileges cloning, templates and backups need (verified on PVE 9.2.2 with a privilege-separated token).
+  ///
+  /// In en, this message translates to:
+  /// **'Cloning needs VM.Clone, backing up and restoring VM.Backup, and turning a guest into a template VM.Allocate; backup jobs also need Sys.Audit to read them and Sys.Modify on / to make, edit and delete them, with Datastore.AllocateSpace where the copy or the backup goes.'**
+  String get pveTokenTipBackup;
+
+  /// Error title: the guest's configuration changed since it was read.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed elsewhere'**
+  String get virtErrConflict;
+
+  /// Explains a conflict: a guest's, a network's or a cloud-init configuration changed on the host after it was read.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone changed this configuration after it was read here, so nothing was changed. It has been read again: make the change again if it still applies.'**
+  String get virtErrConflictTip;
+
+  /// The guest view showing and changing CPU, memory, disks and network interfaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware'**
+  String get virtHardware;
+
+  /// Button and dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add disk'**
+  String get virtHwAddDisk;
+
+  /// Button: add a container mount point.
+  ///
+  /// In en, this message translates to:
+  /// **'Add mount point'**
+  String get virtHwAddMount;
+
+  /// Button and dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add network interface'**
+  String get virtHwAddNic;
+
+  /// Toast: the running guest could not take the change.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. It takes effect at the next start.'**
+  String get virtHwAppliesOnRestart;
+
+  /// Autostart / onboot.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with the host'**
+  String get virtHwAutostart;
+
+  /// Note under PVE's start-with-host switch.
+  ///
+  /// In en, this message translates to:
+  /// **'onboot · started in VMID order'**
+  String get virtHwAutostartPve;
+
+  /// libvirt currentMemory: what the balloon gives the guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Current memory'**
+  String get virtHwBalloonLibvirt;
+
+  /// Explains the virtio-balloon switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lets the host take back the guest\'s idle memory when memory runs short'**
+  String get virtHwBalloonNote;
+
+  /// Group title: booting.
+  ///
+  /// In en, this message translates to:
+  /// **'Boot'**
+  String get virtHwBoot;
+
+  /// Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Boot order'**
+  String get virtHwBootOrder;
+
+  /// Explains the boot order rows.
+  ///
+  /// In en, this message translates to:
+  /// **'The arrows move a device; tapping it switches booting from it on or off.'**
+  String get virtHwBootTip;
+
+  /// A CD-ROM drive; also the group title.
+  ///
+  /// In en, this message translates to:
+  /// **'CD-ROM'**
+  String get virtHwCdrom;
+
+  /// Group title: the configuration as the host has it.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration file'**
+  String get virtHwConfigFile;
+
+  /// CPU cores (per socket for a VM).
+  ///
+  /// In en, this message translates to:
+  /// **'Cores'**
+  String get virtHwCores;
+
+  /// No CPU model set: the host's default.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get virtHwCpuTypeDefault;
+
+  /// Checkbox: delete the disk image as well.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete its volume too'**
+  String get virtHwDeleteVolume;
+
+  /// Action: take a disk off the guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Detach'**
+  String get virtHwDetach;
+
+  /// Empty row in a VM's disk group.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot-pluggable: can be added while it runs'**
+  String get virtHwDiskHotplug;
+
+  /// Group title: a container's root disk and mount points.
+  ///
+  /// In en, this message translates to:
+  /// **'Root disk and mount points'**
+  String get virtHwDisksLxc;
+
+  /// Menu item: empty the CD-ROM.
+  ///
+  /// In en, this message translates to:
+  /// **'Eject'**
+  String get virtHwEject;
+
+  /// Choice: no media in the CD-ROM.
+  ///
+  /// In en, this message translates to:
+  /// **'No media'**
+  String get virtHwEmpty;
+
+  /// PVE firewall on a NIC.
+  ///
+  /// In en, this message translates to:
+  /// **'Firewall'**
+  String get virtHwFirewall;
+
+  /// A storage's free space.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} free'**
+  String virtHwFree(String size);
+
+  /// Menu item and dialog title: make a disk larger.
+  ///
+  /// In en, this message translates to:
+  /// **'Grow'**
+  String get virtHwGrow;
+
+  /// Under a stopped guest's disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Disks only grow from their size.'**
+  String get virtHwGrowNote;
+
+  /// Under a running guest's disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Disks only grow from their size. Grown while running, the partition has to be grown inside the guest.'**
+  String get virtHwGrowNoteRunning;
+
+  /// Memory the running guest uses.
+  ///
+  /// In en, this message translates to:
+  /// **'Used by the guest'**
+  String get virtHwGuestUsed;
+
+  /// Group note: the host's threads and the vCPUs given to guests.
+  ///
+  /// In en, this message translates to:
+  /// **'Host {threads} threads · {allocated} allocated'**
+  String virtHwHostCpus(int threads, int allocated);
+
+  /// Group note: the host's memory and what guests are given.
+  ///
+  /// In en, this message translates to:
+  /// **'Host {total} · {allocated} allocated'**
+  String virtHwHostMem(String total, String allocated);
+
+  /// Under an add block while the guest runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot-plugged: it takes effect at once.'**
+  String get virtHwHotplugNow;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick at least one device'**
+  String get virtHwIssueBootEmpty;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Between 1 and {max} vCPUs in total'**
+  String virtHwIssueCpuCount(int max);
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Online vCPUs: from 1 to the total'**
+  String get virtHwIssueCpuOnline;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Larger than it is: disks only grow'**
+  String get virtHwIssueDiskShrink;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 to 65536 GiB'**
+  String get virtHwIssueDiskSize;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'From {min} to {max} MiB'**
+  String virtHwIssueMemory(int min, int max);
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Not more than the memory'**
+  String get virtHwIssueMemoryMin;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'An absolute path, like /data'**
+  String get virtHwIssueMountPoint;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'More than the storage has free'**
+  String get virtHwIssueStorageSpace;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Not negative'**
+  String get virtHwIssueSwap;
+
+  /// Group note: changes here take effect at the next restart.
+  ///
+  /// In en, this message translates to:
+  /// **'Applies at restart'**
+  String get virtHwLater;
+
+  /// Stepper button: less.
+  ///
+  /// In en, this message translates to:
+  /// **'Less'**
+  String get virtHwLess;
+
+  /// A NIC whose link is down.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get virtHwLinkDown;
+
+  /// Explains the link switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Off, the guest sees its cable pulled; no restart needed'**
+  String get virtHwLinkNote;
+
+  /// Switch: the NIC's link is up.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get virtHwLinkUp;
+
+  /// A NIC's MAC address.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC address'**
+  String get virtHwMac;
+
+  /// A VM's CPU model.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get virtHwModel;
+
+  /// Stepper button: more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get virtHwMore;
+
+  /// Empty row in a container's disk group.
+  ///
+  /// In en, this message translates to:
+  /// **'Mount points are allocated straight from a storage'**
+  String get virtHwMountFromPool;
+
+  /// Where a container's new volume appears.
+  ///
+  /// In en, this message translates to:
+  /// **'Mount point'**
+  String get virtHwMountPoint;
+
+  /// Boot order: move down.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get virtHwMoveDown;
+
+  /// Boot order: move up.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get virtHwMoveUp;
+
+  /// Header of the new disk block.
+  ///
+  /// In en, this message translates to:
+  /// **'New disk'**
+  String get virtHwNewDisk;
+
+  /// Header of the new mount point block.
+  ///
+  /// In en, this message translates to:
+  /// **'New mount point'**
+  String get virtHwNewMount;
+
+  /// Header of the new NIC block.
+  ///
+  /// In en, this message translates to:
+  /// **'New network interface'**
+  String get virtHwNewNic;
+
+  /// Empty row in the NIC group.
+  ///
+  /// In en, this message translates to:
+  /// **'virtio NICs are hot-pluggable'**
+  String get virtHwNicHotplug;
+
+  /// Group title: network interfaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Network interfaces'**
+  String get virtHwNics;
+
+  /// An empty CD-ROM drive.
+  ///
+  /// In en, this message translates to:
+  /// **'No media'**
+  String get virtHwNoMedia;
+
+  /// Nothing to attach a NIC to.
+  ///
+  /// In en, this message translates to:
+  /// **'No networks or bridges here'**
+  String get virtHwNoNetworks;
+
+  /// No storage can hold a new disk.
+  ///
+  /// In en, this message translates to:
+  /// **'No storage here takes disks'**
+  String get virtHwNoStorage;
+
+  /// How many of a VM's vCPUs are online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online vCPUs'**
+  String get virtHwOnline;
+
+  /// Notice above a guest's views.
+  ///
+  /// In en, this message translates to:
+  /// **'Some hardware changes take effect at restart'**
+  String get virtHwPendingBanner;
+
+  /// Summary of the new NIC block.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a network'**
+  String get virtHwPickNet;
+
+  /// Summary of the new disk block.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a storage and a size'**
+  String get virtHwPickPool;
+
+  /// Group title: a VM's CPU.
+  ///
+  /// In en, this message translates to:
+  /// **'Processor'**
+  String get virtHwProcessor;
+
+  /// Action: remove a NIC.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get virtHwRemove;
+
+  /// Action: remove the CD-ROM drive.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove CD-ROM'**
+  String get virtHwRemoveCdrom;
+
+  /// Confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {disk} from {guest}?'**
+  String virtHwRemoveDiskAsk(String disk, String guest);
+
+  /// Confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {nic} from {guest}?'**
+  String virtHwRemoveNicAsk(String nic, String guest);
+
+  /// A container's hardware view.
+  ///
+  /// In en, this message translates to:
+  /// **'Resources'**
+  String get virtHwResources;
+
+  /// Button: restart the guest so pending changes apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart now'**
+  String get virtHwRestartNow;
+
+  /// Button: drop one pending change.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert'**
+  String get virtHwRevert;
+
+  /// Button: drop every pending change.
+  ///
+  /// In en, this message translates to:
+  /// **'Revert all'**
+  String get virtHwRevertAll;
+
+  /// Settings view: libvirt can rename a guest only when it is shut off.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut the guest down to rename it: libvirt renames only a guest that is not running.'**
+  String get virtSetRenameStopped;
+
+  /// Settings view: the guest's description is too long or has control characters.
+  ///
+  /// In en, this message translates to:
+  /// **'At most {max} bytes (UTF-8), and no control characters.'**
+  String virtSetIssueDescription(int max);
+
+  /// Settings view index note: the guest does not start with the host.
+  ///
+  /// In en, this message translates to:
+  /// **'Started by hand'**
+  String get virtSetManualStart;
+
+  /// Settings view: PVE's protection flag.
+  ///
+  /// In en, this message translates to:
+  /// **'Protection'**
+  String get virtSetProtection;
+
+  /// Settings view: what PVE's protection flag does.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocks deleting the guest and changing its disks'**
+  String get virtSetProtectionNote;
+
+  /// Settings view: deleting a guest cannot be undone.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot be undone'**
+  String get virtSetIrreversible;
+
+  /// Settings view: a running guest must be shut down before it can be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut it down before deleting it.'**
+  String get virtSetDeleteStopFirst;
+
+  /// Settings view: deletion is blocked while PVE protection is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Protection is on: turn it off under General first.'**
+  String get virtSetDeleteProtected;
+
+  /// Settings view: the delete button was pressed once; pressing again deletes.
+  ///
+  /// In en, this message translates to:
+  /// **'Press again to confirm'**
+  String get virtSetDeleteAgain;
+
+  /// Settings view: the delete button's second, confirming label.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}'**
+  String virtSetDeleteConfirm(String name);
+
+  /// Settings view: button that deletes a virtual machine.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete virtual machine'**
+  String get virtSetDeleteVm;
+
+  /// Settings view: button that deletes a container.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete container'**
+  String get virtSetDeleteLxc;
+
+  /// CPU sockets of a VM.
+  ///
+  /// In en, this message translates to:
+  /// **'Sockets'**
+  String get virtHwSockets;
+
+  /// Where a disk's data is: its volume or file.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get virtHwSource;
+
+  /// A container's swap.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap'**
+  String get virtHwSwap;
+
+  /// Label for a VM's CPU topology.
+  ///
+  /// In en, this message translates to:
+  /// **'Sockets × cores'**
+  String get virtHwTopology;
+
+  /// CPU topology.
+  ///
+  /// In en, this message translates to:
+  /// **'{sockets} sockets × {cores} cores × {threads} threads'**
+  String virtHwTopologyValue(int sockets, int cores, int threads);
+
+  /// Group note: the disks' total size.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} total'**
+  String virtHwTotal(String size);
+
+  /// Toast after removing a disk the running guest holds.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed, but the running guest still uses the disk, so its volume was kept. It is detached at the next start.'**
+  String get virtHwVolumeKept;
+
+  /// Hardware view (virtualization): Bus
+  ///
+  /// In en, this message translates to:
+  /// **'Bus'**
+  String get virtHwBus;
+
+  /// Hardware view (virtualization): Cache
+  ///
+  /// In en, this message translates to:
+  /// **'Cache'**
+  String get virtHwCache;
+
+  /// Hardware view (virtualization): BusStopped
+  ///
+  /// In en, this message translates to:
+  /// **'The bus changes only while the guest is stopped.'**
+  String get virtHwBusStopped;
+
+  /// Hardware view (virtualization): MacGenerate
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get virtHwMacGenerate;
+
+  /// Hardware view (virtualization): IssueMac
+  ///
+  /// In en, this message translates to:
+  /// **'Must be a unicast MAC address, such as 52:54:00:12:34:56'**
+  String get virtHwIssueMac;
+
+  /// Hardware view (virtualization): IssueStopFirst
+  ///
+  /// In en, this message translates to:
+  /// **'Stop the guest first'**
+  String get virtHwIssueStopFirst;
+
+  /// Hardware view (virtualization): IssueStorageMissing
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a storage for it first'**
+  String get virtHwIssueStorageMissing;
+
+  /// Hardware view (virtualization): IssueDevice
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a device first'**
+  String get virtHwIssueDevice;
+
+  /// Hardware view (virtualization): Devices
+  ///
+  /// In en, this message translates to:
+  /// **'CD-ROM and passthrough'**
+  String get virtHwDevices;
+
+  /// Hardware view (virtualization): DevicesEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'USB and PCI passthrough, CD-ROM, TPM'**
+  String get virtHwDevicesEmpty;
+
+  /// Hardware view (virtualization): AddDevice
+  ///
+  /// In en, this message translates to:
+  /// **'Add device'**
+  String get virtHwAddDevice;
+
+  /// Hardware view (virtualization): NewDevice
+  ///
+  /// In en, this message translates to:
+  /// **'New device'**
+  String get virtHwNewDevice;
+
+  /// Hardware view (virtualization): UsbHotplug
+  ///
+  /// In en, this message translates to:
+  /// **'USB passthrough is hot-pluggable.'**
+  String get virtHwUsbHotplug;
+
+  /// Hardware view (virtualization): Pci
+  ///
+  /// In en, this message translates to:
+  /// **'PCI passthrough'**
+  String get virtHwPci;
+
+  /// Hardware view (virtualization): IommuOffTitle
+  ///
+  /// In en, this message translates to:
+  /// **'The host has no IOMMU'**
+  String get virtHwIommuOffTitle;
+
+  /// Hardware view (virtualization): IommuOffBody
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on VT-d or AMD-Vi in the host\'s BIOS and IOMMU in its kernel first. Until then, a guest given a PCI device won\'t start.'**
+  String get virtHwIommuOffBody;
+
+  /// Hardware view (virtualization): PciTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Needs IOMMU on the host'**
+  String get virtHwPciTitle;
+
+  /// Hardware view (virtualization): PciBody
+  ///
+  /// In en, this message translates to:
+  /// **'Once passed through, the host can\'t use the device, and the guest can\'t migrate while running.'**
+  String get virtHwPciBody;
+
+  /// Hardware view (virtualization): IommuGroup
+  ///
+  /// In en, this message translates to:
+  /// **'IOMMU group {group}'**
+  String virtHwIommuGroup(int group);
+
+  /// Hardware view (virtualization): IommuShared
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices share its IOMMU group and are passed through together'**
+  String virtHwIommuShared(int count);
+
+  /// Hardware view (virtualization): NoHostDevices
+  ///
+  /// In en, this message translates to:
+  /// **'No devices to pass through on this host'**
+  String get virtHwNoHostDevices;
+
+  /// Hardware view (virtualization): MappingsOnly
+  ///
+  /// In en, this message translates to:
+  /// **'Only resource mappings can be used here: PVE lets only root@pam, signed in with its password, pass a raw device through. Create mappings under Datacenter → Resource Mappings.'**
+  String get virtHwMappingsOnly;
+
+  /// Hardware view (virtualization): TpmNote
+  ///
+  /// In en, this message translates to:
+  /// **'Windows 11 needs TPM 2.0.'**
+  String get virtHwTpmNote;
+
+  /// Hardware view (virtualization): Display
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get virtHwDisplay;
+
+  /// Hardware view (virtualization): Protocol
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol'**
+  String get virtHwProtocol;
+
+  /// Hardware view (virtualization): Listen
+  ///
+  /// In en, this message translates to:
+  /// **'Listen'**
+  String get virtHwListen;
+
+  /// Hardware view (virtualization): Gpu
+  ///
+  /// In en, this message translates to:
+  /// **'Video card'**
+  String get virtHwGpu;
+
+  /// Hardware view (virtualization): ListenAllTitle
+  ///
+  /// In en, this message translates to:
+  /// **'The console is open to the network'**
+  String get virtHwListenAllTitle;
+
+  /// Hardware view (virtualization): ListenAllBody
+  ///
+  /// In en, this message translates to:
+  /// **'Listening on all addresses lets anyone who can reach the host connect to the console. Keep 127.0.0.1 and connect through an SSH tunnel.'**
+  String get virtHwListenAllBody;
+
+  /// Hardware view (virtualization): Firmware
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware'**
+  String get virtHwFirmware;
+
+  /// Hardware view (virtualization): UefiSub
+  ///
+  /// In en, this message translates to:
+  /// **'OVMF · Secure Boot capable, needed by Windows 11'**
+  String get virtHwUefiSub;
+
+  /// Hardware view (virtualization): BiosSub
+  ///
+  /// In en, this message translates to:
+  /// **'SeaBIOS · older systems and MBR disks'**
+  String get virtHwBiosSub;
+
+  /// Hardware view (virtualization): SecureBootNote
+  ///
+  /// In en, this message translates to:
+  /// **'Boots only signed kernels and boot loaders'**
+  String get virtHwSecureBootNote;
+
+  /// Hardware view (virtualization): FirmwareWarnTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t switch the firmware of an installed system'**
+  String get virtHwFirmwareWarnTitle;
+
+  /// Hardware view (virtualization): FirmwareWarnBody
+  ///
+  /// In en, this message translates to:
+  /// **'Switching between UEFI and BIOS leaves an installed system unable to boot.'**
+  String get virtHwFirmwareWarnBody;
+
+  /// Hardware view (virtualization): FirmwareStopped
+  ///
+  /// In en, this message translates to:
+  /// **'The firmware changes only while the guest is stopped.'**
+  String get virtHwFirmwareStopped;
+
+  /// Note under the Secure Boot switch: switching it recreates the guest's EFI variables (PVE's EFI disk, libvirt's variables file), losing saved boot entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning Secure Boot on or off makes the EFI variables anew; boot entries saved in them are lost.'**
+  String get virtHwSecureBootVars;
+
+  /// Hardware view (virtualization): EfiStorage
+  ///
+  /// In en, this message translates to:
+  /// **'Where the EFI variables go'**
+  String get virtHwEfiStorage;
+
+  /// Hardware view (virtualization): SwitchFirmwareAsk
+  ///
+  /// In en, this message translates to:
+  /// **'Switch {guest} to {firmware}?'**
+  String virtHwSwitchFirmwareAsk(String guest, String firmware);
+
+  /// Clone group (guest Settings): the new guest's name field.
+  ///
+  /// In en, this message translates to:
+  /// **'New name'**
+  String get virtCloneName;
+
+  /// PVE clone switch: full clone (off = linked clone).
+  ///
+  /// In en, this message translates to:
+  /// **'Full clone'**
+  String get virtCloneFull;
+
+  /// libvirt clone switch: copy the disks' contents (off = new empty disks).
+  ///
+  /// In en, this message translates to:
+  /// **'Copy disk contents'**
+  String get virtCloneCopyDisks;
+
+  /// Note under the PVE full-clone switch on a template.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: a linked clone, which depends on the template\'s disks'**
+  String get virtCloneLinkedNote;
+
+  /// Note under the PVE full-clone switch on a guest that is not a template: linked clones need a template.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a template can be cloned as a linked clone'**
+  String get virtCloneFullOnly;
+
+  /// Note under the libvirt copy-disks switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Off: new empty disks of the same size'**
+  String get virtCloneEmptyNote;
+
+  /// libvirt: why the Clone button is disabled while the guest runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut it down before cloning.'**
+  String get virtCloneStopFirst;
+
+  /// Index note for the Clone group: full clone.
+  ///
+  /// In en, this message translates to:
+  /// **'Full'**
+  String get virtCloneFullShort;
+
+  /// Index note for the Clone group: linked clone.
+  ///
+  /// In en, this message translates to:
+  /// **'Linked'**
+  String get virtCloneLinkedShort;
+
+  /// Index note for the Clone group: new empty disks.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty disks'**
+  String get virtCloneEmptyShort;
+
+  /// The Clone button while a clone runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloning…'**
+  String get virtCloning;
+
+  /// Toast after a clone.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloned as {name}'**
+  String virtCloned(String name);
+
+  /// Backup view: title of the group showing the scheduled backup job.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get virtBackupPlan;
+
+  /// Backup view: where backup jobs are configured in PVE, shown beside the Plan title.
+  ///
+  /// In en, this message translates to:
+  /// **'Datacenter → Backup'**
+  String get virtBackupPlanWhere;
+
+  /// Index note: no scheduled backup job takes the guest.
+  ///
+  /// In en, this message translates to:
+  /// **'No plan'**
+  String get virtBackupNoPlanShort;
+
+  /// Backup view: no scheduled backup job takes the guest.
+  ///
+  /// In en, this message translates to:
+  /// **'No scheduled backup job takes this guest.'**
+  String get virtBackupNoPlan;
+
+  /// Backup job: how many backups are kept (retention).
+  ///
+  /// In en, this message translates to:
+  /// **'Keep'**
+  String get virtBackupKeep;
+
+  /// Backup job: the job is disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This job is disabled.'**
+  String get virtBackupJobDisabled;
+
+  /// Number of backups of a guest.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 backup} other{{count} backups}}'**
+  String virtBackupCount(int count);
+
+  /// Number of snapshots of a guest.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 snapshot} other{{count} snapshots}}'**
+  String virtSnapshotCount(int count);
+
+  /// Backup view: no storage on the node accepts backups.
+  ///
+  /// In en, this message translates to:
+  /// **'No storage on this node holds backups.'**
+  String get virtBackupNoStorage;
+
+  /// Backup view: a running guest is backed up in snapshot mode, without stopping it.
+  ///
+  /// In en, this message translates to:
+  /// **'Running: snapshot mode, no downtime'**
+  String get virtBackupLiveTip;
+
+  /// Backup view: a stopped guest is backed up as it is.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped: backed up as it is'**
+  String get virtBackupStoppedTip;
+
+  /// Backup view: button starting a backup now.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get virtBackupNow;
+
+  /// A backup's notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get virtBackupNotes;
+
+  /// A protected backup cannot be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Protected: it cannot be deleted until protection is removed in PVE.'**
+  String get virtBackupProtected;
+
+  /// A backup's verification state from PVE (ok / failed).
+  ///
+  /// In en, this message translates to:
+  /// **'Verification: {state}'**
+  String virtBackupVerified(String state);
+
+  /// Warning: restoring a backup over the guest replaces its disks.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring overwrites the current disks'**
+  String get virtBackupRestoreOverwrites;
+
+  /// Why Restore is disabled while the guest runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut it down before restoring.'**
+  String get virtBackupStopFirst;
+
+  /// Second-press confirmation body for restoring over the guest.
+  ///
+  /// In en, this message translates to:
+  /// **'The guest\'s disks and configuration are replaced by the backup\'s.'**
+  String get virtBackupRestoreAgain;
+
+  /// Second press of a backup's delete button.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete backup'**
+  String get virtBackupDeleteConfirm;
+
+  /// Restore a backup as a new guest (new VMID).
+  ///
+  /// In en, this message translates to:
+  /// **'Restore as new'**
+  String get virtBackupRestoreNew;
+
+  /// Second press of the restore-over-the-guest button.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore over it'**
+  String get virtBackupRestoreConfirm;
+
+  /// Toast: a backup finished.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup finished'**
+  String get virtBackupDone;
+
+  /// Toast: a backup was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup deleted'**
+  String get virtBackupDeleted;
+
+  /// Toast: restored from the backup taken at a time.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored from {time}'**
+  String virtBackupRestored(String time);
+
+  /// PVE refused a storage or network change for want of a privilege: who, which, where, and the command that grants it.
+  ///
+  /// In en, this message translates to:
+  /// **'{account} lacks {privilege} on {path}. Grant it, on the PVE host:\n{command}'**
+  String pveNeedsPrivilege(
+    String account,
+    String privilege,
+    String path,
+    String command,
+  );
+
+  /// Index note of the operations group: nothing stops deleting it.
+  ///
+  /// In en, this message translates to:
+  /// **'Can be deleted'**
+  String get virtCanDelete;
+
+  /// Index note: a guest uses it.
+  ///
+  /// In en, this message translates to:
+  /// **'In use'**
+  String get virtInUse;
+
+  /// Group title: what can be done to a pool or network (stop, delete).
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get virtOps;
+
+  /// A libvirt storage pool; group title.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage pool'**
+  String get virtPool;
+
+  /// Button and title: a new libvirt storage pool.
+  ///
+  /// In en, this message translates to:
+  /// **'New storage pool'**
+  String get virtPoolNew;
+
+  /// Button and title: a new PVE storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add storage'**
+  String get virtStorageAdd;
+
+  /// Index note: how full a pool is.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% used'**
+  String virtPoolUsedPct(String pct);
+
+  /// Why a pool cannot be stopped or removed.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest uses a volume here, so the pool cannot be stopped or removed.'**
+  String get virtPoolInUse;
+
+  /// Button: remove a libvirt pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete pool'**
+  String get virtPoolDelete;
+
+  /// Button: remove a PVE storage from the configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove storage'**
+  String get virtStorageRemove;
+
+  /// Confirm removing a libvirt pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the pool {name}? Its definition goes; its volumes stay where they are.'**
+  String virtPoolDeleteAsk(String name);
+
+  /// Confirm removing a PVE storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the storage {name} from PVE\'s configuration? What is on it stays.'**
+  String virtStorageRemoveAsk(String name);
+
+  /// Under the delete question: the volumes stay.
+  ///
+  /// In en, this message translates to:
+  /// **'Its {count} volumes are kept on disk.'**
+  String virtPoolDeleteKeepsVolumes(int count);
+
+  /// Checkbox: pool-delete, which removes an empty directory.
+  ///
+  /// In en, this message translates to:
+  /// **'Also delete its directory (only when empty)'**
+  String get virtPoolDeleteStorage;
+
+  /// Confirm stopping a libvirt pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop the pool {name}? Its volumes cannot be listed or created until it starts again.'**
+  String virtPoolStopAsk(String name);
+
+  /// PVE storage disable/remove confirmation: the change is cluster-wide, not per node.
+  ///
+  /// In en, this message translates to:
+  /// **'This applies to every node of the cluster that has this storage.'**
+  String get virtStorageClusterWide;
+
+  /// PVE storage action: turn the storage off in the configuration (a verb, not the state).
+  ///
+  /// In en, this message translates to:
+  /// **'Disable'**
+  String get virtStorageDisable;
+
+  /// PVE storage action: turn the storage back on (a verb, not the state).
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get virtStorageEnable;
+
+  /// Confirm disabling a PVE storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable the storage {name}? Guests with disks on it cannot start until it is enabled again.'**
+  String virtStorageDisableAsk(String name);
+
+  /// Under the new-pool form for an LVM volume group.
+  ///
+  /// In en, this message translates to:
+  /// **'An existing volume group is used as it is; nothing is formatted.'**
+  String get virtPoolLogicalNote;
+
+  /// Field: where an NFS pool is mounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mount point'**
+  String get virtPoolMountPoint;
+
+  /// Field: an NFS export.
+  ///
+  /// In en, this message translates to:
+  /// **'Source (host:/path)'**
+  String get virtPoolSourceNfs;
+
+  /// Field: an LVM volume group.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume group'**
+  String get virtPoolSourceVg;
+
+  /// Field: an LVM volume group and its thin pool, vg/thinpool.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume group / thin pool'**
+  String get virtPoolSourceThin;
+
+  /// Field: a ZFS pool or dataset.
+  ///
+  /// In en, this message translates to:
+  /// **'ZFS pool'**
+  String get virtPoolSourceZfs;
+
+  /// Pool type choice: an LVM volume group.
+  ///
+  /// In en, this message translates to:
+  /// **'LVM volume group'**
+  String get virtPoolTypeVg;
+
+  /// Form error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get virtResNameEmpty;
+
+  /// Form error: a pool, volume or network name the host does not take.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a name this host takes (letters, digits, . _ -)'**
+  String get virtResNameInvalid;
+
+  /// Form error: the path, export, volume group or pool of a new pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a path or source the host takes'**
+  String get virtResSourceInvalid;
+
+  /// Form error: the mount point must be an absolute path.
+  ///
+  /// In en, this message translates to:
+  /// **'An absolute path'**
+  String get virtResTargetInvalid;
+
+  /// Form error: the IPv4 address with prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'An address with its prefix, e.g. 192.168.150.1/24'**
+  String get virtResCidrInvalid;
+
+  /// Form error: the DHCP range.
+  ///
+  /// In en, this message translates to:
+  /// **'Two addresses in the network, in order, without the host\'s own'**
+  String get virtResDhcpInvalid;
+
+  /// Form error: another network overlaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Another network here is on this subnet'**
+  String get virtResSubnetTaken;
+
+  /// Form error: an interface name.
+  ///
+  /// In en, this message translates to:
+  /// **'Not an interface name'**
+  String get virtResBridgeInvalid;
+
+  /// Form error: the pool cannot hold that format.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a format this pool holds'**
+  String get virtResFormat;
+
+  /// Button and form title: a new volume.
+  ///
+  /// In en, this message translates to:
+  /// **'New volume'**
+  String get virtVolNew;
+
+  /// Index note: how many volumes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} volumes'**
+  String virtVolCount(int count);
+
+  /// A pool with no volumes.
+  ///
+  /// In en, this message translates to:
+  /// **'This pool has no volumes yet.'**
+  String get virtVolNone;
+
+  /// Dashed row beside "New volume".
+  ///
+  /// In en, this message translates to:
+  /// **'A new volume can be attached to any VM later'**
+  String get virtVolEmptyAttach;
+
+  /// Dashed row beside "New volume" where uploads are offered.
+  ///
+  /// In en, this message translates to:
+  /// **'An ISO can also be uploaded directly'**
+  String get virtVolEmptyUpload;
+
+  /// Under the volume name on PVE.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE names a volume for its VM: vm-<VMID>-disk-<N>'**
+  String get virtVolPveName;
+
+  /// Field: the guests using a volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Used by'**
+  String get virtVolUsers;
+
+  /// Meter: how much of a volume takes space on the host.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocated'**
+  String get virtVolAllocated;
+
+  /// Why a used volume is not grown here.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest uses it: grow it from that guest\'s Hardware view'**
+  String get virtVolGrowFromGuest;
+
+  /// A guest uses this volume: not deleted, not attached again.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest uses this volume'**
+  String get virtVolInUse;
+
+  /// Storage view: the volumes a base image is the backing file of.
+  ///
+  /// In en, this message translates to:
+  /// **'Backing file of {names}'**
+  String virtVolBackingOf(String names);
+
+  /// Storage view: why a base image cannot be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Other volumes are made on this one; deleting it would break them'**
+  String get virtVolIsBase;
+
+  /// Button: attach a volume to a VM as a disk.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach to VM'**
+  String get virtVolAttach;
+
+  /// Under the VM choice for attaching a volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached as a new disk, on the bus its first disk is on'**
+  String get virtVolAttachNote;
+
+  /// Toast after attaching.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached to {name}'**
+  String virtVolAttached(String name);
+
+  /// Button: insert an ISO into a VM's CD-ROM drive.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert into CD-ROM'**
+  String get virtVolInsert;
+
+  /// Toast after inserting an ISO.
+  ///
+  /// In en, this message translates to:
+  /// **'Inserted into {name}\'s CD-ROM drive'**
+  String virtVolInserted(String name);
+
+  /// A VM without a CD-ROM drive to insert into.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has no CD-ROM drive'**
+  String virtVolNoCdrom(String name);
+
+  /// Confirm deleting a volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the volume {name} from {pool}? What is in it is gone for good.'**
+  String virtVolDeleteAsk(String name, String pool);
+
+  /// Bar button: upload an ISO from this device.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload ISO'**
+  String get virtUploadIso;
+
+  /// Dialog title: the name an upload takes.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload to {pool}'**
+  String virtUploadTo(String pool);
+
+  /// Toast: an upload finished.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} uploaded'**
+  String virtUploadDone(String name);
+
+  /// Group title: how a network is set up.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration'**
+  String get virtNetConfig;
+
+  /// Network view: group title over the network's definition as the host keeps it (libvirt XML, PVE interfaces entry).
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration file'**
+  String get virtNetConfigFile;
+
+  /// A bridge with no ports, a network with no bridge of the host's.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal'**
+  String get virtNetInternal;
+
+  /// Field: a PVE bridge's ports.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridge ports'**
+  String get virtNetBridgePorts;
+
+  /// Field: the host bridge a libvirt bridge-mode network uses.
+  ///
+  /// In en, this message translates to:
+  /// **'Host bridge'**
+  String get virtNetHostBridge;
+
+  /// Hint for a PVE bridge's ports.
+  ///
+  /// In en, this message translates to:
+  /// **'eno2; empty for an internal bridge'**
+  String get virtNetPortsHint;
+
+  /// Field: a network's DHCP range.
+  ///
+  /// In en, this message translates to:
+  /// **'DHCP range'**
+  String get virtNetDhcpRange;
+
+  /// Under the DHCP switch.
+  ///
+  /// In en, this message translates to:
+  /// **'dnsmasq gives guests their addresses'**
+  String get virtNetDhcpTip;
+
+  /// Under the VLAN aware switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests\' NICs may carry a VLAN tag'**
+  String get virtNetVlanTip;
+
+  /// NAT network: what it does.
+  ///
+  /// In en, this message translates to:
+  /// **'Through the host: guests reach out, nothing reaches in'**
+  String get virtNetNatTip;
+
+  /// Routed network: what it does.
+  ///
+  /// In en, this message translates to:
+  /// **'Routed by the host without NAT: the LAN needs a route back'**
+  String get virtNetRoutedTip;
+
+  /// Isolated network: what it does.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the guests and the host reach each other'**
+  String get virtNetIsolatedTip;
+
+  /// Bridged network: what it does.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests join a bridge of the host\'s, on its physical network'**
+  String get virtNetBridgedTip;
+
+  /// Button and title: a new libvirt network.
+  ///
+  /// In en, this message translates to:
+  /// **'New network'**
+  String get virtNetNew;
+
+  /// Button and title: a new PVE Linux bridge.
+  ///
+  /// In en, this message translates to:
+  /// **'New Linux bridge'**
+  String get virtNetNewBridge;
+
+  /// Group title of the new libvirt network form.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual network'**
+  String get virtNetVirtual;
+
+  /// Button: delete a network.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete network'**
+  String get virtNetDelete;
+
+  /// Confirm deleting a libvirt network.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the network {name}? It is stopped and its definition removed.'**
+  String virtNetDeleteAsk(String name);
+
+  /// Confirm removing a PVE bridge.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the bridge {name} from {node}? It leaves the pending configuration now, and the host once that is applied.'**
+  String virtNetDeleteAskPve(String name, String node);
+
+  /// Why a network cannot be deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests on it: {count}. It cannot be deleted.'**
+  String virtNetInUse(int count);
+
+  /// Confirm stopping a network with guests on it.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop {name}? The {count} guests on it lose their network until it starts again.'**
+  String virtNetStopAsk(String name, int count);
+
+  /// A PVE interface that is not active.
+  ///
+  /// In en, this message translates to:
+  /// **'Not active: a new bridge waits in the pending configuration until it is applied.'**
+  String get virtNetInactivePve;
+
+  /// Under the new PVE bridge form.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as a pending change: it takes effect when the configuration is applied (ifreload -a).'**
+  String get virtNetPveApplyNote;
+
+  /// Toast after a PVE bridge was created or removed.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as pending: apply the configuration for it to take effect'**
+  String get virtNetPendingSaved;
+
+  /// Card title: PVE network changes not applied yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending network changes on {node}'**
+  String virtNetPendingTitle(String node);
+
+  /// Card text: where PVE keeps them.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE keeps network changes in interfaces.new until they are applied.'**
+  String get virtNetPendingTip;
+
+  /// Button: show the pending diff.
+  ///
+  /// In en, this message translates to:
+  /// **'Show changes'**
+  String get virtNetPendingShow;
+
+  /// Button: PVE Apply Configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply configuration'**
+  String get virtNetApply;
+
+  /// Confirm applying PVE network changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply the pending network configuration on {node}? PVE reloads the host\'s network (ifreload -a): a mistake in it can cut the host off.'**
+  String virtNetApplyAsk(String node);
+
+  /// Confirm dropping PVE network changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop the pending network configuration on {node}?'**
+  String virtNetRevertAsk(String node);
+
+  /// PVE API token help: the privileges managing storage and networks needs (verified on PVE 9.2).
+  ///
+  /// In en, this message translates to:
+  /// **'Managing storage needs Datastore.Allocate on /storage (adding, disabling, removing), Datastore.AllocateSpace (volumes) and Datastore.AllocateTemplate (uploads); Linux bridges and applying the network configuration need Sys.Modify on the node.'**
+  String get pveTokenTipStorage;
+
+  /// Index note of the create form's general group: no name typed yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed'**
+  String get virtCreateUnnamed;
+
+  /// Index note: nothing chosen yet in that group.
+  ///
+  /// In en, this message translates to:
+  /// **'Not chosen'**
+  String get virtCreateNotChosen;
+
+  /// Create form, PVE: what a virtual machine is (qm is the command).
+  ///
+  /// In en, this message translates to:
+  /// **'qm · a full KVM virtual machine'**
+  String get virtCreateKindVmSub;
+
+  /// Create form, PVE: what a container is (pct is the command).
+  ///
+  /// In en, this message translates to:
+  /// **'pct · shares the host\'s kernel, lighter'**
+  String get virtCreateKindLxcSub;
+
+  /// Where a VM's system comes from: a disk image with a system already on it, set up by cloud-init.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud image'**
+  String get virtCloudImage;
+
+  /// Create form: what choosing a cloud image does.
+  ///
+  /// In en, this message translates to:
+  /// **'A disk with a system on it: copied, grown to the size under Storage, and set up by cloud-init at its first boot. The image itself is left as it is.'**
+  String get virtCloudImageTip;
+
+  /// Create form, libvirt: no cloud image volume in any pool.
+  ///
+  /// In en, this message translates to:
+  /// **'No cloud images here: put a qcow2 or raw image in a pool (upload it in Storage), one no guest uses.'**
+  String get virtNoCloudImagesLibvirt;
+
+  /// Create form, PVE: no image in a storage with Import content.
+  ///
+  /// In en, this message translates to:
+  /// **'No cloud images here: upload a qcow2, raw or vmdk image to a storage with the Import content type (PVE 8.2+).'**
+  String get virtNoCloudImagesPve;
+
+  /// Create form callout when a Windows ISO is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Windows 11 needs UEFI and TPM 2.0'**
+  String get virtCreateWindowsTitle;
+
+  /// Create form callout body: turn both on here.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose UEFI and turn the TPM on above.'**
+  String get virtCreateWindowsBody;
+
+  /// Create form callout body: this libvirt host has no software TPM.
+  ///
+  /// In en, this message translates to:
+  /// **'This host has no software TPM (swtpm): install it to give the guest one.'**
+  String get virtCreateWindowsNoTpm;
+
+  /// Create form: the disk asked for is smaller than the cloud image.
+  ///
+  /// In en, this message translates to:
+  /// **'The image is {size}: the disk must be at least that big.'**
+  String virtCreateImageSize(String size);
+
+  /// Create form: no cloud image chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a cloud image.'**
+  String get virtCreateImageMissing;
+
+  /// Create form: something above still needs filling in (the orange groups).
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the parts marked orange first.'**
+  String get virtCreateIncomplete;
+
+  /// Create form, confirm group: which server it is created on.
+  ///
+  /// In en, this message translates to:
+  /// **'Created on {host}'**
+  String virtCreateOn(String host);
+
+  /// cloud-init group: what the account is.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with sudo, logged in to with its password, an SSH key, or both.'**
+  String get virtCiTip;
+
+  /// cloud-init user name rule.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowercase letters, digits, _ and -, starting with a letter or _'**
+  String get virtCiUserInvalid;
+
+  /// cloud-init: neither a password nor a key.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a password or an SSH key.'**
+  String get virtCiCredentialsMissing;
+
+  /// cloud-init on PVE: the hostname is the VM name.
+  ///
+  /// In en, this message translates to:
+  /// **'The hostname is the VM\'s name.'**
+  String get virtCiHostnamePve;
+
+  /// cloud-init network: a fixed address rather than DHCP.
+  ///
+  /// In en, this message translates to:
+  /// **'Static'**
+  String get virtCiStatic;
+
+  /// cloud-init: not an IPv4 address with prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'An IPv4 address with its prefix, like 10.0.0.5/24'**
+  String get virtCiAddressInvalid;
+
+  /// cloud-init: gateway is not an IPv4 address.
+  ///
+  /// In en, this message translates to:
+  /// **'An IPv4 address, like 10.0.0.1'**
+  String get virtCiGatewayInvalid;
+
+  /// cloud-init DNS field hint with DHCP: empty takes what DHCP gives.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty: from DHCP'**
+  String get virtCiDnsFromDhcp;
+
+  /// cloud-init DNS servers rule.
+  ///
+  /// In en, this message translates to:
+  /// **'IP addresses, separated by spaces or commas'**
+  String get virtCiDnsInvalid;
+
+  /// cloud-init: DNS search domain field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domain'**
+  String get virtCiSearch;
+
+  /// cloud-init on libvirt: where its data goes and what is kept of the password.
+  ///
+  /// In en, this message translates to:
+  /// **'Written to a small ISO next to the disk, attached as a CD-ROM and deleted with the VM. Only the password\'s hash is stored.'**
+  String get virtCiSeedNote;
+
+  /// cloud-init on libvirt: the host has no tool to make the seed ISO.
+  ///
+  /// In en, this message translates to:
+  /// **'No tool on the host to make the cloud-init data'**
+  String get virtCiNoToolTitle;
+
+  /// cloud-init on libvirt: which tools to install; without one the image boots unconfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Install one of {tools} on the host. Without cloud-init the image starts with no account to log in with.'**
+  String virtCiNoToolBody(String tools);
+
+  /// Hardware view: a cloud-init drive row.
+  ///
+  /// In en, this message translates to:
+  /// **'What cloud-init reads at the first boot. Not install media: nothing to insert here.'**
+  String get virtHwCloudInitNote;
+
+  /// Hardware view: a new CD-ROM drive on a running VM arrives at its next start.
+  ///
+  /// In en, this message translates to:
+  /// **'While it runs, the drive is added at its next start (SATA and IDE take none live).'**
+  String get virtHwCdromLater;
+
+  /// Create form, after creating from a cloud image bigger than the disk asked for: the disk keeps the image size.
+  ///
+  /// In en, this message translates to:
+  /// **'The disk was kept at {size}, the image\'s own size, which is more than was asked for: a disk is never cut below the system on it.'**
+  String virtCreateDiskKept(String size);
+
+  /// Settings view, cloud-init group: what it edits.
+  ///
+  /// In en, this message translates to:
+  /// **'What cloud-init sets up in this VM: an account with sudo, how to log in to it, the hostname and the address.'**
+  String get virtCiEditTip;
+
+  /// Settings view, cloud-init on libvirt: the seed holds settings the app does not write.
+  ///
+  /// In en, this message translates to:
+  /// **'This seed holds more than this app writes'**
+  String get virtCiForeignTitle;
+
+  /// Settings view, cloud-init on libvirt: what saving does to a seed with settings the app does not write.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings made elsewhere (packages, commands, other accounts) are not shown here. Saving replaces the seed with what is shown.'**
+  String get virtCiForeignBody;
+
+  /// Settings view, cloud-init: hint of the password field when a password is set (never shown).
+  ///
+  /// In en, this message translates to:
+  /// **'Set. Leave empty to keep it'**
+  String get virtCiPasswordKept;
+
+  /// Settings view, cloud-init: switch that removes the account password.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the password'**
+  String get virtCiRemovePassword;
+
+  /// Settings view, cloud-init: note under the remove-password switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in with an SSH key only'**
+  String get virtCiRemovePasswordNote;
+
+  /// Settings view, cloud-init: what cloud-init does with keys and a renamed account at the next boot.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys are added to the account. A key taken out here stays in the system until it is removed there, and a new user name makes a new account beside the old one.'**
+  String get virtCiKeysAdded;
+
+  /// Settings view, cloud-init: title of the note on when a change takes effect.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes effect at the next boot'**
+  String get virtCiEffectTitle;
+
+  /// Settings view, cloud-init on libvirt: first sentence of the note on saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving writes a new seed with a new instance ID.'**
+  String get virtCiEffectLibvirt;
+
+  /// Settings view, cloud-init on PVE: first sentence of the note on saving (PVE derives the instance ID from the settings).
+  ///
+  /// In en, this message translates to:
+  /// **'PVE writes its cloud-init drive at once, with an instance ID derived from these settings, so any change here makes a new one.'**
+  String get virtCiEffectPve;
+
+  /// Settings view, cloud-init: what cloud-init does at the next boot with a new instance ID.
+  ///
+  /// In en, this message translates to:
+  /// **'At the next boot cloud-init treats the system as a new instance: it sets the hostname again, makes the account if it is missing, sets its password, adds the keys and writes the network configuration again. It also makes new SSH host keys, so SSH clients warn that the host key changed. Nothing changes before that boot.'**
+  String get virtCiNewInstance;
+
+  /// Toast after saving cloud-init settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved. It takes effect at the next boot.'**
+  String get virtCiSaved;
+
+  /// Snapshot form: an external, disk-only snapshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Disk-only while running'**
+  String get virtSnapshotExternal;
+
+  /// Snapshot form: what an external snapshot does.
+  ///
+  /// In en, this message translates to:
+  /// **'The guest keeps running. Each disk gets a qcow2 overlay in the chosen pool; the guest stays on a chain.'**
+  String get virtSnapshotExternalTip;
+
+  /// Snapshot form: an internal snapshot.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal (in the image)'**
+  String get virtSnapshotFormInternal;
+
+  /// Snapshot form: the pool an external snapshot puts its overlays in.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlay pool'**
+  String get virtSnapshotOverlayPool;
+
+  /// Snapshot form, overlay pool picker: no pool picked; each overlay goes in the directory of the disk it backs.
+  ///
+  /// In en, this message translates to:
+  /// **'Beside each disk'**
+  String get virtSnapshotOverlayBeside;
+
+  /// Snapshot form: an external snapshot never holds memory.
+  ///
+  /// In en, this message translates to:
+  /// **'An external snapshot never holds the memory: the guest is not stopped.'**
+  String get virtSnapshotExternalNoMemory;
+
+  /// Snapshots view: the chain of files a disk is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Disk chain'**
+  String get virtSnapshotChain;
+
+  /// Snapshots view: how many layers a chain has.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} layers'**
+  String virtSnapshotChainDepth(String count);
+
+  /// Snapshots view: one file of a disk chain, and whether it is the one in use.
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get virtSnapshotChainFile;
+
+  /// Snapshots view: the chain file the guest writes to now.
+  ///
+  /// In en, this message translates to:
+  /// **'In use now'**
+  String get virtSnapshotChainActive;
+
+  /// Snapshots view: the base image at the bottom of a chain.
+  ///
+  /// In en, this message translates to:
+  /// **'Base image'**
+  String get virtSnapshotChainBase;
+
+  /// Snapshot form: the storage does not support snapshots (PVE).
+  ///
+  /// In en, this message translates to:
+  /// **'The guest\'s storage does not support snapshots, so none can be taken.'**
+  String get virtSnapshotNoSupport;
+
+  /// Revert dialog: a revert on a chain flattens it and strands later snapshots.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverting on a chain merges the running overlay into the image and leaves every later snapshot unusable. Only the newest snapshot can be reverted to.'**
+  String get virtSnapshotRevertChain;
+
+  /// Snapshots view: a revert refused because later snapshots sit on this one.
+  ///
+  /// In en, this message translates to:
+  /// **'Refused while a later snapshot sits on this one.'**
+  String get virtSnapshotRevertHasChildren;
+
+  /// Snapshots view: what differs between a snapshot and now.
+  ///
+  /// In en, this message translates to:
+  /// **'Differences from now'**
+  String get virtSnapshotDiff;
+
+  /// Snapshots view: nothing differs between the snapshot and now.
+  ///
+  /// In en, this message translates to:
+  /// **'The configuration is unchanged since this snapshot.'**
+  String get virtSnapshotDiffNone;
+
+  /// Snapshots view: the button that reads the diff.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with now'**
+  String get virtSnapshotDiffShow;
+
+  /// Snapshot diff group: processor.
+  ///
+  /// In en, this message translates to:
+  /// **'Processor'**
+  String get virtSnapshotDiffGroupCpu;
+
+  /// Snapshot diff group: memory.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory'**
+  String get virtSnapshotDiffGroupMemory;
+
+  /// Snapshot diff group: disks.
+  ///
+  /// In en, this message translates to:
+  /// **'Disks'**
+  String get virtSnapshotDiffGroupDisks;
+
+  /// Snapshot diff group: interfaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Interfaces'**
+  String get virtSnapshotDiffGroupNic;
+
+  /// Snapshot diff group: firmware.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware'**
+  String get virtSnapshotDiffGroupFirmware;
+
+  /// Snapshot diff group: boot options.
+  ///
+  /// In en, this message translates to:
+  /// **'Boot'**
+  String get virtSnapshotDiffGroupBoot;
+
+  /// Snapshot diff group: everything else.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get virtSnapshotDiffGroupOther;
+
+  /// Snapshots view: one diff row: what the snapshot had, what the guest has now.
+  ///
+  /// In en, this message translates to:
+  /// **'{before} → {after}'**
+  String virtSnapshotDiffValue(String after, String before);
+
+  /// Snapshots view: a diff row for something the snapshot had and the guest no longer does.
+  ///
+  /// In en, this message translates to:
+  /// **'removed'**
+  String get virtSnapshotDiffRemoved;
+
+  /// Snapshots view: a diff row for something the snapshot had not and the guest now has.
+  ///
+  /// In en, this message translates to:
+  /// **'added'**
+  String get virtSnapshotDiffAdded;
+
+  /// Revert dialog: the diff is shown before the revert.
+  ///
+  /// In en, this message translates to:
+  /// **'What changes if you revert to {snapshot}:'**
+  String virtSnapshotDiffAsk(String snapshot);
+
+  /// Snapshots view: a failure reading the diff.
+  ///
+  /// In en, this message translates to:
+  /// **'The host could not say what differs: {error}'**
+  String virtSnapshotDiffHost(String error);
+
+  /// Snapshot form: a chain already exists, so a new snapshot deepens it.
+  ///
+  /// In en, this message translates to:
+  /// **'The guest is already on {count} layers; this snapshot adds one more.'**
+  String virtSnapshotExternalExists(String count);
+
+  /// Settings view: the group that turns a guest into a template.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a template'**
+  String get virtToTemplate;
+
+  /// Settings view: what a template is and that it cannot be undone.
+  ///
+  /// In en, this message translates to:
+  /// **'A template cannot be started and cannot be turned back into a guest. Its disks become base images, which is what a linked clone shares.'**
+  String get virtToTemplateNote;
+
+  /// Settings view: the confirmation dialog before converting to a template.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn {name} into a template?'**
+  String virtToTemplateConfirm(String name);
+
+  /// Settings view: a template cannot be turned back.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone: a template cannot be turned back into a guest.'**
+  String get virtToTemplateIrreversible;
+
+  /// Settings view: a template is made from a stopped guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Shut it down first.'**
+  String get virtToTemplateStopped;
+
+  /// Settings view: a guest with snapshots cannot become a template.
+  ///
+  /// In en, this message translates to:
+  /// **'A guest with snapshots cannot become a template.'**
+  String get virtToTemplateSnapshots;
+
+  /// Settings view: the guest became a template.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is a template now'**
+  String virtTemplateCreated(String name);
+
+  /// Guest view: what a template offers instead of power actions.
+  ///
+  /// In en, this message translates to:
+  /// **'A template only runs once it is cloned.'**
+  String get virtTemplateTip;
+
+  /// Clone group: the source's own storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as the source'**
+  String get virtCloneStorageSame;
+
+  /// Clone group: the source's own node.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as the source'**
+  String get virtCloneNodeSame;
+
+  /// Clone group: the storage has to hold VM images.
+  ///
+  /// In en, this message translates to:
+  /// **'This storage does not hold VM images.'**
+  String get virtCloneStorageContent;
+
+  /// Clone group: moving to another node needs shared storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Copying to another node needs a shared storage.'**
+  String get virtCloneStorageShared;
+
+  /// Clone group: the target node is not one the host has.
+  ///
+  /// In en, this message translates to:
+  /// **'This host has no such node.'**
+  String get virtCloneNodeUnknown;
+
+  /// Clone group: a linked clone cannot name a storage or a node.
+  ///
+  /// In en, this message translates to:
+  /// **'A linked clone shares the template\'s disks, so it cannot name a storage or a node.'**
+  String get virtCloneLinkedTarget;
+
+  /// Datacenter view: the scheduled backup jobs.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup jobs'**
+  String get virtBackupJobs;
+
+  /// Datacenter view: no scheduled job.
+  ///
+  /// In en, this message translates to:
+  /// **'No scheduled backup job. Add one to back guests up on a schedule.'**
+  String get virtBackupJobsNone;
+
+  /// Datacenter view: the button that adds a job.
+  ///
+  /// In en, this message translates to:
+  /// **'New job'**
+  String get virtBackupJobNew;
+
+  /// Datacenter view: running a job now.
+  ///
+  /// In en, this message translates to:
+  /// **'Run now'**
+  String get virtBackupJobRun;
+
+  /// Datacenter view: running a job now is confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Start this backup job now?'**
+  String get virtBackupJobRunAsk;
+
+  /// Datacenter view: deleting a job is confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the backup job {id}? The backups it made stay.'**
+  String virtBackupJobDeleteAsk(String id);
+
+  /// Datacenter view: a job was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Job saved'**
+  String get virtBackupJobSaved;
+
+  /// Datacenter view: a job was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Job deleted'**
+  String get virtBackupJobDeleted;
+
+  /// Datacenter view: a job was started.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup job started'**
+  String get virtBackupJobStarted;
+
+  /// Job editor: the schedule field.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get virtBackupSchedule;
+
+  /// Job editor: what the schedule format is, with examples.
+  ///
+  /// In en, this message translates to:
+  /// **'A subset of systemd calendar events: 02:30, mon..fri 02:30, sat 03:00, daily, hourly, */15.'**
+  String get virtBackupScheduleHelp;
+
+  /// Job editor: the schedule is not a calendar event.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a schedule the host takes.'**
+  String get virtBackupScheduleInvalid;
+
+  /// Job editor: what the host says the schedule means.
+  ///
+  /// In en, this message translates to:
+  /// **'Next runs: {times}'**
+  String virtBackupScheduleNext(String times);
+
+  /// Job editor: which guests the job takes.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests'**
+  String get virtBackupSelection;
+
+  /// Job editor: the job takes every guest on the node.
+  ///
+  /// In en, this message translates to:
+  /// **'All guests'**
+  String get virtBackupSelectionAll;
+
+  /// Job editor: the job takes the guests picked.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected guests'**
+  String get virtBackupSelectionList;
+
+  /// Job editor: a job has to take at least one guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one guest.'**
+  String get virtBackupSelectionNone;
+
+  /// Job editor: when the job notifies.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get virtBackupMail;
+
+  /// Job editor: the notes every backup the job makes carries.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup notes'**
+  String get virtBackupNotesTemplate;
+
+  /// Job editor: the variables PVE replaces in the notes template.
+  ///
+  /// In en, this message translates to:
+  /// **'The notes are added to each backup the job makes. These are replaced by their values: {vars}.'**
+  String virtBackupNotesTemplateTip(String vars);
+
+  /// Job editor: the retention, PVE's prune-backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Retention'**
+  String get virtBackupPrune;
+
+  /// Job editor: what the retention value looks like.
+  ///
+  /// In en, this message translates to:
+  /// **'PVE\'s retention options, e.g. keep-last=7,keep-daily=4. Empty: the storage\'s or the node\'s own.'**
+  String get virtBackupPruneTip;
+
+  /// Job editor: the node the job runs on.
+  ///
+  /// In en, this message translates to:
+  /// **'Node'**
+  String get virtBackupJobNode;
+
+  /// Job editor: the job runs on every node.
+  ///
+  /// In en, this message translates to:
+  /// **'Every node'**
+  String get virtBackupJobNodeAny;
+
+  /// Job editor: whether the job runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get virtBackupEnabled;
+
+  /// Backup view: the options a run now takes.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get virtBackupOptions;
+
+  /// Backup view: protect a backup from deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect'**
+  String get virtBackupProtect;
+
+  /// Backup view: what protection means.
+  ///
+  /// In en, this message translates to:
+  /// **'A protected backup is kept from pruning and cannot be deleted until protection is removed.'**
+  String get virtBackupProtectTip;
+
+  /// Backup view: a backup's own notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get virtBackupEditNotes;
+
+  /// Backup view: the button that saves a backup's notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get virtBackupSaveNotes;
+
+  /// Backup view: a backup's fields were written.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup updated'**
+  String get virtBackupEdited;
+
+  /// Backup view: where a restore puts the disks.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore to storage'**
+  String get virtBackupRestoreStorage;
+
+  /// Backup view: a restore leaves the disks where the archive says.
+  ///
+  /// In en, this message translates to:
+  /// **'As in the backup'**
+  String get virtBackupRestoreStorageSame;
+
+  /// Clone group: no storage on the node holds VM images.
+  ///
+  /// In en, this message translates to:
+  /// **'No storage on this node holds VM images.'**
+  String get virtCloneStorageMissing;
+
+  /// Backup view: the compression a run uses.
+  ///
+  /// In en, this message translates to:
+  /// **'Compression'**
+  String get virtBackupCompress;
+
+  /// Backup view: lift a backup's protection.
+  ///
+  /// In en, this message translates to:
+  /// **'Unprotect'**
+  String get virtBackupUnprotect;
+
+  /// Backup view: suspend and stop interrupt a running guest.
+  ///
+  /// In en, this message translates to:
+  /// **'suspend and stop interrupt a running guest while it is copied.'**
+  String get virtBackupModeStops;
+
+  /// Job editor: ask the host to check the schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Check with the host'**
+  String get virtBackupScheduleValidate;
+
+  /// Job editor: how many guests are picked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String virtBackupSelected(int count);
+
+  /// Job editor: what the switches mean with "all guests" on.
+  ///
+  /// In en, this message translates to:
+  /// **'Every guest on the node is taken. Turn one off to leave it out.'**
+  String get virtBackupExcludeTip;
+
+  /// Edit dialog: what a restart does, with guests on the network.
+  ///
+  /// In en, this message translates to:
+  /// **'The running network keeps what it has until it is restarted. Restarting cuts off the {count} guests on it.'**
+  String virtNetEditAsk(int count);
+
+  /// Edit dialog: what a restart does, with nothing on the network.
+  ///
+  /// In en, this message translates to:
+  /// **'The running network keeps what it has until it is restarted.'**
+  String get virtNetEditAskNoGuest;
+
+  /// Edit form: the switch that restarts the network to apply the change now.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart it to apply now'**
+  String get virtNetEditRestart;
+
+  /// Edit form: under that switch.
+  ///
+  /// In en, this message translates to:
+  /// **'The guests on it lose their network while it restarts.'**
+  String get virtNetEditRestartNote;
+
+  /// Network view: the running network is not on its definition.
+  ///
+  /// In en, this message translates to:
+  /// **'The definition has a change the running network is not on yet.'**
+  String get virtNetEditPending;
+
+  /// Network view: restart the network.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get virtNetRestart;
+
+  /// Confirm restarting a network with guests on it.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart {name}? The {count} guests on it lose their network until it is back.'**
+  String virtNetRestartAsk(String name, int count);
+
+  /// Confirm restarting a network with nothing on it.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart {name}? Nothing is on it.'**
+  String virtNetRestartAskNone(String name);
+
+  /// Network view: the static DHCP entries group.
+  ///
+  /// In en, this message translates to:
+  /// **'Static addresses'**
+  String get virtNetHosts;
+
+  /// Network view: add a static DHCP entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an address'**
+  String get virtNetHostAdd;
+
+  /// Static entry: the MAC field.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC'**
+  String get virtNetHostMac;
+
+  /// Static entry: the address field.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get virtNetHostIp;
+
+  /// Static entry: the name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (optional)'**
+  String get virtNetHostName;
+
+  /// Static entries: none is set.
+  ///
+  /// In en, this message translates to:
+  /// **'No address is handed to a MAC of its own: every guest gets one from the DHCP range.'**
+  String get virtNetHostEmpty;
+
+  /// Static entries: some are set; beside the button that adds another.
+  ///
+  /// In en, this message translates to:
+  /// **'Every other guest gets one from the DHCP range.'**
+  String get virtNetHostOthers;
+
+  /// A static entry the host would refuse.
+  ///
+  /// In en, this message translates to:
+  /// **'A MAC, an address or a name the host would refuse, or the same MAC twice.'**
+  String get virtNetHostInvalid;
+
+  /// A PVE interface carrying the host's own address: refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This interface carries the host\'s own address. Editing or applying it would cut the host off.'**
+  String get virtNetManagementIface;
+
+  /// Network view: why a PVE interface is not editable.
+  ///
+  /// In en, this message translates to:
+  /// **'It carries the host\'s management traffic, or sits under an interface that does: the app does not edit it.'**
+  String get virtNetManagementTip;
+
+  /// PVE network view: why a physical interface cannot be edited.
+  ///
+  /// In en, this message translates to:
+  /// **'A physical interface is the host\'s own: the app edits bridges only.'**
+  String get virtNetPhysicalTip;
+
+  /// PVE bridge setting: bridge-vlan-aware.
+  ///
+  /// In en, this message translates to:
+  /// **'VLAN aware'**
+  String get virtNetVlanAware;
+
+  /// cloud-init: the password expires switch.
+  ///
+  /// In en, this message translates to:
+  /// **'The password expires'**
+  String get virtCiExpire;
+
+  /// cloud-init: what the switch means, and that PVE has no such option.
+  ///
+  /// In en, this message translates to:
+  /// **'The first login with it has to set a new one. libvirt only: PVE writes \"expire: false\" and has no option for it.'**
+  String get virtCiExpireNote;
+
+  /// cloud-init: several search domains.
+  ///
+  /// In en, this message translates to:
+  /// **'lab.example dev.lab.example'**
+  String get virtCiSearchHint;
+
+  /// cloud-init: how several search domains are separated.
+  ///
+  /// In en, this message translates to:
+  /// **'Several, separated by a space; resolv.conf keeps the first few.'**
+  String get virtCiSearchTip;
+
+  /// cloud-init: how many NICs the seed configures.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} NICs in the seed\'s network config; the form edits the first.'**
+  String virtCiNicsTip(int count);
+
+  /// USB passthrough: name the device by vendor and product.
+  ///
+  /// In en, this message translates to:
+  /// **'By vendor and product'**
+  String get virtUsbByVendor;
+
+  /// USB passthrough: name the device by the address it sits at.
+  ///
+  /// In en, this message translates to:
+  /// **'By address'**
+  String get virtUsbByAddress;
+
+  /// USB passthrough: what an address-based hostdev does.
+  ///
+  /// In en, this message translates to:
+  /// **'The device follows this address: whatever is plugged there is given to the guest. libvirt names a USB hostdev by bus and device number.'**
+  String get virtUsbAddressTip;
+
+  /// USB passthrough on PVE: the address a device is named by (bus and port chain).
+  ///
+  /// In en, this message translates to:
+  /// **'bus {bus} · port {port}'**
+  String virtUsbPortNote(int bus, String port);
+
+  /// Create form: Secure Boot cannot be offered here.
+  ///
+  /// In en, this message translates to:
+  /// **'The host\'s firmware descriptors have no Secure Boot firmware with enrolled keys, so a domain with it cannot start.'**
+  String get virtSbUnsupported;
+
+  /// Create form: the Secure Boot switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Boot'**
+  String get virtCreateSecureBoot;
+
+  /// Create form: what Secure Boot does.
+  ///
+  /// In en, this message translates to:
+  /// **'Only signed kernels and bootloaders are booted.'**
+  String get virtCreateSecureBootNote;
+
+  /// USB passthrough: the address a device is named by.
+  ///
+  /// In en, this message translates to:
+  /// **'bus {bus} · device {device}'**
+  String virtUsbAddressNote(int bus, int device);
+
+  /// Revert-all dialog: the title where the host reverts by rewriting the definition (libvirt).
+  ///
+  /// In en, this message translates to:
+  /// **'Discard the pending changes'**
+  String get virtHwRevertPendingTitle;
+
+  /// Revert-all dialog: what a libvirt revert does.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is put back on what it is running: the definition is written again from the running one, and the next start gets exactly what this one has. Its NVRAM file and firmware stay as they are.'**
+  String virtHwRevertPendingBody(String name);
+
+  /// Revert-all dialog: what a PVE revert does.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop every change waiting for {name}\'s next start?'**
+  String virtHwRevertAllAsk(String name);
+
+  /// Backup view, Plan group: make a scheduled backup job that takes this guest alone.
+  ///
+  /// In en, this message translates to:
+  /// **'New plan'**
+  String get virtBackupPlanNew;
+
+  /// Backup view, Plan group: what a new plan is, beside its button and above its form.
+  ///
+  /// In en, this message translates to:
+  /// **'A schedule that backs up this guest alone.'**
+  String get virtBackupPlanNewTip;
+
+  /// Backup view, Plan group: a job that takes this guest takes this many others too; tapping it opens the job.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No other guest} =1{Also backs up 1 other guest} other{Also backs up {count} other guests}}'**
+  String virtBackupPlanOthers(int count);
+
+  /// No description provided for @reduceMotion.
+  ///
+  /// In en, this message translates to:
+  /// **'Reduce motion'**
+  String get reduceMotion;
+
+  /// No description provided for @copyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get copyLink;
+
+  /// No description provided for @funcNeedsAgentPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account on this Monitor agent has no permission for {func}. Ask the agent\'s admin.'**
+  String funcNeedsAgentPermission(String func);
+
+  /// No description provided for @funcNeedsAgentHttps.
+  ///
+  /// In en, this message translates to:
+  /// **'{func} needs HTTPS to this Monitor agent, or plain HTTP allowed on both the agent and this app.'**
+  String funcNeedsAgentHttps(String func);
+
+  /// No description provided for @funcNeedsAgentSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'{func} is not set up on this Monitor agent; its operator has to configure it.'**
+  String funcNeedsAgentSetup(String func);
+
+  /// No description provided for @monitorFilesReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Read-only: this account can browse files on the agent but not change them.'**
+  String get monitorFilesReadOnly;
+
+  /// No description provided for @monitorAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Access'**
+  String get monitorAccess;
+
+  /// No description provided for @monitorAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get monitorAccounts;
+
+  /// No description provided for @monitorRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get monitorRoles;
+
+  /// No description provided for @monitorRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get monitorRole;
+
+  /// No description provided for @monitorChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get monitorChangePassword;
+
+  /// No description provided for @monitorNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get monitorNewPassword;
+
+  /// No description provided for @monitorCurrentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current password'**
+  String get monitorCurrentPassword;
+
+  /// No description provided for @monitorReauthTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Changing access needs your own password again.'**
+  String get monitorReauthTip;
+
+  /// No description provided for @monitorPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get monitorPasswordTooShort;
+
+  /// No description provided for @monitorPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The passwords do not match'**
+  String get monitorPasswordMismatch;
+
+  /// No description provided for @monitorErrReauth.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password was wrong.'**
+  String get monitorErrReauth;
+
+  /// No description provided for @monitorErrLastAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'The agent needs at least one admin account.'**
+  String get monitorErrLastAdmin;
+
+  /// No description provided for @monitorErrConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'It already exists, or it is still in use.'**
+  String get monitorErrConflict;
+
+  /// No description provided for @monitorErrForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Only an admin can do this.'**
+  String get monitorErrForbidden;
+
+  /// No description provided for @monitorRoleNameRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowercase letters, digits, - and _, up to 32 characters'**
+  String get monitorRoleNameRule;
+
+  /// No description provided for @monitorGrantShell.
+  ///
+  /// In en, this message translates to:
+  /// **'Shell and commands'**
+  String get monitorGrantShell;
+
+  /// No description provided for @monitorGrantShellTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Terminal, processes, services, containers, snippets, power — as the agent\'s account'**
+  String get monitorGrantShellTip;
+
+  /// No description provided for @monitorGrantSshTerminal.
+  ///
+  /// In en, this message translates to:
+  /// **'Panel terminal over SSH'**
+  String get monitorGrantSshTerminal;
+
+  /// No description provided for @monitorGrantFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get monitorGrantFiles;
+
+  /// No description provided for @monitorGrantConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Outbound connections'**
+  String get monitorGrantConnect;
+
+  /// No description provided for @monitorGrantConnectTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Local and dynamic port forwards, remote desktop'**
+  String get monitorGrantConnectTip;
+
+  /// No description provided for @monitorGrantConnectAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed targets (IP or CIDR, optionally :port or :from-to; one per line, empty is anywhere)'**
+  String get monitorGrantConnectAllow;
+
+  /// No description provided for @monitorGrantListen.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen on the server'**
+  String get monitorGrantListen;
+
+  /// No description provided for @monitorGrantListenTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote port forwards'**
+  String get monitorGrantListenTip;
+
+  /// No description provided for @monitorGrantListenPublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-loopback addresses'**
+  String get monitorGrantListenPublic;
+
+  /// No description provided for @monitorGrantPorts.
+  ///
+  /// In en, this message translates to:
+  /// **'Port range (empty is any)'**
+  String get monitorGrantPorts;
+
+  /// No description provided for @monitorGrantOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get monitorGrantOff;
+
+  /// No description provided for @monitorBuiltin.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in'**
+  String get monitorBuiltin;
+
+  /// No description provided for @monitorAdminRoleTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Manages accounts, roles and the agent\'s settings'**
+  String get monitorAdminRoleTip;
+
+  /// No description provided for @monitorYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get monitorYou;
+
+  /// No description provided for @monitorNoAccessToSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Only an admin can change this agent\'s settings.'**
+  String get monitorNoAccessToSettings;
+
+  /// Shown when the agent accepted a new password but the app failed to update the credential it stores for the server.
+  ///
+  /// In en, this message translates to:
+  /// **'The password was changed on the agent, but the app could not save it. Update this server\'s Monitor password in its settings.'**
+  String get monitorPasswordNotSaved;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) => <String>[
+    'az',
+    'de',
+    'en',
+    'es',
+    'fr',
+    'id',
+    'it',
+    'ja',
+    'ko',
+    'nl',
+    'pt',
+    'ru',
+    'tr',
+    'uk',
+    'zh',
+  ].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.countryCode) {
+          case 'TW':
+            return AppLocalizationsZhTw();
+        }
+        break;
+      }
+  }
+
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'az':
+      return AppLocalizationsAz();
+    case 'de':
+      return AppLocalizationsDe();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'fr':
+      return AppLocalizationsFr();
+    case 'id':
+      return AppLocalizationsId();
+    case 'it':
+      return AppLocalizationsIt();
+    case 'ja':
+      return AppLocalizationsJa();
+    case 'ko':
+      return AppLocalizationsKo();
+    case 'nl':
+      return AppLocalizationsNl();
+    case 'pt':
+      return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
+    case 'tr':
+      return AppLocalizationsTr();
+    case 'uk':
+      return AppLocalizationsUk();
+    case 'zh':
+      return AppLocalizationsZh();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

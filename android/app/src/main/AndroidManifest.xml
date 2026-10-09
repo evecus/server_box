@@ -1,0 +1,209 @@
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <!-- `tools:replace` because camera_android_camerax declares this same
+         permission with maxSdkVersion 28 and the merger refuses to pick. 32 is
+         this app's own answer: it writes downloads and SFTP transfers, which
+         scoped storage only takes over at 33. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:replace="android:maxSdkVersion" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Guards the in-process broadcast the notification's "Stop All" action
+         sends. `RECEIVER_NOT_EXPORTED` only exists from API 33, so on anything
+         older the dynamically registered receiver was reachable by any app on
+         the device — and its one action disconnects every SSH session. Signature
+         level, so only a build signed with this key can send it. -->
+    <permission
+        android:name="tech.lolli.toolbox.permission.INTERNAL_BROADCAST"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="tech.lolli.toolbox.permission.INTERNAL_BROADCAST" />
+
+    <!-- The database is encrypted with a random key held by Android's
+         device-bound secure storage. Auto Backup can restore the database on
+         another device without restoring that key, producing data the app can
+         never decrypt. Credentials also do not belong in an OS backup.
+         Cross-device recovery is the app's encrypted export. -->
+
+    <!--
+        `usesCleartextTraffic` is what the home widget needs to reach a
+        `monitor` agent over plain HTTP at all. From `targetSdk` 28 the platform
+        refuses it unless an app says otherwise, and the widget is native Kotlin
+        talking through `HttpURLConnection`, so the refusal arrives as an
+        `IOException` and the widget shows "Network error" for an address the
+        rest of the app reads fine (#951). The app itself never hit it: Dart's
+        `HttpClient` has its own sockets and the platform policy does not reach
+        them.
+
+        This is a *process-wide* permission and nothing more. It is not a
+        decision about any particular server, and it must not be read as one —
+        the widget now carries a bearer token, so "may this process speak
+        plaintext" and "may this server's token go over an unencrypted wire"
+        are two different questions with two different answers. The second is
+        `MonitorHttpCredential.allowInsecure`, chosen per server in the app,
+        published to the widget as `allowInsecure` (`WidgetStore`), and checked
+        before every request. Without that check this flag alone would put a
+        credential on the wire for a server whose owner never agreed to it.
+    -->
+    <application
+        android:label="@string/app_name"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:hasFragileUserData="true"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="s">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection|fontScale|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+            />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- `serverbox://` links: see `AppLink` in
+                 lib/data/model/app/app_link.dart. MainActivity holds the link
+                 until the Dart side asks for it. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="serverbox" />
+            </intent-filter>
+            <!-- Off, or Flutter pushes every link it sees as a route name onto
+                 a navigator that has no generator for one. Links are taken in
+                 by MainActivity instead. -->
+            <meta-data
+                android:name="flutter_deeplinking_enabled"
+                android:value="false" />
+            <!--
+                No file association on Android, deliberately.
+
+                Verified on an emulator rather than reasoned about: a filter
+                gated on `pathPattern` does resolve for `file:///...sbxsrv`
+                and correctly refuses `other.bin`, but the app then cannot
+                *read* it. A raw path in shared storage needs a storage
+                permission this app does not have and should not ask for:
+                `open failed: EACCES`. And since Android 7 a `file://` URI
+                thrown across apps raises `FileUriExposedException`, so no
+                real file manager sends one anyway; they send `content://`,
+                whose path is opaque and never matches a `pathPattern`.
+
+                So the filter matched only what nothing sends and could not
+                read it, while what is actually sent it did not match.
+                Dropping `pathPattern` to catch `content://` would mean
+                claiming `application/octet-stream`, which puts ServerBox in
+                the "open with" list of every unknown binary on the device.
+
+                A shared server comes in through the add button on the server
+                list instead. That goes through the system file picker, which
+                hands back a URI this app is granted, which is the case that works.
+            -->
+        </activity>
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
+        <activity
+            android:name=".widget.WidgetConfigureActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Material.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            Two providers, so the launcher's picker offers two widgets. The size
+            and what it shows are one decision: 2x2 holds readings, 4x2 holds
+            charts, and neither resizes. One resizable provider meant a layout
+            could be chosen and then silently overruled by the size.
+        -->
+        <receiver
+            android:name=".widget.StatusWidgetSmall"
+            android:exported="false"
+            android:label="@string/widget_small_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="tech.lolli.toolbox.UPDATE_WIDGET" />
+                <action android:name="miui.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.StatusWidgetMedium"
+            android:exported="false"
+            android:label="@string/widget_medium_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="tech.lolli.toolbox.UPDATE_WIDGET" />
+                <action android:name="miui.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_medium" />
+        </receiver>
+
+        <service
+            android:name=".ForegroundService"
+            android:enabled="true"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <!-- The Linux systems in the system file picker (#1583). Exported, as
+             a documents provider has to be, and guarded by MANAGE_DOCUMENTS,
+             which only the system's picker holds: another app reaches a file
+             here only after the user picks it there. -->
+        <provider
+            android:name=".linux.LinuxDocumentsProvider"
+            android:authorities="${applicationId}.linux"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
+
+    </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility?hl=en and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
+        </intent>
+    </queries>
+</manifest>

@@ -1,0 +1,508 @@
+part of 'app.dart';
+
+/// One step of the intro, and the question of whether it applies.
+///
+/// The predicate travels with the page. It used to be a number keyed into a
+/// map, tested in a `where` several methods away — so adding a step meant two
+/// edits in two places, and the condition for a step was nowhere near the step
+/// it belonged to.
+typedef _IntroStep = ({Future<bool> Function() applies, IntroPageBuilder build});
+
+/// The latest revision of the feature pages — see
+/// [SettingStore.featureIntroVer]. A page added later names the next number,
+/// and this moves to it.
+const _kFeatureIntroVer = 2;
+
+/// The feature revision the Virtualization page arrived in.
+const _kVirtIntroSince = 2;
+
+final class _IntroPage extends StatelessWidget {
+  const _IntroPage(this.pages);
+
+  final List<IntroPageBuilder> pages;
+
+  static final _setting = Stores.setting;
+
+  static const _kIconSize = 23.0;
+  static const _kIntroListPad = 17.0;
+  static const _kMaxPadTop = 120.0;
+
+  /// Horizontal room for a paragraph, and the gap above and below it.
+  static const _kProsePad = EdgeInsets.symmetric(horizontal: 13, vertical: 8);
+
+  /// Every step there is, in the order they are shown.
+  ///
+  /// A list rather than a map: the order is the list's, and nothing needs a
+  /// number to refer to a step by.
+  static List<_IntroStep> get _steps => [
+    (applies: _isFirstLaunch, build: _buildAppSettings),
+    (applies: _needsBackupPassword, build: _buildBackupPasswordMigration),
+    (applies: _needsDiagnosticsConsent, build: _buildDiagnostics),
+    // After the questions: these only say what the app can do.
+    (applies: () async => _featureUnseen(1), build: _buildRemoteDesktop),
+    (
+      applies: () async => LocalServer.isSupported && _featureUnseen(1),
+      build: _buildLocalServer,
+    ),
+    (applies: _virtUnseen, build: _buildVirt),
+  ];
+
+  /// The steps this launch should show.
+  static Future<List<IntroPageBuilder>> get builders async {
+    final builders = <IntroPageBuilder>[];
+    for (final step in _steps) {
+      if (await step.applies()) builders.add(step.build);
+    }
+    return builders;
+  }
+
+  // — When a step applies ————————————————————————————————————————————
+
+  /// Nothing has ever completed the intro on this install.
+  static Future<bool> _isFirstLaunch() async => _setting.introVer.fetch() == 0;
+
+  /// Upgrading from a build that predates the backup password, without one set.
+  ///
+  /// `lastVer > 0` is what separates an upgrade from a first install: a fresh
+  /// one has no data to protect and is offered the password elsewhere.
+  static Future<bool> _needsBackupPassword() async {
+    if (_setting.lastVer.fetch() == 0) return false;
+    if (_setting.introVer.fetch() >= 2) return false;
+    return (await SecureStoreProps.bakPwd.read())?.isNotEmpty != true;
+  }
+
+  /// The user has not seen the current diagnostics arrangement.
+  ///
+  /// Its own counter rather than [SettingStore.introVer], which [onDone] sets
+  /// to the *build number* — so every step below it is permanently "already
+  /// seen" for anyone who has completed an intro, and a newly added one could
+  /// never appear. Keyed on the arrangement instead, which is also what lets a
+  /// change to what is collected ask again.
+  ///
+  /// Not asked at all in a build that cannot upload — one made with an empty
+  /// `SENTRY_DSN`. Every level then behaves identically, so the page would put
+  /// a question whose answer changes nothing, and the settings page already
+  /// hides the same control under the same condition.
+  static Future<bool> _needsDiagnosticsConsent() async {
+    if (!DiagnosticsUpload.availableInBuild) return false;
+    return _setting.diagnosticsConsentVer.fetch() < kDiagnosticsConsentVer;
+  }
+
+  /// A feature page introduced in revision [since] that this install has not
+  /// been shown. Fresh installs included: the pages describe features, not
+  /// changes, and a first launch knows neither.
+  static bool _featureUnseen(int since) =>
+      _setting.featureIntroVer.fetch() < since;
+
+  static Future<bool> _virtUnseen() async => _featureUnseen(_kVirtIntroSince);
+
+  /// What the Virtualization page adds for someone who had PVE configured.
+  ///
+  /// Read when the page is built, not stored: whether any server has a PVE
+  /// row, and whether the tab is in the bar, are both facts about now — a
+  /// flag written by the migration would go stale the moment either changed.
+  static ({bool pveMoved, bool inBar}) _virtFacts() => (
+    pveMoved: Stores.pve.fetchAll().isNotEmpty,
+    inBar: _setting.homeTabs.fetch().contains(AppTab.virt),
+  );
+
+  // — Widget build ——————————————————————————————————————————————————
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, cons) {
+        // Proportional on phones, capped so a tall desktop window doesn't push
+        // the title halfway down the screen — it is used twice per page, above
+        // and below the title.
+        final padTop = (cons.maxHeight * .16).clamp(0.0, _kMaxPadTop);
+        return IntroPage(
+          key: ValueKey(Localizations.localeOf(context)),
+          args: IntroPageArgs(
+            pages: pages.map((e) => e(context, padTop)).toList(),
+            maxWidth: PageColumns.columnWidth,
+            onDone: _onDone,
+          ),
+        );
+      },
+    );
+  }
+
+  static void _onDone(BuildContext ctx) {
+    SqliteStore.transact(() {
+      _setting.introVer.putSync(BuildData.build);
+      final lastVer = _setting.lastVer;
+      if (lastVer.fetch() == 0) lastVer.putSync(BuildData.build);
+      // Written here rather than on the page itself, so that leaving the intro
+      // without reaching the end counts as unanswered and asks again.
+      _setting.diagnosticsConsentVer.putSync(kDiagnosticsConsentVer);
+      _setting.featureIntroVer.putSync(_kFeatureIntroVer);
+    });
+    // Applies whatever was chosen a moment ago. Nothing has been uploaded
+    // before this point — `DiagnosticsUpload.sync` refuses to start until the
+    // consent counter above says the question was put.
+    unawaited(DiagnosticsUpload.sync());
+    Navigator.of(ctx).pushReplacement(
+      MaterialPageRoute(builder: (_) => _buildHomeWithWindowFrame()),
+    );
+  }
+
+  // — Shared pieces —————————————————————————————————————————————————
+
+  /// Keeps the content in the same column the rest of the app reads in, while
+  /// the scrollbar stays at the window edge.
+  static Widget _introList({required List<Widget> children}) {
+    // [IntroPage] is a bare `Scaffold` holding a `PageView`, so a page's
+    // viewport starts at the very top of the screen — and a list long enough
+    // to scroll draws its title over the clock and the status icons. Bounding
+    // the viewport rather than padding the list is what clips it there, which
+    // is the difference between a title that stops under the status bar and
+    // one that slides past it.
+    //
+    // `bottom: false` because the page already ends in a `BottomAppBar`, and
+    // outside the [LayoutBuilder] so the width the column is centred in is the
+    // one left after a landscape cutout.
+    return SafeArea(
+      bottom: false,
+      child: LayoutBuilder(
+        builder: (_, cons) {
+          final rest = (cons.maxWidth - PageColumns.columnWidth) / 2;
+          return ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: math.max(rest, _kIntroListPad),
+            ),
+            children: children,
+          );
+        },
+      ),
+    );
+  }
+
+  /// A page's title with the breathing room above and below it.
+  static List<Widget> _head(String title, double padTop, {Widget? mark}) => [
+    SizedBox(height: padTop),
+    IntroPage.title(text: title, big: true, mark: mark),
+    SizedBox(height: padTop),
+  ];
+
+  /// A sentence of explanation, indented to line up with the tiles under it.
+  static Widget _prose(String text) =>
+      Padding(padding: _kProsePad, child: Text(text, style: UIs.textGrey));
+
+  // — Pages —————————————————————————————————————————————————————————
+
+  static Widget _buildAppSettings(BuildContext ctx, double padTop) {
+    final libL10n = ctx.libL10n;
+    final l10n = ctx.l10n;
+
+    return _introList(
+      children: [
+        ..._head(libL10n.init, padTop),
+        ListTile(
+          leading: const Icon(IonIcons.language),
+          title: Text(libL10n.language),
+          onTap: () => _selectLocale(ctx),
+          trailing: Text(
+            ctx.localeNativeName,
+            style: const TextStyle(fontSize: 15, color: Colors.grey),
+          ),
+        ).cardx,
+        ListTile(
+          leading: const Icon(Icons.update),
+          title: Text(libL10n.checkUpdate),
+          subtitle: isAndroid
+              ? Text(l10n.fdroidReleaseTip, style: UIs.textGrey)
+              : null,
+          trailing: StoreSwitch(prop: _setting.autoCheckAppUpdate),
+        ).cardx,
+        ListTile(
+          leading: const Icon(MingCute.delete_2_fill),
+          title: TipText('rm -r', l10n.sftpRmrDirSummary),
+          trailing: StoreSwitch(prop: _setting.sftpRmrDir),
+        ).cardx,
+        ListTile(
+          leading: const Icon(MingCute.chart_line_line, size: _kIconSize),
+          title: TipText(l10n.dockerStatistics, l10n.parseContainerStatsTip),
+          trailing: StoreSwitch(prop: _setting.containerParseStat),
+        ).cardx,
+        ListTile(
+          leading: const Icon(Bootstrap.alphabet),
+          title: TipText(l10n.letterCache, l10n.letterCacheTip),
+          trailing: StoreSwitch(prop: _setting.letterCache),
+        ).cardx,
+        UIs.height77,
+      ],
+    );
+  }
+
+  static Widget _buildBackupPasswordMigration(BuildContext ctx, double padTop) {
+    final l10n = ctx.l10n;
+
+    return _introList(
+      children: [
+        SizedBox(height: padTop),
+        IntroPage.title(text: l10n.backupPassword, big: true),
+        SizedBox(height: padTop * 0.5),
+        Text(
+          l10n.backupTip,
+          style: const TextStyle(fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: padTop * 0.5),
+        ListTile(
+          leading: const Icon(Icons.lock, color: Colors.orange),
+          title: Text(l10n.backupPassword),
+          subtitle: Text(l10n.backupPasswordTip, style: UIs.textGrey),
+          trailing: const Icon(Icons.keyboard_arrow_right),
+          onTap: () => _askBackupPassword(ctx),
+        ).cardx,
+        // Nothing further here: the two lines above — `backupTip` under the
+        // title and `backupPasswordTip` on the tile — already say what this
+        // step is and why. A third sentence restating it was also the one
+        // string on this page that was never translated.
+        UIs.height77,
+      ],
+    );
+  }
+
+  /// Where diagnostics collection is explained and chosen.
+  ///
+  /// Shown before anything is uploaded, and that ordering is the point: the
+  /// desktop default is `basic`, so without being asked first a user would be
+  /// sending before they had been told. [_onDone] is what releases it.
+  ///
+  /// A radio list rather than a switch, because three levels do not read as
+  /// one — and the middle level is the whole reason to offer a choice instead
+  /// of an on/off.
+  static Widget _buildDiagnostics(BuildContext ctx, double padTop) {
+    final l10n = ctx.l10n;
+
+    return _introList(
+      children: [
+        ..._head(l10n.crashCollect, padTop),
+        _prose(l10n.crashCollectIntro),
+        // Stored only, so no callback: nothing starts uploading until the
+        // intro is finished, which is what makes leaving it early mean "not
+        // answered". Settings passes one, because there the change is now.
+        const DiagnosticsLevelPicker(),
+        _prose(l10n.crashCollectFooter),
+        // On the page where the question is put, not only in Settings
+        // afterwards. A tile can say what a level sends; where it goes, how
+        // long it is kept and what a report was checked not to contain need
+        // somewhere to be written down, and an answer given without that is
+        // an answer to the summary.
+        ListTile(
+          leading: const Icon(Icons.privacy_tip_outlined, size: _kIconSize),
+          title: Text(l10n.privacyPolicy),
+          trailing: const Icon(Icons.open_in_new, size: 17),
+          onTap: Urls.privacyPolicy.launchUrl,
+        ).cardx,
+        UIs.height77,
+      ],
+    );
+  }
+
+  /// What remote desktop is and how it reaches a machine.
+  ///
+  /// The two things worth knowing before the first try: that nothing has to
+  /// be opened to the network, and where the button is. How the touch
+  /// controls work is the viewer's own guide, reused here.
+  static Widget _buildRemoteDesktop(BuildContext ctx, double padTop) {
+    final l10n = ctx.l10n;
+
+    return _introList(
+      children: [
+        ..._head(
+          l10n.remoteDesktop,
+          padTop,
+          mark: const BetaTag(height: BetaTag.heading),
+        ),
+        _prose(l10n.remoteDesktopIntro),
+        ListTile(
+          leading: const Icon(Icons.desktop_windows_outlined, size: _kIconSize),
+          title: const Text('RDP · VNC'),
+          subtitle: Text(l10n.remoteDesktopIntroProfiles, style: UIs.textGrey),
+        ).cardx,
+        ListTile(
+          leading: const Icon(Icons.touch_app_outlined, size: _kIconSize),
+          title: Text(l10n.remoteDesktopGuideTouch),
+          subtitle: Text(l10n.remoteDesktopGuideTouchTip, style: UIs.textGrey),
+        ).cardx,
+        ListTile(
+          leading: const Icon(Icons.visibility_outlined, size: _kIconSize),
+          title: Text(l10n.remoteDesktopViewOnly),
+          subtitle: Text(
+            l10n.remoteDesktopGuideViewOnlyTip,
+            style: UIs.textGrey,
+          ),
+        ).cardx,
+        UIs.height77,
+      ],
+    );
+  }
+
+  /// The device running the app, as a server — see `Spi.local`.
+  ///
+  /// Offers to add it here, since that is one tap and needs nothing typed.
+  /// Only where [LocalServer.isSupported]: a page about a feature this build
+  /// cannot use would be an advertisement.
+  static Widget _buildLocalServer(BuildContext ctx, double padTop) {
+    final l10n = ctx.l10n;
+    // Not read from the servers here: building a page should not depend on
+    // them being loaded. The tap finds out, and one already there counts.
+    final added = ValueNotifier(false);
+
+    return DisposeWith(
+      notifiers: [added],
+      child: _introList(
+        children: [
+          ..._head(l10n.thisDevice, padTop),
+          _prose(l10n.localServerIntro),
+          added.listenVal(
+            (done) => ListTile(
+              leading: const Icon(Icons.computer, size: _kIconSize),
+              title: Text(l10n.localServerAdd),
+              subtitle: Text(Platform.localHostname, style: UIs.textGrey),
+              trailing: Icon(done ? Icons.check : Icons.add),
+              onTap: done
+                  ? null
+                  : () async {
+                      if (await _addLocalServer(ctx)) added.value = true;
+                    },
+            ).cardx,
+          ),
+          _prose(l10n.localServerIntroFooter),
+          UIs.height77,
+        ],
+      ),
+    );
+  }
+
+  /// The Virtualization tab: libvirt and PVE hosts, over any transport.
+  ///
+  /// For someone who had PVE configured it also says where the old page went
+  /// and where the tab is — the one thing they are otherwise left to find —
+  /// and that an API token can replace the password.
+  static Widget _buildVirt(BuildContext ctx, double padTop) {
+    final l10n = ctx.l10n;
+    final facts = _virtFacts();
+
+    return _introList(
+      children: [
+        ..._head(
+          l10n.virtualization,
+          padTop,
+          mark: const BetaTag(height: BetaTag.heading),
+        ),
+        _prose(l10n.virtIntro),
+        ListTile(
+          leading: const Icon(Icons.view_in_ar_outlined, size: _kIconSize),
+          title: const Text('libvirt · KVM'),
+          subtitle: Text(l10n.virtIntroLibvirt, style: UIs.textGrey),
+        ).cardx,
+        ListTile(
+          leading: const Icon(Icons.swap_horiz, size: _kIconSize),
+          title: const Text('SSH · Monitor'),
+          subtitle: Text(l10n.virtIntroTransports, style: UIs.textGrey),
+        ).cardx,
+        if (facts.pveMoved) ...[
+          ListTile(
+            leading: const Icon(FontAwesome.server_solid, size: _kIconSize),
+            title: const Text('Proxmox VE'),
+            subtitle: Text(
+              '${l10n.virtIntroPveMoved} '
+              '${facts.inBar ? l10n.virtIntroInBar : l10n.virtIntroInMore}',
+              style: UIs.textGrey,
+            ),
+          ).cardx,
+          ListTile(
+            leading: const Icon(Icons.key_outlined, size: _kIconSize),
+            title: Text(l10n.pveAuthToken),
+            subtitle: Text(l10n.virtIntroTokens, style: UIs.textGrey),
+          ).cardx,
+        ],
+        UIs.height77,
+      ],
+    );
+  }
+
+  // — Actions ———————————————————————————————————————————————————————
+
+
+  /// Adds this device as a server, unless one already is. False, after
+  /// saying why, when that failed.
+  static Future<bool> _addLocalServer(BuildContext ctx) async {
+    final container = ProviderScope.containerOf(ctx, listen: false);
+    final servers = container.read(serversProvider).servers.values;
+    if (servers.any((e) => e.local)) return true;
+    final notifier = container.read(serversProvider.notifier);
+    try {
+      await notifier.addServer(
+        Spi(name: Platform.localHostname, id: ShortId.generate(), local: true),
+      );
+      return true;
+    } catch (e, s) {
+      Loggers.app.warning('Add this device from the intro', e, s);
+      Toast.error(libL10n.fail, body: e.toString());
+      return false;
+    }
+  }
+
+  static Future<void> _selectLocale(BuildContext ctx) async {
+    final selected = await ctx.showPickSingleDialog(
+      title: ctx.libL10n.language,
+      items: AppLocalizations.supportedLocales,
+      display: (locale) => locale.nativeName,
+      initial: _setting.locale.fetch().toLocale,
+    );
+    if (selected == null || !ctx.mounted) return;
+
+    _setting.locale.put(selected.code);
+  }
+
+  static Future<void> _askBackupPassword(BuildContext ctx) async {
+    final controller = TextEditingController();
+    final result = await ctx.showRoundDialog<bool>(
+      title: ctx.l10n.backupPassword,
+      // Disposed by the tree. It was never disposed at all before, which leaks
+      // one controller per visit and — unlike the crash the same shape causes
+      // elsewhere — says nothing about it.
+      child: DisposeWith(
+        notifiers: [controller],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(ctx.l10n.backupPasswordTip, style: UIs.textGrey),
+            UIs.height13,
+            Input(
+              label: ctx.l10n.backupPassword,
+              controller: controller,
+              obscureText: true,
+              // `popDialog`, not `pop`: the dialog is on the root navigator
+              // and `ctx` is the page's. It happens to be the same one today
+              // only because the intro is `MaterialApp.home` — under a pane or
+              // a tab this would close the page, leave the dialog up, and
+              // never complete the future the password is written from.
+              onSubmitted: (_) => ctx.popDialog(true),
+            ),
+          ],
+        ),
+      ),
+      actions: Btnx.cancelOk,
+    );
+    if (result != true) return;
+
+    final pwd = controller.text.trim();
+    if (pwd.isEmpty) return;
+    await SecureStoreProps.bakPwd.write(pwd);
+    Toast.show(ctx.l10n.backupPasswordSet);
+  }
+}
+
+/// Whether this launch's intro shows the Virtualization page.
+@visibleForTesting
+Future<bool> introShowsVirt() => _IntroPage._virtUnseen();
+
+/// What that page adds, as it would be read now.
+@visibleForTesting
+({bool pveMoved, bool inBar}) introVirtFacts() => _IntroPage._virtFacts();

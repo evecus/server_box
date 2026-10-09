@@ -1,0 +1,18469 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'db.dart';
+
+// ignore_for_file: type=lint
+class $PrivateKeysTable extends PrivateKeys
+    with TableInfo<$PrivateKeysTable, PrivateKeyRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrivateKeysTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _commentMeta = const VerificationMeta(
+    'comment',
+  );
+  @override
+  late final GeneratedColumn<String> comment = GeneratedColumn<String>(
+    'comment',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    updatedAt,
+    rev,
+    id,
+    name,
+    key,
+    comment,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'private_key';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PrivateKeyRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('key')) {
+      context.handle(
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_keyMeta);
+    }
+    if (data.containsKey('comment')) {
+      context.handle(
+        _commentMeta,
+        comment.isAcceptableOrUnknown(data['comment']!, _commentMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PrivateKeyRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrivateKeyRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+      comment: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}comment'],
+      ),
+    );
+  }
+
+  @override
+  $PrivateKeysTable createAlias(String alias) {
+    return $PrivateKeysTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class PrivateKeyRow extends DataClass implements Insertable<PrivateKeyRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String name;
+  final String key;
+
+  /// The OpenSSH comment to put at the end of the public key line.
+  ///
+  /// Held here rather than rewritten into the key: the key file carries its own
+  /// copy, inside the part that gets encrypted, so changing that one means
+  /// opening the key and writing it out again — a passphrase prompt and a
+  /// rewrite of key material, to edit a label.
+  ///
+  /// Null for a key stored before this column, and for one whose comment has
+  /// never been edited. The key's own comment is read in that case, which is
+  /// what keeps an imported key showing what it arrived with.
+  final String? comment;
+  const PrivateKeyRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.name,
+    required this.key,
+    this.comment,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['key'] = Variable<String>(key);
+    if (!nullToAbsent || comment != null) {
+      map['comment'] = Variable<String>(comment);
+    }
+    return map;
+  }
+
+  PrivateKeysCompanion toCompanion(bool nullToAbsent) {
+    return PrivateKeysCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      name: Value(name),
+      key: Value(key),
+      comment: comment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comment),
+    );
+  }
+
+  factory PrivateKeyRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrivateKeyRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      key: serializer.fromJson<String>(json['key']),
+      comment: serializer.fromJson<String?>(json['comment']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'key': serializer.toJson<String>(key),
+      'comment': serializer.toJson<String?>(comment),
+    };
+  }
+
+  PrivateKeyRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? name,
+    String? key,
+    Value<String?> comment = const Value.absent(),
+  }) => PrivateKeyRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    name: name ?? this.name,
+    key: key ?? this.key,
+    comment: comment.present ? comment.value : this.comment,
+  );
+  PrivateKeyRow copyWithCompanion(PrivateKeysCompanion data) {
+    return PrivateKeyRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      key: data.key.present ? data.key.value : this.key,
+      comment: data.comment.present ? data.comment.value : this.comment,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrivateKeyRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('key: $key, ')
+          ..write('comment: $comment')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(updatedAt, rev, id, name, key, comment);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrivateKeyRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.key == this.key &&
+          other.comment == this.comment);
+}
+
+class PrivateKeysCompanion extends UpdateCompanion<PrivateKeyRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> key;
+  final Value<String?> comment;
+  const PrivateKeysCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.key = const Value.absent(),
+    this.comment = const Value.absent(),
+  });
+  PrivateKeysCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String name,
+    required String key,
+    this.comment = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       key = Value(key);
+  static Insertable<PrivateKeyRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? key,
+    Expression<String>? comment,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (key != null) 'key': key,
+      if (comment != null) 'comment': comment,
+    });
+  }
+
+  PrivateKeysCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? name,
+    Value<String>? key,
+    Value<String?>? comment,
+  }) {
+    return PrivateKeysCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      key: key ?? this.key,
+      comment: comment ?? this.comment,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    if (comment.present) {
+      map['comment'] = Variable<String>(comment.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrivateKeysCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('key: $key, ')
+          ..write('comment: $comment')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $BmcCredentialsTable extends BmcCredentials
+    with TableInfo<$BmcCredentialsTable, BmcCredentialRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BmcCredentialsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<String> user = GeneratedColumn<String>(
+    'user',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pwdMeta = const VerificationMeta('pwd');
+  @override
+  late final GeneratedColumn<String> pwd = GeneratedColumn<String>(
+    'pwd',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [updatedAt, rev, id, name, user, pwd];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'bmc_credential';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BmcCredentialRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+        _userMeta,
+        user.isAcceptableOrUnknown(data['user']!, _userMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userMeta);
+    }
+    if (data.containsKey('pwd')) {
+      context.handle(
+        _pwdMeta,
+        pwd.isAcceptableOrUnknown(data['pwd']!, _pwdMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BmcCredentialRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BmcCredentialRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      user: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user'],
+      )!,
+      pwd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pwd'],
+      ),
+    );
+  }
+
+  @override
+  $BmcCredentialsTable createAlias(String alias) {
+    return $BmcCredentialsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class BmcCredentialRow extends DataClass
+    implements Insertable<BmcCredentialRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String name;
+  final String user;
+  final String? pwd;
+  const BmcCredentialRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.name,
+    required this.user,
+    this.pwd,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['user'] = Variable<String>(user);
+    if (!nullToAbsent || pwd != null) {
+      map['pwd'] = Variable<String>(pwd);
+    }
+    return map;
+  }
+
+  BmcCredentialsCompanion toCompanion(bool nullToAbsent) {
+    return BmcCredentialsCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      name: Value(name),
+      user: Value(user),
+      pwd: pwd == null && nullToAbsent ? const Value.absent() : Value(pwd),
+    );
+  }
+
+  factory BmcCredentialRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BmcCredentialRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      user: serializer.fromJson<String>(json['user']),
+      pwd: serializer.fromJson<String?>(json['pwd']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'user': serializer.toJson<String>(user),
+      'pwd': serializer.toJson<String?>(pwd),
+    };
+  }
+
+  BmcCredentialRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? name,
+    String? user,
+    Value<String?> pwd = const Value.absent(),
+  }) => BmcCredentialRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    name: name ?? this.name,
+    user: user ?? this.user,
+    pwd: pwd.present ? pwd.value : this.pwd,
+  );
+  BmcCredentialRow copyWithCompanion(BmcCredentialsCompanion data) {
+    return BmcCredentialRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      user: data.user.present ? data.user.value : this.user,
+      pwd: data.pwd.present ? data.pwd.value : this.pwd,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BmcCredentialRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('user: $user, ')
+          ..write('pwd: $pwd')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(updatedAt, rev, id, name, user, pwd);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BmcCredentialRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.user == this.user &&
+          other.pwd == this.pwd);
+}
+
+class BmcCredentialsCompanion extends UpdateCompanion<BmcCredentialRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> user;
+  final Value<String?> pwd;
+  const BmcCredentialsCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.user = const Value.absent(),
+    this.pwd = const Value.absent(),
+  });
+  BmcCredentialsCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String name,
+    required String user,
+    this.pwd = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       user = Value(user);
+  static Insertable<BmcCredentialRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? user,
+    Expression<String>? pwd,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (user != null) 'user': user,
+      if (pwd != null) 'pwd': pwd,
+    });
+  }
+
+  BmcCredentialsCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? name,
+    Value<String>? user,
+    Value<String?>? pwd,
+  }) {
+    return BmcCredentialsCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      user: user ?? this.user,
+      pwd: pwd ?? this.pwd,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<String>(user.value);
+    }
+    if (pwd.present) {
+      map['pwd'] = Variable<String>(pwd.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BmcCredentialsCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('user: $user, ')
+          ..write('pwd: $pwd')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServersTable extends Servers with TableInfo<$ServersTable, ServerRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _autoConnectMeta = const VerificationMeta(
+    'autoConnect',
+  );
+  @override
+  late final GeneratedColumn<bool> autoConnect = GeneratedColumn<bool>(
+    'auto_connect',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("auto_connect" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _systemTypeMeta = const VerificationMeta(
+    'systemType',
+  );
+  @override
+  late final GeneratedColumn<String> systemType = GeneratedColumn<String>(
+    'system_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshIpMeta = const VerificationMeta('sshIp');
+  @override
+  late final GeneratedColumn<String> sshIp = GeneratedColumn<String>(
+    'ssh_ip',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshPortMeta = const VerificationMeta(
+    'sshPort',
+  );
+  @override
+  late final GeneratedColumn<int> sshPort = GeneratedColumn<int>(
+    'ssh_port',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshUserMeta = const VerificationMeta(
+    'sshUser',
+  );
+  @override
+  late final GeneratedColumn<String> sshUser = GeneratedColumn<String>(
+    'ssh_user',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshPwdMeta = const VerificationMeta('sshPwd');
+  @override
+  late final GeneratedColumn<String> sshPwd = GeneratedColumn<String>(
+    'ssh_pwd',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshKeyIdMeta = const VerificationMeta(
+    'sshKeyId',
+  );
+  @override
+  late final GeneratedColumn<String> sshKeyId = GeneratedColumn<String>(
+    'ssh_key_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES private_key (id) ON DELETE SET NULL',
+    ),
+  );
+  static const VerificationMeta _sshKeyPathMeta = const VerificationMeta(
+    'sshKeyPath',
+  );
+  @override
+  late final GeneratedColumn<String> sshKeyPath = GeneratedColumn<String>(
+    'ssh_key_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshAlterUrlMeta = const VerificationMeta(
+    'sshAlterUrl',
+  );
+  @override
+  late final GeneratedColumn<String> sshAlterUrl = GeneratedColumn<String>(
+    'ssh_alter_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshProxyCommandMeta = const VerificationMeta(
+    'sshProxyCommand',
+  );
+  @override
+  late final GeneratedColumn<String> sshProxyCommand = GeneratedColumn<String>(
+    'ssh_proxy_command',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshFileTransportMeta = const VerificationMeta(
+    'sshFileTransport',
+  );
+  @override
+  late final GeneratedColumn<String> sshFileTransport = GeneratedColumn<String>(
+    'ssh_file_transport',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sshAllowLegacyAlgorithmsMeta =
+      const VerificationMeta('sshAllowLegacyAlgorithms');
+  @override
+  late final GeneratedColumn<bool> sshAllowLegacyAlgorithms =
+      GeneratedColumn<bool>(
+        'ssh_allow_legacy_algorithms',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("ssh_allow_legacy_algorithms" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
+  static const VerificationMeta _preferredTransportMeta =
+      const VerificationMeta('preferredTransport');
+  @override
+  late final GeneratedColumn<String> preferredTransport =
+      GeneratedColumn<String>(
+        'preferred_transport',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _sshEnabledMeta = const VerificationMeta(
+    'sshEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> sshEnabled = GeneratedColumn<bool>(
+    'ssh_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("ssh_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _monitorEnabledMeta = const VerificationMeta(
+    'monitorEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> monitorEnabled = GeneratedColumn<bool>(
+    'monitor_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("monitor_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _isLocalMeta = const VerificationMeta(
+    'isLocal',
+  );
+  @override
+  late final GeneratedColumn<bool> isLocal = GeneratedColumn<bool>(
+    'is_local',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_local" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _monitorAddrMeta = const VerificationMeta(
+    'monitorAddr',
+  );
+  @override
+  late final GeneratedColumn<String> monitorAddr = GeneratedColumn<String>(
+    'monitor_addr',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _monitorUserMeta = const VerificationMeta(
+    'monitorUser',
+  );
+  @override
+  late final GeneratedColumn<String> monitorUser = GeneratedColumn<String>(
+    'monitor_user',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _monitorPwdMeta = const VerificationMeta(
+    'monitorPwd',
+  );
+  @override
+  late final GeneratedColumn<String> monitorPwd = GeneratedColumn<String>(
+    'monitor_pwd',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _monitorIgnoreCertMeta = const VerificationMeta(
+    'monitorIgnoreCert',
+  );
+  @override
+  late final GeneratedColumn<bool> monitorIgnoreCert = GeneratedColumn<bool>(
+    'monitor_ignore_cert',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("monitor_ignore_cert" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _monitorAllowInsecureMeta =
+      const VerificationMeta('monitorAllowInsecure');
+  @override
+  late final GeneratedColumn<bool> monitorAllowInsecure = GeneratedColumn<bool>(
+    'monitor_allow_insecure',
+    aliasedName,
+    true,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("monitor_allow_insecure" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _wolMacMeta = const VerificationMeta('wolMac');
+  @override
+  late final GeneratedColumn<String> wolMac = GeneratedColumn<String>(
+    'wol_mac',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _wolIpMeta = const VerificationMeta('wolIp');
+  @override
+  late final GeneratedColumn<String> wolIp = GeneratedColumn<String>(
+    'wol_ip',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _wolPwdMeta = const VerificationMeta('wolPwd');
+  @override
+  late final GeneratedColumn<String> wolPwd = GeneratedColumn<String>(
+    'wol_pwd',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bmcAddrMeta = const VerificationMeta(
+    'bmcAddr',
+  );
+  @override
+  late final GeneratedColumn<String> bmcAddr = GeneratedColumn<String>(
+    'bmc_addr',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bmcCertSha256Meta = const VerificationMeta(
+    'bmcCertSha256',
+  );
+  @override
+  late final GeneratedColumn<String> bmcCertSha256 = GeneratedColumn<String>(
+    'bmc_cert_sha256',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bmcCredIdMeta = const VerificationMeta(
+    'bmcCredId',
+  );
+  @override
+  late final GeneratedColumn<String> bmcCredId = GeneratedColumn<String>(
+    'bmc_cred_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES bmc_credential (id) ON DELETE SET NULL',
+    ),
+  );
+  static const VerificationMeta _preferTempDevMeta = const VerificationMeta(
+    'preferTempDev',
+  );
+  @override
+  late final GeneratedColumn<String> preferTempDev = GeneratedColumn<String>(
+    'prefer_temp_dev',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tempIsCelsiusMeta = const VerificationMeta(
+    'tempIsCelsius',
+  );
+  @override
+  late final GeneratedColumn<bool> tempIsCelsius = GeneratedColumn<bool>(
+    'temp_is_celsius',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("temp_is_celsius" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _logoUrlMeta = const VerificationMeta(
+    'logoUrl',
+  );
+  @override
+  late final GeneratedColumn<String> logoUrl = GeneratedColumn<String>(
+    'logo_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _netDevMeta = const VerificationMeta('netDev');
+  @override
+  late final GeneratedColumn<String> netDev = GeneratedColumn<String>(
+    'net_dev',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _scriptDirMeta = const VerificationMeta(
+    'scriptDir',
+  );
+  @override
+  late final GeneratedColumn<String> scriptDir = GeneratedColumn<String>(
+    'script_dir',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _geoLatMeta = const VerificationMeta('geoLat');
+  @override
+  late final GeneratedColumn<double> geoLat = GeneratedColumn<double>(
+    'geo_lat',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _geoLonMeta = const VerificationMeta('geoLon');
+  @override
+  late final GeneratedColumn<double> geoLon = GeneratedColumn<double>(
+    'geo_lon',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    updatedAt,
+    rev,
+    id,
+    name,
+    autoConnect,
+    systemType,
+    sshIp,
+    sshPort,
+    sshUser,
+    sshPwd,
+    sshKeyId,
+    sshKeyPath,
+    sshAlterUrl,
+    sshProxyCommand,
+    sshFileTransport,
+    sshAllowLegacyAlgorithms,
+    preferredTransport,
+    sshEnabled,
+    monitorEnabled,
+    isLocal,
+    monitorAddr,
+    monitorUser,
+    monitorPwd,
+    monitorIgnoreCert,
+    monitorAllowInsecure,
+    wolMac,
+    wolIp,
+    wolPwd,
+    bmcAddr,
+    bmcCertSha256,
+    bmcCredId,
+    preferTempDev,
+    tempIsCelsius,
+    logoUrl,
+    netDev,
+    scriptDir,
+    geoLat,
+    geoLon,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('auto_connect')) {
+      context.handle(
+        _autoConnectMeta,
+        autoConnect.isAcceptableOrUnknown(
+          data['auto_connect']!,
+          _autoConnectMeta,
+        ),
+      );
+    }
+    if (data.containsKey('system_type')) {
+      context.handle(
+        _systemTypeMeta,
+        systemType.isAcceptableOrUnknown(data['system_type']!, _systemTypeMeta),
+      );
+    }
+    if (data.containsKey('ssh_ip')) {
+      context.handle(
+        _sshIpMeta,
+        sshIp.isAcceptableOrUnknown(data['ssh_ip']!, _sshIpMeta),
+      );
+    }
+    if (data.containsKey('ssh_port')) {
+      context.handle(
+        _sshPortMeta,
+        sshPort.isAcceptableOrUnknown(data['ssh_port']!, _sshPortMeta),
+      );
+    }
+    if (data.containsKey('ssh_user')) {
+      context.handle(
+        _sshUserMeta,
+        sshUser.isAcceptableOrUnknown(data['ssh_user']!, _sshUserMeta),
+      );
+    }
+    if (data.containsKey('ssh_pwd')) {
+      context.handle(
+        _sshPwdMeta,
+        sshPwd.isAcceptableOrUnknown(data['ssh_pwd']!, _sshPwdMeta),
+      );
+    }
+    if (data.containsKey('ssh_key_id')) {
+      context.handle(
+        _sshKeyIdMeta,
+        sshKeyId.isAcceptableOrUnknown(data['ssh_key_id']!, _sshKeyIdMeta),
+      );
+    }
+    if (data.containsKey('ssh_key_path')) {
+      context.handle(
+        _sshKeyPathMeta,
+        sshKeyPath.isAcceptableOrUnknown(
+          data['ssh_key_path']!,
+          _sshKeyPathMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ssh_alter_url')) {
+      context.handle(
+        _sshAlterUrlMeta,
+        sshAlterUrl.isAcceptableOrUnknown(
+          data['ssh_alter_url']!,
+          _sshAlterUrlMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ssh_proxy_command')) {
+      context.handle(
+        _sshProxyCommandMeta,
+        sshProxyCommand.isAcceptableOrUnknown(
+          data['ssh_proxy_command']!,
+          _sshProxyCommandMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ssh_file_transport')) {
+      context.handle(
+        _sshFileTransportMeta,
+        sshFileTransport.isAcceptableOrUnknown(
+          data['ssh_file_transport']!,
+          _sshFileTransportMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ssh_allow_legacy_algorithms')) {
+      context.handle(
+        _sshAllowLegacyAlgorithmsMeta,
+        sshAllowLegacyAlgorithms.isAcceptableOrUnknown(
+          data['ssh_allow_legacy_algorithms']!,
+          _sshAllowLegacyAlgorithmsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('preferred_transport')) {
+      context.handle(
+        _preferredTransportMeta,
+        preferredTransport.isAcceptableOrUnknown(
+          data['preferred_transport']!,
+          _preferredTransportMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ssh_enabled')) {
+      context.handle(
+        _sshEnabledMeta,
+        sshEnabled.isAcceptableOrUnknown(data['ssh_enabled']!, _sshEnabledMeta),
+      );
+    }
+    if (data.containsKey('monitor_enabled')) {
+      context.handle(
+        _monitorEnabledMeta,
+        monitorEnabled.isAcceptableOrUnknown(
+          data['monitor_enabled']!,
+          _monitorEnabledMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_local')) {
+      context.handle(
+        _isLocalMeta,
+        isLocal.isAcceptableOrUnknown(data['is_local']!, _isLocalMeta),
+      );
+    }
+    if (data.containsKey('monitor_addr')) {
+      context.handle(
+        _monitorAddrMeta,
+        monitorAddr.isAcceptableOrUnknown(
+          data['monitor_addr']!,
+          _monitorAddrMeta,
+        ),
+      );
+    }
+    if (data.containsKey('monitor_user')) {
+      context.handle(
+        _monitorUserMeta,
+        monitorUser.isAcceptableOrUnknown(
+          data['monitor_user']!,
+          _monitorUserMeta,
+        ),
+      );
+    }
+    if (data.containsKey('monitor_pwd')) {
+      context.handle(
+        _monitorPwdMeta,
+        monitorPwd.isAcceptableOrUnknown(data['monitor_pwd']!, _monitorPwdMeta),
+      );
+    }
+    if (data.containsKey('monitor_ignore_cert')) {
+      context.handle(
+        _monitorIgnoreCertMeta,
+        monitorIgnoreCert.isAcceptableOrUnknown(
+          data['monitor_ignore_cert']!,
+          _monitorIgnoreCertMeta,
+        ),
+      );
+    }
+    if (data.containsKey('monitor_allow_insecure')) {
+      context.handle(
+        _monitorAllowInsecureMeta,
+        monitorAllowInsecure.isAcceptableOrUnknown(
+          data['monitor_allow_insecure']!,
+          _monitorAllowInsecureMeta,
+        ),
+      );
+    }
+    if (data.containsKey('wol_mac')) {
+      context.handle(
+        _wolMacMeta,
+        wolMac.isAcceptableOrUnknown(data['wol_mac']!, _wolMacMeta),
+      );
+    }
+    if (data.containsKey('wol_ip')) {
+      context.handle(
+        _wolIpMeta,
+        wolIp.isAcceptableOrUnknown(data['wol_ip']!, _wolIpMeta),
+      );
+    }
+    if (data.containsKey('wol_pwd')) {
+      context.handle(
+        _wolPwdMeta,
+        wolPwd.isAcceptableOrUnknown(data['wol_pwd']!, _wolPwdMeta),
+      );
+    }
+    if (data.containsKey('bmc_addr')) {
+      context.handle(
+        _bmcAddrMeta,
+        bmcAddr.isAcceptableOrUnknown(data['bmc_addr']!, _bmcAddrMeta),
+      );
+    }
+    if (data.containsKey('bmc_cert_sha256')) {
+      context.handle(
+        _bmcCertSha256Meta,
+        bmcCertSha256.isAcceptableOrUnknown(
+          data['bmc_cert_sha256']!,
+          _bmcCertSha256Meta,
+        ),
+      );
+    }
+    if (data.containsKey('bmc_cred_id')) {
+      context.handle(
+        _bmcCredIdMeta,
+        bmcCredId.isAcceptableOrUnknown(data['bmc_cred_id']!, _bmcCredIdMeta),
+      );
+    }
+    if (data.containsKey('prefer_temp_dev')) {
+      context.handle(
+        _preferTempDevMeta,
+        preferTempDev.isAcceptableOrUnknown(
+          data['prefer_temp_dev']!,
+          _preferTempDevMeta,
+        ),
+      );
+    }
+    if (data.containsKey('temp_is_celsius')) {
+      context.handle(
+        _tempIsCelsiusMeta,
+        tempIsCelsius.isAcceptableOrUnknown(
+          data['temp_is_celsius']!,
+          _tempIsCelsiusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('logo_url')) {
+      context.handle(
+        _logoUrlMeta,
+        logoUrl.isAcceptableOrUnknown(data['logo_url']!, _logoUrlMeta),
+      );
+    }
+    if (data.containsKey('net_dev')) {
+      context.handle(
+        _netDevMeta,
+        netDev.isAcceptableOrUnknown(data['net_dev']!, _netDevMeta),
+      );
+    }
+    if (data.containsKey('script_dir')) {
+      context.handle(
+        _scriptDirMeta,
+        scriptDir.isAcceptableOrUnknown(data['script_dir']!, _scriptDirMeta),
+      );
+    }
+    if (data.containsKey('geo_lat')) {
+      context.handle(
+        _geoLatMeta,
+        geoLat.isAcceptableOrUnknown(data['geo_lat']!, _geoLatMeta),
+      );
+    }
+    if (data.containsKey('geo_lon')) {
+      context.handle(
+        _geoLonMeta,
+        geoLon.isAcceptableOrUnknown(data['geo_lon']!, _geoLonMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ServerRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      autoConnect: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}auto_connect'],
+      )!,
+      systemType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}system_type'],
+      ),
+      sshIp: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_ip'],
+      ),
+      sshPort: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ssh_port'],
+      ),
+      sshUser: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_user'],
+      ),
+      sshPwd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_pwd'],
+      ),
+      sshKeyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_key_id'],
+      ),
+      sshKeyPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_key_path'],
+      ),
+      sshAlterUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_alter_url'],
+      ),
+      sshProxyCommand: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_proxy_command'],
+      ),
+      sshFileTransport: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ssh_file_transport'],
+      ),
+      sshAllowLegacyAlgorithms: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}ssh_allow_legacy_algorithms'],
+      )!,
+      preferredTransport: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preferred_transport'],
+      ),
+      sshEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}ssh_enabled'],
+      )!,
+      monitorEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}monitor_enabled'],
+      )!,
+      isLocal: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_local'],
+      )!,
+      monitorAddr: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}monitor_addr'],
+      ),
+      monitorUser: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}monitor_user'],
+      ),
+      monitorPwd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}monitor_pwd'],
+      ),
+      monitorIgnoreCert: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}monitor_ignore_cert'],
+      ),
+      monitorAllowInsecure: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}monitor_allow_insecure'],
+      ),
+      wolMac: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}wol_mac'],
+      ),
+      wolIp: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}wol_ip'],
+      ),
+      wolPwd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}wol_pwd'],
+      ),
+      bmcAddr: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bmc_addr'],
+      ),
+      bmcCertSha256: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bmc_cert_sha256'],
+      ),
+      bmcCredId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bmc_cred_id'],
+      ),
+      preferTempDev: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prefer_temp_dev'],
+      ),
+      tempIsCelsius: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}temp_is_celsius'],
+      )!,
+      logoUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}logo_url'],
+      ),
+      netDev: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}net_dev'],
+      ),
+      scriptDir: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}script_dir'],
+      ),
+      geoLat: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}geo_lat'],
+      ),
+      geoLon: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}geo_lon'],
+      ),
+    );
+  }
+
+  @override
+  $ServersTable createAlias(String alias) {
+    return $ServersTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerRow extends DataClass implements Insertable<ServerRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String name;
+  final bool autoConnect;
+  final String? systemType;
+  final String? sshIp;
+  final int? sshPort;
+  final String? sshUser;
+  final String? sshPwd;
+
+  /// Deleting a key must not delete the servers that used it; it must leave
+  /// them asking for a new one.
+  final String? sshKeyId;
+  final String? sshKeyPath;
+  final String? sshAlterUrl;
+  final String? sshProxyCommand;
+
+  /// `SshFileTransport`, by name. Null is `sftp`, which is what every row
+  /// written before the column existed meant — see `m014`.
+  final String? sshFileTransport;
+
+  /// Whether this host may negotiate the algorithms SSH has retired — the
+  /// SHA-1 `ssh-rsa` host key spelling and its neighbours. False for every row
+  /// written before the column, which is what those builds proposed; see
+  /// [SshCredential.allowLegacyAlgorithms].
+  final bool sshAllowLegacyAlgorithms;
+
+  /// Which way of reaching this server is tried first, by
+  /// `ServerTransport.name`. Null means "whichever is configured", which is
+  /// the only answer for a server that has just one — and the only shape rows
+  /// written before v18 are in, when carrying both was not possible.
+  final String? preferredTransport;
+
+  /// Whether each way in is dialled at all.
+  ///
+  /// The columns beside them are the *configuration*, which survives being
+  /// switched off — that is the whole reason these exist. So the CHECK below
+  /// still asks only that a row carry an address, and "both switched off" is
+  /// refused by `Spix.validate` rather than by SQL: a row can be edited into
+  /// that state field by field, and a constraint that fired mid-edit would
+  /// fail the write instead of the form.
+  ///
+  /// True for every row written before they existed, which is what those
+  /// servers were doing.
+  final bool sshEnabled;
+  final bool monitorEnabled;
+
+  /// Whether this server is the device reading the row — `Spi.local`. The
+  /// third way a row satisfies the CHECK below, and the one that needs no
+  /// address. False for every row written before it.
+  final bool isLocal;
+  final String? monitorAddr;
+  final String? monitorUser;
+  final String? monitorPwd;
+  final bool? monitorIgnoreCert;
+  final bool? monitorAllowInsecure;
+  final String? wolMac;
+  final String? wolIp;
+  final String? wolPwd;
+
+  /// The BMC, a side channel beside the Wake-on-LAN fields above.
+  ///
+  /// Deliberately outside the SSH/monitor constraint below: a BMC is not a way
+  /// of reaching the host, so it neither satisfies that requirement nor
+  /// conflicts with either side of it. A server may carry one alongside SSH or
+  /// alongside a monitor agent.
+  ///
+  /// [bmcCertSha256] is what the user reviewed, not what a CA said — see
+  /// `BmcCfg.certSha256`. Null means nothing has been reviewed and a
+  /// connection is refused rather than trusted.
+  final String? bmcAddr;
+  final String? bmcCertSha256;
+
+  /// Deleting an account must not delete the servers that used it; it must
+  /// leave them with an address and nothing to log in with, which the editor
+  /// can then say. Same rule as [sshKeyId].
+  final String? bmcCredId;
+  final String? preferTempDev;
+  final bool tempIsCelsius;
+  final String? logoUrl;
+  final String? netDev;
+  final String? scriptDir;
+
+  /// Where this server is drawn on the globe, said by hand.
+  ///
+  /// Both or neither: half a coordinate is not a place. Nothing in SQL
+  /// enforces that, and nothing checks the ranges either — a CHECK here would
+  /// make a restore carrying one bad value fail the whole insert, losing the
+  /// server over a field nothing else reads. The pair is made whole on the way
+  /// out instead, by `GeoCoord.tryNew` in `ServerStore._customOf`.
+  final double? geoLat;
+  final double? geoLon;
+  const ServerRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.name,
+    required this.autoConnect,
+    this.systemType,
+    this.sshIp,
+    this.sshPort,
+    this.sshUser,
+    this.sshPwd,
+    this.sshKeyId,
+    this.sshKeyPath,
+    this.sshAlterUrl,
+    this.sshProxyCommand,
+    this.sshFileTransport,
+    required this.sshAllowLegacyAlgorithms,
+    this.preferredTransport,
+    required this.sshEnabled,
+    required this.monitorEnabled,
+    required this.isLocal,
+    this.monitorAddr,
+    this.monitorUser,
+    this.monitorPwd,
+    this.monitorIgnoreCert,
+    this.monitorAllowInsecure,
+    this.wolMac,
+    this.wolIp,
+    this.wolPwd,
+    this.bmcAddr,
+    this.bmcCertSha256,
+    this.bmcCredId,
+    this.preferTempDev,
+    required this.tempIsCelsius,
+    this.logoUrl,
+    this.netDev,
+    this.scriptDir,
+    this.geoLat,
+    this.geoLon,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['auto_connect'] = Variable<bool>(autoConnect);
+    if (!nullToAbsent || systemType != null) {
+      map['system_type'] = Variable<String>(systemType);
+    }
+    if (!nullToAbsent || sshIp != null) {
+      map['ssh_ip'] = Variable<String>(sshIp);
+    }
+    if (!nullToAbsent || sshPort != null) {
+      map['ssh_port'] = Variable<int>(sshPort);
+    }
+    if (!nullToAbsent || sshUser != null) {
+      map['ssh_user'] = Variable<String>(sshUser);
+    }
+    if (!nullToAbsent || sshPwd != null) {
+      map['ssh_pwd'] = Variable<String>(sshPwd);
+    }
+    if (!nullToAbsent || sshKeyId != null) {
+      map['ssh_key_id'] = Variable<String>(sshKeyId);
+    }
+    if (!nullToAbsent || sshKeyPath != null) {
+      map['ssh_key_path'] = Variable<String>(sshKeyPath);
+    }
+    if (!nullToAbsent || sshAlterUrl != null) {
+      map['ssh_alter_url'] = Variable<String>(sshAlterUrl);
+    }
+    if (!nullToAbsent || sshProxyCommand != null) {
+      map['ssh_proxy_command'] = Variable<String>(sshProxyCommand);
+    }
+    if (!nullToAbsent || sshFileTransport != null) {
+      map['ssh_file_transport'] = Variable<String>(sshFileTransport);
+    }
+    map['ssh_allow_legacy_algorithms'] = Variable<bool>(
+      sshAllowLegacyAlgorithms,
+    );
+    if (!nullToAbsent || preferredTransport != null) {
+      map['preferred_transport'] = Variable<String>(preferredTransport);
+    }
+    map['ssh_enabled'] = Variable<bool>(sshEnabled);
+    map['monitor_enabled'] = Variable<bool>(monitorEnabled);
+    map['is_local'] = Variable<bool>(isLocal);
+    if (!nullToAbsent || monitorAddr != null) {
+      map['monitor_addr'] = Variable<String>(monitorAddr);
+    }
+    if (!nullToAbsent || monitorUser != null) {
+      map['monitor_user'] = Variable<String>(monitorUser);
+    }
+    if (!nullToAbsent || monitorPwd != null) {
+      map['monitor_pwd'] = Variable<String>(monitorPwd);
+    }
+    if (!nullToAbsent || monitorIgnoreCert != null) {
+      map['monitor_ignore_cert'] = Variable<bool>(monitorIgnoreCert);
+    }
+    if (!nullToAbsent || monitorAllowInsecure != null) {
+      map['monitor_allow_insecure'] = Variable<bool>(monitorAllowInsecure);
+    }
+    if (!nullToAbsent || wolMac != null) {
+      map['wol_mac'] = Variable<String>(wolMac);
+    }
+    if (!nullToAbsent || wolIp != null) {
+      map['wol_ip'] = Variable<String>(wolIp);
+    }
+    if (!nullToAbsent || wolPwd != null) {
+      map['wol_pwd'] = Variable<String>(wolPwd);
+    }
+    if (!nullToAbsent || bmcAddr != null) {
+      map['bmc_addr'] = Variable<String>(bmcAddr);
+    }
+    if (!nullToAbsent || bmcCertSha256 != null) {
+      map['bmc_cert_sha256'] = Variable<String>(bmcCertSha256);
+    }
+    if (!nullToAbsent || bmcCredId != null) {
+      map['bmc_cred_id'] = Variable<String>(bmcCredId);
+    }
+    if (!nullToAbsent || preferTempDev != null) {
+      map['prefer_temp_dev'] = Variable<String>(preferTempDev);
+    }
+    map['temp_is_celsius'] = Variable<bool>(tempIsCelsius);
+    if (!nullToAbsent || logoUrl != null) {
+      map['logo_url'] = Variable<String>(logoUrl);
+    }
+    if (!nullToAbsent || netDev != null) {
+      map['net_dev'] = Variable<String>(netDev);
+    }
+    if (!nullToAbsent || scriptDir != null) {
+      map['script_dir'] = Variable<String>(scriptDir);
+    }
+    if (!nullToAbsent || geoLat != null) {
+      map['geo_lat'] = Variable<double>(geoLat);
+    }
+    if (!nullToAbsent || geoLon != null) {
+      map['geo_lon'] = Variable<double>(geoLon);
+    }
+    return map;
+  }
+
+  ServersCompanion toCompanion(bool nullToAbsent) {
+    return ServersCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      name: Value(name),
+      autoConnect: Value(autoConnect),
+      systemType: systemType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(systemType),
+      sshIp: sshIp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshIp),
+      sshPort: sshPort == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshPort),
+      sshUser: sshUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshUser),
+      sshPwd: sshPwd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshPwd),
+      sshKeyId: sshKeyId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshKeyId),
+      sshKeyPath: sshKeyPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshKeyPath),
+      sshAlterUrl: sshAlterUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshAlterUrl),
+      sshProxyCommand: sshProxyCommand == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshProxyCommand),
+      sshFileTransport: sshFileTransport == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sshFileTransport),
+      sshAllowLegacyAlgorithms: Value(sshAllowLegacyAlgorithms),
+      preferredTransport: preferredTransport == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferredTransport),
+      sshEnabled: Value(sshEnabled),
+      monitorEnabled: Value(monitorEnabled),
+      isLocal: Value(isLocal),
+      monitorAddr: monitorAddr == null && nullToAbsent
+          ? const Value.absent()
+          : Value(monitorAddr),
+      monitorUser: monitorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(monitorUser),
+      monitorPwd: monitorPwd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(monitorPwd),
+      monitorIgnoreCert: monitorIgnoreCert == null && nullToAbsent
+          ? const Value.absent()
+          : Value(monitorIgnoreCert),
+      monitorAllowInsecure: monitorAllowInsecure == null && nullToAbsent
+          ? const Value.absent()
+          : Value(monitorAllowInsecure),
+      wolMac: wolMac == null && nullToAbsent
+          ? const Value.absent()
+          : Value(wolMac),
+      wolIp: wolIp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(wolIp),
+      wolPwd: wolPwd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(wolPwd),
+      bmcAddr: bmcAddr == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bmcAddr),
+      bmcCertSha256: bmcCertSha256 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bmcCertSha256),
+      bmcCredId: bmcCredId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bmcCredId),
+      preferTempDev: preferTempDev == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferTempDev),
+      tempIsCelsius: Value(tempIsCelsius),
+      logoUrl: logoUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(logoUrl),
+      netDev: netDev == null && nullToAbsent
+          ? const Value.absent()
+          : Value(netDev),
+      scriptDir: scriptDir == null && nullToAbsent
+          ? const Value.absent()
+          : Value(scriptDir),
+      geoLat: geoLat == null && nullToAbsent
+          ? const Value.absent()
+          : Value(geoLat),
+      geoLon: geoLon == null && nullToAbsent
+          ? const Value.absent()
+          : Value(geoLon),
+    );
+  }
+
+  factory ServerRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      autoConnect: serializer.fromJson<bool>(json['autoConnect']),
+      systemType: serializer.fromJson<String?>(json['systemType']),
+      sshIp: serializer.fromJson<String?>(json['sshIp']),
+      sshPort: serializer.fromJson<int?>(json['sshPort']),
+      sshUser: serializer.fromJson<String?>(json['sshUser']),
+      sshPwd: serializer.fromJson<String?>(json['sshPwd']),
+      sshKeyId: serializer.fromJson<String?>(json['sshKeyId']),
+      sshKeyPath: serializer.fromJson<String?>(json['sshKeyPath']),
+      sshAlterUrl: serializer.fromJson<String?>(json['sshAlterUrl']),
+      sshProxyCommand: serializer.fromJson<String?>(json['sshProxyCommand']),
+      sshFileTransport: serializer.fromJson<String?>(json['sshFileTransport']),
+      sshAllowLegacyAlgorithms: serializer.fromJson<bool>(
+        json['sshAllowLegacyAlgorithms'],
+      ),
+      preferredTransport: serializer.fromJson<String?>(
+        json['preferredTransport'],
+      ),
+      sshEnabled: serializer.fromJson<bool>(json['sshEnabled']),
+      monitorEnabled: serializer.fromJson<bool>(json['monitorEnabled']),
+      isLocal: serializer.fromJson<bool>(json['isLocal']),
+      monitorAddr: serializer.fromJson<String?>(json['monitorAddr']),
+      monitorUser: serializer.fromJson<String?>(json['monitorUser']),
+      monitorPwd: serializer.fromJson<String?>(json['monitorPwd']),
+      monitorIgnoreCert: serializer.fromJson<bool?>(json['monitorIgnoreCert']),
+      monitorAllowInsecure: serializer.fromJson<bool?>(
+        json['monitorAllowInsecure'],
+      ),
+      wolMac: serializer.fromJson<String?>(json['wolMac']),
+      wolIp: serializer.fromJson<String?>(json['wolIp']),
+      wolPwd: serializer.fromJson<String?>(json['wolPwd']),
+      bmcAddr: serializer.fromJson<String?>(json['bmcAddr']),
+      bmcCertSha256: serializer.fromJson<String?>(json['bmcCertSha256']),
+      bmcCredId: serializer.fromJson<String?>(json['bmcCredId']),
+      preferTempDev: serializer.fromJson<String?>(json['preferTempDev']),
+      tempIsCelsius: serializer.fromJson<bool>(json['tempIsCelsius']),
+      logoUrl: serializer.fromJson<String?>(json['logoUrl']),
+      netDev: serializer.fromJson<String?>(json['netDev']),
+      scriptDir: serializer.fromJson<String?>(json['scriptDir']),
+      geoLat: serializer.fromJson<double?>(json['geoLat']),
+      geoLon: serializer.fromJson<double?>(json['geoLon']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'autoConnect': serializer.toJson<bool>(autoConnect),
+      'systemType': serializer.toJson<String?>(systemType),
+      'sshIp': serializer.toJson<String?>(sshIp),
+      'sshPort': serializer.toJson<int?>(sshPort),
+      'sshUser': serializer.toJson<String?>(sshUser),
+      'sshPwd': serializer.toJson<String?>(sshPwd),
+      'sshKeyId': serializer.toJson<String?>(sshKeyId),
+      'sshKeyPath': serializer.toJson<String?>(sshKeyPath),
+      'sshAlterUrl': serializer.toJson<String?>(sshAlterUrl),
+      'sshProxyCommand': serializer.toJson<String?>(sshProxyCommand),
+      'sshFileTransport': serializer.toJson<String?>(sshFileTransport),
+      'sshAllowLegacyAlgorithms': serializer.toJson<bool>(
+        sshAllowLegacyAlgorithms,
+      ),
+      'preferredTransport': serializer.toJson<String?>(preferredTransport),
+      'sshEnabled': serializer.toJson<bool>(sshEnabled),
+      'monitorEnabled': serializer.toJson<bool>(monitorEnabled),
+      'isLocal': serializer.toJson<bool>(isLocal),
+      'monitorAddr': serializer.toJson<String?>(monitorAddr),
+      'monitorUser': serializer.toJson<String?>(monitorUser),
+      'monitorPwd': serializer.toJson<String?>(monitorPwd),
+      'monitorIgnoreCert': serializer.toJson<bool?>(monitorIgnoreCert),
+      'monitorAllowInsecure': serializer.toJson<bool?>(monitorAllowInsecure),
+      'wolMac': serializer.toJson<String?>(wolMac),
+      'wolIp': serializer.toJson<String?>(wolIp),
+      'wolPwd': serializer.toJson<String?>(wolPwd),
+      'bmcAddr': serializer.toJson<String?>(bmcAddr),
+      'bmcCertSha256': serializer.toJson<String?>(bmcCertSha256),
+      'bmcCredId': serializer.toJson<String?>(bmcCredId),
+      'preferTempDev': serializer.toJson<String?>(preferTempDev),
+      'tempIsCelsius': serializer.toJson<bool>(tempIsCelsius),
+      'logoUrl': serializer.toJson<String?>(logoUrl),
+      'netDev': serializer.toJson<String?>(netDev),
+      'scriptDir': serializer.toJson<String?>(scriptDir),
+      'geoLat': serializer.toJson<double?>(geoLat),
+      'geoLon': serializer.toJson<double?>(geoLon),
+    };
+  }
+
+  ServerRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? name,
+    bool? autoConnect,
+    Value<String?> systemType = const Value.absent(),
+    Value<String?> sshIp = const Value.absent(),
+    Value<int?> sshPort = const Value.absent(),
+    Value<String?> sshUser = const Value.absent(),
+    Value<String?> sshPwd = const Value.absent(),
+    Value<String?> sshKeyId = const Value.absent(),
+    Value<String?> sshKeyPath = const Value.absent(),
+    Value<String?> sshAlterUrl = const Value.absent(),
+    Value<String?> sshProxyCommand = const Value.absent(),
+    Value<String?> sshFileTransport = const Value.absent(),
+    bool? sshAllowLegacyAlgorithms,
+    Value<String?> preferredTransport = const Value.absent(),
+    bool? sshEnabled,
+    bool? monitorEnabled,
+    bool? isLocal,
+    Value<String?> monitorAddr = const Value.absent(),
+    Value<String?> monitorUser = const Value.absent(),
+    Value<String?> monitorPwd = const Value.absent(),
+    Value<bool?> monitorIgnoreCert = const Value.absent(),
+    Value<bool?> monitorAllowInsecure = const Value.absent(),
+    Value<String?> wolMac = const Value.absent(),
+    Value<String?> wolIp = const Value.absent(),
+    Value<String?> wolPwd = const Value.absent(),
+    Value<String?> bmcAddr = const Value.absent(),
+    Value<String?> bmcCertSha256 = const Value.absent(),
+    Value<String?> bmcCredId = const Value.absent(),
+    Value<String?> preferTempDev = const Value.absent(),
+    bool? tempIsCelsius,
+    Value<String?> logoUrl = const Value.absent(),
+    Value<String?> netDev = const Value.absent(),
+    Value<String?> scriptDir = const Value.absent(),
+    Value<double?> geoLat = const Value.absent(),
+    Value<double?> geoLon = const Value.absent(),
+  }) => ServerRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    name: name ?? this.name,
+    autoConnect: autoConnect ?? this.autoConnect,
+    systemType: systemType.present ? systemType.value : this.systemType,
+    sshIp: sshIp.present ? sshIp.value : this.sshIp,
+    sshPort: sshPort.present ? sshPort.value : this.sshPort,
+    sshUser: sshUser.present ? sshUser.value : this.sshUser,
+    sshPwd: sshPwd.present ? sshPwd.value : this.sshPwd,
+    sshKeyId: sshKeyId.present ? sshKeyId.value : this.sshKeyId,
+    sshKeyPath: sshKeyPath.present ? sshKeyPath.value : this.sshKeyPath,
+    sshAlterUrl: sshAlterUrl.present ? sshAlterUrl.value : this.sshAlterUrl,
+    sshProxyCommand: sshProxyCommand.present
+        ? sshProxyCommand.value
+        : this.sshProxyCommand,
+    sshFileTransport: sshFileTransport.present
+        ? sshFileTransport.value
+        : this.sshFileTransport,
+    sshAllowLegacyAlgorithms:
+        sshAllowLegacyAlgorithms ?? this.sshAllowLegacyAlgorithms,
+    preferredTransport: preferredTransport.present
+        ? preferredTransport.value
+        : this.preferredTransport,
+    sshEnabled: sshEnabled ?? this.sshEnabled,
+    monitorEnabled: monitorEnabled ?? this.monitorEnabled,
+    isLocal: isLocal ?? this.isLocal,
+    monitorAddr: monitorAddr.present ? monitorAddr.value : this.monitorAddr,
+    monitorUser: monitorUser.present ? monitorUser.value : this.monitorUser,
+    monitorPwd: monitorPwd.present ? monitorPwd.value : this.monitorPwd,
+    monitorIgnoreCert: monitorIgnoreCert.present
+        ? monitorIgnoreCert.value
+        : this.monitorIgnoreCert,
+    monitorAllowInsecure: monitorAllowInsecure.present
+        ? monitorAllowInsecure.value
+        : this.monitorAllowInsecure,
+    wolMac: wolMac.present ? wolMac.value : this.wolMac,
+    wolIp: wolIp.present ? wolIp.value : this.wolIp,
+    wolPwd: wolPwd.present ? wolPwd.value : this.wolPwd,
+    bmcAddr: bmcAddr.present ? bmcAddr.value : this.bmcAddr,
+    bmcCertSha256: bmcCertSha256.present
+        ? bmcCertSha256.value
+        : this.bmcCertSha256,
+    bmcCredId: bmcCredId.present ? bmcCredId.value : this.bmcCredId,
+    preferTempDev: preferTempDev.present
+        ? preferTempDev.value
+        : this.preferTempDev,
+    tempIsCelsius: tempIsCelsius ?? this.tempIsCelsius,
+    logoUrl: logoUrl.present ? logoUrl.value : this.logoUrl,
+    netDev: netDev.present ? netDev.value : this.netDev,
+    scriptDir: scriptDir.present ? scriptDir.value : this.scriptDir,
+    geoLat: geoLat.present ? geoLat.value : this.geoLat,
+    geoLon: geoLon.present ? geoLon.value : this.geoLon,
+  );
+  ServerRow copyWithCompanion(ServersCompanion data) {
+    return ServerRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      autoConnect: data.autoConnect.present
+          ? data.autoConnect.value
+          : this.autoConnect,
+      systemType: data.systemType.present
+          ? data.systemType.value
+          : this.systemType,
+      sshIp: data.sshIp.present ? data.sshIp.value : this.sshIp,
+      sshPort: data.sshPort.present ? data.sshPort.value : this.sshPort,
+      sshUser: data.sshUser.present ? data.sshUser.value : this.sshUser,
+      sshPwd: data.sshPwd.present ? data.sshPwd.value : this.sshPwd,
+      sshKeyId: data.sshKeyId.present ? data.sshKeyId.value : this.sshKeyId,
+      sshKeyPath: data.sshKeyPath.present
+          ? data.sshKeyPath.value
+          : this.sshKeyPath,
+      sshAlterUrl: data.sshAlterUrl.present
+          ? data.sshAlterUrl.value
+          : this.sshAlterUrl,
+      sshProxyCommand: data.sshProxyCommand.present
+          ? data.sshProxyCommand.value
+          : this.sshProxyCommand,
+      sshFileTransport: data.sshFileTransport.present
+          ? data.sshFileTransport.value
+          : this.sshFileTransport,
+      sshAllowLegacyAlgorithms: data.sshAllowLegacyAlgorithms.present
+          ? data.sshAllowLegacyAlgorithms.value
+          : this.sshAllowLegacyAlgorithms,
+      preferredTransport: data.preferredTransport.present
+          ? data.preferredTransport.value
+          : this.preferredTransport,
+      sshEnabled: data.sshEnabled.present
+          ? data.sshEnabled.value
+          : this.sshEnabled,
+      monitorEnabled: data.monitorEnabled.present
+          ? data.monitorEnabled.value
+          : this.monitorEnabled,
+      isLocal: data.isLocal.present ? data.isLocal.value : this.isLocal,
+      monitorAddr: data.monitorAddr.present
+          ? data.monitorAddr.value
+          : this.monitorAddr,
+      monitorUser: data.monitorUser.present
+          ? data.monitorUser.value
+          : this.monitorUser,
+      monitorPwd: data.monitorPwd.present
+          ? data.monitorPwd.value
+          : this.monitorPwd,
+      monitorIgnoreCert: data.monitorIgnoreCert.present
+          ? data.monitorIgnoreCert.value
+          : this.monitorIgnoreCert,
+      monitorAllowInsecure: data.monitorAllowInsecure.present
+          ? data.monitorAllowInsecure.value
+          : this.monitorAllowInsecure,
+      wolMac: data.wolMac.present ? data.wolMac.value : this.wolMac,
+      wolIp: data.wolIp.present ? data.wolIp.value : this.wolIp,
+      wolPwd: data.wolPwd.present ? data.wolPwd.value : this.wolPwd,
+      bmcAddr: data.bmcAddr.present ? data.bmcAddr.value : this.bmcAddr,
+      bmcCertSha256: data.bmcCertSha256.present
+          ? data.bmcCertSha256.value
+          : this.bmcCertSha256,
+      bmcCredId: data.bmcCredId.present ? data.bmcCredId.value : this.bmcCredId,
+      preferTempDev: data.preferTempDev.present
+          ? data.preferTempDev.value
+          : this.preferTempDev,
+      tempIsCelsius: data.tempIsCelsius.present
+          ? data.tempIsCelsius.value
+          : this.tempIsCelsius,
+      logoUrl: data.logoUrl.present ? data.logoUrl.value : this.logoUrl,
+      netDev: data.netDev.present ? data.netDev.value : this.netDev,
+      scriptDir: data.scriptDir.present ? data.scriptDir.value : this.scriptDir,
+      geoLat: data.geoLat.present ? data.geoLat.value : this.geoLat,
+      geoLon: data.geoLon.present ? data.geoLon.value : this.geoLon,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('autoConnect: $autoConnect, ')
+          ..write('systemType: $systemType, ')
+          ..write('sshIp: $sshIp, ')
+          ..write('sshPort: $sshPort, ')
+          ..write('sshUser: $sshUser, ')
+          ..write('sshPwd: $sshPwd, ')
+          ..write('sshKeyId: $sshKeyId, ')
+          ..write('sshKeyPath: $sshKeyPath, ')
+          ..write('sshAlterUrl: $sshAlterUrl, ')
+          ..write('sshProxyCommand: $sshProxyCommand, ')
+          ..write('sshFileTransport: $sshFileTransport, ')
+          ..write('sshAllowLegacyAlgorithms: $sshAllowLegacyAlgorithms, ')
+          ..write('preferredTransport: $preferredTransport, ')
+          ..write('sshEnabled: $sshEnabled, ')
+          ..write('monitorEnabled: $monitorEnabled, ')
+          ..write('isLocal: $isLocal, ')
+          ..write('monitorAddr: $monitorAddr, ')
+          ..write('monitorUser: $monitorUser, ')
+          ..write('monitorPwd: $monitorPwd, ')
+          ..write('monitorIgnoreCert: $monitorIgnoreCert, ')
+          ..write('monitorAllowInsecure: $monitorAllowInsecure, ')
+          ..write('wolMac: $wolMac, ')
+          ..write('wolIp: $wolIp, ')
+          ..write('wolPwd: $wolPwd, ')
+          ..write('bmcAddr: $bmcAddr, ')
+          ..write('bmcCertSha256: $bmcCertSha256, ')
+          ..write('bmcCredId: $bmcCredId, ')
+          ..write('preferTempDev: $preferTempDev, ')
+          ..write('tempIsCelsius: $tempIsCelsius, ')
+          ..write('logoUrl: $logoUrl, ')
+          ..write('netDev: $netDev, ')
+          ..write('scriptDir: $scriptDir, ')
+          ..write('geoLat: $geoLat, ')
+          ..write('geoLon: $geoLon')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    updatedAt,
+    rev,
+    id,
+    name,
+    autoConnect,
+    systemType,
+    sshIp,
+    sshPort,
+    sshUser,
+    sshPwd,
+    sshKeyId,
+    sshKeyPath,
+    sshAlterUrl,
+    sshProxyCommand,
+    sshFileTransport,
+    sshAllowLegacyAlgorithms,
+    preferredTransport,
+    sshEnabled,
+    monitorEnabled,
+    isLocal,
+    monitorAddr,
+    monitorUser,
+    monitorPwd,
+    monitorIgnoreCert,
+    monitorAllowInsecure,
+    wolMac,
+    wolIp,
+    wolPwd,
+    bmcAddr,
+    bmcCertSha256,
+    bmcCredId,
+    preferTempDev,
+    tempIsCelsius,
+    logoUrl,
+    netDev,
+    scriptDir,
+    geoLat,
+    geoLon,
+  ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.autoConnect == this.autoConnect &&
+          other.systemType == this.systemType &&
+          other.sshIp == this.sshIp &&
+          other.sshPort == this.sshPort &&
+          other.sshUser == this.sshUser &&
+          other.sshPwd == this.sshPwd &&
+          other.sshKeyId == this.sshKeyId &&
+          other.sshKeyPath == this.sshKeyPath &&
+          other.sshAlterUrl == this.sshAlterUrl &&
+          other.sshProxyCommand == this.sshProxyCommand &&
+          other.sshFileTransport == this.sshFileTransport &&
+          other.sshAllowLegacyAlgorithms == this.sshAllowLegacyAlgorithms &&
+          other.preferredTransport == this.preferredTransport &&
+          other.sshEnabled == this.sshEnabled &&
+          other.monitorEnabled == this.monitorEnabled &&
+          other.isLocal == this.isLocal &&
+          other.monitorAddr == this.monitorAddr &&
+          other.monitorUser == this.monitorUser &&
+          other.monitorPwd == this.monitorPwd &&
+          other.monitorIgnoreCert == this.monitorIgnoreCert &&
+          other.monitorAllowInsecure == this.monitorAllowInsecure &&
+          other.wolMac == this.wolMac &&
+          other.wolIp == this.wolIp &&
+          other.wolPwd == this.wolPwd &&
+          other.bmcAddr == this.bmcAddr &&
+          other.bmcCertSha256 == this.bmcCertSha256 &&
+          other.bmcCredId == this.bmcCredId &&
+          other.preferTempDev == this.preferTempDev &&
+          other.tempIsCelsius == this.tempIsCelsius &&
+          other.logoUrl == this.logoUrl &&
+          other.netDev == this.netDev &&
+          other.scriptDir == this.scriptDir &&
+          other.geoLat == this.geoLat &&
+          other.geoLon == this.geoLon);
+}
+
+class ServersCompanion extends UpdateCompanion<ServerRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> name;
+  final Value<bool> autoConnect;
+  final Value<String?> systemType;
+  final Value<String?> sshIp;
+  final Value<int?> sshPort;
+  final Value<String?> sshUser;
+  final Value<String?> sshPwd;
+  final Value<String?> sshKeyId;
+  final Value<String?> sshKeyPath;
+  final Value<String?> sshAlterUrl;
+  final Value<String?> sshProxyCommand;
+  final Value<String?> sshFileTransport;
+  final Value<bool> sshAllowLegacyAlgorithms;
+  final Value<String?> preferredTransport;
+  final Value<bool> sshEnabled;
+  final Value<bool> monitorEnabled;
+  final Value<bool> isLocal;
+  final Value<String?> monitorAddr;
+  final Value<String?> monitorUser;
+  final Value<String?> monitorPwd;
+  final Value<bool?> monitorIgnoreCert;
+  final Value<bool?> monitorAllowInsecure;
+  final Value<String?> wolMac;
+  final Value<String?> wolIp;
+  final Value<String?> wolPwd;
+  final Value<String?> bmcAddr;
+  final Value<String?> bmcCertSha256;
+  final Value<String?> bmcCredId;
+  final Value<String?> preferTempDev;
+  final Value<bool> tempIsCelsius;
+  final Value<String?> logoUrl;
+  final Value<String?> netDev;
+  final Value<String?> scriptDir;
+  final Value<double?> geoLat;
+  final Value<double?> geoLon;
+  const ServersCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.autoConnect = const Value.absent(),
+    this.systemType = const Value.absent(),
+    this.sshIp = const Value.absent(),
+    this.sshPort = const Value.absent(),
+    this.sshUser = const Value.absent(),
+    this.sshPwd = const Value.absent(),
+    this.sshKeyId = const Value.absent(),
+    this.sshKeyPath = const Value.absent(),
+    this.sshAlterUrl = const Value.absent(),
+    this.sshProxyCommand = const Value.absent(),
+    this.sshFileTransport = const Value.absent(),
+    this.sshAllowLegacyAlgorithms = const Value.absent(),
+    this.preferredTransport = const Value.absent(),
+    this.sshEnabled = const Value.absent(),
+    this.monitorEnabled = const Value.absent(),
+    this.isLocal = const Value.absent(),
+    this.monitorAddr = const Value.absent(),
+    this.monitorUser = const Value.absent(),
+    this.monitorPwd = const Value.absent(),
+    this.monitorIgnoreCert = const Value.absent(),
+    this.monitorAllowInsecure = const Value.absent(),
+    this.wolMac = const Value.absent(),
+    this.wolIp = const Value.absent(),
+    this.wolPwd = const Value.absent(),
+    this.bmcAddr = const Value.absent(),
+    this.bmcCertSha256 = const Value.absent(),
+    this.bmcCredId = const Value.absent(),
+    this.preferTempDev = const Value.absent(),
+    this.tempIsCelsius = const Value.absent(),
+    this.logoUrl = const Value.absent(),
+    this.netDev = const Value.absent(),
+    this.scriptDir = const Value.absent(),
+    this.geoLat = const Value.absent(),
+    this.geoLon = const Value.absent(),
+  });
+  ServersCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String name,
+    this.autoConnect = const Value.absent(),
+    this.systemType = const Value.absent(),
+    this.sshIp = const Value.absent(),
+    this.sshPort = const Value.absent(),
+    this.sshUser = const Value.absent(),
+    this.sshPwd = const Value.absent(),
+    this.sshKeyId = const Value.absent(),
+    this.sshKeyPath = const Value.absent(),
+    this.sshAlterUrl = const Value.absent(),
+    this.sshProxyCommand = const Value.absent(),
+    this.sshFileTransport = const Value.absent(),
+    this.sshAllowLegacyAlgorithms = const Value.absent(),
+    this.preferredTransport = const Value.absent(),
+    this.sshEnabled = const Value.absent(),
+    this.monitorEnabled = const Value.absent(),
+    this.isLocal = const Value.absent(),
+    this.monitorAddr = const Value.absent(),
+    this.monitorUser = const Value.absent(),
+    this.monitorPwd = const Value.absent(),
+    this.monitorIgnoreCert = const Value.absent(),
+    this.monitorAllowInsecure = const Value.absent(),
+    this.wolMac = const Value.absent(),
+    this.wolIp = const Value.absent(),
+    this.wolPwd = const Value.absent(),
+    this.bmcAddr = const Value.absent(),
+    this.bmcCertSha256 = const Value.absent(),
+    this.bmcCredId = const Value.absent(),
+    this.preferTempDev = const Value.absent(),
+    this.tempIsCelsius = const Value.absent(),
+    this.logoUrl = const Value.absent(),
+    this.netDev = const Value.absent(),
+    this.scriptDir = const Value.absent(),
+    this.geoLat = const Value.absent(),
+    this.geoLon = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name);
+  static Insertable<ServerRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<bool>? autoConnect,
+    Expression<String>? systemType,
+    Expression<String>? sshIp,
+    Expression<int>? sshPort,
+    Expression<String>? sshUser,
+    Expression<String>? sshPwd,
+    Expression<String>? sshKeyId,
+    Expression<String>? sshKeyPath,
+    Expression<String>? sshAlterUrl,
+    Expression<String>? sshProxyCommand,
+    Expression<String>? sshFileTransport,
+    Expression<bool>? sshAllowLegacyAlgorithms,
+    Expression<String>? preferredTransport,
+    Expression<bool>? sshEnabled,
+    Expression<bool>? monitorEnabled,
+    Expression<bool>? isLocal,
+    Expression<String>? monitorAddr,
+    Expression<String>? monitorUser,
+    Expression<String>? monitorPwd,
+    Expression<bool>? monitorIgnoreCert,
+    Expression<bool>? monitorAllowInsecure,
+    Expression<String>? wolMac,
+    Expression<String>? wolIp,
+    Expression<String>? wolPwd,
+    Expression<String>? bmcAddr,
+    Expression<String>? bmcCertSha256,
+    Expression<String>? bmcCredId,
+    Expression<String>? preferTempDev,
+    Expression<bool>? tempIsCelsius,
+    Expression<String>? logoUrl,
+    Expression<String>? netDev,
+    Expression<String>? scriptDir,
+    Expression<double>? geoLat,
+    Expression<double>? geoLon,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (autoConnect != null) 'auto_connect': autoConnect,
+      if (systemType != null) 'system_type': systemType,
+      if (sshIp != null) 'ssh_ip': sshIp,
+      if (sshPort != null) 'ssh_port': sshPort,
+      if (sshUser != null) 'ssh_user': sshUser,
+      if (sshPwd != null) 'ssh_pwd': sshPwd,
+      if (sshKeyId != null) 'ssh_key_id': sshKeyId,
+      if (sshKeyPath != null) 'ssh_key_path': sshKeyPath,
+      if (sshAlterUrl != null) 'ssh_alter_url': sshAlterUrl,
+      if (sshProxyCommand != null) 'ssh_proxy_command': sshProxyCommand,
+      if (sshFileTransport != null) 'ssh_file_transport': sshFileTransport,
+      if (sshAllowLegacyAlgorithms != null)
+        'ssh_allow_legacy_algorithms': sshAllowLegacyAlgorithms,
+      if (preferredTransport != null) 'preferred_transport': preferredTransport,
+      if (sshEnabled != null) 'ssh_enabled': sshEnabled,
+      if (monitorEnabled != null) 'monitor_enabled': monitorEnabled,
+      if (isLocal != null) 'is_local': isLocal,
+      if (monitorAddr != null) 'monitor_addr': monitorAddr,
+      if (monitorUser != null) 'monitor_user': monitorUser,
+      if (monitorPwd != null) 'monitor_pwd': monitorPwd,
+      if (monitorIgnoreCert != null) 'monitor_ignore_cert': monitorIgnoreCert,
+      if (monitorAllowInsecure != null)
+        'monitor_allow_insecure': monitorAllowInsecure,
+      if (wolMac != null) 'wol_mac': wolMac,
+      if (wolIp != null) 'wol_ip': wolIp,
+      if (wolPwd != null) 'wol_pwd': wolPwd,
+      if (bmcAddr != null) 'bmc_addr': bmcAddr,
+      if (bmcCertSha256 != null) 'bmc_cert_sha256': bmcCertSha256,
+      if (bmcCredId != null) 'bmc_cred_id': bmcCredId,
+      if (preferTempDev != null) 'prefer_temp_dev': preferTempDev,
+      if (tempIsCelsius != null) 'temp_is_celsius': tempIsCelsius,
+      if (logoUrl != null) 'logo_url': logoUrl,
+      if (netDev != null) 'net_dev': netDev,
+      if (scriptDir != null) 'script_dir': scriptDir,
+      if (geoLat != null) 'geo_lat': geoLat,
+      if (geoLon != null) 'geo_lon': geoLon,
+    });
+  }
+
+  ServersCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? name,
+    Value<bool>? autoConnect,
+    Value<String?>? systemType,
+    Value<String?>? sshIp,
+    Value<int?>? sshPort,
+    Value<String?>? sshUser,
+    Value<String?>? sshPwd,
+    Value<String?>? sshKeyId,
+    Value<String?>? sshKeyPath,
+    Value<String?>? sshAlterUrl,
+    Value<String?>? sshProxyCommand,
+    Value<String?>? sshFileTransport,
+    Value<bool>? sshAllowLegacyAlgorithms,
+    Value<String?>? preferredTransport,
+    Value<bool>? sshEnabled,
+    Value<bool>? monitorEnabled,
+    Value<bool>? isLocal,
+    Value<String?>? monitorAddr,
+    Value<String?>? monitorUser,
+    Value<String?>? monitorPwd,
+    Value<bool?>? monitorIgnoreCert,
+    Value<bool?>? monitorAllowInsecure,
+    Value<String?>? wolMac,
+    Value<String?>? wolIp,
+    Value<String?>? wolPwd,
+    Value<String?>? bmcAddr,
+    Value<String?>? bmcCertSha256,
+    Value<String?>? bmcCredId,
+    Value<String?>? preferTempDev,
+    Value<bool>? tempIsCelsius,
+    Value<String?>? logoUrl,
+    Value<String?>? netDev,
+    Value<String?>? scriptDir,
+    Value<double?>? geoLat,
+    Value<double?>? geoLon,
+  }) {
+    return ServersCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      autoConnect: autoConnect ?? this.autoConnect,
+      systemType: systemType ?? this.systemType,
+      sshIp: sshIp ?? this.sshIp,
+      sshPort: sshPort ?? this.sshPort,
+      sshUser: sshUser ?? this.sshUser,
+      sshPwd: sshPwd ?? this.sshPwd,
+      sshKeyId: sshKeyId ?? this.sshKeyId,
+      sshKeyPath: sshKeyPath ?? this.sshKeyPath,
+      sshAlterUrl: sshAlterUrl ?? this.sshAlterUrl,
+      sshProxyCommand: sshProxyCommand ?? this.sshProxyCommand,
+      sshFileTransport: sshFileTransport ?? this.sshFileTransport,
+      sshAllowLegacyAlgorithms:
+          sshAllowLegacyAlgorithms ?? this.sshAllowLegacyAlgorithms,
+      preferredTransport: preferredTransport ?? this.preferredTransport,
+      sshEnabled: sshEnabled ?? this.sshEnabled,
+      monitorEnabled: monitorEnabled ?? this.monitorEnabled,
+      isLocal: isLocal ?? this.isLocal,
+      monitorAddr: monitorAddr ?? this.monitorAddr,
+      monitorUser: monitorUser ?? this.monitorUser,
+      monitorPwd: monitorPwd ?? this.monitorPwd,
+      monitorIgnoreCert: monitorIgnoreCert ?? this.monitorIgnoreCert,
+      monitorAllowInsecure: monitorAllowInsecure ?? this.monitorAllowInsecure,
+      wolMac: wolMac ?? this.wolMac,
+      wolIp: wolIp ?? this.wolIp,
+      wolPwd: wolPwd ?? this.wolPwd,
+      bmcAddr: bmcAddr ?? this.bmcAddr,
+      bmcCertSha256: bmcCertSha256 ?? this.bmcCertSha256,
+      bmcCredId: bmcCredId ?? this.bmcCredId,
+      preferTempDev: preferTempDev ?? this.preferTempDev,
+      tempIsCelsius: tempIsCelsius ?? this.tempIsCelsius,
+      logoUrl: logoUrl ?? this.logoUrl,
+      netDev: netDev ?? this.netDev,
+      scriptDir: scriptDir ?? this.scriptDir,
+      geoLat: geoLat ?? this.geoLat,
+      geoLon: geoLon ?? this.geoLon,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (autoConnect.present) {
+      map['auto_connect'] = Variable<bool>(autoConnect.value);
+    }
+    if (systemType.present) {
+      map['system_type'] = Variable<String>(systemType.value);
+    }
+    if (sshIp.present) {
+      map['ssh_ip'] = Variable<String>(sshIp.value);
+    }
+    if (sshPort.present) {
+      map['ssh_port'] = Variable<int>(sshPort.value);
+    }
+    if (sshUser.present) {
+      map['ssh_user'] = Variable<String>(sshUser.value);
+    }
+    if (sshPwd.present) {
+      map['ssh_pwd'] = Variable<String>(sshPwd.value);
+    }
+    if (sshKeyId.present) {
+      map['ssh_key_id'] = Variable<String>(sshKeyId.value);
+    }
+    if (sshKeyPath.present) {
+      map['ssh_key_path'] = Variable<String>(sshKeyPath.value);
+    }
+    if (sshAlterUrl.present) {
+      map['ssh_alter_url'] = Variable<String>(sshAlterUrl.value);
+    }
+    if (sshProxyCommand.present) {
+      map['ssh_proxy_command'] = Variable<String>(sshProxyCommand.value);
+    }
+    if (sshFileTransport.present) {
+      map['ssh_file_transport'] = Variable<String>(sshFileTransport.value);
+    }
+    if (sshAllowLegacyAlgorithms.present) {
+      map['ssh_allow_legacy_algorithms'] = Variable<bool>(
+        sshAllowLegacyAlgorithms.value,
+      );
+    }
+    if (preferredTransport.present) {
+      map['preferred_transport'] = Variable<String>(preferredTransport.value);
+    }
+    if (sshEnabled.present) {
+      map['ssh_enabled'] = Variable<bool>(sshEnabled.value);
+    }
+    if (monitorEnabled.present) {
+      map['monitor_enabled'] = Variable<bool>(monitorEnabled.value);
+    }
+    if (isLocal.present) {
+      map['is_local'] = Variable<bool>(isLocal.value);
+    }
+    if (monitorAddr.present) {
+      map['monitor_addr'] = Variable<String>(monitorAddr.value);
+    }
+    if (monitorUser.present) {
+      map['monitor_user'] = Variable<String>(monitorUser.value);
+    }
+    if (monitorPwd.present) {
+      map['monitor_pwd'] = Variable<String>(monitorPwd.value);
+    }
+    if (monitorIgnoreCert.present) {
+      map['monitor_ignore_cert'] = Variable<bool>(monitorIgnoreCert.value);
+    }
+    if (monitorAllowInsecure.present) {
+      map['monitor_allow_insecure'] = Variable<bool>(
+        monitorAllowInsecure.value,
+      );
+    }
+    if (wolMac.present) {
+      map['wol_mac'] = Variable<String>(wolMac.value);
+    }
+    if (wolIp.present) {
+      map['wol_ip'] = Variable<String>(wolIp.value);
+    }
+    if (wolPwd.present) {
+      map['wol_pwd'] = Variable<String>(wolPwd.value);
+    }
+    if (bmcAddr.present) {
+      map['bmc_addr'] = Variable<String>(bmcAddr.value);
+    }
+    if (bmcCertSha256.present) {
+      map['bmc_cert_sha256'] = Variable<String>(bmcCertSha256.value);
+    }
+    if (bmcCredId.present) {
+      map['bmc_cred_id'] = Variable<String>(bmcCredId.value);
+    }
+    if (preferTempDev.present) {
+      map['prefer_temp_dev'] = Variable<String>(preferTempDev.value);
+    }
+    if (tempIsCelsius.present) {
+      map['temp_is_celsius'] = Variable<bool>(tempIsCelsius.value);
+    }
+    if (logoUrl.present) {
+      map['logo_url'] = Variable<String>(logoUrl.value);
+    }
+    if (netDev.present) {
+      map['net_dev'] = Variable<String>(netDev.value);
+    }
+    if (scriptDir.present) {
+      map['script_dir'] = Variable<String>(scriptDir.value);
+    }
+    if (geoLat.present) {
+      map['geo_lat'] = Variable<double>(geoLat.value);
+    }
+    if (geoLon.present) {
+      map['geo_lon'] = Variable<double>(geoLon.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServersCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('autoConnect: $autoConnect, ')
+          ..write('systemType: $systemType, ')
+          ..write('sshIp: $sshIp, ')
+          ..write('sshPort: $sshPort, ')
+          ..write('sshUser: $sshUser, ')
+          ..write('sshPwd: $sshPwd, ')
+          ..write('sshKeyId: $sshKeyId, ')
+          ..write('sshKeyPath: $sshKeyPath, ')
+          ..write('sshAlterUrl: $sshAlterUrl, ')
+          ..write('sshProxyCommand: $sshProxyCommand, ')
+          ..write('sshFileTransport: $sshFileTransport, ')
+          ..write('sshAllowLegacyAlgorithms: $sshAllowLegacyAlgorithms, ')
+          ..write('preferredTransport: $preferredTransport, ')
+          ..write('sshEnabled: $sshEnabled, ')
+          ..write('monitorEnabled: $monitorEnabled, ')
+          ..write('isLocal: $isLocal, ')
+          ..write('monitorAddr: $monitorAddr, ')
+          ..write('monitorUser: $monitorUser, ')
+          ..write('monitorPwd: $monitorPwd, ')
+          ..write('monitorIgnoreCert: $monitorIgnoreCert, ')
+          ..write('monitorAllowInsecure: $monitorAllowInsecure, ')
+          ..write('wolMac: $wolMac, ')
+          ..write('wolIp: $wolIp, ')
+          ..write('wolPwd: $wolPwd, ')
+          ..write('bmcAddr: $bmcAddr, ')
+          ..write('bmcCertSha256: $bmcCertSha256, ')
+          ..write('bmcCredId: $bmcCredId, ')
+          ..write('preferTempDev: $preferTempDev, ')
+          ..write('tempIsCelsius: $tempIsCelsius, ')
+          ..write('logoUrl: $logoUrl, ')
+          ..write('netDev: $netDev, ')
+          ..write('scriptDir: $scriptDir, ')
+          ..write('geoLat: $geoLat, ')
+          ..write('geoLon: $geoLon')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerTagsTable extends ServerTags
+    with TableInfo<$ServerTagsTable, ServerTagRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerTagsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _tagMeta = const VerificationMeta('tag');
+  @override
+  late final GeneratedColumn<String> tag = GeneratedColumn<String>(
+    'tag',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, tag];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_tag';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerTagRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('tag')) {
+      context.handle(
+        _tagMeta,
+        tag.isAcceptableOrUnknown(data['tag']!, _tagMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tagMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, tag};
+  @override
+  ServerTagRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerTagRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      tag: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tag'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerTagsTable createAlias(String alias) {
+    return $ServerTagsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerTagRow extends DataClass implements Insertable<ServerTagRow> {
+  final String serverId;
+  final String tag;
+  const ServerTagRow({required this.serverId, required this.tag});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['tag'] = Variable<String>(tag);
+    return map;
+  }
+
+  ServerTagsCompanion toCompanion(bool nullToAbsent) {
+    return ServerTagsCompanion(serverId: Value(serverId), tag: Value(tag));
+  }
+
+  factory ServerTagRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerTagRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      tag: serializer.fromJson<String>(json['tag']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'tag': serializer.toJson<String>(tag),
+    };
+  }
+
+  ServerTagRow copyWith({String? serverId, String? tag}) =>
+      ServerTagRow(serverId: serverId ?? this.serverId, tag: tag ?? this.tag);
+  ServerTagRow copyWithCompanion(ServerTagsCompanion data) {
+    return ServerTagRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      tag: data.tag.present ? data.tag.value : this.tag,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerTagRow(')
+          ..write('serverId: $serverId, ')
+          ..write('tag: $tag')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, tag);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerTagRow &&
+          other.serverId == this.serverId &&
+          other.tag == this.tag);
+}
+
+class ServerTagsCompanion extends UpdateCompanion<ServerTagRow> {
+  final Value<String> serverId;
+  final Value<String> tag;
+  const ServerTagsCompanion({
+    this.serverId = const Value.absent(),
+    this.tag = const Value.absent(),
+  });
+  ServerTagsCompanion.insert({required String serverId, required String tag})
+    : serverId = Value(serverId),
+      tag = Value(tag);
+  static Insertable<ServerTagRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? tag,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (tag != null) 'tag': tag,
+    });
+  }
+
+  ServerTagsCompanion copyWith({Value<String>? serverId, Value<String>? tag}) {
+    return ServerTagsCompanion(
+      serverId: serverId ?? this.serverId,
+      tag: tag ?? this.tag,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (tag.present) {
+      map['tag'] = Variable<String>(tag.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerTagsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('tag: $tag')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerEnvsTable extends ServerEnvs
+    with TableInfo<$ServerEnvsTable, ServerEnvRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerEnvsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  @override
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+    'value',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, key, value];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_env';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerEnvRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('key')) {
+      context.handle(
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_keyMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+        _valueMeta,
+        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, key};
+  @override
+  ServerEnvRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerEnvRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerEnvsTable createAlias(String alias) {
+    return $ServerEnvsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerEnvRow extends DataClass implements Insertable<ServerEnvRow> {
+  final String serverId;
+  final String key;
+  final String value;
+  const ServerEnvRow({
+    required this.serverId,
+    required this.key,
+    required this.value,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['key'] = Variable<String>(key);
+    map['value'] = Variable<String>(value);
+    return map;
+  }
+
+  ServerEnvsCompanion toCompanion(bool nullToAbsent) {
+    return ServerEnvsCompanion(
+      serverId: Value(serverId),
+      key: Value(key),
+      value: Value(value),
+    );
+  }
+
+  factory ServerEnvRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerEnvRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      key: serializer.fromJson<String>(json['key']),
+      value: serializer.fromJson<String>(json['value']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'key': serializer.toJson<String>(key),
+      'value': serializer.toJson<String>(value),
+    };
+  }
+
+  ServerEnvRow copyWith({String? serverId, String? key, String? value}) =>
+      ServerEnvRow(
+        serverId: serverId ?? this.serverId,
+        key: key ?? this.key,
+        value: value ?? this.value,
+      );
+  ServerEnvRow copyWithCompanion(ServerEnvsCompanion data) {
+    return ServerEnvRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      key: data.key.present ? data.key.value : this.key,
+      value: data.value.present ? data.value.value : this.value,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerEnvRow(')
+          ..write('serverId: $serverId, ')
+          ..write('key: $key, ')
+          ..write('value: $value')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, key, value);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerEnvRow &&
+          other.serverId == this.serverId &&
+          other.key == this.key &&
+          other.value == this.value);
+}
+
+class ServerEnvsCompanion extends UpdateCompanion<ServerEnvRow> {
+  final Value<String> serverId;
+  final Value<String> key;
+  final Value<String> value;
+  const ServerEnvsCompanion({
+    this.serverId = const Value.absent(),
+    this.key = const Value.absent(),
+    this.value = const Value.absent(),
+  });
+  ServerEnvsCompanion.insert({
+    required String serverId,
+    required String key,
+    required String value,
+  }) : serverId = Value(serverId),
+       key = Value(key),
+       value = Value(value);
+  static Insertable<ServerEnvRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? key,
+    Expression<String>? value,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    });
+  }
+
+  ServerEnvsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? key,
+    Value<String>? value,
+  }) {
+    return ServerEnvsCompanion(
+      serverId: serverId ?? this.serverId,
+      key: key ?? this.key,
+      value: value ?? this.value,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerEnvsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('key: $key, ')
+          ..write('value: $value')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerJumpsTable extends ServerJumps
+    with TableInfo<$ServerJumpsTable, ServerJumpRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerJumpsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _ordMeta = const VerificationMeta('ord');
+  @override
+  late final GeneratedColumn<int> ord = GeneratedColumn<int>(
+    'ord',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _jumpIdMeta = const VerificationMeta('jumpId');
+  @override
+  late final GeneratedColumn<String> jumpId = GeneratedColumn<String>(
+    'jump_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, ord, jumpId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_jump';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerJumpRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('ord')) {
+      context.handle(
+        _ordMeta,
+        ord.isAcceptableOrUnknown(data['ord']!, _ordMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ordMeta);
+    }
+    if (data.containsKey('jump_id')) {
+      context.handle(
+        _jumpIdMeta,
+        jumpId.isAcceptableOrUnknown(data['jump_id']!, _jumpIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_jumpIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, ord};
+  @override
+  ServerJumpRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerJumpRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      ord: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ord'],
+      )!,
+      jumpId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}jump_id'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerJumpsTable createAlias(String alias) {
+    return $ServerJumpsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerJumpRow extends DataClass implements Insertable<ServerJumpRow> {
+  final String serverId;
+  final int ord;
+  final String jumpId;
+  const ServerJumpRow({
+    required this.serverId,
+    required this.ord,
+    required this.jumpId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['ord'] = Variable<int>(ord);
+    map['jump_id'] = Variable<String>(jumpId);
+    return map;
+  }
+
+  ServerJumpsCompanion toCompanion(bool nullToAbsent) {
+    return ServerJumpsCompanion(
+      serverId: Value(serverId),
+      ord: Value(ord),
+      jumpId: Value(jumpId),
+    );
+  }
+
+  factory ServerJumpRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerJumpRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      ord: serializer.fromJson<int>(json['ord']),
+      jumpId: serializer.fromJson<String>(json['jumpId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'ord': serializer.toJson<int>(ord),
+      'jumpId': serializer.toJson<String>(jumpId),
+    };
+  }
+
+  ServerJumpRow copyWith({String? serverId, int? ord, String? jumpId}) =>
+      ServerJumpRow(
+        serverId: serverId ?? this.serverId,
+        ord: ord ?? this.ord,
+        jumpId: jumpId ?? this.jumpId,
+      );
+  ServerJumpRow copyWithCompanion(ServerJumpsCompanion data) {
+    return ServerJumpRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      ord: data.ord.present ? data.ord.value : this.ord,
+      jumpId: data.jumpId.present ? data.jumpId.value : this.jumpId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerJumpRow(')
+          ..write('serverId: $serverId, ')
+          ..write('ord: $ord, ')
+          ..write('jumpId: $jumpId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, ord, jumpId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerJumpRow &&
+          other.serverId == this.serverId &&
+          other.ord == this.ord &&
+          other.jumpId == this.jumpId);
+}
+
+class ServerJumpsCompanion extends UpdateCompanion<ServerJumpRow> {
+  final Value<String> serverId;
+  final Value<int> ord;
+  final Value<String> jumpId;
+  const ServerJumpsCompanion({
+    this.serverId = const Value.absent(),
+    this.ord = const Value.absent(),
+    this.jumpId = const Value.absent(),
+  });
+  ServerJumpsCompanion.insert({
+    required String serverId,
+    required int ord,
+    required String jumpId,
+  }) : serverId = Value(serverId),
+       ord = Value(ord),
+       jumpId = Value(jumpId);
+  static Insertable<ServerJumpRow> custom({
+    Expression<String>? serverId,
+    Expression<int>? ord,
+    Expression<String>? jumpId,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (ord != null) 'ord': ord,
+      if (jumpId != null) 'jump_id': jumpId,
+    });
+  }
+
+  ServerJumpsCompanion copyWith({
+    Value<String>? serverId,
+    Value<int>? ord,
+    Value<String>? jumpId,
+  }) {
+    return ServerJumpsCompanion(
+      serverId: serverId ?? this.serverId,
+      ord: ord ?? this.ord,
+      jumpId: jumpId ?? this.jumpId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (ord.present) {
+      map['ord'] = Variable<int>(ord.value);
+    }
+    if (jumpId.present) {
+      map['jump_id'] = Variable<String>(jumpId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerJumpsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('ord: $ord, ')
+          ..write('jumpId: $jumpId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerDisabledCmdsTable extends ServerDisabledCmds
+    with TableInfo<$ServerDisabledCmdsTable, ServerDisabledCmdRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerDisabledCmdsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _cmdTypeMeta = const VerificationMeta(
+    'cmdType',
+  );
+  @override
+  late final GeneratedColumn<String> cmdType = GeneratedColumn<String>(
+    'cmd_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, cmdType];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_disabled_cmd';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerDisabledCmdRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('cmd_type')) {
+      context.handle(
+        _cmdTypeMeta,
+        cmdType.isAcceptableOrUnknown(data['cmd_type']!, _cmdTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cmdTypeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, cmdType};
+  @override
+  ServerDisabledCmdRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerDisabledCmdRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      cmdType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cmd_type'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerDisabledCmdsTable createAlias(String alias) {
+    return $ServerDisabledCmdsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerDisabledCmdRow extends DataClass
+    implements Insertable<ServerDisabledCmdRow> {
+  final String serverId;
+  final String cmdType;
+  const ServerDisabledCmdRow({required this.serverId, required this.cmdType});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['cmd_type'] = Variable<String>(cmdType);
+    return map;
+  }
+
+  ServerDisabledCmdsCompanion toCompanion(bool nullToAbsent) {
+    return ServerDisabledCmdsCompanion(
+      serverId: Value(serverId),
+      cmdType: Value(cmdType),
+    );
+  }
+
+  factory ServerDisabledCmdRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerDisabledCmdRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      cmdType: serializer.fromJson<String>(json['cmdType']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'cmdType': serializer.toJson<String>(cmdType),
+    };
+  }
+
+  ServerDisabledCmdRow copyWith({String? serverId, String? cmdType}) =>
+      ServerDisabledCmdRow(
+        serverId: serverId ?? this.serverId,
+        cmdType: cmdType ?? this.cmdType,
+      );
+  ServerDisabledCmdRow copyWithCompanion(ServerDisabledCmdsCompanion data) {
+    return ServerDisabledCmdRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      cmdType: data.cmdType.present ? data.cmdType.value : this.cmdType,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerDisabledCmdRow(')
+          ..write('serverId: $serverId, ')
+          ..write('cmdType: $cmdType')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, cmdType);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerDisabledCmdRow &&
+          other.serverId == this.serverId &&
+          other.cmdType == this.cmdType);
+}
+
+class ServerDisabledCmdsCompanion
+    extends UpdateCompanion<ServerDisabledCmdRow> {
+  final Value<String> serverId;
+  final Value<String> cmdType;
+  const ServerDisabledCmdsCompanion({
+    this.serverId = const Value.absent(),
+    this.cmdType = const Value.absent(),
+  });
+  ServerDisabledCmdsCompanion.insert({
+    required String serverId,
+    required String cmdType,
+  }) : serverId = Value(serverId),
+       cmdType = Value(cmdType);
+  static Insertable<ServerDisabledCmdRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? cmdType,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (cmdType != null) 'cmd_type': cmdType,
+    });
+  }
+
+  ServerDisabledCmdsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? cmdType,
+  }) {
+    return ServerDisabledCmdsCompanion(
+      serverId: serverId ?? this.serverId,
+      cmdType: cmdType ?? this.cmdType,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (cmdType.present) {
+      map['cmd_type'] = Variable<String>(cmdType.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerDisabledCmdsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('cmdType: $cmdType')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerCustomCmdsTable extends ServerCustomCmds
+    with TableInfo<$ServerCustomCmdsTable, ServerCustomCmdRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerCustomCmdsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cmdMeta = const VerificationMeta('cmd');
+  @override
+  late final GeneratedColumn<String> cmd = GeneratedColumn<String>(
+    'cmd',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, name, cmd];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_custom_cmd';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerCustomCmdRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('cmd')) {
+      context.handle(
+        _cmdMeta,
+        cmd.isAcceptableOrUnknown(data['cmd']!, _cmdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cmdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, name};
+  @override
+  ServerCustomCmdRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerCustomCmdRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      cmd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cmd'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerCustomCmdsTable createAlias(String alias) {
+    return $ServerCustomCmdsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerCustomCmdRow extends DataClass
+    implements Insertable<ServerCustomCmdRow> {
+  final String serverId;
+  final String name;
+  final String cmd;
+  const ServerCustomCmdRow({
+    required this.serverId,
+    required this.name,
+    required this.cmd,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['name'] = Variable<String>(name);
+    map['cmd'] = Variable<String>(cmd);
+    return map;
+  }
+
+  ServerCustomCmdsCompanion toCompanion(bool nullToAbsent) {
+    return ServerCustomCmdsCompanion(
+      serverId: Value(serverId),
+      name: Value(name),
+      cmd: Value(cmd),
+    );
+  }
+
+  factory ServerCustomCmdRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerCustomCmdRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      name: serializer.fromJson<String>(json['name']),
+      cmd: serializer.fromJson<String>(json['cmd']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'name': serializer.toJson<String>(name),
+      'cmd': serializer.toJson<String>(cmd),
+    };
+  }
+
+  ServerCustomCmdRow copyWith({String? serverId, String? name, String? cmd}) =>
+      ServerCustomCmdRow(
+        serverId: serverId ?? this.serverId,
+        name: name ?? this.name,
+        cmd: cmd ?? this.cmd,
+      );
+  ServerCustomCmdRow copyWithCompanion(ServerCustomCmdsCompanion data) {
+    return ServerCustomCmdRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      name: data.name.present ? data.name.value : this.name,
+      cmd: data.cmd.present ? data.cmd.value : this.cmd,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerCustomCmdRow(')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('cmd: $cmd')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, name, cmd);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerCustomCmdRow &&
+          other.serverId == this.serverId &&
+          other.name == this.name &&
+          other.cmd == this.cmd);
+}
+
+class ServerCustomCmdsCompanion extends UpdateCompanion<ServerCustomCmdRow> {
+  final Value<String> serverId;
+  final Value<String> name;
+  final Value<String> cmd;
+  const ServerCustomCmdsCompanion({
+    this.serverId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.cmd = const Value.absent(),
+  });
+  ServerCustomCmdsCompanion.insert({
+    required String serverId,
+    required String name,
+    required String cmd,
+  }) : serverId = Value(serverId),
+       name = Value(name),
+       cmd = Value(cmd);
+  static Insertable<ServerCustomCmdRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? name,
+    Expression<String>? cmd,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (name != null) 'name': name,
+      if (cmd != null) 'cmd': cmd,
+    });
+  }
+
+  ServerCustomCmdsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? name,
+    Value<String>? cmd,
+  }) {
+    return ServerCustomCmdsCompanion(
+      serverId: serverId ?? this.serverId,
+      name: name ?? this.name,
+      cmd: cmd ?? this.cmd,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (cmd.present) {
+      map['cmd'] = Variable<String>(cmd.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerCustomCmdsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('cmd: $cmd')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $KnownHostsTable extends KnownHosts
+    with TableInfo<$KnownHostsTable, KnownHostRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $KnownHostsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _keyTypeMeta = const VerificationMeta(
+    'keyType',
+  );
+  @override
+  late final GeneratedColumn<String> keyType = GeneratedColumn<String>(
+    'key_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fingerprintMeta = const VerificationMeta(
+    'fingerprint',
+  );
+  @override
+  late final GeneratedColumn<String> fingerprint = GeneratedColumn<String>(
+    'fingerprint',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, keyType, fingerprint];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'known_host';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<KnownHostRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('key_type')) {
+      context.handle(
+        _keyTypeMeta,
+        keyType.isAcceptableOrUnknown(data['key_type']!, _keyTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_keyTypeMeta);
+    }
+    if (data.containsKey('fingerprint')) {
+      context.handle(
+        _fingerprintMeta,
+        fingerprint.isAcceptableOrUnknown(
+          data['fingerprint']!,
+          _fingerprintMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_fingerprintMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, keyType};
+  @override
+  KnownHostRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return KnownHostRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      keyType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key_type'],
+      )!,
+      fingerprint: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fingerprint'],
+      )!,
+    );
+  }
+
+  @override
+  $KnownHostsTable createAlias(String alias) {
+    return $KnownHostsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class KnownHostRow extends DataClass implements Insertable<KnownHostRow> {
+  final String serverId;
+  final String keyType;
+  final String fingerprint;
+  const KnownHostRow({
+    required this.serverId,
+    required this.keyType,
+    required this.fingerprint,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['key_type'] = Variable<String>(keyType);
+    map['fingerprint'] = Variable<String>(fingerprint);
+    return map;
+  }
+
+  KnownHostsCompanion toCompanion(bool nullToAbsent) {
+    return KnownHostsCompanion(
+      serverId: Value(serverId),
+      keyType: Value(keyType),
+      fingerprint: Value(fingerprint),
+    );
+  }
+
+  factory KnownHostRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return KnownHostRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      keyType: serializer.fromJson<String>(json['keyType']),
+      fingerprint: serializer.fromJson<String>(json['fingerprint']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'keyType': serializer.toJson<String>(keyType),
+      'fingerprint': serializer.toJson<String>(fingerprint),
+    };
+  }
+
+  KnownHostRow copyWith({
+    String? serverId,
+    String? keyType,
+    String? fingerprint,
+  }) => KnownHostRow(
+    serverId: serverId ?? this.serverId,
+    keyType: keyType ?? this.keyType,
+    fingerprint: fingerprint ?? this.fingerprint,
+  );
+  KnownHostRow copyWithCompanion(KnownHostsCompanion data) {
+    return KnownHostRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      keyType: data.keyType.present ? data.keyType.value : this.keyType,
+      fingerprint: data.fingerprint.present
+          ? data.fingerprint.value
+          : this.fingerprint,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KnownHostRow(')
+          ..write('serverId: $serverId, ')
+          ..write('keyType: $keyType, ')
+          ..write('fingerprint: $fingerprint')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, keyType, fingerprint);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is KnownHostRow &&
+          other.serverId == this.serverId &&
+          other.keyType == this.keyType &&
+          other.fingerprint == this.fingerprint);
+}
+
+class KnownHostsCompanion extends UpdateCompanion<KnownHostRow> {
+  final Value<String> serverId;
+  final Value<String> keyType;
+  final Value<String> fingerprint;
+  const KnownHostsCompanion({
+    this.serverId = const Value.absent(),
+    this.keyType = const Value.absent(),
+    this.fingerprint = const Value.absent(),
+  });
+  KnownHostsCompanion.insert({
+    required String serverId,
+    required String keyType,
+    required String fingerprint,
+  }) : serverId = Value(serverId),
+       keyType = Value(keyType),
+       fingerprint = Value(fingerprint);
+  static Insertable<KnownHostRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? keyType,
+    Expression<String>? fingerprint,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (keyType != null) 'key_type': keyType,
+      if (fingerprint != null) 'fingerprint': fingerprint,
+    });
+  }
+
+  KnownHostsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? keyType,
+    Value<String>? fingerprint,
+  }) {
+    return KnownHostsCompanion(
+      serverId: serverId ?? this.serverId,
+      keyType: keyType ?? this.keyType,
+      fingerprint: fingerprint ?? this.fingerprint,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (keyType.present) {
+      map['key_type'] = Variable<String>(keyType.value);
+    }
+    if (fingerprint.present) {
+      map['fingerprint'] = Variable<String>(fingerprint.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('KnownHostsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('keyType: $keyType, ')
+          ..write('fingerprint: $fingerprint')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SnippetsTable extends Snippets
+    with TableInfo<$SnippetsTable, SnippetRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SnippetsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _scriptMeta = const VerificationMeta('script');
+  @override
+  late final GeneratedColumn<String> script = GeneratedColumn<String>(
+    'script',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    updatedAt,
+    rev,
+    id,
+    name,
+    script,
+    note,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'snippet';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SnippetRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('script')) {
+      context.handle(
+        _scriptMeta,
+        script.isAcceptableOrUnknown(data['script']!, _scriptMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_scriptMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SnippetRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SnippetRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      script: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}script'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+    );
+  }
+
+  @override
+  $SnippetsTable createAlias(String alias) {
+    return $SnippetsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class SnippetRow extends DataClass implements Insertable<SnippetRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String name;
+  final String script;
+  final String? note;
+  const SnippetRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.name,
+    required this.script,
+    this.note,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['script'] = Variable<String>(script);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    return map;
+  }
+
+  SnippetsCompanion toCompanion(bool nullToAbsent) {
+    return SnippetsCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      name: Value(name),
+      script: Value(script),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+    );
+  }
+
+  factory SnippetRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SnippetRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      script: serializer.fromJson<String>(json['script']),
+      note: serializer.fromJson<String?>(json['note']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'script': serializer.toJson<String>(script),
+      'note': serializer.toJson<String?>(note),
+    };
+  }
+
+  SnippetRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? name,
+    String? script,
+    Value<String?> note = const Value.absent(),
+  }) => SnippetRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    name: name ?? this.name,
+    script: script ?? this.script,
+    note: note.present ? note.value : this.note,
+  );
+  SnippetRow copyWithCompanion(SnippetsCompanion data) {
+    return SnippetRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      script: data.script.present ? data.script.value : this.script,
+      note: data.note.present ? data.note.value : this.note,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('script: $script, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(updatedAt, rev, id, name, script, note);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SnippetRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.script == this.script &&
+          other.note == this.note);
+}
+
+class SnippetsCompanion extends UpdateCompanion<SnippetRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> script;
+  final Value<String?> note;
+  const SnippetsCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.script = const Value.absent(),
+    this.note = const Value.absent(),
+  });
+  SnippetsCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String name,
+    required String script,
+    this.note = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       script = Value(script);
+  static Insertable<SnippetRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? script,
+    Expression<String>? note,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (script != null) 'script': script,
+      if (note != null) 'note': note,
+    });
+  }
+
+  SnippetsCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? name,
+    Value<String>? script,
+    Value<String?>? note,
+  }) {
+    return SnippetsCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      script: script ?? this.script,
+      note: note ?? this.note,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (script.present) {
+      map['script'] = Variable<String>(script.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetsCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('script: $script, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SnippetTagsTable extends SnippetTags
+    with TableInfo<$SnippetTagsTable, SnippetTagRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SnippetTagsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _snippetIdMeta = const VerificationMeta(
+    'snippetId',
+  );
+  @override
+  late final GeneratedColumn<String> snippetId = GeneratedColumn<String>(
+    'snippet_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES snippet (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _tagMeta = const VerificationMeta('tag');
+  @override
+  late final GeneratedColumn<String> tag = GeneratedColumn<String>(
+    'tag',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [snippetId, tag];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'snippet_tag';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SnippetTagRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('snippet_id')) {
+      context.handle(
+        _snippetIdMeta,
+        snippetId.isAcceptableOrUnknown(data['snippet_id']!, _snippetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_snippetIdMeta);
+    }
+    if (data.containsKey('tag')) {
+      context.handle(
+        _tagMeta,
+        tag.isAcceptableOrUnknown(data['tag']!, _tagMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tagMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {snippetId, tag};
+  @override
+  SnippetTagRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SnippetTagRow(
+      snippetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}snippet_id'],
+      )!,
+      tag: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tag'],
+      )!,
+    );
+  }
+
+  @override
+  $SnippetTagsTable createAlias(String alias) {
+    return $SnippetTagsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class SnippetTagRow extends DataClass implements Insertable<SnippetTagRow> {
+  final String snippetId;
+  final String tag;
+  const SnippetTagRow({required this.snippetId, required this.tag});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['snippet_id'] = Variable<String>(snippetId);
+    map['tag'] = Variable<String>(tag);
+    return map;
+  }
+
+  SnippetTagsCompanion toCompanion(bool nullToAbsent) {
+    return SnippetTagsCompanion(snippetId: Value(snippetId), tag: Value(tag));
+  }
+
+  factory SnippetTagRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SnippetTagRow(
+      snippetId: serializer.fromJson<String>(json['snippetId']),
+      tag: serializer.fromJson<String>(json['tag']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'snippetId': serializer.toJson<String>(snippetId),
+      'tag': serializer.toJson<String>(tag),
+    };
+  }
+
+  SnippetTagRow copyWith({String? snippetId, String? tag}) => SnippetTagRow(
+    snippetId: snippetId ?? this.snippetId,
+    tag: tag ?? this.tag,
+  );
+  SnippetTagRow copyWithCompanion(SnippetTagsCompanion data) {
+    return SnippetTagRow(
+      snippetId: data.snippetId.present ? data.snippetId.value : this.snippetId,
+      tag: data.tag.present ? data.tag.value : this.tag,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetTagRow(')
+          ..write('snippetId: $snippetId, ')
+          ..write('tag: $tag')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(snippetId, tag);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SnippetTagRow &&
+          other.snippetId == this.snippetId &&
+          other.tag == this.tag);
+}
+
+class SnippetTagsCompanion extends UpdateCompanion<SnippetTagRow> {
+  final Value<String> snippetId;
+  final Value<String> tag;
+  const SnippetTagsCompanion({
+    this.snippetId = const Value.absent(),
+    this.tag = const Value.absent(),
+  });
+  SnippetTagsCompanion.insert({required String snippetId, required String tag})
+    : snippetId = Value(snippetId),
+      tag = Value(tag);
+  static Insertable<SnippetTagRow> custom({
+    Expression<String>? snippetId,
+    Expression<String>? tag,
+  }) {
+    return RawValuesInsertable({
+      if (snippetId != null) 'snippet_id': snippetId,
+      if (tag != null) 'tag': tag,
+    });
+  }
+
+  SnippetTagsCompanion copyWith({
+    Value<String>? snippetId,
+    Value<String>? tag,
+  }) {
+    return SnippetTagsCompanion(
+      snippetId: snippetId ?? this.snippetId,
+      tag: tag ?? this.tag,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (snippetId.present) {
+      map['snippet_id'] = Variable<String>(snippetId.value);
+    }
+    if (tag.present) {
+      map['tag'] = Variable<String>(tag.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetTagsCompanion(')
+          ..write('snippetId: $snippetId, ')
+          ..write('tag: $tag')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SnippetAutoRunOnTable extends SnippetAutoRunOn
+    with TableInfo<$SnippetAutoRunOnTable, SnippetAutoRunRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SnippetAutoRunOnTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _snippetIdMeta = const VerificationMeta(
+    'snippetId',
+  );
+  @override
+  late final GeneratedColumn<String> snippetId = GeneratedColumn<String>(
+    'snippet_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES snippet (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [snippetId, serverId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'snippet_auto_run_on';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SnippetAutoRunRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('snippet_id')) {
+      context.handle(
+        _snippetIdMeta,
+        snippetId.isAcceptableOrUnknown(data['snippet_id']!, _snippetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_snippetIdMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {snippetId, serverId};
+  @override
+  SnippetAutoRunRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SnippetAutoRunRow(
+      snippetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}snippet_id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+    );
+  }
+
+  @override
+  $SnippetAutoRunOnTable createAlias(String alias) {
+    return $SnippetAutoRunOnTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class SnippetAutoRunRow extends DataClass
+    implements Insertable<SnippetAutoRunRow> {
+  final String snippetId;
+  final String serverId;
+  const SnippetAutoRunRow({required this.snippetId, required this.serverId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['snippet_id'] = Variable<String>(snippetId);
+    map['server_id'] = Variable<String>(serverId);
+    return map;
+  }
+
+  SnippetAutoRunOnCompanion toCompanion(bool nullToAbsent) {
+    return SnippetAutoRunOnCompanion(
+      snippetId: Value(snippetId),
+      serverId: Value(serverId),
+    );
+  }
+
+  factory SnippetAutoRunRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SnippetAutoRunRow(
+      snippetId: serializer.fromJson<String>(json['snippetId']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'snippetId': serializer.toJson<String>(snippetId),
+      'serverId': serializer.toJson<String>(serverId),
+    };
+  }
+
+  SnippetAutoRunRow copyWith({String? snippetId, String? serverId}) =>
+      SnippetAutoRunRow(
+        snippetId: snippetId ?? this.snippetId,
+        serverId: serverId ?? this.serverId,
+      );
+  SnippetAutoRunRow copyWithCompanion(SnippetAutoRunOnCompanion data) {
+    return SnippetAutoRunRow(
+      snippetId: data.snippetId.present ? data.snippetId.value : this.snippetId,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetAutoRunRow(')
+          ..write('snippetId: $snippetId, ')
+          ..write('serverId: $serverId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(snippetId, serverId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SnippetAutoRunRow &&
+          other.snippetId == this.snippetId &&
+          other.serverId == this.serverId);
+}
+
+class SnippetAutoRunOnCompanion extends UpdateCompanion<SnippetAutoRunRow> {
+  final Value<String> snippetId;
+  final Value<String> serverId;
+  const SnippetAutoRunOnCompanion({
+    this.snippetId = const Value.absent(),
+    this.serverId = const Value.absent(),
+  });
+  SnippetAutoRunOnCompanion.insert({
+    required String snippetId,
+    required String serverId,
+  }) : snippetId = Value(snippetId),
+       serverId = Value(serverId);
+  static Insertable<SnippetAutoRunRow> custom({
+    Expression<String>? snippetId,
+    Expression<String>? serverId,
+  }) {
+    return RawValuesInsertable({
+      if (snippetId != null) 'snippet_id': snippetId,
+      if (serverId != null) 'server_id': serverId,
+    });
+  }
+
+  SnippetAutoRunOnCompanion copyWith({
+    Value<String>? snippetId,
+    Value<String>? serverId,
+  }) {
+    return SnippetAutoRunOnCompanion(
+      snippetId: snippetId ?? this.snippetId,
+      serverId: serverId ?? this.serverId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (snippetId.present) {
+      map['snippet_id'] = Variable<String>(snippetId.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SnippetAutoRunOnCompanion(')
+          ..write('snippetId: $snippetId, ')
+          ..write('serverId: $serverId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PortForwardsTable extends PortForwards
+    with TableInfo<$PortForwardsTable, PortForwardRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PortForwardsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _localHostMeta = const VerificationMeta(
+    'localHost',
+  );
+  @override
+  late final GeneratedColumn<String> localHost = GeneratedColumn<String>(
+    'local_host',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _localPortMeta = const VerificationMeta(
+    'localPort',
+  );
+  @override
+  late final GeneratedColumn<int> localPort = GeneratedColumn<int>(
+    'local_port',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _remoteHostMeta = const VerificationMeta(
+    'remoteHost',
+  );
+  @override
+  late final GeneratedColumn<String> remoteHost = GeneratedColumn<String>(
+    'remote_host',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _remotePortMeta = const VerificationMeta(
+    'remotePort',
+  );
+  @override
+  late final GeneratedColumn<int> remotePort = GeneratedColumn<int>(
+    'remote_port',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    updatedAt,
+    rev,
+    id,
+    serverId,
+    name,
+    type,
+    localHost,
+    localPort,
+    remoteHost,
+    remotePort,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'port_forward';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PortForwardRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('local_host')) {
+      context.handle(
+        _localHostMeta,
+        localHost.isAcceptableOrUnknown(data['local_host']!, _localHostMeta),
+      );
+    }
+    if (data.containsKey('local_port')) {
+      context.handle(
+        _localPortMeta,
+        localPort.isAcceptableOrUnknown(data['local_port']!, _localPortMeta),
+      );
+    }
+    if (data.containsKey('remote_host')) {
+      context.handle(
+        _remoteHostMeta,
+        remoteHost.isAcceptableOrUnknown(data['remote_host']!, _remoteHostMeta),
+      );
+    }
+    if (data.containsKey('remote_port')) {
+      context.handle(
+        _remotePortMeta,
+        remotePort.isAcceptableOrUnknown(data['remote_port']!, _remotePortMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PortForwardRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PortForwardRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      localHost: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}local_host'],
+      ),
+      localPort: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}local_port'],
+      )!,
+      remoteHost: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}remote_host'],
+      ),
+      remotePort: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}remote_port'],
+      ),
+    );
+  }
+
+  @override
+  $PortForwardsTable createAlias(String alias) {
+    return $PortForwardsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class PortForwardRow extends DataClass implements Insertable<PortForwardRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String serverId;
+  final String name;
+  final String type;
+  final String? localHost;
+  final int localPort;
+  final String? remoteHost;
+  final int? remotePort;
+  const PortForwardRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.serverId,
+    required this.name,
+    required this.type,
+    this.localHost,
+    required this.localPort,
+    this.remoteHost,
+    this.remotePort,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['server_id'] = Variable<String>(serverId);
+    map['name'] = Variable<String>(name);
+    map['type'] = Variable<String>(type);
+    if (!nullToAbsent || localHost != null) {
+      map['local_host'] = Variable<String>(localHost);
+    }
+    map['local_port'] = Variable<int>(localPort);
+    if (!nullToAbsent || remoteHost != null) {
+      map['remote_host'] = Variable<String>(remoteHost);
+    }
+    if (!nullToAbsent || remotePort != null) {
+      map['remote_port'] = Variable<int>(remotePort);
+    }
+    return map;
+  }
+
+  PortForwardsCompanion toCompanion(bool nullToAbsent) {
+    return PortForwardsCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      serverId: Value(serverId),
+      name: Value(name),
+      type: Value(type),
+      localHost: localHost == null && nullToAbsent
+          ? const Value.absent()
+          : Value(localHost),
+      localPort: Value(localPort),
+      remoteHost: remoteHost == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remoteHost),
+      remotePort: remotePort == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remotePort),
+    );
+  }
+
+  factory PortForwardRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PortForwardRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+      name: serializer.fromJson<String>(json['name']),
+      type: serializer.fromJson<String>(json['type']),
+      localHost: serializer.fromJson<String?>(json['localHost']),
+      localPort: serializer.fromJson<int>(json['localPort']),
+      remoteHost: serializer.fromJson<String?>(json['remoteHost']),
+      remotePort: serializer.fromJson<int?>(json['remotePort']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'serverId': serializer.toJson<String>(serverId),
+      'name': serializer.toJson<String>(name),
+      'type': serializer.toJson<String>(type),
+      'localHost': serializer.toJson<String?>(localHost),
+      'localPort': serializer.toJson<int>(localPort),
+      'remoteHost': serializer.toJson<String?>(remoteHost),
+      'remotePort': serializer.toJson<int?>(remotePort),
+    };
+  }
+
+  PortForwardRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? serverId,
+    String? name,
+    String? type,
+    Value<String?> localHost = const Value.absent(),
+    int? localPort,
+    Value<String?> remoteHost = const Value.absent(),
+    Value<int?> remotePort = const Value.absent(),
+  }) => PortForwardRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    serverId: serverId ?? this.serverId,
+    name: name ?? this.name,
+    type: type ?? this.type,
+    localHost: localHost.present ? localHost.value : this.localHost,
+    localPort: localPort ?? this.localPort,
+    remoteHost: remoteHost.present ? remoteHost.value : this.remoteHost,
+    remotePort: remotePort.present ? remotePort.value : this.remotePort,
+  );
+  PortForwardRow copyWithCompanion(PortForwardsCompanion data) {
+    return PortForwardRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      name: data.name.present ? data.name.value : this.name,
+      type: data.type.present ? data.type.value : this.type,
+      localHost: data.localHost.present ? data.localHost.value : this.localHost,
+      localPort: data.localPort.present ? data.localPort.value : this.localPort,
+      remoteHost: data.remoteHost.present
+          ? data.remoteHost.value
+          : this.remoteHost,
+      remotePort: data.remotePort.present
+          ? data.remotePort.value
+          : this.remotePort,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PortForwardRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('type: $type, ')
+          ..write('localHost: $localHost, ')
+          ..write('localPort: $localPort, ')
+          ..write('remoteHost: $remoteHost, ')
+          ..write('remotePort: $remotePort')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    updatedAt,
+    rev,
+    id,
+    serverId,
+    name,
+    type,
+    localHost,
+    localPort,
+    remoteHost,
+    remotePort,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PortForwardRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.serverId == this.serverId &&
+          other.name == this.name &&
+          other.type == this.type &&
+          other.localHost == this.localHost &&
+          other.localPort == this.localPort &&
+          other.remoteHost == this.remoteHost &&
+          other.remotePort == this.remotePort);
+}
+
+class PortForwardsCompanion extends UpdateCompanion<PortForwardRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> serverId;
+  final Value<String> name;
+  final Value<String> type;
+  final Value<String?> localHost;
+  final Value<int> localPort;
+  final Value<String?> remoteHost;
+  final Value<int?> remotePort;
+  const PortForwardsCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.type = const Value.absent(),
+    this.localHost = const Value.absent(),
+    this.localPort = const Value.absent(),
+    this.remoteHost = const Value.absent(),
+    this.remotePort = const Value.absent(),
+  });
+  PortForwardsCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String serverId,
+    required String name,
+    required String type,
+    this.localHost = const Value.absent(),
+    this.localPort = const Value.absent(),
+    this.remoteHost = const Value.absent(),
+    this.remotePort = const Value.absent(),
+  }) : id = Value(id),
+       serverId = Value(serverId),
+       name = Value(name),
+       type = Value(type);
+  static Insertable<PortForwardRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? serverId,
+    Expression<String>? name,
+    Expression<String>? type,
+    Expression<String>? localHost,
+    Expression<int>? localPort,
+    Expression<String>? remoteHost,
+    Expression<int>? remotePort,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (serverId != null) 'server_id': serverId,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+      if (localHost != null) 'local_host': localHost,
+      if (localPort != null) 'local_port': localPort,
+      if (remoteHost != null) 'remote_host': remoteHost,
+      if (remotePort != null) 'remote_port': remotePort,
+    });
+  }
+
+  PortForwardsCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? serverId,
+    Value<String>? name,
+    Value<String>? type,
+    Value<String?>? localHost,
+    Value<int>? localPort,
+    Value<String?>? remoteHost,
+    Value<int?>? remotePort,
+  }) {
+    return PortForwardsCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      serverId: serverId ?? this.serverId,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      localHost: localHost ?? this.localHost,
+      localPort: localPort ?? this.localPort,
+      remoteHost: remoteHost ?? this.remoteHost,
+      remotePort: remotePort ?? this.remotePort,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (localHost.present) {
+      map['local_host'] = Variable<String>(localHost.value);
+    }
+    if (localPort.present) {
+      map['local_port'] = Variable<int>(localPort.value);
+    }
+    if (remoteHost.present) {
+      map['remote_host'] = Variable<String>(remoteHost.value);
+    }
+    if (remotePort.present) {
+      map['remote_port'] = Variable<int>(remotePort.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PortForwardsCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('type: $type, ')
+          ..write('localHost: $localHost, ')
+          ..write('localPort: $localPort, ')
+          ..write('remoteHost: $remoteHost, ')
+          ..write('remotePort: $remotePort')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $RemoteDesktopProfilesTable extends RemoteDesktopProfiles
+    with TableInfo<$RemoteDesktopProfilesTable, RemoteDesktopProfileRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RemoteDesktopProfilesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _revMeta = const VerificationMeta('rev');
+  @override
+  late final GeneratedColumn<int> rev = GeneratedColumn<int>(
+    'rev',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _protocolMeta = const VerificationMeta(
+    'protocol',
+  );
+  @override
+  late final GeneratedColumn<String> protocol = GeneratedColumn<String>(
+    'protocol',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _hostMeta = const VerificationMeta('host');
+  @override
+  late final GeneratedColumn<String> host = GeneratedColumn<String>(
+    'host',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('127.0.0.1'),
+  );
+  static const VerificationMeta _portMeta = const VerificationMeta('port');
+  @override
+  late final GeneratedColumn<int> port = GeneratedColumn<int>(
+    'port',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _usernameMeta = const VerificationMeta(
+    'username',
+  );
+  @override
+  late final GeneratedColumn<String> username = GeneratedColumn<String>(
+    'username',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _passwordMeta = const VerificationMeta(
+    'password',
+  );
+  @override
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+    'password',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _domainMeta = const VerificationMeta('domain');
+  @override
+  late final GeneratedColumn<String> domain = GeneratedColumn<String>(
+    'domain',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _viewOnlyMeta = const VerificationMeta(
+    'viewOnly',
+  );
+  @override
+  late final GeneratedColumn<bool> viewOnly = GeneratedColumn<bool>(
+    'view_only',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("view_only" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _sharedMeta = const VerificationMeta('shared');
+  @override
+  late final GeneratedColumn<bool> shared = GeneratedColumn<bool>(
+    'shared',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("shared" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _trustedCertSha256Meta = const VerificationMeta(
+    'trustedCertSha256',
+  );
+  @override
+  late final GeneratedColumn<String> trustedCertSha256 =
+      GeneratedColumn<String>(
+        'trusted_cert_sha256',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    updatedAt,
+    rev,
+    id,
+    serverId,
+    name,
+    protocol,
+    host,
+    port,
+    username,
+    password,
+    domain,
+    viewOnly,
+    shared,
+    trustedCertSha256,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'remote_desktop_profile';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RemoteDesktopProfileRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('rev')) {
+      context.handle(
+        _revMeta,
+        rev.isAcceptableOrUnknown(data['rev']!, _revMeta),
+      );
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('protocol')) {
+      context.handle(
+        _protocolMeta,
+        protocol.isAcceptableOrUnknown(data['protocol']!, _protocolMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_protocolMeta);
+    }
+    if (data.containsKey('host')) {
+      context.handle(
+        _hostMeta,
+        host.isAcceptableOrUnknown(data['host']!, _hostMeta),
+      );
+    }
+    if (data.containsKey('port')) {
+      context.handle(
+        _portMeta,
+        port.isAcceptableOrUnknown(data['port']!, _portMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_portMeta);
+    }
+    if (data.containsKey('username')) {
+      context.handle(
+        _usernameMeta,
+        username.isAcceptableOrUnknown(data['username']!, _usernameMeta),
+      );
+    }
+    if (data.containsKey('password')) {
+      context.handle(
+        _passwordMeta,
+        password.isAcceptableOrUnknown(data['password']!, _passwordMeta),
+      );
+    }
+    if (data.containsKey('domain')) {
+      context.handle(
+        _domainMeta,
+        domain.isAcceptableOrUnknown(data['domain']!, _domainMeta),
+      );
+    }
+    if (data.containsKey('view_only')) {
+      context.handle(
+        _viewOnlyMeta,
+        viewOnly.isAcceptableOrUnknown(data['view_only']!, _viewOnlyMeta),
+      );
+    }
+    if (data.containsKey('shared')) {
+      context.handle(
+        _sharedMeta,
+        shared.isAcceptableOrUnknown(data['shared']!, _sharedMeta),
+      );
+    }
+    if (data.containsKey('trusted_cert_sha256')) {
+      context.handle(
+        _trustedCertSha256Meta,
+        trustedCertSha256.isAcceptableOrUnknown(
+          data['trusted_cert_sha256']!,
+          _trustedCertSha256Meta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RemoteDesktopProfileRow map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RemoteDesktopProfileRow(
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      rev: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rev'],
+      )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      protocol: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}protocol'],
+      )!,
+      host: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}host'],
+      )!,
+      port: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}port'],
+      )!,
+      username: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}username'],
+      ),
+      password: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}password'],
+      ),
+      domain: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}domain'],
+      ),
+      viewOnly: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}view_only'],
+      )!,
+      shared: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}shared'],
+      )!,
+      trustedCertSha256: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}trusted_cert_sha256'],
+      ),
+    );
+  }
+
+  @override
+  $RemoteDesktopProfilesTable createAlias(String alias) {
+    return $RemoteDesktopProfilesTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class RemoteDesktopProfileRow extends DataClass
+    implements Insertable<RemoteDesktopProfileRow> {
+  final int updatedAt;
+  final int rev;
+  final String id;
+  final String serverId;
+  final String name;
+  final String protocol;
+  final String host;
+  final int port;
+  final String? username;
+  final String? password;
+  final String? domain;
+  final bool viewOnly;
+  final bool shared;
+  final String? trustedCertSha256;
+  const RemoteDesktopProfileRow({
+    required this.updatedAt,
+    required this.rev,
+    required this.id,
+    required this.serverId,
+    required this.name,
+    required this.protocol,
+    required this.host,
+    required this.port,
+    this.username,
+    this.password,
+    this.domain,
+    required this.viewOnly,
+    required this.shared,
+    this.trustedCertSha256,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['updated_at'] = Variable<int>(updatedAt);
+    map['rev'] = Variable<int>(rev);
+    map['id'] = Variable<String>(id);
+    map['server_id'] = Variable<String>(serverId);
+    map['name'] = Variable<String>(name);
+    map['protocol'] = Variable<String>(protocol);
+    map['host'] = Variable<String>(host);
+    map['port'] = Variable<int>(port);
+    if (!nullToAbsent || username != null) {
+      map['username'] = Variable<String>(username);
+    }
+    if (!nullToAbsent || password != null) {
+      map['password'] = Variable<String>(password);
+    }
+    if (!nullToAbsent || domain != null) {
+      map['domain'] = Variable<String>(domain);
+    }
+    map['view_only'] = Variable<bool>(viewOnly);
+    map['shared'] = Variable<bool>(shared);
+    if (!nullToAbsent || trustedCertSha256 != null) {
+      map['trusted_cert_sha256'] = Variable<String>(trustedCertSha256);
+    }
+    return map;
+  }
+
+  RemoteDesktopProfilesCompanion toCompanion(bool nullToAbsent) {
+    return RemoteDesktopProfilesCompanion(
+      updatedAt: Value(updatedAt),
+      rev: Value(rev),
+      id: Value(id),
+      serverId: Value(serverId),
+      name: Value(name),
+      protocol: Value(protocol),
+      host: Value(host),
+      port: Value(port),
+      username: username == null && nullToAbsent
+          ? const Value.absent()
+          : Value(username),
+      password: password == null && nullToAbsent
+          ? const Value.absent()
+          : Value(password),
+      domain: domain == null && nullToAbsent
+          ? const Value.absent()
+          : Value(domain),
+      viewOnly: Value(viewOnly),
+      shared: Value(shared),
+      trustedCertSha256: trustedCertSha256 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(trustedCertSha256),
+    );
+  }
+
+  factory RemoteDesktopProfileRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RemoteDesktopProfileRow(
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+      rev: serializer.fromJson<int>(json['rev']),
+      id: serializer.fromJson<String>(json['id']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+      name: serializer.fromJson<String>(json['name']),
+      protocol: serializer.fromJson<String>(json['protocol']),
+      host: serializer.fromJson<String>(json['host']),
+      port: serializer.fromJson<int>(json['port']),
+      username: serializer.fromJson<String?>(json['username']),
+      password: serializer.fromJson<String?>(json['password']),
+      domain: serializer.fromJson<String?>(json['domain']),
+      viewOnly: serializer.fromJson<bool>(json['viewOnly']),
+      shared: serializer.fromJson<bool>(json['shared']),
+      trustedCertSha256: serializer.fromJson<String?>(
+        json['trustedCertSha256'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'updatedAt': serializer.toJson<int>(updatedAt),
+      'rev': serializer.toJson<int>(rev),
+      'id': serializer.toJson<String>(id),
+      'serverId': serializer.toJson<String>(serverId),
+      'name': serializer.toJson<String>(name),
+      'protocol': serializer.toJson<String>(protocol),
+      'host': serializer.toJson<String>(host),
+      'port': serializer.toJson<int>(port),
+      'username': serializer.toJson<String?>(username),
+      'password': serializer.toJson<String?>(password),
+      'domain': serializer.toJson<String?>(domain),
+      'viewOnly': serializer.toJson<bool>(viewOnly),
+      'shared': serializer.toJson<bool>(shared),
+      'trustedCertSha256': serializer.toJson<String?>(trustedCertSha256),
+    };
+  }
+
+  RemoteDesktopProfileRow copyWith({
+    int? updatedAt,
+    int? rev,
+    String? id,
+    String? serverId,
+    String? name,
+    String? protocol,
+    String? host,
+    int? port,
+    Value<String?> username = const Value.absent(),
+    Value<String?> password = const Value.absent(),
+    Value<String?> domain = const Value.absent(),
+    bool? viewOnly,
+    bool? shared,
+    Value<String?> trustedCertSha256 = const Value.absent(),
+  }) => RemoteDesktopProfileRow(
+    updatedAt: updatedAt ?? this.updatedAt,
+    rev: rev ?? this.rev,
+    id: id ?? this.id,
+    serverId: serverId ?? this.serverId,
+    name: name ?? this.name,
+    protocol: protocol ?? this.protocol,
+    host: host ?? this.host,
+    port: port ?? this.port,
+    username: username.present ? username.value : this.username,
+    password: password.present ? password.value : this.password,
+    domain: domain.present ? domain.value : this.domain,
+    viewOnly: viewOnly ?? this.viewOnly,
+    shared: shared ?? this.shared,
+    trustedCertSha256: trustedCertSha256.present
+        ? trustedCertSha256.value
+        : this.trustedCertSha256,
+  );
+  RemoteDesktopProfileRow copyWithCompanion(
+    RemoteDesktopProfilesCompanion data,
+  ) {
+    return RemoteDesktopProfileRow(
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      rev: data.rev.present ? data.rev.value : this.rev,
+      id: data.id.present ? data.id.value : this.id,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      name: data.name.present ? data.name.value : this.name,
+      protocol: data.protocol.present ? data.protocol.value : this.protocol,
+      host: data.host.present ? data.host.value : this.host,
+      port: data.port.present ? data.port.value : this.port,
+      username: data.username.present ? data.username.value : this.username,
+      password: data.password.present ? data.password.value : this.password,
+      domain: data.domain.present ? data.domain.value : this.domain,
+      viewOnly: data.viewOnly.present ? data.viewOnly.value : this.viewOnly,
+      shared: data.shared.present ? data.shared.value : this.shared,
+      trustedCertSha256: data.trustedCertSha256.present
+          ? data.trustedCertSha256.value
+          : this.trustedCertSha256,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemoteDesktopProfileRow(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('protocol: $protocol, ')
+          ..write('host: $host, ')
+          ..write('port: $port, ')
+          ..write('username: $username, ')
+          ..write('password: $password, ')
+          ..write('domain: $domain, ')
+          ..write('viewOnly: $viewOnly, ')
+          ..write('shared: $shared, ')
+          ..write('trustedCertSha256: $trustedCertSha256')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    updatedAt,
+    rev,
+    id,
+    serverId,
+    name,
+    protocol,
+    host,
+    port,
+    username,
+    password,
+    domain,
+    viewOnly,
+    shared,
+    trustedCertSha256,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RemoteDesktopProfileRow &&
+          other.updatedAt == this.updatedAt &&
+          other.rev == this.rev &&
+          other.id == this.id &&
+          other.serverId == this.serverId &&
+          other.name == this.name &&
+          other.protocol == this.protocol &&
+          other.host == this.host &&
+          other.port == this.port &&
+          other.username == this.username &&
+          other.password == this.password &&
+          other.domain == this.domain &&
+          other.viewOnly == this.viewOnly &&
+          other.shared == this.shared &&
+          other.trustedCertSha256 == this.trustedCertSha256);
+}
+
+class RemoteDesktopProfilesCompanion
+    extends UpdateCompanion<RemoteDesktopProfileRow> {
+  final Value<int> updatedAt;
+  final Value<int> rev;
+  final Value<String> id;
+  final Value<String> serverId;
+  final Value<String> name;
+  final Value<String> protocol;
+  final Value<String> host;
+  final Value<int> port;
+  final Value<String?> username;
+  final Value<String?> password;
+  final Value<String?> domain;
+  final Value<bool> viewOnly;
+  final Value<bool> shared;
+  final Value<String?> trustedCertSha256;
+  const RemoteDesktopProfilesCompanion({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    this.id = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.protocol = const Value.absent(),
+    this.host = const Value.absent(),
+    this.port = const Value.absent(),
+    this.username = const Value.absent(),
+    this.password = const Value.absent(),
+    this.domain = const Value.absent(),
+    this.viewOnly = const Value.absent(),
+    this.shared = const Value.absent(),
+    this.trustedCertSha256 = const Value.absent(),
+  });
+  RemoteDesktopProfilesCompanion.insert({
+    this.updatedAt = const Value.absent(),
+    this.rev = const Value.absent(),
+    required String id,
+    required String serverId,
+    required String name,
+    required String protocol,
+    this.host = const Value.absent(),
+    required int port,
+    this.username = const Value.absent(),
+    this.password = const Value.absent(),
+    this.domain = const Value.absent(),
+    this.viewOnly = const Value.absent(),
+    this.shared = const Value.absent(),
+    this.trustedCertSha256 = const Value.absent(),
+  }) : id = Value(id),
+       serverId = Value(serverId),
+       name = Value(name),
+       protocol = Value(protocol),
+       port = Value(port);
+  static Insertable<RemoteDesktopProfileRow> custom({
+    Expression<int>? updatedAt,
+    Expression<int>? rev,
+    Expression<String>? id,
+    Expression<String>? serverId,
+    Expression<String>? name,
+    Expression<String>? protocol,
+    Expression<String>? host,
+    Expression<int>? port,
+    Expression<String>? username,
+    Expression<String>? password,
+    Expression<String>? domain,
+    Expression<bool>? viewOnly,
+    Expression<bool>? shared,
+    Expression<String>? trustedCertSha256,
+  }) {
+    return RawValuesInsertable({
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rev != null) 'rev': rev,
+      if (id != null) 'id': id,
+      if (serverId != null) 'server_id': serverId,
+      if (name != null) 'name': name,
+      if (protocol != null) 'protocol': protocol,
+      if (host != null) 'host': host,
+      if (port != null) 'port': port,
+      if (username != null) 'username': username,
+      if (password != null) 'password': password,
+      if (domain != null) 'domain': domain,
+      if (viewOnly != null) 'view_only': viewOnly,
+      if (shared != null) 'shared': shared,
+      if (trustedCertSha256 != null) 'trusted_cert_sha256': trustedCertSha256,
+    });
+  }
+
+  RemoteDesktopProfilesCompanion copyWith({
+    Value<int>? updatedAt,
+    Value<int>? rev,
+    Value<String>? id,
+    Value<String>? serverId,
+    Value<String>? name,
+    Value<String>? protocol,
+    Value<String>? host,
+    Value<int>? port,
+    Value<String?>? username,
+    Value<String?>? password,
+    Value<String?>? domain,
+    Value<bool>? viewOnly,
+    Value<bool>? shared,
+    Value<String?>? trustedCertSha256,
+  }) {
+    return RemoteDesktopProfilesCompanion(
+      updatedAt: updatedAt ?? this.updatedAt,
+      rev: rev ?? this.rev,
+      id: id ?? this.id,
+      serverId: serverId ?? this.serverId,
+      name: name ?? this.name,
+      protocol: protocol ?? this.protocol,
+      host: host ?? this.host,
+      port: port ?? this.port,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      domain: domain ?? this.domain,
+      viewOnly: viewOnly ?? this.viewOnly,
+      shared: shared ?? this.shared,
+      trustedCertSha256: trustedCertSha256 ?? this.trustedCertSha256,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    if (rev.present) {
+      map['rev'] = Variable<int>(rev.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (protocol.present) {
+      map['protocol'] = Variable<String>(protocol.value);
+    }
+    if (host.present) {
+      map['host'] = Variable<String>(host.value);
+    }
+    if (port.present) {
+      map['port'] = Variable<int>(port.value);
+    }
+    if (username.present) {
+      map['username'] = Variable<String>(username.value);
+    }
+    if (password.present) {
+      map['password'] = Variable<String>(password.value);
+    }
+    if (domain.present) {
+      map['domain'] = Variable<String>(domain.value);
+    }
+    if (viewOnly.present) {
+      map['view_only'] = Variable<bool>(viewOnly.value);
+    }
+    if (shared.present) {
+      map['shared'] = Variable<bool>(shared.value);
+    }
+    if (trustedCertSha256.present) {
+      map['trusted_cert_sha256'] = Variable<String>(trustedCertSha256.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemoteDesktopProfilesCompanion(')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rev: $rev, ')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('name: $name, ')
+          ..write('protocol: $protocol, ')
+          ..write('host: $host, ')
+          ..write('port: $port, ')
+          ..write('username: $username, ')
+          ..write('password: $password, ')
+          ..write('domain: $domain, ')
+          ..write('viewOnly: $viewOnly, ')
+          ..write('shared: $shared, ')
+          ..write('trustedCertSha256: $trustedCertSha256')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ContainerHostsTable extends ContainerHosts
+    with TableInfo<$ContainerHostsTable, ContainerHostRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ContainerHostsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _hostMeta = const VerificationMeta('host');
+  @override
+  late final GeneratedColumn<String> host = GeneratedColumn<String>(
+    'host',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, type, host];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'container_host';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ContainerHostRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('host')) {
+      context.handle(
+        _hostMeta,
+        host.isAcceptableOrUnknown(data['host']!, _hostMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_hostMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId, type};
+  @override
+  ContainerHostRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ContainerHostRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      host: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}host'],
+      )!,
+    );
+  }
+
+  @override
+  $ContainerHostsTable createAlias(String alias) {
+    return $ContainerHostsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ContainerHostRow extends DataClass
+    implements Insertable<ContainerHostRow> {
+  final String serverId;
+  final String type;
+  final String host;
+  const ContainerHostRow({
+    required this.serverId,
+    required this.type,
+    required this.host,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['type'] = Variable<String>(type);
+    map['host'] = Variable<String>(host);
+    return map;
+  }
+
+  ContainerHostsCompanion toCompanion(bool nullToAbsent) {
+    return ContainerHostsCompanion(
+      serverId: Value(serverId),
+      type: Value(type),
+      host: Value(host),
+    );
+  }
+
+  factory ContainerHostRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ContainerHostRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      type: serializer.fromJson<String>(json['type']),
+      host: serializer.fromJson<String>(json['host']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'type': serializer.toJson<String>(type),
+      'host': serializer.toJson<String>(host),
+    };
+  }
+
+  ContainerHostRow copyWith({String? serverId, String? type, String? host}) =>
+      ContainerHostRow(
+        serverId: serverId ?? this.serverId,
+        type: type ?? this.type,
+        host: host ?? this.host,
+      );
+  ContainerHostRow copyWithCompanion(ContainerHostsCompanion data) {
+    return ContainerHostRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      type: data.type.present ? data.type.value : this.type,
+      host: data.host.present ? data.host.value : this.host,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContainerHostRow(')
+          ..write('serverId: $serverId, ')
+          ..write('type: $type, ')
+          ..write('host: $host')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, type, host);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ContainerHostRow &&
+          other.serverId == this.serverId &&
+          other.type == this.type &&
+          other.host == this.host);
+}
+
+class ContainerHostsCompanion extends UpdateCompanion<ContainerHostRow> {
+  final Value<String> serverId;
+  final Value<String> type;
+  final Value<String> host;
+  const ContainerHostsCompanion({
+    this.serverId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.host = const Value.absent(),
+  });
+  ContainerHostsCompanion.insert({
+    required String serverId,
+    required String type,
+    required String host,
+  }) : serverId = Value(serverId),
+       type = Value(type),
+       host = Value(host);
+  static Insertable<ContainerHostRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? type,
+    Expression<String>? host,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (type != null) 'type': type,
+      if (host != null) 'host': host,
+    });
+  }
+
+  ContainerHostsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? type,
+    Value<String>? host,
+  }) {
+    return ContainerHostsCompanion(
+      serverId: serverId ?? this.serverId,
+      type: type ?? this.type,
+      host: host ?? this.host,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (host.present) {
+      map['host'] = Variable<String>(host.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContainerHostsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('type: $type, ')
+          ..write('host: $host')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ContainerRuntimesTable extends ContainerRuntimes
+    with TableInfo<$ContainerRuntimesTable, ContainerRuntimeRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ContainerRuntimesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, type];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'container_runtime';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ContainerRuntimeRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId};
+  @override
+  ContainerRuntimeRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ContainerRuntimeRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+    );
+  }
+
+  @override
+  $ContainerRuntimesTable createAlias(String alias) {
+    return $ContainerRuntimesTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ContainerRuntimeRow extends DataClass
+    implements Insertable<ContainerRuntimeRow> {
+  final String serverId;
+  final String type;
+  const ContainerRuntimeRow({required this.serverId, required this.type});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['type'] = Variable<String>(type);
+    return map;
+  }
+
+  ContainerRuntimesCompanion toCompanion(bool nullToAbsent) {
+    return ContainerRuntimesCompanion(
+      serverId: Value(serverId),
+      type: Value(type),
+    );
+  }
+
+  factory ContainerRuntimeRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ContainerRuntimeRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      type: serializer.fromJson<String>(json['type']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'type': serializer.toJson<String>(type),
+    };
+  }
+
+  ContainerRuntimeRow copyWith({String? serverId, String? type}) =>
+      ContainerRuntimeRow(
+        serverId: serverId ?? this.serverId,
+        type: type ?? this.type,
+      );
+  ContainerRuntimeRow copyWithCompanion(ContainerRuntimesCompanion data) {
+    return ContainerRuntimeRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      type: data.type.present ? data.type.value : this.type,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContainerRuntimeRow(')
+          ..write('serverId: $serverId, ')
+          ..write('type: $type')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, type);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ContainerRuntimeRow &&
+          other.serverId == this.serverId &&
+          other.type == this.type);
+}
+
+class ContainerRuntimesCompanion extends UpdateCompanion<ContainerRuntimeRow> {
+  final Value<String> serverId;
+  final Value<String> type;
+  const ContainerRuntimesCompanion({
+    this.serverId = const Value.absent(),
+    this.type = const Value.absent(),
+  });
+  ContainerRuntimesCompanion.insert({
+    required String serverId,
+    required String type,
+  }) : serverId = Value(serverId),
+       type = Value(type);
+  static Insertable<ContainerRuntimeRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? type,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (type != null) 'type': type,
+    });
+  }
+
+  ContainerRuntimesCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? type,
+  }) {
+    return ContainerRuntimesCompanion(
+      serverId: serverId ?? this.serverId,
+      type: type ?? this.type,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ContainerRuntimesCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('type: $type')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerPvesTable extends ServerPves
+    with TableInfo<$ServerPvesTable, ServerPveRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerPvesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _addrMeta = const VerificationMeta('addr');
+  @override
+  late final GeneratedColumn<String> addr = GeneratedColumn<String>(
+    'addr',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _authMeta = const VerificationMeta('auth');
+  @override
+  late final GeneratedColumn<String> auth = GeneratedColumn<String>(
+    'auth',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pwdMeta = const VerificationMeta('pwd');
+  @override
+  late final GeneratedColumn<String> pwd = GeneratedColumn<String>(
+    'pwd',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tokenIdMeta = const VerificationMeta(
+    'tokenId',
+  );
+  @override
+  late final GeneratedColumn<String> tokenId = GeneratedColumn<String>(
+    'token_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tokenSecretMeta = const VerificationMeta(
+    'tokenSecret',
+  );
+  @override
+  late final GeneratedColumn<String> tokenSecret = GeneratedColumn<String>(
+    'token_secret',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _certSha256Meta = const VerificationMeta(
+    'certSha256',
+  );
+  @override
+  late final GeneratedColumn<String> certSha256 = GeneratedColumn<String>(
+    'cert_sha256',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    serverId,
+    addr,
+    auth,
+    pwd,
+    tokenId,
+    tokenSecret,
+    certSha256,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_pve';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerPveRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('addr')) {
+      context.handle(
+        _addrMeta,
+        addr.isAcceptableOrUnknown(data['addr']!, _addrMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_addrMeta);
+    }
+    if (data.containsKey('auth')) {
+      context.handle(
+        _authMeta,
+        auth.isAcceptableOrUnknown(data['auth']!, _authMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_authMeta);
+    }
+    if (data.containsKey('pwd')) {
+      context.handle(
+        _pwdMeta,
+        pwd.isAcceptableOrUnknown(data['pwd']!, _pwdMeta),
+      );
+    }
+    if (data.containsKey('token_id')) {
+      context.handle(
+        _tokenIdMeta,
+        tokenId.isAcceptableOrUnknown(data['token_id']!, _tokenIdMeta),
+      );
+    }
+    if (data.containsKey('token_secret')) {
+      context.handle(
+        _tokenSecretMeta,
+        tokenSecret.isAcceptableOrUnknown(
+          data['token_secret']!,
+          _tokenSecretMeta,
+        ),
+      );
+    }
+    if (data.containsKey('cert_sha256')) {
+      context.handle(
+        _certSha256Meta,
+        certSha256.isAcceptableOrUnknown(data['cert_sha256']!, _certSha256Meta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId};
+  @override
+  ServerPveRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerPveRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      addr: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}addr'],
+      )!,
+      auth: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}auth'],
+      )!,
+      pwd: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pwd'],
+      ),
+      tokenId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}token_id'],
+      ),
+      tokenSecret: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}token_secret'],
+      ),
+      certSha256: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}cert_sha256'],
+      ),
+    );
+  }
+
+  @override
+  $ServerPvesTable createAlias(String alias) {
+    return $ServerPvesTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerPveRow extends DataClass implements Insertable<ServerPveRow> {
+  final String serverId;
+  final String addr;
+  final String auth;
+  final String? pwd;
+  final String? tokenId;
+  final String? tokenSecret;
+  final String? certSha256;
+  const ServerPveRow({
+    required this.serverId,
+    required this.addr,
+    required this.auth,
+    this.pwd,
+    this.tokenId,
+    this.tokenSecret,
+    this.certSha256,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['addr'] = Variable<String>(addr);
+    map['auth'] = Variable<String>(auth);
+    if (!nullToAbsent || pwd != null) {
+      map['pwd'] = Variable<String>(pwd);
+    }
+    if (!nullToAbsent || tokenId != null) {
+      map['token_id'] = Variable<String>(tokenId);
+    }
+    if (!nullToAbsent || tokenSecret != null) {
+      map['token_secret'] = Variable<String>(tokenSecret);
+    }
+    if (!nullToAbsent || certSha256 != null) {
+      map['cert_sha256'] = Variable<String>(certSha256);
+    }
+    return map;
+  }
+
+  ServerPvesCompanion toCompanion(bool nullToAbsent) {
+    return ServerPvesCompanion(
+      serverId: Value(serverId),
+      addr: Value(addr),
+      auth: Value(auth),
+      pwd: pwd == null && nullToAbsent ? const Value.absent() : Value(pwd),
+      tokenId: tokenId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tokenId),
+      tokenSecret: tokenSecret == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tokenSecret),
+      certSha256: certSha256 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(certSha256),
+    );
+  }
+
+  factory ServerPveRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerPveRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      addr: serializer.fromJson<String>(json['addr']),
+      auth: serializer.fromJson<String>(json['auth']),
+      pwd: serializer.fromJson<String?>(json['pwd']),
+      tokenId: serializer.fromJson<String?>(json['tokenId']),
+      tokenSecret: serializer.fromJson<String?>(json['tokenSecret']),
+      certSha256: serializer.fromJson<String?>(json['certSha256']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'addr': serializer.toJson<String>(addr),
+      'auth': serializer.toJson<String>(auth),
+      'pwd': serializer.toJson<String?>(pwd),
+      'tokenId': serializer.toJson<String?>(tokenId),
+      'tokenSecret': serializer.toJson<String?>(tokenSecret),
+      'certSha256': serializer.toJson<String?>(certSha256),
+    };
+  }
+
+  ServerPveRow copyWith({
+    String? serverId,
+    String? addr,
+    String? auth,
+    Value<String?> pwd = const Value.absent(),
+    Value<String?> tokenId = const Value.absent(),
+    Value<String?> tokenSecret = const Value.absent(),
+    Value<String?> certSha256 = const Value.absent(),
+  }) => ServerPveRow(
+    serverId: serverId ?? this.serverId,
+    addr: addr ?? this.addr,
+    auth: auth ?? this.auth,
+    pwd: pwd.present ? pwd.value : this.pwd,
+    tokenId: tokenId.present ? tokenId.value : this.tokenId,
+    tokenSecret: tokenSecret.present ? tokenSecret.value : this.tokenSecret,
+    certSha256: certSha256.present ? certSha256.value : this.certSha256,
+  );
+  ServerPveRow copyWithCompanion(ServerPvesCompanion data) {
+    return ServerPveRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      addr: data.addr.present ? data.addr.value : this.addr,
+      auth: data.auth.present ? data.auth.value : this.auth,
+      pwd: data.pwd.present ? data.pwd.value : this.pwd,
+      tokenId: data.tokenId.present ? data.tokenId.value : this.tokenId,
+      tokenSecret: data.tokenSecret.present
+          ? data.tokenSecret.value
+          : this.tokenSecret,
+      certSha256: data.certSha256.present
+          ? data.certSha256.value
+          : this.certSha256,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerPveRow(')
+          ..write('serverId: $serverId, ')
+          ..write('addr: $addr, ')
+          ..write('auth: $auth, ')
+          ..write('pwd: $pwd, ')
+          ..write('tokenId: $tokenId, ')
+          ..write('tokenSecret: $tokenSecret, ')
+          ..write('certSha256: $certSha256')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(serverId, addr, auth, pwd, tokenId, tokenSecret, certSha256);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerPveRow &&
+          other.serverId == this.serverId &&
+          other.addr == this.addr &&
+          other.auth == this.auth &&
+          other.pwd == this.pwd &&
+          other.tokenId == this.tokenId &&
+          other.tokenSecret == this.tokenSecret &&
+          other.certSha256 == this.certSha256);
+}
+
+class ServerPvesCompanion extends UpdateCompanion<ServerPveRow> {
+  final Value<String> serverId;
+  final Value<String> addr;
+  final Value<String> auth;
+  final Value<String?> pwd;
+  final Value<String?> tokenId;
+  final Value<String?> tokenSecret;
+  final Value<String?> certSha256;
+  const ServerPvesCompanion({
+    this.serverId = const Value.absent(),
+    this.addr = const Value.absent(),
+    this.auth = const Value.absent(),
+    this.pwd = const Value.absent(),
+    this.tokenId = const Value.absent(),
+    this.tokenSecret = const Value.absent(),
+    this.certSha256 = const Value.absent(),
+  });
+  ServerPvesCompanion.insert({
+    required String serverId,
+    required String addr,
+    required String auth,
+    this.pwd = const Value.absent(),
+    this.tokenId = const Value.absent(),
+    this.tokenSecret = const Value.absent(),
+    this.certSha256 = const Value.absent(),
+  }) : serverId = Value(serverId),
+       addr = Value(addr),
+       auth = Value(auth);
+  static Insertable<ServerPveRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? addr,
+    Expression<String>? auth,
+    Expression<String>? pwd,
+    Expression<String>? tokenId,
+    Expression<String>? tokenSecret,
+    Expression<String>? certSha256,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (addr != null) 'addr': addr,
+      if (auth != null) 'auth': auth,
+      if (pwd != null) 'pwd': pwd,
+      if (tokenId != null) 'token_id': tokenId,
+      if (tokenSecret != null) 'token_secret': tokenSecret,
+      if (certSha256 != null) 'cert_sha256': certSha256,
+    });
+  }
+
+  ServerPvesCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? addr,
+    Value<String>? auth,
+    Value<String?>? pwd,
+    Value<String?>? tokenId,
+    Value<String?>? tokenSecret,
+    Value<String?>? certSha256,
+  }) {
+    return ServerPvesCompanion(
+      serverId: serverId ?? this.serverId,
+      addr: addr ?? this.addr,
+      auth: auth ?? this.auth,
+      pwd: pwd ?? this.pwd,
+      tokenId: tokenId ?? this.tokenId,
+      tokenSecret: tokenSecret ?? this.tokenSecret,
+      certSha256: certSha256 ?? this.certSha256,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (addr.present) {
+      map['addr'] = Variable<String>(addr.value);
+    }
+    if (auth.present) {
+      map['auth'] = Variable<String>(auth.value);
+    }
+    if (pwd.present) {
+      map['pwd'] = Variable<String>(pwd.value);
+    }
+    if (tokenId.present) {
+      map['token_id'] = Variable<String>(tokenId.value);
+    }
+    if (tokenSecret.present) {
+      map['token_secret'] = Variable<String>(tokenSecret.value);
+    }
+    if (certSha256.present) {
+      map['cert_sha256'] = Variable<String>(certSha256.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerPvesCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('addr: $addr, ')
+          ..write('auth: $auth, ')
+          ..write('pwd: $pwd, ')
+          ..write('tokenId: $tokenId, ')
+          ..write('tokenSecret: $tokenSecret, ')
+          ..write('certSha256: $certSha256')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ConnStatsTable extends ConnStats
+    with TableInfo<$ConnStatsTable, ConnStatRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ConnStatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _serverNameMeta = const VerificationMeta(
+    'serverName',
+  );
+  @override
+  late final GeneratedColumn<String> serverName = GeneratedColumn<String>(
+    'server_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _timestampMeta = const VerificationMeta(
+    'timestamp',
+  );
+  @override
+  late final GeneratedColumn<int> timestamp = GeneratedColumn<int>(
+    'timestamp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _resultMeta = const VerificationMeta('result');
+  @override
+  late final GeneratedColumn<String> result = GeneratedColumn<String>(
+    'result',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _errorMessageMeta = const VerificationMeta(
+    'errorMessage',
+  );
+  @override
+  late final GeneratedColumn<String> errorMessage = GeneratedColumn<String>(
+    'error_message',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _durationMsMeta = const VerificationMeta(
+    'durationMs',
+  );
+  @override
+  late final GeneratedColumn<int> durationMs = GeneratedColumn<int>(
+    'duration_ms',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    serverId,
+    serverName,
+    timestamp,
+    result,
+    errorMessage,
+    durationMs,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'conn_stat';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ConnStatRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('server_name')) {
+      context.handle(
+        _serverNameMeta,
+        serverName.isAcceptableOrUnknown(data['server_name']!, _serverNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverNameMeta);
+    }
+    if (data.containsKey('timestamp')) {
+      context.handle(
+        _timestampMeta,
+        timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_timestampMeta);
+    }
+    if (data.containsKey('result')) {
+      context.handle(
+        _resultMeta,
+        result.isAcceptableOrUnknown(data['result']!, _resultMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_resultMeta);
+    }
+    if (data.containsKey('error_message')) {
+      context.handle(
+        _errorMessageMeta,
+        errorMessage.isAcceptableOrUnknown(
+          data['error_message']!,
+          _errorMessageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('duration_ms')) {
+      context.handle(
+        _durationMsMeta,
+        durationMs.isAcceptableOrUnknown(data['duration_ms']!, _durationMsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_durationMsMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ConnStatRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ConnStatRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      serverName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_name'],
+      )!,
+      timestamp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}timestamp'],
+      )!,
+      result: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}result'],
+      )!,
+      errorMessage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}error_message'],
+      )!,
+      durationMs: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}duration_ms'],
+      )!,
+    );
+  }
+
+  @override
+  $ConnStatsTable createAlias(String alias) {
+    return $ConnStatsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ConnStatRow extends DataClass implements Insertable<ConnStatRow> {
+  final String id;
+  final String serverId;
+  final String serverName;
+  final int timestamp;
+  final String result;
+  final String errorMessage;
+  final int durationMs;
+  const ConnStatRow({
+    required this.id,
+    required this.serverId,
+    required this.serverName,
+    required this.timestamp,
+    required this.result,
+    required this.errorMessage,
+    required this.durationMs,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['server_id'] = Variable<String>(serverId);
+    map['server_name'] = Variable<String>(serverName);
+    map['timestamp'] = Variable<int>(timestamp);
+    map['result'] = Variable<String>(result);
+    map['error_message'] = Variable<String>(errorMessage);
+    map['duration_ms'] = Variable<int>(durationMs);
+    return map;
+  }
+
+  ConnStatsCompanion toCompanion(bool nullToAbsent) {
+    return ConnStatsCompanion(
+      id: Value(id),
+      serverId: Value(serverId),
+      serverName: Value(serverName),
+      timestamp: Value(timestamp),
+      result: Value(result),
+      errorMessage: Value(errorMessage),
+      durationMs: Value(durationMs),
+    );
+  }
+
+  factory ConnStatRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ConnStatRow(
+      id: serializer.fromJson<String>(json['id']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+      serverName: serializer.fromJson<String>(json['serverName']),
+      timestamp: serializer.fromJson<int>(json['timestamp']),
+      result: serializer.fromJson<String>(json['result']),
+      errorMessage: serializer.fromJson<String>(json['errorMessage']),
+      durationMs: serializer.fromJson<int>(json['durationMs']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'serverId': serializer.toJson<String>(serverId),
+      'serverName': serializer.toJson<String>(serverName),
+      'timestamp': serializer.toJson<int>(timestamp),
+      'result': serializer.toJson<String>(result),
+      'errorMessage': serializer.toJson<String>(errorMessage),
+      'durationMs': serializer.toJson<int>(durationMs),
+    };
+  }
+
+  ConnStatRow copyWith({
+    String? id,
+    String? serverId,
+    String? serverName,
+    int? timestamp,
+    String? result,
+    String? errorMessage,
+    int? durationMs,
+  }) => ConnStatRow(
+    id: id ?? this.id,
+    serverId: serverId ?? this.serverId,
+    serverName: serverName ?? this.serverName,
+    timestamp: timestamp ?? this.timestamp,
+    result: result ?? this.result,
+    errorMessage: errorMessage ?? this.errorMessage,
+    durationMs: durationMs ?? this.durationMs,
+  );
+  ConnStatRow copyWithCompanion(ConnStatsCompanion data) {
+    return ConnStatRow(
+      id: data.id.present ? data.id.value : this.id,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      serverName: data.serverName.present
+          ? data.serverName.value
+          : this.serverName,
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      result: data.result.present ? data.result.value : this.result,
+      errorMessage: data.errorMessage.present
+          ? data.errorMessage.value
+          : this.errorMessage,
+      durationMs: data.durationMs.present
+          ? data.durationMs.value
+          : this.durationMs,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ConnStatRow(')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('serverName: $serverName, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('result: $result, ')
+          ..write('errorMessage: $errorMessage, ')
+          ..write('durationMs: $durationMs')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    serverId,
+    serverName,
+    timestamp,
+    result,
+    errorMessage,
+    durationMs,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ConnStatRow &&
+          other.id == this.id &&
+          other.serverId == this.serverId &&
+          other.serverName == this.serverName &&
+          other.timestamp == this.timestamp &&
+          other.result == this.result &&
+          other.errorMessage == this.errorMessage &&
+          other.durationMs == this.durationMs);
+}
+
+class ConnStatsCompanion extends UpdateCompanion<ConnStatRow> {
+  final Value<String> id;
+  final Value<String> serverId;
+  final Value<String> serverName;
+  final Value<int> timestamp;
+  final Value<String> result;
+  final Value<String> errorMessage;
+  final Value<int> durationMs;
+  const ConnStatsCompanion({
+    this.id = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.serverName = const Value.absent(),
+    this.timestamp = const Value.absent(),
+    this.result = const Value.absent(),
+    this.errorMessage = const Value.absent(),
+    this.durationMs = const Value.absent(),
+  });
+  ConnStatsCompanion.insert({
+    required String id,
+    required String serverId,
+    required String serverName,
+    required int timestamp,
+    required String result,
+    this.errorMessage = const Value.absent(),
+    required int durationMs,
+  }) : id = Value(id),
+       serverId = Value(serverId),
+       serverName = Value(serverName),
+       timestamp = Value(timestamp),
+       result = Value(result),
+       durationMs = Value(durationMs);
+  static Insertable<ConnStatRow> custom({
+    Expression<String>? id,
+    Expression<String>? serverId,
+    Expression<String>? serverName,
+    Expression<int>? timestamp,
+    Expression<String>? result,
+    Expression<String>? errorMessage,
+    Expression<int>? durationMs,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (serverId != null) 'server_id': serverId,
+      if (serverName != null) 'server_name': serverName,
+      if (timestamp != null) 'timestamp': timestamp,
+      if (result != null) 'result': result,
+      if (errorMessage != null) 'error_message': errorMessage,
+      if (durationMs != null) 'duration_ms': durationMs,
+    });
+  }
+
+  ConnStatsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? serverId,
+    Value<String>? serverName,
+    Value<int>? timestamp,
+    Value<String>? result,
+    Value<String>? errorMessage,
+    Value<int>? durationMs,
+  }) {
+    return ConnStatsCompanion(
+      id: id ?? this.id,
+      serverId: serverId ?? this.serverId,
+      serverName: serverName ?? this.serverName,
+      timestamp: timestamp ?? this.timestamp,
+      result: result ?? this.result,
+      errorMessage: errorMessage ?? this.errorMessage,
+      durationMs: durationMs ?? this.durationMs,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (serverName.present) {
+      map['server_name'] = Variable<String>(serverName.value);
+    }
+    if (timestamp.present) {
+      map['timestamp'] = Variable<int>(timestamp.value);
+    }
+    if (result.present) {
+      map['result'] = Variable<String>(result.value);
+    }
+    if (errorMessage.present) {
+      map['error_message'] = Variable<String>(errorMessage.value);
+    }
+    if (durationMs.present) {
+      map['duration_ms'] = Variable<int>(durationMs.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ConnStatsCompanion(')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('serverName: $serverName, ')
+          ..write('timestamp: $timestamp, ')
+          ..write('result: $result, ')
+          ..write('errorMessage: $errorMessage, ')
+          ..write('durationMs: $durationMs')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ServerDistsTable extends ServerDists
+    with TableInfo<$ServerDistsTable, ServerDistRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ServerDistsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _distMeta = const VerificationMeta('dist');
+  @override
+  late final GeneratedColumn<String> dist = GeneratedColumn<String>(
+    'dist',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [serverId, dist, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'server_dist';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ServerDistRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('dist')) {
+      context.handle(
+        _distMeta,
+        dist.isAcceptableOrUnknown(data['dist']!, _distMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_distMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {serverId};
+  @override
+  ServerDistRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ServerDistRow(
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      dist: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}dist'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ServerDistsTable createAlias(String alias) {
+    return $ServerDistsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class ServerDistRow extends DataClass implements Insertable<ServerDistRow> {
+  final String serverId;
+
+  /// A `Dist` name. By name, never by index — an index silently changes
+  /// meaning when a case is inserted, and this outlives the build that wrote
+  /// it. A name no build knows reads back as null, which draws the fallback.
+  final String dist;
+
+  /// When it was last seen, so a reading can be aged out if that is ever
+  /// wanted. Nothing reads it yet.
+  final int updatedAt;
+  const ServerDistRow({
+    required this.serverId,
+    required this.dist,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['server_id'] = Variable<String>(serverId);
+    map['dist'] = Variable<String>(dist);
+    map['updated_at'] = Variable<int>(updatedAt);
+    return map;
+  }
+
+  ServerDistsCompanion toCompanion(bool nullToAbsent) {
+    return ServerDistsCompanion(
+      serverId: Value(serverId),
+      dist: Value(dist),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory ServerDistRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ServerDistRow(
+      serverId: serializer.fromJson<String>(json['serverId']),
+      dist: serializer.fromJson<String>(json['dist']),
+      updatedAt: serializer.fromJson<int>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'serverId': serializer.toJson<String>(serverId),
+      'dist': serializer.toJson<String>(dist),
+      'updatedAt': serializer.toJson<int>(updatedAt),
+    };
+  }
+
+  ServerDistRow copyWith({String? serverId, String? dist, int? updatedAt}) =>
+      ServerDistRow(
+        serverId: serverId ?? this.serverId,
+        dist: dist ?? this.dist,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  ServerDistRow copyWithCompanion(ServerDistsCompanion data) {
+    return ServerDistRow(
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      dist: data.dist.present ? data.dist.value : this.dist,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerDistRow(')
+          ..write('serverId: $serverId, ')
+          ..write('dist: $dist, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(serverId, dist, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ServerDistRow &&
+          other.serverId == this.serverId &&
+          other.dist == this.dist &&
+          other.updatedAt == this.updatedAt);
+}
+
+class ServerDistsCompanion extends UpdateCompanion<ServerDistRow> {
+  final Value<String> serverId;
+  final Value<String> dist;
+  final Value<int> updatedAt;
+  const ServerDistsCompanion({
+    this.serverId = const Value.absent(),
+    this.dist = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  ServerDistsCompanion.insert({
+    required String serverId,
+    required String dist,
+    required int updatedAt,
+  }) : serverId = Value(serverId),
+       dist = Value(dist),
+       updatedAt = Value(updatedAt);
+  static Insertable<ServerDistRow> custom({
+    Expression<String>? serverId,
+    Expression<String>? dist,
+    Expression<int>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (serverId != null) 'server_id': serverId,
+      if (dist != null) 'dist': dist,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  ServerDistsCompanion copyWith({
+    Value<String>? serverId,
+    Value<String>? dist,
+    Value<int>? updatedAt,
+  }) {
+    return ServerDistsCompanion(
+      serverId: serverId ?? this.serverId,
+      dist: dist ?? this.dist,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (dist.present) {
+      map['dist'] = Variable<String>(dist.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<int>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ServerDistsCompanion(')
+          ..write('serverId: $serverId, ')
+          ..write('dist: $dist, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $BenchmarkRunsTable extends BenchmarkRuns
+    with TableInfo<$BenchmarkRunsTable, BenchmarkRunRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BenchmarkRunsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _serverIdMeta = const VerificationMeta(
+    'serverId',
+  );
+  @override
+  late final GeneratedColumn<String> serverId = GeneratedColumn<String>(
+    'server_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES server (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _startedAtMeta = const VerificationMeta(
+    'startedAt',
+  );
+  @override
+  late final GeneratedColumn<int> startedAt = GeneratedColumn<int>(
+    'started_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _finishedAtMeta = const VerificationMeta(
+    'finishedAt',
+  );
+  @override
+  late final GeneratedColumn<int> finishedAt = GeneratedColumn<int>(
+    'finished_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _optionsMeta = const VerificationMeta(
+    'options',
+  );
+  @override
+  late final GeneratedColumn<String> options = GeneratedColumn<String>(
+    'options',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _runDirMeta = const VerificationMeta('runDir');
+  @override
+  late final GeneratedColumn<String> runDir = GeneratedColumn<String>(
+    'run_dir',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _resultJsonMeta = const VerificationMeta(
+    'resultJson',
+  );
+  @override
+  late final GeneratedColumn<String> resultJson = GeneratedColumn<String>(
+    'result_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _logMeta = const VerificationMeta('log');
+  @override
+  late final GeneratedColumn<String> log = GeneratedColumn<String>(
+    'log',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _exitCodeMeta = const VerificationMeta(
+    'exitCode',
+  );
+  @override
+  late final GeneratedColumn<int> exitCode = GeneratedColumn<int>(
+    'exit_code',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _errorMeta = const VerificationMeta('error');
+  @override
+  late final GeneratedColumn<String> error = GeneratedColumn<String>(
+    'error',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    serverId,
+    startedAt,
+    finishedAt,
+    status,
+    options,
+    runDir,
+    resultJson,
+    log,
+    exitCode,
+    error,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'benchmark_run';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BenchmarkRunRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('server_id')) {
+      context.handle(
+        _serverIdMeta,
+        serverId.isAcceptableOrUnknown(data['server_id']!, _serverIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_serverIdMeta);
+    }
+    if (data.containsKey('started_at')) {
+      context.handle(
+        _startedAtMeta,
+        startedAt.isAcceptableOrUnknown(data['started_at']!, _startedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startedAtMeta);
+    }
+    if (data.containsKey('finished_at')) {
+      context.handle(
+        _finishedAtMeta,
+        finishedAt.isAcceptableOrUnknown(data['finished_at']!, _finishedAtMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('options')) {
+      context.handle(
+        _optionsMeta,
+        options.isAcceptableOrUnknown(data['options']!, _optionsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_optionsMeta);
+    }
+    if (data.containsKey('run_dir')) {
+      context.handle(
+        _runDirMeta,
+        runDir.isAcceptableOrUnknown(data['run_dir']!, _runDirMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_runDirMeta);
+    }
+    if (data.containsKey('result_json')) {
+      context.handle(
+        _resultJsonMeta,
+        resultJson.isAcceptableOrUnknown(data['result_json']!, _resultJsonMeta),
+      );
+    }
+    if (data.containsKey('log')) {
+      context.handle(
+        _logMeta,
+        log.isAcceptableOrUnknown(data['log']!, _logMeta),
+      );
+    }
+    if (data.containsKey('exit_code')) {
+      context.handle(
+        _exitCodeMeta,
+        exitCode.isAcceptableOrUnknown(data['exit_code']!, _exitCodeMeta),
+      );
+    }
+    if (data.containsKey('error')) {
+      context.handle(
+        _errorMeta,
+        error.isAcceptableOrUnknown(data['error']!, _errorMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BenchmarkRunRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BenchmarkRunRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      serverId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}server_id'],
+      )!,
+      startedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}started_at'],
+      )!,
+      finishedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}finished_at'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      options: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}options'],
+      )!,
+      runDir: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}run_dir'],
+      )!,
+      resultJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}result_json'],
+      ),
+      log: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}log'],
+      )!,
+      exitCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}exit_code'],
+      ),
+      error: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}error'],
+      )!,
+    );
+  }
+
+  @override
+  $BenchmarkRunsTable createAlias(String alias) {
+    return $BenchmarkRunsTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class BenchmarkRunRow extends DataClass implements Insertable<BenchmarkRunRow> {
+  final String id;
+  final String serverId;
+  final int startedAt;
+  final int? finishedAt;
+
+  /// A `BenchmarkStatus` name — by name, never by index, for `server_dist`'s
+  /// reason: these rows outlive the build that wrote them.
+  final String status;
+
+  /// [YabsOptions] as JSON.
+  final String options;
+
+  /// Where the run lives on the far side, so it can be polled, cancelled and
+  /// cleaned up by a later launch of the app.
+  final String runDir;
+
+  /// yabs' `-w` output, verbatim. Null until the run produced one.
+  final String? resultJson;
+
+  /// What the run printed. Kept because it is the only record of a phase yabs
+  /// skipped and why — "less than 2GB of space available" appears here and
+  /// nowhere in the JSON.
+  final String log;
+  final int? exitCode;
+  final String error;
+  const BenchmarkRunRow({
+    required this.id,
+    required this.serverId,
+    required this.startedAt,
+    this.finishedAt,
+    required this.status,
+    required this.options,
+    required this.runDir,
+    this.resultJson,
+    required this.log,
+    this.exitCode,
+    required this.error,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['server_id'] = Variable<String>(serverId);
+    map['started_at'] = Variable<int>(startedAt);
+    if (!nullToAbsent || finishedAt != null) {
+      map['finished_at'] = Variable<int>(finishedAt);
+    }
+    map['status'] = Variable<String>(status);
+    map['options'] = Variable<String>(options);
+    map['run_dir'] = Variable<String>(runDir);
+    if (!nullToAbsent || resultJson != null) {
+      map['result_json'] = Variable<String>(resultJson);
+    }
+    map['log'] = Variable<String>(log);
+    if (!nullToAbsent || exitCode != null) {
+      map['exit_code'] = Variable<int>(exitCode);
+    }
+    map['error'] = Variable<String>(error);
+    return map;
+  }
+
+  BenchmarkRunsCompanion toCompanion(bool nullToAbsent) {
+    return BenchmarkRunsCompanion(
+      id: Value(id),
+      serverId: Value(serverId),
+      startedAt: Value(startedAt),
+      finishedAt: finishedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(finishedAt),
+      status: Value(status),
+      options: Value(options),
+      runDir: Value(runDir),
+      resultJson: resultJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resultJson),
+      log: Value(log),
+      exitCode: exitCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exitCode),
+      error: Value(error),
+    );
+  }
+
+  factory BenchmarkRunRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BenchmarkRunRow(
+      id: serializer.fromJson<String>(json['id']),
+      serverId: serializer.fromJson<String>(json['serverId']),
+      startedAt: serializer.fromJson<int>(json['startedAt']),
+      finishedAt: serializer.fromJson<int?>(json['finishedAt']),
+      status: serializer.fromJson<String>(json['status']),
+      options: serializer.fromJson<String>(json['options']),
+      runDir: serializer.fromJson<String>(json['runDir']),
+      resultJson: serializer.fromJson<String?>(json['resultJson']),
+      log: serializer.fromJson<String>(json['log']),
+      exitCode: serializer.fromJson<int?>(json['exitCode']),
+      error: serializer.fromJson<String>(json['error']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'serverId': serializer.toJson<String>(serverId),
+      'startedAt': serializer.toJson<int>(startedAt),
+      'finishedAt': serializer.toJson<int?>(finishedAt),
+      'status': serializer.toJson<String>(status),
+      'options': serializer.toJson<String>(options),
+      'runDir': serializer.toJson<String>(runDir),
+      'resultJson': serializer.toJson<String?>(resultJson),
+      'log': serializer.toJson<String>(log),
+      'exitCode': serializer.toJson<int?>(exitCode),
+      'error': serializer.toJson<String>(error),
+    };
+  }
+
+  BenchmarkRunRow copyWith({
+    String? id,
+    String? serverId,
+    int? startedAt,
+    Value<int?> finishedAt = const Value.absent(),
+    String? status,
+    String? options,
+    String? runDir,
+    Value<String?> resultJson = const Value.absent(),
+    String? log,
+    Value<int?> exitCode = const Value.absent(),
+    String? error,
+  }) => BenchmarkRunRow(
+    id: id ?? this.id,
+    serverId: serverId ?? this.serverId,
+    startedAt: startedAt ?? this.startedAt,
+    finishedAt: finishedAt.present ? finishedAt.value : this.finishedAt,
+    status: status ?? this.status,
+    options: options ?? this.options,
+    runDir: runDir ?? this.runDir,
+    resultJson: resultJson.present ? resultJson.value : this.resultJson,
+    log: log ?? this.log,
+    exitCode: exitCode.present ? exitCode.value : this.exitCode,
+    error: error ?? this.error,
+  );
+  BenchmarkRunRow copyWithCompanion(BenchmarkRunsCompanion data) {
+    return BenchmarkRunRow(
+      id: data.id.present ? data.id.value : this.id,
+      serverId: data.serverId.present ? data.serverId.value : this.serverId,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      finishedAt: data.finishedAt.present
+          ? data.finishedAt.value
+          : this.finishedAt,
+      status: data.status.present ? data.status.value : this.status,
+      options: data.options.present ? data.options.value : this.options,
+      runDir: data.runDir.present ? data.runDir.value : this.runDir,
+      resultJson: data.resultJson.present
+          ? data.resultJson.value
+          : this.resultJson,
+      log: data.log.present ? data.log.value : this.log,
+      exitCode: data.exitCode.present ? data.exitCode.value : this.exitCode,
+      error: data.error.present ? data.error.value : this.error,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BenchmarkRunRow(')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('finishedAt: $finishedAt, ')
+          ..write('status: $status, ')
+          ..write('options: $options, ')
+          ..write('runDir: $runDir, ')
+          ..write('resultJson: $resultJson, ')
+          ..write('log: $log, ')
+          ..write('exitCode: $exitCode, ')
+          ..write('error: $error')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    serverId,
+    startedAt,
+    finishedAt,
+    status,
+    options,
+    runDir,
+    resultJson,
+    log,
+    exitCode,
+    error,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BenchmarkRunRow &&
+          other.id == this.id &&
+          other.serverId == this.serverId &&
+          other.startedAt == this.startedAt &&
+          other.finishedAt == this.finishedAt &&
+          other.status == this.status &&
+          other.options == this.options &&
+          other.runDir == this.runDir &&
+          other.resultJson == this.resultJson &&
+          other.log == this.log &&
+          other.exitCode == this.exitCode &&
+          other.error == this.error);
+}
+
+class BenchmarkRunsCompanion extends UpdateCompanion<BenchmarkRunRow> {
+  final Value<String> id;
+  final Value<String> serverId;
+  final Value<int> startedAt;
+  final Value<int?> finishedAt;
+  final Value<String> status;
+  final Value<String> options;
+  final Value<String> runDir;
+  final Value<String?> resultJson;
+  final Value<String> log;
+  final Value<int?> exitCode;
+  final Value<String> error;
+  const BenchmarkRunsCompanion({
+    this.id = const Value.absent(),
+    this.serverId = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.finishedAt = const Value.absent(),
+    this.status = const Value.absent(),
+    this.options = const Value.absent(),
+    this.runDir = const Value.absent(),
+    this.resultJson = const Value.absent(),
+    this.log = const Value.absent(),
+    this.exitCode = const Value.absent(),
+    this.error = const Value.absent(),
+  });
+  BenchmarkRunsCompanion.insert({
+    required String id,
+    required String serverId,
+    required int startedAt,
+    this.finishedAt = const Value.absent(),
+    required String status,
+    required String options,
+    required String runDir,
+    this.resultJson = const Value.absent(),
+    this.log = const Value.absent(),
+    this.exitCode = const Value.absent(),
+    this.error = const Value.absent(),
+  }) : id = Value(id),
+       serverId = Value(serverId),
+       startedAt = Value(startedAt),
+       status = Value(status),
+       options = Value(options),
+       runDir = Value(runDir);
+  static Insertable<BenchmarkRunRow> custom({
+    Expression<String>? id,
+    Expression<String>? serverId,
+    Expression<int>? startedAt,
+    Expression<int>? finishedAt,
+    Expression<String>? status,
+    Expression<String>? options,
+    Expression<String>? runDir,
+    Expression<String>? resultJson,
+    Expression<String>? log,
+    Expression<int>? exitCode,
+    Expression<String>? error,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (serverId != null) 'server_id': serverId,
+      if (startedAt != null) 'started_at': startedAt,
+      if (finishedAt != null) 'finished_at': finishedAt,
+      if (status != null) 'status': status,
+      if (options != null) 'options': options,
+      if (runDir != null) 'run_dir': runDir,
+      if (resultJson != null) 'result_json': resultJson,
+      if (log != null) 'log': log,
+      if (exitCode != null) 'exit_code': exitCode,
+      if (error != null) 'error': error,
+    });
+  }
+
+  BenchmarkRunsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? serverId,
+    Value<int>? startedAt,
+    Value<int?>? finishedAt,
+    Value<String>? status,
+    Value<String>? options,
+    Value<String>? runDir,
+    Value<String?>? resultJson,
+    Value<String>? log,
+    Value<int?>? exitCode,
+    Value<String>? error,
+  }) {
+    return BenchmarkRunsCompanion(
+      id: id ?? this.id,
+      serverId: serverId ?? this.serverId,
+      startedAt: startedAt ?? this.startedAt,
+      finishedAt: finishedAt ?? this.finishedAt,
+      status: status ?? this.status,
+      options: options ?? this.options,
+      runDir: runDir ?? this.runDir,
+      resultJson: resultJson ?? this.resultJson,
+      log: log ?? this.log,
+      exitCode: exitCode ?? this.exitCode,
+      error: error ?? this.error,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (serverId.present) {
+      map['server_id'] = Variable<String>(serverId.value);
+    }
+    if (startedAt.present) {
+      map['started_at'] = Variable<int>(startedAt.value);
+    }
+    if (finishedAt.present) {
+      map['finished_at'] = Variable<int>(finishedAt.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (options.present) {
+      map['options'] = Variable<String>(options.value);
+    }
+    if (runDir.present) {
+      map['run_dir'] = Variable<String>(runDir.value);
+    }
+    if (resultJson.present) {
+      map['result_json'] = Variable<String>(resultJson.value);
+    }
+    if (log.present) {
+      map['log'] = Variable<String>(log.value);
+    }
+    if (exitCode.present) {
+      map['exit_code'] = Variable<int>(exitCode.value);
+    }
+    if (error.present) {
+      map['error'] = Variable<String>(error.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BenchmarkRunsCompanion(')
+          ..write('id: $id, ')
+          ..write('serverId: $serverId, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('finishedAt: $finishedAt, ')
+          ..write('status: $status, ')
+          ..write('options: $options, ')
+          ..write('runDir: $runDir, ')
+          ..write('resultJson: $resultJson, ')
+          ..write('log: $log, ')
+          ..write('exitCode: $exitCode, ')
+          ..write('error: $error')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TombstonesTable extends Tombstones
+    with TableInfo<$TombstonesTable, TombstoneRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TombstonesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _tblMeta = const VerificationMeta('tbl');
+  @override
+  late final GeneratedColumn<String> tbl = GeneratedColumn<String>(
+    'tbl',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rowIdMeta = const VerificationMeta('rowId');
+  @override
+  late final GeneratedColumn<String> rowId = GeneratedColumn<String>(
+    'row_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<int> deletedAt = GeneratedColumn<int>(
+    'deleted_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [tbl, rowId, deletedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tombstone';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TombstoneRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('tbl')) {
+      context.handle(
+        _tblMeta,
+        tbl.isAcceptableOrUnknown(data['tbl']!, _tblMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tblMeta);
+    }
+    if (data.containsKey('row_id')) {
+      context.handle(
+        _rowIdMeta,
+        rowId.isAcceptableOrUnknown(data['row_id']!, _rowIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rowIdMeta);
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deletedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tbl, rowId};
+  @override
+  TombstoneRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TombstoneRow(
+      tbl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tbl'],
+      )!,
+      rowId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}row_id'],
+      )!,
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deleted_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TombstonesTable createAlias(String alias) {
+    return $TombstonesTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class TombstoneRow extends DataClass implements Insertable<TombstoneRow> {
+  final String tbl;
+  final String rowId;
+  final int deletedAt;
+  const TombstoneRow({
+    required this.tbl,
+    required this.rowId,
+    required this.deletedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tbl'] = Variable<String>(tbl);
+    map['row_id'] = Variable<String>(rowId);
+    map['deleted_at'] = Variable<int>(deletedAt);
+    return map;
+  }
+
+  TombstonesCompanion toCompanion(bool nullToAbsent) {
+    return TombstonesCompanion(
+      tbl: Value(tbl),
+      rowId: Value(rowId),
+      deletedAt: Value(deletedAt),
+    );
+  }
+
+  factory TombstoneRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TombstoneRow(
+      tbl: serializer.fromJson<String>(json['tbl']),
+      rowId: serializer.fromJson<String>(json['rowId']),
+      deletedAt: serializer.fromJson<int>(json['deletedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tbl': serializer.toJson<String>(tbl),
+      'rowId': serializer.toJson<String>(rowId),
+      'deletedAt': serializer.toJson<int>(deletedAt),
+    };
+  }
+
+  TombstoneRow copyWith({String? tbl, String? rowId, int? deletedAt}) =>
+      TombstoneRow(
+        tbl: tbl ?? this.tbl,
+        rowId: rowId ?? this.rowId,
+        deletedAt: deletedAt ?? this.deletedAt,
+      );
+  TombstoneRow copyWithCompanion(TombstonesCompanion data) {
+    return TombstoneRow(
+      tbl: data.tbl.present ? data.tbl.value : this.tbl,
+      rowId: data.rowId.present ? data.rowId.value : this.rowId,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TombstoneRow(')
+          ..write('tbl: $tbl, ')
+          ..write('rowId: $rowId, ')
+          ..write('deletedAt: $deletedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(tbl, rowId, deletedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TombstoneRow &&
+          other.tbl == this.tbl &&
+          other.rowId == this.rowId &&
+          other.deletedAt == this.deletedAt);
+}
+
+class TombstonesCompanion extends UpdateCompanion<TombstoneRow> {
+  final Value<String> tbl;
+  final Value<String> rowId;
+  final Value<int> deletedAt;
+  const TombstonesCompanion({
+    this.tbl = const Value.absent(),
+    this.rowId = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+  });
+  TombstonesCompanion.insert({
+    required String tbl,
+    required String rowId,
+    required int deletedAt,
+  }) : tbl = Value(tbl),
+       rowId = Value(rowId),
+       deletedAt = Value(deletedAt);
+  static Insertable<TombstoneRow> custom({
+    Expression<String>? tbl,
+    Expression<String>? rowId,
+    Expression<int>? deletedAt,
+  }) {
+    return RawValuesInsertable({
+      if (tbl != null) 'tbl': tbl,
+      if (rowId != null) 'row_id': rowId,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+    });
+  }
+
+  TombstonesCompanion copyWith({
+    Value<String>? tbl,
+    Value<String>? rowId,
+    Value<int>? deletedAt,
+  }) {
+    return TombstonesCompanion(
+      tbl: tbl ?? this.tbl,
+      rowId: rowId ?? this.rowId,
+      deletedAt: deletedAt ?? this.deletedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tbl.present) {
+      map['tbl'] = Variable<String>(tbl.value);
+    }
+    if (rowId.present) {
+      map['row_id'] = Variable<String>(rowId.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<int>(deletedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TombstonesCompanion(')
+          ..write('tbl: $tbl, ')
+          ..write('rowId: $rowId, ')
+          ..write('deletedAt: $deletedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SyncStatesTable extends SyncStates
+    with TableInfo<$SyncStatesTable, SyncStateRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SyncStatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _kMeta = const VerificationMeta('k');
+  @override
+  late final GeneratedColumn<String> k = GeneratedColumn<String>(
+    'k',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _vMeta = const VerificationMeta('v');
+  @override
+  late final GeneratedColumn<String> v = GeneratedColumn<String>(
+    'v',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [k, v];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'sync_state';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SyncStateRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('k')) {
+      context.handle(_kMeta, k.isAcceptableOrUnknown(data['k']!, _kMeta));
+    } else if (isInserting) {
+      context.missing(_kMeta);
+    }
+    if (data.containsKey('v')) {
+      context.handle(_vMeta, v.isAcceptableOrUnknown(data['v']!, _vMeta));
+    } else if (isInserting) {
+      context.missing(_vMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {k};
+  @override
+  SyncStateRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SyncStateRow(
+      k: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}k'],
+      )!,
+      v: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}v'],
+      )!,
+    );
+  }
+
+  @override
+  $SyncStatesTable createAlias(String alias) {
+    return $SyncStatesTable(attachedDatabase, alias);
+  }
+
+  @override
+  bool get withoutRowId => true;
+}
+
+class SyncStateRow extends DataClass implements Insertable<SyncStateRow> {
+  final String k;
+  final String v;
+  const SyncStateRow({required this.k, required this.v});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['k'] = Variable<String>(k);
+    map['v'] = Variable<String>(v);
+    return map;
+  }
+
+  SyncStatesCompanion toCompanion(bool nullToAbsent) {
+    return SyncStatesCompanion(k: Value(k), v: Value(v));
+  }
+
+  factory SyncStateRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SyncStateRow(
+      k: serializer.fromJson<String>(json['k']),
+      v: serializer.fromJson<String>(json['v']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'k': serializer.toJson<String>(k),
+      'v': serializer.toJson<String>(v),
+    };
+  }
+
+  SyncStateRow copyWith({String? k, String? v}) =>
+      SyncStateRow(k: k ?? this.k, v: v ?? this.v);
+  SyncStateRow copyWithCompanion(SyncStatesCompanion data) {
+    return SyncStateRow(
+      k: data.k.present ? data.k.value : this.k,
+      v: data.v.present ? data.v.value : this.v,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SyncStateRow(')
+          ..write('k: $k, ')
+          ..write('v: $v')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(k, v);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SyncStateRow && other.k == this.k && other.v == this.v);
+}
+
+class SyncStatesCompanion extends UpdateCompanion<SyncStateRow> {
+  final Value<String> k;
+  final Value<String> v;
+  const SyncStatesCompanion({
+    this.k = const Value.absent(),
+    this.v = const Value.absent(),
+  });
+  SyncStatesCompanion.insert({required String k, required String v})
+    : k = Value(k),
+      v = Value(v);
+  static Insertable<SyncStateRow> custom({
+    Expression<String>? k,
+    Expression<String>? v,
+  }) {
+    return RawValuesInsertable({if (k != null) 'k': k, if (v != null) 'v': v});
+  }
+
+  SyncStatesCompanion copyWith({Value<String>? k, Value<String>? v}) {
+    return SyncStatesCompanion(k: k ?? this.k, v: v ?? this.v);
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (k.present) {
+      map['k'] = Variable<String>(k.value);
+    }
+    if (v.present) {
+      map['v'] = Variable<String>(v.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SyncStatesCompanion(')
+          ..write('k: $k, ')
+          ..write('v: $v')
+          ..write(')'))
+        .toString();
+  }
+}
+
+abstract class _$AppDb extends GeneratedDatabase {
+  _$AppDb(QueryExecutor e) : super(e);
+  $AppDbManager get managers => $AppDbManager(this);
+  late final $PrivateKeysTable privateKeys = $PrivateKeysTable(this);
+  late final $BmcCredentialsTable bmcCredentials = $BmcCredentialsTable(this);
+  late final $ServersTable servers = $ServersTable(this);
+  late final $ServerTagsTable serverTags = $ServerTagsTable(this);
+  late final $ServerEnvsTable serverEnvs = $ServerEnvsTable(this);
+  late final $ServerJumpsTable serverJumps = $ServerJumpsTable(this);
+  late final $ServerDisabledCmdsTable serverDisabledCmds =
+      $ServerDisabledCmdsTable(this);
+  late final $ServerCustomCmdsTable serverCustomCmds = $ServerCustomCmdsTable(
+    this,
+  );
+  late final $KnownHostsTable knownHosts = $KnownHostsTable(this);
+  late final $SnippetsTable snippets = $SnippetsTable(this);
+  late final $SnippetTagsTable snippetTags = $SnippetTagsTable(this);
+  late final $SnippetAutoRunOnTable snippetAutoRunOn = $SnippetAutoRunOnTable(
+    this,
+  );
+  late final $PortForwardsTable portForwards = $PortForwardsTable(this);
+  late final $RemoteDesktopProfilesTable remoteDesktopProfiles =
+      $RemoteDesktopProfilesTable(this);
+  late final $ContainerHostsTable containerHosts = $ContainerHostsTable(this);
+  late final $ContainerRuntimesTable containerRuntimes =
+      $ContainerRuntimesTable(this);
+  late final $ServerPvesTable serverPves = $ServerPvesTable(this);
+  late final $ConnStatsTable connStats = $ConnStatsTable(this);
+  late final $ServerDistsTable serverDists = $ServerDistsTable(this);
+  late final $BenchmarkRunsTable benchmarkRuns = $BenchmarkRunsTable(this);
+  late final $TombstonesTable tombstones = $TombstonesTable(this);
+  late final $SyncStatesTable syncStates = $SyncStatesTable(this);
+  @override
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  @override
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    privateKeys,
+    bmcCredentials,
+    servers,
+    serverTags,
+    serverEnvs,
+    serverJumps,
+    serverDisabledCmds,
+    serverCustomCmds,
+    knownHosts,
+    snippets,
+    snippetTags,
+    snippetAutoRunOn,
+    portForwards,
+    remoteDesktopProfiles,
+    containerHosts,
+    containerRuntimes,
+    serverPves,
+    connStats,
+    serverDists,
+    benchmarkRuns,
+    tombstones,
+    syncStates,
+  ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'private_key',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server', kind: UpdateKind.update)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'bmc_credential',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server', kind: UpdateKind.update)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_tag', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_env', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_jump', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_jump', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_disabled_cmd', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_custom_cmd', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('known_host', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'snippet',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('snippet_tag', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'snippet',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('snippet_auto_run_on', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('snippet_auto_run_on', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('port_forward', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('remote_desktop_profile', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('container_host', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('container_runtime', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_pve', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('conn_stat', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('server_dist', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'server',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('benchmark_run', kind: UpdateKind.delete)],
+    ),
+  ]);
+}
+
+typedef $$PrivateKeysTableCreateCompanionBuilder =
+    PrivateKeysCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String name,
+      required String key,
+      Value<String?> comment,
+    });
+typedef $$PrivateKeysTableUpdateCompanionBuilder =
+    PrivateKeysCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> name,
+      Value<String> key,
+      Value<String?> comment,
+    });
+
+final class $$PrivateKeysTableReferences
+    extends BaseReferences<_$AppDb, $PrivateKeysTable, PrivateKeyRow> {
+  $$PrivateKeysTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ServersTable, List<ServerRow>> _serversRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.servers,
+    aliasName: 'private_key__id__server__ssh_key_id',
+  );
+
+  $$ServersTableProcessedTableManager get serversRefs {
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.sshKeyId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serversRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$PrivateKeysTableFilterComposer
+    extends Composer<_$AppDb, $PrivateKeysTable> {
+  $$PrivateKeysTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get comment => $composableBuilder(
+    column: $table.comment,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> serversRefs(
+    Expression<bool> Function($$ServersTableFilterComposer f) f,
+  ) {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.sshKeyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$PrivateKeysTableOrderingComposer
+    extends Composer<_$AppDb, $PrivateKeysTable> {
+  $$PrivateKeysTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get comment => $composableBuilder(
+    column: $table.comment,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PrivateKeysTableAnnotationComposer
+    extends Composer<_$AppDb, $PrivateKeysTable> {
+  $$PrivateKeysTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  GeneratedColumn<String> get comment =>
+      $composableBuilder(column: $table.comment, builder: (column) => column);
+
+  Expression<T> serversRefs<T extends Object>(
+    Expression<T> Function($$ServersTableAnnotationComposer a) f,
+  ) {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.sshKeyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$PrivateKeysTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $PrivateKeysTable,
+          PrivateKeyRow,
+          $$PrivateKeysTableFilterComposer,
+          $$PrivateKeysTableOrderingComposer,
+          $$PrivateKeysTableAnnotationComposer,
+          $$PrivateKeysTableCreateCompanionBuilder,
+          $$PrivateKeysTableUpdateCompanionBuilder,
+          (PrivateKeyRow, $$PrivateKeysTableReferences),
+          PrivateKeyRow,
+          PrefetchHooks Function({bool serversRefs})
+        > {
+  $$PrivateKeysTableTableManager(_$AppDb db, $PrivateKeysTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrivateKeysTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrivateKeysTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrivateKeysTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> key = const Value.absent(),
+                Value<String?> comment = const Value.absent(),
+              }) => PrivateKeysCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                key: key,
+                comment: comment,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String name,
+                required String key,
+                Value<String?> comment = const Value.absent(),
+              }) => PrivateKeysCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                key: key,
+                comment: comment,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PrivateKeysTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serversRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (serversRefs) db.servers],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (serversRefs)
+                    await $_getPrefetchedData<
+                      PrivateKeyRow,
+                      $PrivateKeysTable,
+                      ServerRow
+                    >(
+                      currentTable: table,
+                      referencedTable: $$PrivateKeysTableReferences
+                          ._serversRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$PrivateKeysTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).serversRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.sshKeyId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PrivateKeysTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $PrivateKeysTable,
+      PrivateKeyRow,
+      $$PrivateKeysTableFilterComposer,
+      $$PrivateKeysTableOrderingComposer,
+      $$PrivateKeysTableAnnotationComposer,
+      $$PrivateKeysTableCreateCompanionBuilder,
+      $$PrivateKeysTableUpdateCompanionBuilder,
+      (PrivateKeyRow, $$PrivateKeysTableReferences),
+      PrivateKeyRow,
+      PrefetchHooks Function({bool serversRefs})
+    >;
+typedef $$BmcCredentialsTableCreateCompanionBuilder =
+    BmcCredentialsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String name,
+      required String user,
+      Value<String?> pwd,
+    });
+typedef $$BmcCredentialsTableUpdateCompanionBuilder =
+    BmcCredentialsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> name,
+      Value<String> user,
+      Value<String?> pwd,
+    });
+
+final class $$BmcCredentialsTableReferences
+    extends BaseReferences<_$AppDb, $BmcCredentialsTable, BmcCredentialRow> {
+  $$BmcCredentialsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ServersTable, List<ServerRow>> _serversRefsTable(
+    _$AppDb db,
+  ) => MultiTypedResultKey.fromTable(
+    db.servers,
+    aliasName: 'bmc_credential__id__server__bmc_cred_id',
+  );
+
+  $$ServersTableProcessedTableManager get serversRefs {
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.bmcCredId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serversRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$BmcCredentialsTableFilterComposer
+    extends Composer<_$AppDb, $BmcCredentialsTable> {
+  $$BmcCredentialsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get user => $composableBuilder(
+    column: $table.user,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pwd => $composableBuilder(
+    column: $table.pwd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> serversRefs(
+    Expression<bool> Function($$ServersTableFilterComposer f) f,
+  ) {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.bmcCredId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$BmcCredentialsTableOrderingComposer
+    extends Composer<_$AppDb, $BmcCredentialsTable> {
+  $$BmcCredentialsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get user => $composableBuilder(
+    column: $table.user,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pwd => $composableBuilder(
+    column: $table.pwd,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$BmcCredentialsTableAnnotationComposer
+    extends Composer<_$AppDb, $BmcCredentialsTable> {
+  $$BmcCredentialsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get user =>
+      $composableBuilder(column: $table.user, builder: (column) => column);
+
+  GeneratedColumn<String> get pwd =>
+      $composableBuilder(column: $table.pwd, builder: (column) => column);
+
+  Expression<T> serversRefs<T extends Object>(
+    Expression<T> Function($$ServersTableAnnotationComposer a) f,
+  ) {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.bmcCredId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$BmcCredentialsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $BmcCredentialsTable,
+          BmcCredentialRow,
+          $$BmcCredentialsTableFilterComposer,
+          $$BmcCredentialsTableOrderingComposer,
+          $$BmcCredentialsTableAnnotationComposer,
+          $$BmcCredentialsTableCreateCompanionBuilder,
+          $$BmcCredentialsTableUpdateCompanionBuilder,
+          (BmcCredentialRow, $$BmcCredentialsTableReferences),
+          BmcCredentialRow,
+          PrefetchHooks Function({bool serversRefs})
+        > {
+  $$BmcCredentialsTableTableManager(_$AppDb db, $BmcCredentialsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BmcCredentialsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BmcCredentialsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BmcCredentialsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> user = const Value.absent(),
+                Value<String?> pwd = const Value.absent(),
+              }) => BmcCredentialsCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                user: user,
+                pwd: pwd,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String name,
+                required String user,
+                Value<String?> pwd = const Value.absent(),
+              }) => BmcCredentialsCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                user: user,
+                pwd: pwd,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BmcCredentialsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serversRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (serversRefs) db.servers],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (serversRefs)
+                    await $_getPrefetchedData<
+                      BmcCredentialRow,
+                      $BmcCredentialsTable,
+                      ServerRow
+                    >(
+                      currentTable: table,
+                      referencedTable: $$BmcCredentialsTableReferences
+                          ._serversRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$BmcCredentialsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).serversRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.bmcCredId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$BmcCredentialsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $BmcCredentialsTable,
+      BmcCredentialRow,
+      $$BmcCredentialsTableFilterComposer,
+      $$BmcCredentialsTableOrderingComposer,
+      $$BmcCredentialsTableAnnotationComposer,
+      $$BmcCredentialsTableCreateCompanionBuilder,
+      $$BmcCredentialsTableUpdateCompanionBuilder,
+      (BmcCredentialRow, $$BmcCredentialsTableReferences),
+      BmcCredentialRow,
+      PrefetchHooks Function({bool serversRefs})
+    >;
+typedef $$ServersTableCreateCompanionBuilder =
+    ServersCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String name,
+      Value<bool> autoConnect,
+      Value<String?> systemType,
+      Value<String?> sshIp,
+      Value<int?> sshPort,
+      Value<String?> sshUser,
+      Value<String?> sshPwd,
+      Value<String?> sshKeyId,
+      Value<String?> sshKeyPath,
+      Value<String?> sshAlterUrl,
+      Value<String?> sshProxyCommand,
+      Value<String?> sshFileTransport,
+      Value<bool> sshAllowLegacyAlgorithms,
+      Value<String?> preferredTransport,
+      Value<bool> sshEnabled,
+      Value<bool> monitorEnabled,
+      Value<bool> isLocal,
+      Value<String?> monitorAddr,
+      Value<String?> monitorUser,
+      Value<String?> monitorPwd,
+      Value<bool?> monitorIgnoreCert,
+      Value<bool?> monitorAllowInsecure,
+      Value<String?> wolMac,
+      Value<String?> wolIp,
+      Value<String?> wolPwd,
+      Value<String?> bmcAddr,
+      Value<String?> bmcCertSha256,
+      Value<String?> bmcCredId,
+      Value<String?> preferTempDev,
+      Value<bool> tempIsCelsius,
+      Value<String?> logoUrl,
+      Value<String?> netDev,
+      Value<String?> scriptDir,
+      Value<double?> geoLat,
+      Value<double?> geoLon,
+    });
+typedef $$ServersTableUpdateCompanionBuilder =
+    ServersCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> name,
+      Value<bool> autoConnect,
+      Value<String?> systemType,
+      Value<String?> sshIp,
+      Value<int?> sshPort,
+      Value<String?> sshUser,
+      Value<String?> sshPwd,
+      Value<String?> sshKeyId,
+      Value<String?> sshKeyPath,
+      Value<String?> sshAlterUrl,
+      Value<String?> sshProxyCommand,
+      Value<String?> sshFileTransport,
+      Value<bool> sshAllowLegacyAlgorithms,
+      Value<String?> preferredTransport,
+      Value<bool> sshEnabled,
+      Value<bool> monitorEnabled,
+      Value<bool> isLocal,
+      Value<String?> monitorAddr,
+      Value<String?> monitorUser,
+      Value<String?> monitorPwd,
+      Value<bool?> monitorIgnoreCert,
+      Value<bool?> monitorAllowInsecure,
+      Value<String?> wolMac,
+      Value<String?> wolIp,
+      Value<String?> wolPwd,
+      Value<String?> bmcAddr,
+      Value<String?> bmcCertSha256,
+      Value<String?> bmcCredId,
+      Value<String?> preferTempDev,
+      Value<bool> tempIsCelsius,
+      Value<String?> logoUrl,
+      Value<String?> netDev,
+      Value<String?> scriptDir,
+      Value<double?> geoLat,
+      Value<double?> geoLon,
+    });
+
+final class $$ServersTableReferences
+    extends BaseReferences<_$AppDb, $ServersTable, ServerRow> {
+  $$ServersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $PrivateKeysTable _sshKeyIdTable(_$AppDb db) =>
+      db.privateKeys.createAlias('server__ssh_key_id__private_key__id');
+
+  $$PrivateKeysTableProcessedTableManager? get sshKeyId {
+    final $_column = $_itemColumn<String>('ssh_key_id');
+    if ($_column == null) return null;
+    final manager = $$PrivateKeysTableTableManager(
+      $_db,
+      $_db.privateKeys,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_sshKeyIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $BmcCredentialsTable _bmcCredIdTable(_$AppDb db) =>
+      db.bmcCredentials.createAlias('server__bmc_cred_id__bmc_credential__id');
+
+  $$BmcCredentialsTableProcessedTableManager? get bmcCredId {
+    final $_column = $_itemColumn<String>('bmc_cred_id');
+    if ($_column == null) return null;
+    final manager = $$BmcCredentialsTableTableManager(
+      $_db,
+      $_db.bmcCredentials,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_bmcCredIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$ServerTagsTable, List<ServerTagRow>>
+  _serverTagsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverTags,
+    aliasName: 'server__id__server_tag__server_id',
+  );
+
+  $$ServerTagsTableProcessedTableManager get serverTagsRefs {
+    final manager = $$ServerTagsTableTableManager(
+      $_db,
+      $_db.serverTags,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serverTagsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ServerEnvsTable, List<ServerEnvRow>>
+  _serverEnvsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverEnvs,
+    aliasName: 'server__id__server_env__server_id',
+  );
+
+  $$ServerEnvsTableProcessedTableManager get serverEnvsRefs {
+    final manager = $$ServerEnvsTableTableManager(
+      $_db,
+      $_db.serverEnvs,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serverEnvsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $ServerDisabledCmdsTable,
+    List<ServerDisabledCmdRow>
+  >
+  _serverDisabledCmdsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverDisabledCmds,
+    aliasName: 'server__id__server_disabled_cmd__server_id',
+  );
+
+  $$ServerDisabledCmdsTableProcessedTableManager get serverDisabledCmdsRefs {
+    final manager = $$ServerDisabledCmdsTableTableManager(
+      $_db,
+      $_db.serverDisabledCmds,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _serverDisabledCmdsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ServerCustomCmdsTable, List<ServerCustomCmdRow>>
+  _serverCustomCmdsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverCustomCmds,
+    aliasName: 'server__id__server_custom_cmd__server_id',
+  );
+
+  $$ServerCustomCmdsTableProcessedTableManager get serverCustomCmdsRefs {
+    final manager = $$ServerCustomCmdsTableTableManager(
+      $_db,
+      $_db.serverCustomCmds,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _serverCustomCmdsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$KnownHostsTable, List<KnownHostRow>>
+  _knownHostsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.knownHosts,
+    aliasName: 'server__id__known_host__server_id',
+  );
+
+  $$KnownHostsTableProcessedTableManager get knownHostsRefs {
+    final manager = $$KnownHostsTableTableManager(
+      $_db,
+      $_db.knownHosts,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_knownHostsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SnippetAutoRunOnTable, List<SnippetAutoRunRow>>
+  _snippetAutoRunOnRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.snippetAutoRunOn,
+    aliasName: 'server__id__snippet_auto_run_on__server_id',
+  );
+
+  $$SnippetAutoRunOnTableProcessedTableManager get snippetAutoRunOnRefs {
+    final manager = $$SnippetAutoRunOnTableTableManager(
+      $_db,
+      $_db.snippetAutoRunOn,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _snippetAutoRunOnRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$PortForwardsTable, List<PortForwardRow>>
+  _portForwardsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.portForwards,
+    aliasName: 'server__id__port_forward__server_id',
+  );
+
+  $$PortForwardsTableProcessedTableManager get portForwardsRefs {
+    final manager = $$PortForwardsTableTableManager(
+      $_db,
+      $_db.portForwards,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_portForwardsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $RemoteDesktopProfilesTable,
+    List<RemoteDesktopProfileRow>
+  >
+  _remoteDesktopProfilesRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.remoteDesktopProfiles,
+    aliasName: 'server__id__remote_desktop_profile__server_id',
+  );
+
+  $$RemoteDesktopProfilesTableProcessedTableManager
+  get remoteDesktopProfilesRefs {
+    final manager = $$RemoteDesktopProfilesTableTableManager(
+      $_db,
+      $_db.remoteDesktopProfiles,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _remoteDesktopProfilesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ContainerHostsTable, List<ContainerHostRow>>
+  _containerHostsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.containerHosts,
+    aliasName: 'server__id__container_host__server_id',
+  );
+
+  $$ContainerHostsTableProcessedTableManager get containerHostsRefs {
+    final manager = $$ContainerHostsTableTableManager(
+      $_db,
+      $_db.containerHosts,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_containerHostsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ContainerRuntimesTable, List<ContainerRuntimeRow>>
+  _containerRuntimesRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.containerRuntimes,
+    aliasName: 'server__id__container_runtime__server_id',
+  );
+
+  $$ContainerRuntimesTableProcessedTableManager get containerRuntimesRefs {
+    final manager = $$ContainerRuntimesTableTableManager(
+      $_db,
+      $_db.containerRuntimes,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _containerRuntimesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ServerPvesTable, List<ServerPveRow>>
+  _serverPvesRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverPves,
+    aliasName: 'server__id__server_pve__server_id',
+  );
+
+  $$ServerPvesTableProcessedTableManager get serverPvesRefs {
+    final manager = $$ServerPvesTableTableManager(
+      $_db,
+      $_db.serverPves,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serverPvesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ConnStatsTable, List<ConnStatRow>>
+  _connStatsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.connStats,
+    aliasName: 'server__id__conn_stat__server_id',
+  );
+
+  $$ConnStatsTableProcessedTableManager get connStatsRefs {
+    final manager = $$ConnStatsTableTableManager(
+      $_db,
+      $_db.connStats,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_connStatsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ServerDistsTable, List<ServerDistRow>>
+  _serverDistsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.serverDists,
+    aliasName: 'server__id__server_dist__server_id',
+  );
+
+  $$ServerDistsTableProcessedTableManager get serverDistsRefs {
+    final manager = $$ServerDistsTableTableManager(
+      $_db,
+      $_db.serverDists,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_serverDistsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$BenchmarkRunsTable, List<BenchmarkRunRow>>
+  _benchmarkRunsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.benchmarkRuns,
+    aliasName: 'server__id__benchmark_run__server_id',
+  );
+
+  $$BenchmarkRunsTableProcessedTableManager get benchmarkRunsRefs {
+    final manager = $$BenchmarkRunsTableTableManager(
+      $_db,
+      $_db.benchmarkRuns,
+    ).filter((f) => f.serverId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_benchmarkRunsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$ServersTableFilterComposer extends Composer<_$AppDb, $ServersTable> {
+  $$ServersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get autoConnect => $composableBuilder(
+    column: $table.autoConnect,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get systemType => $composableBuilder(
+    column: $table.systemType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshIp => $composableBuilder(
+    column: $table.sshIp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sshPort => $composableBuilder(
+    column: $table.sshPort,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshUser => $composableBuilder(
+    column: $table.sshUser,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshPwd => $composableBuilder(
+    column: $table.sshPwd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshKeyPath => $composableBuilder(
+    column: $table.sshKeyPath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshAlterUrl => $composableBuilder(
+    column: $table.sshAlterUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshProxyCommand => $composableBuilder(
+    column: $table.sshProxyCommand,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sshFileTransport => $composableBuilder(
+    column: $table.sshFileTransport,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get sshAllowLegacyAlgorithms => $composableBuilder(
+    column: $table.sshAllowLegacyAlgorithms,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredTransport => $composableBuilder(
+    column: $table.preferredTransport,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get sshEnabled => $composableBuilder(
+    column: $table.sshEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get monitorEnabled => $composableBuilder(
+    column: $table.monitorEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isLocal => $composableBuilder(
+    column: $table.isLocal,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get monitorAddr => $composableBuilder(
+    column: $table.monitorAddr,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get monitorUser => $composableBuilder(
+    column: $table.monitorUser,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get monitorPwd => $composableBuilder(
+    column: $table.monitorPwd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get monitorIgnoreCert => $composableBuilder(
+    column: $table.monitorIgnoreCert,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get monitorAllowInsecure => $composableBuilder(
+    column: $table.monitorAllowInsecure,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get wolMac => $composableBuilder(
+    column: $table.wolMac,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get wolIp => $composableBuilder(
+    column: $table.wolIp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get wolPwd => $composableBuilder(
+    column: $table.wolPwd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bmcAddr => $composableBuilder(
+    column: $table.bmcAddr,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bmcCertSha256 => $composableBuilder(
+    column: $table.bmcCertSha256,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferTempDev => $composableBuilder(
+    column: $table.preferTempDev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get tempIsCelsius => $composableBuilder(
+    column: $table.tempIsCelsius,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get logoUrl => $composableBuilder(
+    column: $table.logoUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get netDev => $composableBuilder(
+    column: $table.netDev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get scriptDir => $composableBuilder(
+    column: $table.scriptDir,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get geoLat => $composableBuilder(
+    column: $table.geoLat,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get geoLon => $composableBuilder(
+    column: $table.geoLon,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$PrivateKeysTableFilterComposer get sshKeyId {
+    final $$PrivateKeysTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sshKeyId,
+      referencedTable: $db.privateKeys,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrivateKeysTableFilterComposer(
+            $db: $db,
+            $table: $db.privateKeys,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$BmcCredentialsTableFilterComposer get bmcCredId {
+    final $$BmcCredentialsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bmcCredId,
+      referencedTable: $db.bmcCredentials,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BmcCredentialsTableFilterComposer(
+            $db: $db,
+            $table: $db.bmcCredentials,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> serverTagsRefs(
+    Expression<bool> Function($$ServerTagsTableFilterComposer f) f,
+  ) {
+    final $$ServerTagsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverTags,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerTagsTableFilterComposer(
+            $db: $db,
+            $table: $db.serverTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> serverEnvsRefs(
+    Expression<bool> Function($$ServerEnvsTableFilterComposer f) f,
+  ) {
+    final $$ServerEnvsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverEnvs,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerEnvsTableFilterComposer(
+            $db: $db,
+            $table: $db.serverEnvs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> serverDisabledCmdsRefs(
+    Expression<bool> Function($$ServerDisabledCmdsTableFilterComposer f) f,
+  ) {
+    final $$ServerDisabledCmdsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverDisabledCmds,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerDisabledCmdsTableFilterComposer(
+            $db: $db,
+            $table: $db.serverDisabledCmds,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> serverCustomCmdsRefs(
+    Expression<bool> Function($$ServerCustomCmdsTableFilterComposer f) f,
+  ) {
+    final $$ServerCustomCmdsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverCustomCmds,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerCustomCmdsTableFilterComposer(
+            $db: $db,
+            $table: $db.serverCustomCmds,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> knownHostsRefs(
+    Expression<bool> Function($$KnownHostsTableFilterComposer f) f,
+  ) {
+    final $$KnownHostsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.knownHosts,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KnownHostsTableFilterComposer(
+            $db: $db,
+            $table: $db.knownHosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> snippetAutoRunOnRefs(
+    Expression<bool> Function($$SnippetAutoRunOnTableFilterComposer f) f,
+  ) {
+    final $$SnippetAutoRunOnTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetAutoRunOn,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetAutoRunOnTableFilterComposer(
+            $db: $db,
+            $table: $db.snippetAutoRunOn,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> portForwardsRefs(
+    Expression<bool> Function($$PortForwardsTableFilterComposer f) f,
+  ) {
+    final $$PortForwardsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.portForwards,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PortForwardsTableFilterComposer(
+            $db: $db,
+            $table: $db.portForwards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> remoteDesktopProfilesRefs(
+    Expression<bool> Function($$RemoteDesktopProfilesTableFilterComposer f) f,
+  ) {
+    final $$RemoteDesktopProfilesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.remoteDesktopProfiles,
+          getReferencedColumn: (t) => t.serverId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteDesktopProfilesTableFilterComposer(
+                $db: $db,
+                $table: $db.remoteDesktopProfiles,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<bool> containerHostsRefs(
+    Expression<bool> Function($$ContainerHostsTableFilterComposer f) f,
+  ) {
+    final $$ContainerHostsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.containerHosts,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ContainerHostsTableFilterComposer(
+            $db: $db,
+            $table: $db.containerHosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> containerRuntimesRefs(
+    Expression<bool> Function($$ContainerRuntimesTableFilterComposer f) f,
+  ) {
+    final $$ContainerRuntimesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.containerRuntimes,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ContainerRuntimesTableFilterComposer(
+            $db: $db,
+            $table: $db.containerRuntimes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> serverPvesRefs(
+    Expression<bool> Function($$ServerPvesTableFilterComposer f) f,
+  ) {
+    final $$ServerPvesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverPves,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerPvesTableFilterComposer(
+            $db: $db,
+            $table: $db.serverPves,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> connStatsRefs(
+    Expression<bool> Function($$ConnStatsTableFilterComposer f) f,
+  ) {
+    final $$ConnStatsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.connStats,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ConnStatsTableFilterComposer(
+            $db: $db,
+            $table: $db.connStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> serverDistsRefs(
+    Expression<bool> Function($$ServerDistsTableFilterComposer f) f,
+  ) {
+    final $$ServerDistsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverDists,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerDistsTableFilterComposer(
+            $db: $db,
+            $table: $db.serverDists,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> benchmarkRunsRefs(
+    Expression<bool> Function($$BenchmarkRunsTableFilterComposer f) f,
+  ) {
+    final $$BenchmarkRunsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.benchmarkRuns,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BenchmarkRunsTableFilterComposer(
+            $db: $db,
+            $table: $db.benchmarkRuns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ServersTableOrderingComposer extends Composer<_$AppDb, $ServersTable> {
+  $$ServersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get autoConnect => $composableBuilder(
+    column: $table.autoConnect,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get systemType => $composableBuilder(
+    column: $table.systemType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshIp => $composableBuilder(
+    column: $table.sshIp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sshPort => $composableBuilder(
+    column: $table.sshPort,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshUser => $composableBuilder(
+    column: $table.sshUser,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshPwd => $composableBuilder(
+    column: $table.sshPwd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshKeyPath => $composableBuilder(
+    column: $table.sshKeyPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshAlterUrl => $composableBuilder(
+    column: $table.sshAlterUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshProxyCommand => $composableBuilder(
+    column: $table.sshProxyCommand,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sshFileTransport => $composableBuilder(
+    column: $table.sshFileTransport,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get sshAllowLegacyAlgorithms => $composableBuilder(
+    column: $table.sshAllowLegacyAlgorithms,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get preferredTransport => $composableBuilder(
+    column: $table.preferredTransport,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get sshEnabled => $composableBuilder(
+    column: $table.sshEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get monitorEnabled => $composableBuilder(
+    column: $table.monitorEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isLocal => $composableBuilder(
+    column: $table.isLocal,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get monitorAddr => $composableBuilder(
+    column: $table.monitorAddr,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get monitorUser => $composableBuilder(
+    column: $table.monitorUser,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get monitorPwd => $composableBuilder(
+    column: $table.monitorPwd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get monitorIgnoreCert => $composableBuilder(
+    column: $table.monitorIgnoreCert,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get monitorAllowInsecure => $composableBuilder(
+    column: $table.monitorAllowInsecure,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get wolMac => $composableBuilder(
+    column: $table.wolMac,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get wolIp => $composableBuilder(
+    column: $table.wolIp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get wolPwd => $composableBuilder(
+    column: $table.wolPwd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bmcAddr => $composableBuilder(
+    column: $table.bmcAddr,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bmcCertSha256 => $composableBuilder(
+    column: $table.bmcCertSha256,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get preferTempDev => $composableBuilder(
+    column: $table.preferTempDev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get tempIsCelsius => $composableBuilder(
+    column: $table.tempIsCelsius,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get logoUrl => $composableBuilder(
+    column: $table.logoUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get netDev => $composableBuilder(
+    column: $table.netDev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scriptDir => $composableBuilder(
+    column: $table.scriptDir,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get geoLat => $composableBuilder(
+    column: $table.geoLat,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get geoLon => $composableBuilder(
+    column: $table.geoLon,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$PrivateKeysTableOrderingComposer get sshKeyId {
+    final $$PrivateKeysTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sshKeyId,
+      referencedTable: $db.privateKeys,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrivateKeysTableOrderingComposer(
+            $db: $db,
+            $table: $db.privateKeys,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$BmcCredentialsTableOrderingComposer get bmcCredId {
+    final $$BmcCredentialsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bmcCredId,
+      referencedTable: $db.bmcCredentials,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BmcCredentialsTableOrderingComposer(
+            $db: $db,
+            $table: $db.bmcCredentials,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServersTableAnnotationComposer
+    extends Composer<_$AppDb, $ServersTable> {
+  $$ServersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get autoConnect => $composableBuilder(
+    column: $table.autoConnect,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get systemType => $composableBuilder(
+    column: $table.systemType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sshIp =>
+      $composableBuilder(column: $table.sshIp, builder: (column) => column);
+
+  GeneratedColumn<int> get sshPort =>
+      $composableBuilder(column: $table.sshPort, builder: (column) => column);
+
+  GeneratedColumn<String> get sshUser =>
+      $composableBuilder(column: $table.sshUser, builder: (column) => column);
+
+  GeneratedColumn<String> get sshPwd =>
+      $composableBuilder(column: $table.sshPwd, builder: (column) => column);
+
+  GeneratedColumn<String> get sshKeyPath => $composableBuilder(
+    column: $table.sshKeyPath,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sshAlterUrl => $composableBuilder(
+    column: $table.sshAlterUrl,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sshProxyCommand => $composableBuilder(
+    column: $table.sshProxyCommand,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sshFileTransport => $composableBuilder(
+    column: $table.sshFileTransport,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get sshAllowLegacyAlgorithms => $composableBuilder(
+    column: $table.sshAllowLegacyAlgorithms,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get preferredTransport => $composableBuilder(
+    column: $table.preferredTransport,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get sshEnabled => $composableBuilder(
+    column: $table.sshEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get monitorEnabled => $composableBuilder(
+    column: $table.monitorEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isLocal =>
+      $composableBuilder(column: $table.isLocal, builder: (column) => column);
+
+  GeneratedColumn<String> get monitorAddr => $composableBuilder(
+    column: $table.monitorAddr,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get monitorUser => $composableBuilder(
+    column: $table.monitorUser,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get monitorPwd => $composableBuilder(
+    column: $table.monitorPwd,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get monitorIgnoreCert => $composableBuilder(
+    column: $table.monitorIgnoreCert,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get monitorAllowInsecure => $composableBuilder(
+    column: $table.monitorAllowInsecure,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get wolMac =>
+      $composableBuilder(column: $table.wolMac, builder: (column) => column);
+
+  GeneratedColumn<String> get wolIp =>
+      $composableBuilder(column: $table.wolIp, builder: (column) => column);
+
+  GeneratedColumn<String> get wolPwd =>
+      $composableBuilder(column: $table.wolPwd, builder: (column) => column);
+
+  GeneratedColumn<String> get bmcAddr =>
+      $composableBuilder(column: $table.bmcAddr, builder: (column) => column);
+
+  GeneratedColumn<String> get bmcCertSha256 => $composableBuilder(
+    column: $table.bmcCertSha256,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get preferTempDev => $composableBuilder(
+    column: $table.preferTempDev,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get tempIsCelsius => $composableBuilder(
+    column: $table.tempIsCelsius,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get logoUrl =>
+      $composableBuilder(column: $table.logoUrl, builder: (column) => column);
+
+  GeneratedColumn<String> get netDev =>
+      $composableBuilder(column: $table.netDev, builder: (column) => column);
+
+  GeneratedColumn<String> get scriptDir =>
+      $composableBuilder(column: $table.scriptDir, builder: (column) => column);
+
+  GeneratedColumn<double> get geoLat =>
+      $composableBuilder(column: $table.geoLat, builder: (column) => column);
+
+  GeneratedColumn<double> get geoLon =>
+      $composableBuilder(column: $table.geoLon, builder: (column) => column);
+
+  $$PrivateKeysTableAnnotationComposer get sshKeyId {
+    final $$PrivateKeysTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sshKeyId,
+      referencedTable: $db.privateKeys,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrivateKeysTableAnnotationComposer(
+            $db: $db,
+            $table: $db.privateKeys,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$BmcCredentialsTableAnnotationComposer get bmcCredId {
+    final $$BmcCredentialsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.bmcCredId,
+      referencedTable: $db.bmcCredentials,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BmcCredentialsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.bmcCredentials,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> serverTagsRefs<T extends Object>(
+    Expression<T> Function($$ServerTagsTableAnnotationComposer a) f,
+  ) {
+    final $$ServerTagsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverTags,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerTagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serverTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> serverEnvsRefs<T extends Object>(
+    Expression<T> Function($$ServerEnvsTableAnnotationComposer a) f,
+  ) {
+    final $$ServerEnvsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverEnvs,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerEnvsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serverEnvs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> serverDisabledCmdsRefs<T extends Object>(
+    Expression<T> Function($$ServerDisabledCmdsTableAnnotationComposer a) f,
+  ) {
+    final $$ServerDisabledCmdsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.serverDisabledCmds,
+          getReferencedColumn: (t) => t.serverId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ServerDisabledCmdsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.serverDisabledCmds,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> serverCustomCmdsRefs<T extends Object>(
+    Expression<T> Function($$ServerCustomCmdsTableAnnotationComposer a) f,
+  ) {
+    final $$ServerCustomCmdsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverCustomCmds,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerCustomCmdsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serverCustomCmds,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> knownHostsRefs<T extends Object>(
+    Expression<T> Function($$KnownHostsTableAnnotationComposer a) f,
+  ) {
+    final $$KnownHostsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.knownHosts,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$KnownHostsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.knownHosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> snippetAutoRunOnRefs<T extends Object>(
+    Expression<T> Function($$SnippetAutoRunOnTableAnnotationComposer a) f,
+  ) {
+    final $$SnippetAutoRunOnTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetAutoRunOn,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetAutoRunOnTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippetAutoRunOn,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> portForwardsRefs<T extends Object>(
+    Expression<T> Function($$PortForwardsTableAnnotationComposer a) f,
+  ) {
+    final $$PortForwardsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.portForwards,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PortForwardsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.portForwards,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> remoteDesktopProfilesRefs<T extends Object>(
+    Expression<T> Function($$RemoteDesktopProfilesTableAnnotationComposer a) f,
+  ) {
+    final $$RemoteDesktopProfilesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.remoteDesktopProfiles,
+          getReferencedColumn: (t) => t.serverId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$RemoteDesktopProfilesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.remoteDesktopProfiles,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> containerHostsRefs<T extends Object>(
+    Expression<T> Function($$ContainerHostsTableAnnotationComposer a) f,
+  ) {
+    final $$ContainerHostsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.containerHosts,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ContainerHostsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.containerHosts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> containerRuntimesRefs<T extends Object>(
+    Expression<T> Function($$ContainerRuntimesTableAnnotationComposer a) f,
+  ) {
+    final $$ContainerRuntimesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.containerRuntimes,
+          getReferencedColumn: (t) => t.serverId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ContainerRuntimesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.containerRuntimes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> serverPvesRefs<T extends Object>(
+    Expression<T> Function($$ServerPvesTableAnnotationComposer a) f,
+  ) {
+    final $$ServerPvesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverPves,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerPvesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serverPves,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> connStatsRefs<T extends Object>(
+    Expression<T> Function($$ConnStatsTableAnnotationComposer a) f,
+  ) {
+    final $$ConnStatsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.connStats,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ConnStatsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.connStats,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> serverDistsRefs<T extends Object>(
+    Expression<T> Function($$ServerDistsTableAnnotationComposer a) f,
+  ) {
+    final $$ServerDistsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.serverDists,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServerDistsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.serverDists,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> benchmarkRunsRefs<T extends Object>(
+    Expression<T> Function($$BenchmarkRunsTableAnnotationComposer a) f,
+  ) {
+    final $$BenchmarkRunsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.benchmarkRuns,
+      getReferencedColumn: (t) => t.serverId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BenchmarkRunsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.benchmarkRuns,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$ServersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServersTable,
+          ServerRow,
+          $$ServersTableFilterComposer,
+          $$ServersTableOrderingComposer,
+          $$ServersTableAnnotationComposer,
+          $$ServersTableCreateCompanionBuilder,
+          $$ServersTableUpdateCompanionBuilder,
+          (ServerRow, $$ServersTableReferences),
+          ServerRow,
+          PrefetchHooks Function({
+            bool sshKeyId,
+            bool bmcCredId,
+            bool serverTagsRefs,
+            bool serverEnvsRefs,
+            bool serverDisabledCmdsRefs,
+            bool serverCustomCmdsRefs,
+            bool knownHostsRefs,
+            bool snippetAutoRunOnRefs,
+            bool portForwardsRefs,
+            bool remoteDesktopProfilesRefs,
+            bool containerHostsRefs,
+            bool containerRuntimesRefs,
+            bool serverPvesRefs,
+            bool connStatsRefs,
+            bool serverDistsRefs,
+            bool benchmarkRunsRefs,
+          })
+        > {
+  $$ServersTableTableManager(_$AppDb db, $ServersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<bool> autoConnect = const Value.absent(),
+                Value<String?> systemType = const Value.absent(),
+                Value<String?> sshIp = const Value.absent(),
+                Value<int?> sshPort = const Value.absent(),
+                Value<String?> sshUser = const Value.absent(),
+                Value<String?> sshPwd = const Value.absent(),
+                Value<String?> sshKeyId = const Value.absent(),
+                Value<String?> sshKeyPath = const Value.absent(),
+                Value<String?> sshAlterUrl = const Value.absent(),
+                Value<String?> sshProxyCommand = const Value.absent(),
+                Value<String?> sshFileTransport = const Value.absent(),
+                Value<bool> sshAllowLegacyAlgorithms = const Value.absent(),
+                Value<String?> preferredTransport = const Value.absent(),
+                Value<bool> sshEnabled = const Value.absent(),
+                Value<bool> monitorEnabled = const Value.absent(),
+                Value<bool> isLocal = const Value.absent(),
+                Value<String?> monitorAddr = const Value.absent(),
+                Value<String?> monitorUser = const Value.absent(),
+                Value<String?> monitorPwd = const Value.absent(),
+                Value<bool?> monitorIgnoreCert = const Value.absent(),
+                Value<bool?> monitorAllowInsecure = const Value.absent(),
+                Value<String?> wolMac = const Value.absent(),
+                Value<String?> wolIp = const Value.absent(),
+                Value<String?> wolPwd = const Value.absent(),
+                Value<String?> bmcAddr = const Value.absent(),
+                Value<String?> bmcCertSha256 = const Value.absent(),
+                Value<String?> bmcCredId = const Value.absent(),
+                Value<String?> preferTempDev = const Value.absent(),
+                Value<bool> tempIsCelsius = const Value.absent(),
+                Value<String?> logoUrl = const Value.absent(),
+                Value<String?> netDev = const Value.absent(),
+                Value<String?> scriptDir = const Value.absent(),
+                Value<double?> geoLat = const Value.absent(),
+                Value<double?> geoLon = const Value.absent(),
+              }) => ServersCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                autoConnect: autoConnect,
+                systemType: systemType,
+                sshIp: sshIp,
+                sshPort: sshPort,
+                sshUser: sshUser,
+                sshPwd: sshPwd,
+                sshKeyId: sshKeyId,
+                sshKeyPath: sshKeyPath,
+                sshAlterUrl: sshAlterUrl,
+                sshProxyCommand: sshProxyCommand,
+                sshFileTransport: sshFileTransport,
+                sshAllowLegacyAlgorithms: sshAllowLegacyAlgorithms,
+                preferredTransport: preferredTransport,
+                sshEnabled: sshEnabled,
+                monitorEnabled: monitorEnabled,
+                isLocal: isLocal,
+                monitorAddr: monitorAddr,
+                monitorUser: monitorUser,
+                monitorPwd: monitorPwd,
+                monitorIgnoreCert: monitorIgnoreCert,
+                monitorAllowInsecure: monitorAllowInsecure,
+                wolMac: wolMac,
+                wolIp: wolIp,
+                wolPwd: wolPwd,
+                bmcAddr: bmcAddr,
+                bmcCertSha256: bmcCertSha256,
+                bmcCredId: bmcCredId,
+                preferTempDev: preferTempDev,
+                tempIsCelsius: tempIsCelsius,
+                logoUrl: logoUrl,
+                netDev: netDev,
+                scriptDir: scriptDir,
+                geoLat: geoLat,
+                geoLon: geoLon,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String name,
+                Value<bool> autoConnect = const Value.absent(),
+                Value<String?> systemType = const Value.absent(),
+                Value<String?> sshIp = const Value.absent(),
+                Value<int?> sshPort = const Value.absent(),
+                Value<String?> sshUser = const Value.absent(),
+                Value<String?> sshPwd = const Value.absent(),
+                Value<String?> sshKeyId = const Value.absent(),
+                Value<String?> sshKeyPath = const Value.absent(),
+                Value<String?> sshAlterUrl = const Value.absent(),
+                Value<String?> sshProxyCommand = const Value.absent(),
+                Value<String?> sshFileTransport = const Value.absent(),
+                Value<bool> sshAllowLegacyAlgorithms = const Value.absent(),
+                Value<String?> preferredTransport = const Value.absent(),
+                Value<bool> sshEnabled = const Value.absent(),
+                Value<bool> monitorEnabled = const Value.absent(),
+                Value<bool> isLocal = const Value.absent(),
+                Value<String?> monitorAddr = const Value.absent(),
+                Value<String?> monitorUser = const Value.absent(),
+                Value<String?> monitorPwd = const Value.absent(),
+                Value<bool?> monitorIgnoreCert = const Value.absent(),
+                Value<bool?> monitorAllowInsecure = const Value.absent(),
+                Value<String?> wolMac = const Value.absent(),
+                Value<String?> wolIp = const Value.absent(),
+                Value<String?> wolPwd = const Value.absent(),
+                Value<String?> bmcAddr = const Value.absent(),
+                Value<String?> bmcCertSha256 = const Value.absent(),
+                Value<String?> bmcCredId = const Value.absent(),
+                Value<String?> preferTempDev = const Value.absent(),
+                Value<bool> tempIsCelsius = const Value.absent(),
+                Value<String?> logoUrl = const Value.absent(),
+                Value<String?> netDev = const Value.absent(),
+                Value<String?> scriptDir = const Value.absent(),
+                Value<double?> geoLat = const Value.absent(),
+                Value<double?> geoLon = const Value.absent(),
+              }) => ServersCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                autoConnect: autoConnect,
+                systemType: systemType,
+                sshIp: sshIp,
+                sshPort: sshPort,
+                sshUser: sshUser,
+                sshPwd: sshPwd,
+                sshKeyId: sshKeyId,
+                sshKeyPath: sshKeyPath,
+                sshAlterUrl: sshAlterUrl,
+                sshProxyCommand: sshProxyCommand,
+                sshFileTransport: sshFileTransport,
+                sshAllowLegacyAlgorithms: sshAllowLegacyAlgorithms,
+                preferredTransport: preferredTransport,
+                sshEnabled: sshEnabled,
+                monitorEnabled: monitorEnabled,
+                isLocal: isLocal,
+                monitorAddr: monitorAddr,
+                monitorUser: monitorUser,
+                monitorPwd: monitorPwd,
+                monitorIgnoreCert: monitorIgnoreCert,
+                monitorAllowInsecure: monitorAllowInsecure,
+                wolMac: wolMac,
+                wolIp: wolIp,
+                wolPwd: wolPwd,
+                bmcAddr: bmcAddr,
+                bmcCertSha256: bmcCertSha256,
+                bmcCredId: bmcCredId,
+                preferTempDev: preferTempDev,
+                tempIsCelsius: tempIsCelsius,
+                logoUrl: logoUrl,
+                netDev: netDev,
+                scriptDir: scriptDir,
+                geoLat: geoLat,
+                geoLon: geoLon,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServersTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                sshKeyId = false,
+                bmcCredId = false,
+                serverTagsRefs = false,
+                serverEnvsRefs = false,
+                serverDisabledCmdsRefs = false,
+                serverCustomCmdsRefs = false,
+                knownHostsRefs = false,
+                snippetAutoRunOnRefs = false,
+                portForwardsRefs = false,
+                remoteDesktopProfilesRefs = false,
+                containerHostsRefs = false,
+                containerRuntimesRefs = false,
+                serverPvesRefs = false,
+                connStatsRefs = false,
+                serverDistsRefs = false,
+                benchmarkRunsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (serverTagsRefs) db.serverTags,
+                    if (serverEnvsRefs) db.serverEnvs,
+                    if (serverDisabledCmdsRefs) db.serverDisabledCmds,
+                    if (serverCustomCmdsRefs) db.serverCustomCmds,
+                    if (knownHostsRefs) db.knownHosts,
+                    if (snippetAutoRunOnRefs) db.snippetAutoRunOn,
+                    if (portForwardsRefs) db.portForwards,
+                    if (remoteDesktopProfilesRefs) db.remoteDesktopProfiles,
+                    if (containerHostsRefs) db.containerHosts,
+                    if (containerRuntimesRefs) db.containerRuntimes,
+                    if (serverPvesRefs) db.serverPves,
+                    if (connStatsRefs) db.connStats,
+                    if (serverDistsRefs) db.serverDists,
+                    if (benchmarkRunsRefs) db.benchmarkRuns,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (sshKeyId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.sshKeyId,
+                                    referencedTable: $$ServersTableReferences
+                                        ._sshKeyIdTable(db),
+                                    referencedColumn: $$ServersTableReferences
+                                        ._sshKeyIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (bmcCredId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.bmcCredId,
+                                    referencedTable: $$ServersTableReferences
+                                        ._bmcCredIdTable(db),
+                                    referencedColumn: $$ServersTableReferences
+                                        ._bmcCredIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (serverTagsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerTagRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverTagsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverTagsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (serverEnvsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerEnvRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverEnvsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverEnvsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (serverDisabledCmdsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerDisabledCmdRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverDisabledCmdsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverDisabledCmdsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (serverCustomCmdsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerCustomCmdRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverCustomCmdsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverCustomCmdsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (knownHostsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          KnownHostRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._knownHostsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).knownHostsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (snippetAutoRunOnRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          SnippetAutoRunRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._snippetAutoRunOnRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).snippetAutoRunOnRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (portForwardsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          PortForwardRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._portForwardsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).portForwardsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (remoteDesktopProfilesRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          RemoteDesktopProfileRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._remoteDesktopProfilesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).remoteDesktopProfilesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (containerHostsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ContainerHostRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._containerHostsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).containerHostsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (containerRuntimesRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ContainerRuntimeRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._containerRuntimesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).containerRuntimesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (serverPvesRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerPveRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverPvesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverPvesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (connStatsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ConnStatRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._connStatsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).connStatsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (serverDistsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          ServerDistRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._serverDistsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).serverDistsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (benchmarkRunsRefs)
+                        await $_getPrefetchedData<
+                          ServerRow,
+                          $ServersTable,
+                          BenchmarkRunRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ServersTableReferences
+                              ._benchmarkRunsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ServersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).benchmarkRunsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.serverId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$ServersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServersTable,
+      ServerRow,
+      $$ServersTableFilterComposer,
+      $$ServersTableOrderingComposer,
+      $$ServersTableAnnotationComposer,
+      $$ServersTableCreateCompanionBuilder,
+      $$ServersTableUpdateCompanionBuilder,
+      (ServerRow, $$ServersTableReferences),
+      ServerRow,
+      PrefetchHooks Function({
+        bool sshKeyId,
+        bool bmcCredId,
+        bool serverTagsRefs,
+        bool serverEnvsRefs,
+        bool serverDisabledCmdsRefs,
+        bool serverCustomCmdsRefs,
+        bool knownHostsRefs,
+        bool snippetAutoRunOnRefs,
+        bool portForwardsRefs,
+        bool remoteDesktopProfilesRefs,
+        bool containerHostsRefs,
+        bool containerRuntimesRefs,
+        bool serverPvesRefs,
+        bool connStatsRefs,
+        bool serverDistsRefs,
+        bool benchmarkRunsRefs,
+      })
+    >;
+typedef $$ServerTagsTableCreateCompanionBuilder =
+    ServerTagsCompanion Function({
+      required String serverId,
+      required String tag,
+    });
+typedef $$ServerTagsTableUpdateCompanionBuilder =
+    ServerTagsCompanion Function({Value<String> serverId, Value<String> tag});
+
+final class $$ServerTagsTableReferences
+    extends BaseReferences<_$AppDb, $ServerTagsTable, ServerTagRow> {
+  $$ServerTagsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_tag__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerTagsTableFilterComposer
+    extends Composer<_$AppDb, $ServerTagsTable> {
+  $$ServerTagsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tag => $composableBuilder(
+    column: $table.tag,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerTagsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerTagsTable> {
+  $$ServerTagsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tag => $composableBuilder(
+    column: $table.tag,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerTagsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerTagsTable> {
+  $$ServerTagsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tag =>
+      $composableBuilder(column: $table.tag, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerTagsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerTagsTable,
+          ServerTagRow,
+          $$ServerTagsTableFilterComposer,
+          $$ServerTagsTableOrderingComposer,
+          $$ServerTagsTableAnnotationComposer,
+          $$ServerTagsTableCreateCompanionBuilder,
+          $$ServerTagsTableUpdateCompanionBuilder,
+          (ServerTagRow, $$ServerTagsTableReferences),
+          ServerTagRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerTagsTableTableManager(_$AppDb db, $ServerTagsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerTagsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerTagsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerTagsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> tag = const Value.absent(),
+              }) => ServerTagsCompanion(serverId: serverId, tag: tag),
+          createCompanionCallback:
+              ({required String serverId, required String tag}) =>
+                  ServerTagsCompanion.insert(serverId: serverId, tag: tag),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerTagsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ServerTagsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ServerTagsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerTagsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerTagsTable,
+      ServerTagRow,
+      $$ServerTagsTableFilterComposer,
+      $$ServerTagsTableOrderingComposer,
+      $$ServerTagsTableAnnotationComposer,
+      $$ServerTagsTableCreateCompanionBuilder,
+      $$ServerTagsTableUpdateCompanionBuilder,
+      (ServerTagRow, $$ServerTagsTableReferences),
+      ServerTagRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ServerEnvsTableCreateCompanionBuilder =
+    ServerEnvsCompanion Function({
+      required String serverId,
+      required String key,
+      required String value,
+    });
+typedef $$ServerEnvsTableUpdateCompanionBuilder =
+    ServerEnvsCompanion Function({
+      Value<String> serverId,
+      Value<String> key,
+      Value<String> value,
+    });
+
+final class $$ServerEnvsTableReferences
+    extends BaseReferences<_$AppDb, $ServerEnvsTable, ServerEnvRow> {
+  $$ServerEnvsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_env__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerEnvsTableFilterComposer
+    extends Composer<_$AppDb, $ServerEnvsTable> {
+  $$ServerEnvsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get value => $composableBuilder(
+    column: $table.value,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerEnvsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerEnvsTable> {
+  $$ServerEnvsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get key => $composableBuilder(
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get value => $composableBuilder(
+    column: $table.value,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerEnvsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerEnvsTable> {
+  $$ServerEnvsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  GeneratedColumn<String> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerEnvsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerEnvsTable,
+          ServerEnvRow,
+          $$ServerEnvsTableFilterComposer,
+          $$ServerEnvsTableOrderingComposer,
+          $$ServerEnvsTableAnnotationComposer,
+          $$ServerEnvsTableCreateCompanionBuilder,
+          $$ServerEnvsTableUpdateCompanionBuilder,
+          (ServerEnvRow, $$ServerEnvsTableReferences),
+          ServerEnvRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerEnvsTableTableManager(_$AppDb db, $ServerEnvsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerEnvsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerEnvsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerEnvsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> key = const Value.absent(),
+                Value<String> value = const Value.absent(),
+              }) => ServerEnvsCompanion(
+                serverId: serverId,
+                key: key,
+                value: value,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String key,
+                required String value,
+              }) => ServerEnvsCompanion.insert(
+                serverId: serverId,
+                key: key,
+                value: value,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerEnvsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ServerEnvsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ServerEnvsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerEnvsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerEnvsTable,
+      ServerEnvRow,
+      $$ServerEnvsTableFilterComposer,
+      $$ServerEnvsTableOrderingComposer,
+      $$ServerEnvsTableAnnotationComposer,
+      $$ServerEnvsTableCreateCompanionBuilder,
+      $$ServerEnvsTableUpdateCompanionBuilder,
+      (ServerEnvRow, $$ServerEnvsTableReferences),
+      ServerEnvRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ServerJumpsTableCreateCompanionBuilder =
+    ServerJumpsCompanion Function({
+      required String serverId,
+      required int ord,
+      required String jumpId,
+    });
+typedef $$ServerJumpsTableUpdateCompanionBuilder =
+    ServerJumpsCompanion Function({
+      Value<String> serverId,
+      Value<int> ord,
+      Value<String> jumpId,
+    });
+
+final class $$ServerJumpsTableReferences
+    extends BaseReferences<_$AppDb, $ServerJumpsTable, ServerJumpRow> {
+  $$ServerJumpsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_jump__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ServersTable _jumpIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_jump__jump_id__server__id');
+
+  $$ServersTableProcessedTableManager get jumpId {
+    final $_column = $_itemColumn<String>('jump_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_jumpIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerJumpsTableFilterComposer
+    extends Composer<_$AppDb, $ServerJumpsTable> {
+  $$ServerJumpsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get ord => $composableBuilder(
+    column: $table.ord,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableFilterComposer get jumpId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.jumpId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerJumpsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerJumpsTable> {
+  $$ServerJumpsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get ord => $composableBuilder(
+    column: $table.ord,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableOrderingComposer get jumpId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.jumpId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerJumpsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerJumpsTable> {
+  $$ServerJumpsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get ord =>
+      $composableBuilder(column: $table.ord, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableAnnotationComposer get jumpId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.jumpId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerJumpsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerJumpsTable,
+          ServerJumpRow,
+          $$ServerJumpsTableFilterComposer,
+          $$ServerJumpsTableOrderingComposer,
+          $$ServerJumpsTableAnnotationComposer,
+          $$ServerJumpsTableCreateCompanionBuilder,
+          $$ServerJumpsTableUpdateCompanionBuilder,
+          (ServerJumpRow, $$ServerJumpsTableReferences),
+          ServerJumpRow,
+          PrefetchHooks Function({bool serverId, bool jumpId})
+        > {
+  $$ServerJumpsTableTableManager(_$AppDb db, $ServerJumpsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerJumpsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerJumpsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerJumpsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<int> ord = const Value.absent(),
+                Value<String> jumpId = const Value.absent(),
+              }) => ServerJumpsCompanion(
+                serverId: serverId,
+                ord: ord,
+                jumpId: jumpId,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required int ord,
+                required String jumpId,
+              }) => ServerJumpsCompanion.insert(
+                serverId: serverId,
+                ord: ord,
+                jumpId: jumpId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerJumpsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false, jumpId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ServerJumpsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ServerJumpsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (jumpId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.jumpId,
+                                referencedTable: $$ServerJumpsTableReferences
+                                    ._jumpIdTable(db),
+                                referencedColumn: $$ServerJumpsTableReferences
+                                    ._jumpIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerJumpsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerJumpsTable,
+      ServerJumpRow,
+      $$ServerJumpsTableFilterComposer,
+      $$ServerJumpsTableOrderingComposer,
+      $$ServerJumpsTableAnnotationComposer,
+      $$ServerJumpsTableCreateCompanionBuilder,
+      $$ServerJumpsTableUpdateCompanionBuilder,
+      (ServerJumpRow, $$ServerJumpsTableReferences),
+      ServerJumpRow,
+      PrefetchHooks Function({bool serverId, bool jumpId})
+    >;
+typedef $$ServerDisabledCmdsTableCreateCompanionBuilder =
+    ServerDisabledCmdsCompanion Function({
+      required String serverId,
+      required String cmdType,
+    });
+typedef $$ServerDisabledCmdsTableUpdateCompanionBuilder =
+    ServerDisabledCmdsCompanion Function({
+      Value<String> serverId,
+      Value<String> cmdType,
+    });
+
+final class $$ServerDisabledCmdsTableReferences
+    extends
+        BaseReferences<
+          _$AppDb,
+          $ServerDisabledCmdsTable,
+          ServerDisabledCmdRow
+        > {
+  $$ServerDisabledCmdsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_disabled_cmd__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerDisabledCmdsTableFilterComposer
+    extends Composer<_$AppDb, $ServerDisabledCmdsTable> {
+  $$ServerDisabledCmdsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get cmdType => $composableBuilder(
+    column: $table.cmdType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDisabledCmdsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerDisabledCmdsTable> {
+  $$ServerDisabledCmdsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get cmdType => $composableBuilder(
+    column: $table.cmdType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDisabledCmdsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerDisabledCmdsTable> {
+  $$ServerDisabledCmdsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get cmdType =>
+      $composableBuilder(column: $table.cmdType, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDisabledCmdsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerDisabledCmdsTable,
+          ServerDisabledCmdRow,
+          $$ServerDisabledCmdsTableFilterComposer,
+          $$ServerDisabledCmdsTableOrderingComposer,
+          $$ServerDisabledCmdsTableAnnotationComposer,
+          $$ServerDisabledCmdsTableCreateCompanionBuilder,
+          $$ServerDisabledCmdsTableUpdateCompanionBuilder,
+          (ServerDisabledCmdRow, $$ServerDisabledCmdsTableReferences),
+          ServerDisabledCmdRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerDisabledCmdsTableTableManager(
+    _$AppDb db,
+    $ServerDisabledCmdsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerDisabledCmdsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerDisabledCmdsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerDisabledCmdsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> cmdType = const Value.absent(),
+              }) => ServerDisabledCmdsCompanion(
+                serverId: serverId,
+                cmdType: cmdType,
+              ),
+          createCompanionCallback:
+              ({required String serverId, required String cmdType}) =>
+                  ServerDisabledCmdsCompanion.insert(
+                    serverId: serverId,
+                    cmdType: cmdType,
+                  ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerDisabledCmdsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable:
+                                    $$ServerDisabledCmdsTableReferences
+                                        ._serverIdTable(db),
+                                referencedColumn:
+                                    $$ServerDisabledCmdsTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerDisabledCmdsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerDisabledCmdsTable,
+      ServerDisabledCmdRow,
+      $$ServerDisabledCmdsTableFilterComposer,
+      $$ServerDisabledCmdsTableOrderingComposer,
+      $$ServerDisabledCmdsTableAnnotationComposer,
+      $$ServerDisabledCmdsTableCreateCompanionBuilder,
+      $$ServerDisabledCmdsTableUpdateCompanionBuilder,
+      (ServerDisabledCmdRow, $$ServerDisabledCmdsTableReferences),
+      ServerDisabledCmdRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ServerCustomCmdsTableCreateCompanionBuilder =
+    ServerCustomCmdsCompanion Function({
+      required String serverId,
+      required String name,
+      required String cmd,
+    });
+typedef $$ServerCustomCmdsTableUpdateCompanionBuilder =
+    ServerCustomCmdsCompanion Function({
+      Value<String> serverId,
+      Value<String> name,
+      Value<String> cmd,
+    });
+
+final class $$ServerCustomCmdsTableReferences
+    extends
+        BaseReferences<_$AppDb, $ServerCustomCmdsTable, ServerCustomCmdRow> {
+  $$ServerCustomCmdsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_custom_cmd__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerCustomCmdsTableFilterComposer
+    extends Composer<_$AppDb, $ServerCustomCmdsTable> {
+  $$ServerCustomCmdsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get cmd => $composableBuilder(
+    column: $table.cmd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerCustomCmdsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerCustomCmdsTable> {
+  $$ServerCustomCmdsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get cmd => $composableBuilder(
+    column: $table.cmd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerCustomCmdsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerCustomCmdsTable> {
+  $$ServerCustomCmdsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get cmd =>
+      $composableBuilder(column: $table.cmd, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerCustomCmdsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerCustomCmdsTable,
+          ServerCustomCmdRow,
+          $$ServerCustomCmdsTableFilterComposer,
+          $$ServerCustomCmdsTableOrderingComposer,
+          $$ServerCustomCmdsTableAnnotationComposer,
+          $$ServerCustomCmdsTableCreateCompanionBuilder,
+          $$ServerCustomCmdsTableUpdateCompanionBuilder,
+          (ServerCustomCmdRow, $$ServerCustomCmdsTableReferences),
+          ServerCustomCmdRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerCustomCmdsTableTableManager(_$AppDb db, $ServerCustomCmdsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerCustomCmdsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerCustomCmdsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerCustomCmdsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> cmd = const Value.absent(),
+              }) => ServerCustomCmdsCompanion(
+                serverId: serverId,
+                name: name,
+                cmd: cmd,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String name,
+                required String cmd,
+              }) => ServerCustomCmdsCompanion.insert(
+                serverId: serverId,
+                name: name,
+                cmd: cmd,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerCustomCmdsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable:
+                                    $$ServerCustomCmdsTableReferences
+                                        ._serverIdTable(db),
+                                referencedColumn:
+                                    $$ServerCustomCmdsTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerCustomCmdsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerCustomCmdsTable,
+      ServerCustomCmdRow,
+      $$ServerCustomCmdsTableFilterComposer,
+      $$ServerCustomCmdsTableOrderingComposer,
+      $$ServerCustomCmdsTableAnnotationComposer,
+      $$ServerCustomCmdsTableCreateCompanionBuilder,
+      $$ServerCustomCmdsTableUpdateCompanionBuilder,
+      (ServerCustomCmdRow, $$ServerCustomCmdsTableReferences),
+      ServerCustomCmdRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$KnownHostsTableCreateCompanionBuilder =
+    KnownHostsCompanion Function({
+      required String serverId,
+      required String keyType,
+      required String fingerprint,
+    });
+typedef $$KnownHostsTableUpdateCompanionBuilder =
+    KnownHostsCompanion Function({
+      Value<String> serverId,
+      Value<String> keyType,
+      Value<String> fingerprint,
+    });
+
+final class $$KnownHostsTableReferences
+    extends BaseReferences<_$AppDb, $KnownHostsTable, KnownHostRow> {
+  $$KnownHostsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('known_host__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$KnownHostsTableFilterComposer
+    extends Composer<_$AppDb, $KnownHostsTable> {
+  $$KnownHostsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get keyType => $composableBuilder(
+    column: $table.keyType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$KnownHostsTableOrderingComposer
+    extends Composer<_$AppDb, $KnownHostsTable> {
+  $$KnownHostsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get keyType => $composableBuilder(
+    column: $table.keyType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$KnownHostsTableAnnotationComposer
+    extends Composer<_$AppDb, $KnownHostsTable> {
+  $$KnownHostsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get keyType =>
+      $composableBuilder(column: $table.keyType, builder: (column) => column);
+
+  GeneratedColumn<String> get fingerprint => $composableBuilder(
+    column: $table.fingerprint,
+    builder: (column) => column,
+  );
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$KnownHostsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $KnownHostsTable,
+          KnownHostRow,
+          $$KnownHostsTableFilterComposer,
+          $$KnownHostsTableOrderingComposer,
+          $$KnownHostsTableAnnotationComposer,
+          $$KnownHostsTableCreateCompanionBuilder,
+          $$KnownHostsTableUpdateCompanionBuilder,
+          (KnownHostRow, $$KnownHostsTableReferences),
+          KnownHostRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$KnownHostsTableTableManager(_$AppDb db, $KnownHostsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$KnownHostsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$KnownHostsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$KnownHostsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> keyType = const Value.absent(),
+                Value<String> fingerprint = const Value.absent(),
+              }) => KnownHostsCompanion(
+                serverId: serverId,
+                keyType: keyType,
+                fingerprint: fingerprint,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String keyType,
+                required String fingerprint,
+              }) => KnownHostsCompanion.insert(
+                serverId: serverId,
+                keyType: keyType,
+                fingerprint: fingerprint,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$KnownHostsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$KnownHostsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$KnownHostsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$KnownHostsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $KnownHostsTable,
+      KnownHostRow,
+      $$KnownHostsTableFilterComposer,
+      $$KnownHostsTableOrderingComposer,
+      $$KnownHostsTableAnnotationComposer,
+      $$KnownHostsTableCreateCompanionBuilder,
+      $$KnownHostsTableUpdateCompanionBuilder,
+      (KnownHostRow, $$KnownHostsTableReferences),
+      KnownHostRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$SnippetsTableCreateCompanionBuilder =
+    SnippetsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String name,
+      required String script,
+      Value<String?> note,
+    });
+typedef $$SnippetsTableUpdateCompanionBuilder =
+    SnippetsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> name,
+      Value<String> script,
+      Value<String?> note,
+    });
+
+final class $$SnippetsTableReferences
+    extends BaseReferences<_$AppDb, $SnippetsTable, SnippetRow> {
+  $$SnippetsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$SnippetTagsTable, List<SnippetTagRow>>
+  _snippetTagsRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.snippetTags,
+    aliasName: 'snippet__id__snippet_tag__snippet_id',
+  );
+
+  $$SnippetTagsTableProcessedTableManager get snippetTagsRefs {
+    final manager = $$SnippetTagsTableTableManager(
+      $_db,
+      $_db.snippetTags,
+    ).filter((f) => f.snippetId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_snippetTagsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SnippetAutoRunOnTable, List<SnippetAutoRunRow>>
+  _snippetAutoRunOnRefsTable(_$AppDb db) => MultiTypedResultKey.fromTable(
+    db.snippetAutoRunOn,
+    aliasName: 'snippet__id__snippet_auto_run_on__snippet_id',
+  );
+
+  $$SnippetAutoRunOnTableProcessedTableManager get snippetAutoRunOnRefs {
+    final manager = $$SnippetAutoRunOnTableTableManager(
+      $_db,
+      $_db.snippetAutoRunOn,
+    ).filter((f) => f.snippetId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _snippetAutoRunOnRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SnippetsTableFilterComposer extends Composer<_$AppDb, $SnippetsTable> {
+  $$SnippetsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get script => $composableBuilder(
+    column: $table.script,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> snippetTagsRefs(
+    Expression<bool> Function($$SnippetTagsTableFilterComposer f) f,
+  ) {
+    final $$SnippetTagsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetTags,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetTagsTableFilterComposer(
+            $db: $db,
+            $table: $db.snippetTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> snippetAutoRunOnRefs(
+    Expression<bool> Function($$SnippetAutoRunOnTableFilterComposer f) f,
+  ) {
+    final $$SnippetAutoRunOnTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetAutoRunOn,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetAutoRunOnTableFilterComposer(
+            $db: $db,
+            $table: $db.snippetAutoRunOn,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SnippetsTableOrderingComposer
+    extends Composer<_$AppDb, $SnippetsTable> {
+  $$SnippetsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get script => $composableBuilder(
+    column: $table.script,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SnippetsTableAnnotationComposer
+    extends Composer<_$AppDb, $SnippetsTable> {
+  $$SnippetsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get script =>
+      $composableBuilder(column: $table.script, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  Expression<T> snippetTagsRefs<T extends Object>(
+    Expression<T> Function($$SnippetTagsTableAnnotationComposer a) f,
+  ) {
+    final $$SnippetTagsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetTags,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetTagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippetTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> snippetAutoRunOnRefs<T extends Object>(
+    Expression<T> Function($$SnippetAutoRunOnTableAnnotationComposer a) f,
+  ) {
+    final $$SnippetAutoRunOnTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.snippetAutoRunOn,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetAutoRunOnTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippetAutoRunOn,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SnippetsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $SnippetsTable,
+          SnippetRow,
+          $$SnippetsTableFilterComposer,
+          $$SnippetsTableOrderingComposer,
+          $$SnippetsTableAnnotationComposer,
+          $$SnippetsTableCreateCompanionBuilder,
+          $$SnippetsTableUpdateCompanionBuilder,
+          (SnippetRow, $$SnippetsTableReferences),
+          SnippetRow,
+          PrefetchHooks Function({
+            bool snippetTagsRefs,
+            bool snippetAutoRunOnRefs,
+          })
+        > {
+  $$SnippetsTableTableManager(_$AppDb db, $SnippetsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SnippetsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SnippetsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SnippetsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> script = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+              }) => SnippetsCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                script: script,
+                note: note,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String name,
+                required String script,
+                Value<String?> note = const Value.absent(),
+              }) => SnippetsCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                name: name,
+                script: script,
+                note: note,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SnippetsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({snippetTagsRefs = false, snippetAutoRunOnRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (snippetTagsRefs) db.snippetTags,
+                    if (snippetAutoRunOnRefs) db.snippetAutoRunOn,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (snippetTagsRefs)
+                        await $_getPrefetchedData<
+                          SnippetRow,
+                          $SnippetsTable,
+                          SnippetTagRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SnippetsTableReferences
+                              ._snippetTagsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SnippetsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).snippetTagsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.snippetId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (snippetAutoRunOnRefs)
+                        await $_getPrefetchedData<
+                          SnippetRow,
+                          $SnippetsTable,
+                          SnippetAutoRunRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SnippetsTableReferences
+                              ._snippetAutoRunOnRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SnippetsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).snippetAutoRunOnRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.snippetId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SnippetsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $SnippetsTable,
+      SnippetRow,
+      $$SnippetsTableFilterComposer,
+      $$SnippetsTableOrderingComposer,
+      $$SnippetsTableAnnotationComposer,
+      $$SnippetsTableCreateCompanionBuilder,
+      $$SnippetsTableUpdateCompanionBuilder,
+      (SnippetRow, $$SnippetsTableReferences),
+      SnippetRow,
+      PrefetchHooks Function({bool snippetTagsRefs, bool snippetAutoRunOnRefs})
+    >;
+typedef $$SnippetTagsTableCreateCompanionBuilder =
+    SnippetTagsCompanion Function({
+      required String snippetId,
+      required String tag,
+    });
+typedef $$SnippetTagsTableUpdateCompanionBuilder =
+    SnippetTagsCompanion Function({Value<String> snippetId, Value<String> tag});
+
+final class $$SnippetTagsTableReferences
+    extends BaseReferences<_$AppDb, $SnippetTagsTable, SnippetTagRow> {
+  $$SnippetTagsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SnippetsTable _snippetIdTable(_$AppDb db) =>
+      db.snippets.createAlias('snippet_tag__snippet_id__snippet__id');
+
+  $$SnippetsTableProcessedTableManager get snippetId {
+    final $_column = $_itemColumn<String>('snippet_id')!;
+
+    final manager = $$SnippetsTableTableManager(
+      $_db,
+      $_db.snippets,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_snippetIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SnippetTagsTableFilterComposer
+    extends Composer<_$AppDb, $SnippetTagsTable> {
+  $$SnippetTagsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tag => $composableBuilder(
+    column: $table.tag,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SnippetsTableFilterComposer get snippetId {
+    final $$SnippetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableFilterComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetTagsTableOrderingComposer
+    extends Composer<_$AppDb, $SnippetTagsTable> {
+  $$SnippetTagsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tag => $composableBuilder(
+    column: $table.tag,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SnippetsTableOrderingComposer get snippetId {
+    final $$SnippetsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableOrderingComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetTagsTableAnnotationComposer
+    extends Composer<_$AppDb, $SnippetTagsTable> {
+  $$SnippetTagsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tag =>
+      $composableBuilder(column: $table.tag, builder: (column) => column);
+
+  $$SnippetsTableAnnotationComposer get snippetId {
+    final $$SnippetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetTagsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $SnippetTagsTable,
+          SnippetTagRow,
+          $$SnippetTagsTableFilterComposer,
+          $$SnippetTagsTableOrderingComposer,
+          $$SnippetTagsTableAnnotationComposer,
+          $$SnippetTagsTableCreateCompanionBuilder,
+          $$SnippetTagsTableUpdateCompanionBuilder,
+          (SnippetTagRow, $$SnippetTagsTableReferences),
+          SnippetTagRow,
+          PrefetchHooks Function({bool snippetId})
+        > {
+  $$SnippetTagsTableTableManager(_$AppDb db, $SnippetTagsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SnippetTagsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SnippetTagsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SnippetTagsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> snippetId = const Value.absent(),
+                Value<String> tag = const Value.absent(),
+              }) => SnippetTagsCompanion(snippetId: snippetId, tag: tag),
+          createCompanionCallback:
+              ({required String snippetId, required String tag}) =>
+                  SnippetTagsCompanion.insert(snippetId: snippetId, tag: tag),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SnippetTagsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({snippetId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (snippetId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.snippetId,
+                                referencedTable: $$SnippetTagsTableReferences
+                                    ._snippetIdTable(db),
+                                referencedColumn: $$SnippetTagsTableReferences
+                                    ._snippetIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SnippetTagsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $SnippetTagsTable,
+      SnippetTagRow,
+      $$SnippetTagsTableFilterComposer,
+      $$SnippetTagsTableOrderingComposer,
+      $$SnippetTagsTableAnnotationComposer,
+      $$SnippetTagsTableCreateCompanionBuilder,
+      $$SnippetTagsTableUpdateCompanionBuilder,
+      (SnippetTagRow, $$SnippetTagsTableReferences),
+      SnippetTagRow,
+      PrefetchHooks Function({bool snippetId})
+    >;
+typedef $$SnippetAutoRunOnTableCreateCompanionBuilder =
+    SnippetAutoRunOnCompanion Function({
+      required String snippetId,
+      required String serverId,
+    });
+typedef $$SnippetAutoRunOnTableUpdateCompanionBuilder =
+    SnippetAutoRunOnCompanion Function({
+      Value<String> snippetId,
+      Value<String> serverId,
+    });
+
+final class $$SnippetAutoRunOnTableReferences
+    extends BaseReferences<_$AppDb, $SnippetAutoRunOnTable, SnippetAutoRunRow> {
+  $$SnippetAutoRunOnTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SnippetsTable _snippetIdTable(_$AppDb db) =>
+      db.snippets.createAlias('snippet_auto_run_on__snippet_id__snippet__id');
+
+  $$SnippetsTableProcessedTableManager get snippetId {
+    final $_column = $_itemColumn<String>('snippet_id')!;
+
+    final manager = $$SnippetsTableTableManager(
+      $_db,
+      $_db.snippets,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_snippetIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('snippet_auto_run_on__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SnippetAutoRunOnTableFilterComposer
+    extends Composer<_$AppDb, $SnippetAutoRunOnTable> {
+  $$SnippetAutoRunOnTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SnippetsTableFilterComposer get snippetId {
+    final $$SnippetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableFilterComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetAutoRunOnTableOrderingComposer
+    extends Composer<_$AppDb, $SnippetAutoRunOnTable> {
+  $$SnippetAutoRunOnTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SnippetsTableOrderingComposer get snippetId {
+    final $$SnippetsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableOrderingComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetAutoRunOnTableAnnotationComposer
+    extends Composer<_$AppDb, $SnippetAutoRunOnTable> {
+  $$SnippetAutoRunOnTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SnippetsTableAnnotationComposer get snippetId {
+    final $$SnippetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SnippetAutoRunOnTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $SnippetAutoRunOnTable,
+          SnippetAutoRunRow,
+          $$SnippetAutoRunOnTableFilterComposer,
+          $$SnippetAutoRunOnTableOrderingComposer,
+          $$SnippetAutoRunOnTableAnnotationComposer,
+          $$SnippetAutoRunOnTableCreateCompanionBuilder,
+          $$SnippetAutoRunOnTableUpdateCompanionBuilder,
+          (SnippetAutoRunRow, $$SnippetAutoRunOnTableReferences),
+          SnippetAutoRunRow,
+          PrefetchHooks Function({bool snippetId, bool serverId})
+        > {
+  $$SnippetAutoRunOnTableTableManager(_$AppDb db, $SnippetAutoRunOnTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SnippetAutoRunOnTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SnippetAutoRunOnTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SnippetAutoRunOnTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> snippetId = const Value.absent(),
+                Value<String> serverId = const Value.absent(),
+              }) => SnippetAutoRunOnCompanion(
+                snippetId: snippetId,
+                serverId: serverId,
+              ),
+          createCompanionCallback:
+              ({required String snippetId, required String serverId}) =>
+                  SnippetAutoRunOnCompanion.insert(
+                    snippetId: snippetId,
+                    serverId: serverId,
+                  ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SnippetAutoRunOnTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({snippetId = false, serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (snippetId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.snippetId,
+                                referencedTable:
+                                    $$SnippetAutoRunOnTableReferences
+                                        ._snippetIdTable(db),
+                                referencedColumn:
+                                    $$SnippetAutoRunOnTableReferences
+                                        ._snippetIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable:
+                                    $$SnippetAutoRunOnTableReferences
+                                        ._serverIdTable(db),
+                                referencedColumn:
+                                    $$SnippetAutoRunOnTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SnippetAutoRunOnTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $SnippetAutoRunOnTable,
+      SnippetAutoRunRow,
+      $$SnippetAutoRunOnTableFilterComposer,
+      $$SnippetAutoRunOnTableOrderingComposer,
+      $$SnippetAutoRunOnTableAnnotationComposer,
+      $$SnippetAutoRunOnTableCreateCompanionBuilder,
+      $$SnippetAutoRunOnTableUpdateCompanionBuilder,
+      (SnippetAutoRunRow, $$SnippetAutoRunOnTableReferences),
+      SnippetAutoRunRow,
+      PrefetchHooks Function({bool snippetId, bool serverId})
+    >;
+typedef $$PortForwardsTableCreateCompanionBuilder =
+    PortForwardsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String serverId,
+      required String name,
+      required String type,
+      Value<String?> localHost,
+      Value<int> localPort,
+      Value<String?> remoteHost,
+      Value<int?> remotePort,
+    });
+typedef $$PortForwardsTableUpdateCompanionBuilder =
+    PortForwardsCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> serverId,
+      Value<String> name,
+      Value<String> type,
+      Value<String?> localHost,
+      Value<int> localPort,
+      Value<String?> remoteHost,
+      Value<int?> remotePort,
+    });
+
+final class $$PortForwardsTableReferences
+    extends BaseReferences<_$AppDb, $PortForwardsTable, PortForwardRow> {
+  $$PortForwardsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('port_forward__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$PortForwardsTableFilterComposer
+    extends Composer<_$AppDb, $PortForwardsTable> {
+  $$PortForwardsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get localHost => $composableBuilder(
+    column: $table.localHost,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get localPort => $composableBuilder(
+    column: $table.localPort,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get remoteHost => $composableBuilder(
+    column: $table.remoteHost,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get remotePort => $composableBuilder(
+    column: $table.remotePort,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PortForwardsTableOrderingComposer
+    extends Composer<_$AppDb, $PortForwardsTable> {
+  $$PortForwardsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get localHost => $composableBuilder(
+    column: $table.localHost,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get localPort => $composableBuilder(
+    column: $table.localPort,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get remoteHost => $composableBuilder(
+    column: $table.remoteHost,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get remotePort => $composableBuilder(
+    column: $table.remotePort,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PortForwardsTableAnnotationComposer
+    extends Composer<_$AppDb, $PortForwardsTable> {
+  $$PortForwardsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get localHost =>
+      $composableBuilder(column: $table.localHost, builder: (column) => column);
+
+  GeneratedColumn<int> get localPort =>
+      $composableBuilder(column: $table.localPort, builder: (column) => column);
+
+  GeneratedColumn<String> get remoteHost => $composableBuilder(
+    column: $table.remoteHost,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get remotePort => $composableBuilder(
+    column: $table.remotePort,
+    builder: (column) => column,
+  );
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PortForwardsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $PortForwardsTable,
+          PortForwardRow,
+          $$PortForwardsTableFilterComposer,
+          $$PortForwardsTableOrderingComposer,
+          $$PortForwardsTableAnnotationComposer,
+          $$PortForwardsTableCreateCompanionBuilder,
+          $$PortForwardsTableUpdateCompanionBuilder,
+          (PortForwardRow, $$PortForwardsTableReferences),
+          PortForwardRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$PortForwardsTableTableManager(_$AppDb db, $PortForwardsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PortForwardsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PortForwardsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PortForwardsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> serverId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String?> localHost = const Value.absent(),
+                Value<int> localPort = const Value.absent(),
+                Value<String?> remoteHost = const Value.absent(),
+                Value<int?> remotePort = const Value.absent(),
+              }) => PortForwardsCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                serverId: serverId,
+                name: name,
+                type: type,
+                localHost: localHost,
+                localPort: localPort,
+                remoteHost: remoteHost,
+                remotePort: remotePort,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String serverId,
+                required String name,
+                required String type,
+                Value<String?> localHost = const Value.absent(),
+                Value<int> localPort = const Value.absent(),
+                Value<String?> remoteHost = const Value.absent(),
+                Value<int?> remotePort = const Value.absent(),
+              }) => PortForwardsCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                serverId: serverId,
+                name: name,
+                type: type,
+                localHost: localHost,
+                localPort: localPort,
+                remoteHost: remoteHost,
+                remotePort: remotePort,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PortForwardsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$PortForwardsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$PortForwardsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PortForwardsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $PortForwardsTable,
+      PortForwardRow,
+      $$PortForwardsTableFilterComposer,
+      $$PortForwardsTableOrderingComposer,
+      $$PortForwardsTableAnnotationComposer,
+      $$PortForwardsTableCreateCompanionBuilder,
+      $$PortForwardsTableUpdateCompanionBuilder,
+      (PortForwardRow, $$PortForwardsTableReferences),
+      PortForwardRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$RemoteDesktopProfilesTableCreateCompanionBuilder =
+    RemoteDesktopProfilesCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      required String id,
+      required String serverId,
+      required String name,
+      required String protocol,
+      Value<String> host,
+      required int port,
+      Value<String?> username,
+      Value<String?> password,
+      Value<String?> domain,
+      Value<bool> viewOnly,
+      Value<bool> shared,
+      Value<String?> trustedCertSha256,
+    });
+typedef $$RemoteDesktopProfilesTableUpdateCompanionBuilder =
+    RemoteDesktopProfilesCompanion Function({
+      Value<int> updatedAt,
+      Value<int> rev,
+      Value<String> id,
+      Value<String> serverId,
+      Value<String> name,
+      Value<String> protocol,
+      Value<String> host,
+      Value<int> port,
+      Value<String?> username,
+      Value<String?> password,
+      Value<String?> domain,
+      Value<bool> viewOnly,
+      Value<bool> shared,
+      Value<String?> trustedCertSha256,
+    });
+
+final class $$RemoteDesktopProfilesTableReferences
+    extends
+        BaseReferences<
+          _$AppDb,
+          $RemoteDesktopProfilesTable,
+          RemoteDesktopProfileRow
+        > {
+  $$RemoteDesktopProfilesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('remote_desktop_profile__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$RemoteDesktopProfilesTableFilterComposer
+    extends Composer<_$AppDb, $RemoteDesktopProfilesTable> {
+  $$RemoteDesktopProfilesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get protocol => $composableBuilder(
+    column: $table.protocol,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get host => $composableBuilder(
+    column: $table.host,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get port => $composableBuilder(
+    column: $table.port,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get password => $composableBuilder(
+    column: $table.password,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get domain => $composableBuilder(
+    column: $table.domain,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get viewOnly => $composableBuilder(
+    column: $table.viewOnly,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get shared => $composableBuilder(
+    column: $table.shared,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get trustedCertSha256 => $composableBuilder(
+    column: $table.trustedCertSha256,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteDesktopProfilesTableOrderingComposer
+    extends Composer<_$AppDb, $RemoteDesktopProfilesTable> {
+  $$RemoteDesktopProfilesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rev => $composableBuilder(
+    column: $table.rev,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get protocol => $composableBuilder(
+    column: $table.protocol,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get host => $composableBuilder(
+    column: $table.host,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get port => $composableBuilder(
+    column: $table.port,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get username => $composableBuilder(
+    column: $table.username,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get password => $composableBuilder(
+    column: $table.password,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get domain => $composableBuilder(
+    column: $table.domain,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get viewOnly => $composableBuilder(
+    column: $table.viewOnly,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get shared => $composableBuilder(
+    column: $table.shared,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get trustedCertSha256 => $composableBuilder(
+    column: $table.trustedCertSha256,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteDesktopProfilesTableAnnotationComposer
+    extends Composer<_$AppDb, $RemoteDesktopProfilesTable> {
+  $$RemoteDesktopProfilesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get rev =>
+      $composableBuilder(column: $table.rev, builder: (column) => column);
+
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get protocol =>
+      $composableBuilder(column: $table.protocol, builder: (column) => column);
+
+  GeneratedColumn<String> get host =>
+      $composableBuilder(column: $table.host, builder: (column) => column);
+
+  GeneratedColumn<int> get port =>
+      $composableBuilder(column: $table.port, builder: (column) => column);
+
+  GeneratedColumn<String> get username =>
+      $composableBuilder(column: $table.username, builder: (column) => column);
+
+  GeneratedColumn<String> get password =>
+      $composableBuilder(column: $table.password, builder: (column) => column);
+
+  GeneratedColumn<String> get domain =>
+      $composableBuilder(column: $table.domain, builder: (column) => column);
+
+  GeneratedColumn<bool> get viewOnly =>
+      $composableBuilder(column: $table.viewOnly, builder: (column) => column);
+
+  GeneratedColumn<bool> get shared =>
+      $composableBuilder(column: $table.shared, builder: (column) => column);
+
+  GeneratedColumn<String> get trustedCertSha256 => $composableBuilder(
+    column: $table.trustedCertSha256,
+    builder: (column) => column,
+  );
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RemoteDesktopProfilesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $RemoteDesktopProfilesTable,
+          RemoteDesktopProfileRow,
+          $$RemoteDesktopProfilesTableFilterComposer,
+          $$RemoteDesktopProfilesTableOrderingComposer,
+          $$RemoteDesktopProfilesTableAnnotationComposer,
+          $$RemoteDesktopProfilesTableCreateCompanionBuilder,
+          $$RemoteDesktopProfilesTableUpdateCompanionBuilder,
+          (RemoteDesktopProfileRow, $$RemoteDesktopProfilesTableReferences),
+          RemoteDesktopProfileRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$RemoteDesktopProfilesTableTableManager(
+    _$AppDb db,
+    $RemoteDesktopProfilesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RemoteDesktopProfilesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$RemoteDesktopProfilesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$RemoteDesktopProfilesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                Value<String> id = const Value.absent(),
+                Value<String> serverId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> protocol = const Value.absent(),
+                Value<String> host = const Value.absent(),
+                Value<int> port = const Value.absent(),
+                Value<String?> username = const Value.absent(),
+                Value<String?> password = const Value.absent(),
+                Value<String?> domain = const Value.absent(),
+                Value<bool> viewOnly = const Value.absent(),
+                Value<bool> shared = const Value.absent(),
+                Value<String?> trustedCertSha256 = const Value.absent(),
+              }) => RemoteDesktopProfilesCompanion(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                serverId: serverId,
+                name: name,
+                protocol: protocol,
+                host: host,
+                port: port,
+                username: username,
+                password: password,
+                domain: domain,
+                viewOnly: viewOnly,
+                shared: shared,
+                trustedCertSha256: trustedCertSha256,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rev = const Value.absent(),
+                required String id,
+                required String serverId,
+                required String name,
+                required String protocol,
+                Value<String> host = const Value.absent(),
+                required int port,
+                Value<String?> username = const Value.absent(),
+                Value<String?> password = const Value.absent(),
+                Value<String?> domain = const Value.absent(),
+                Value<bool> viewOnly = const Value.absent(),
+                Value<bool> shared = const Value.absent(),
+                Value<String?> trustedCertSha256 = const Value.absent(),
+              }) => RemoteDesktopProfilesCompanion.insert(
+                updatedAt: updatedAt,
+                rev: rev,
+                id: id,
+                serverId: serverId,
+                name: name,
+                protocol: protocol,
+                host: host,
+                port: port,
+                username: username,
+                password: password,
+                domain: domain,
+                viewOnly: viewOnly,
+                shared: shared,
+                trustedCertSha256: trustedCertSha256,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$RemoteDesktopProfilesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable:
+                                    $$RemoteDesktopProfilesTableReferences
+                                        ._serverIdTable(db),
+                                referencedColumn:
+                                    $$RemoteDesktopProfilesTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$RemoteDesktopProfilesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $RemoteDesktopProfilesTable,
+      RemoteDesktopProfileRow,
+      $$RemoteDesktopProfilesTableFilterComposer,
+      $$RemoteDesktopProfilesTableOrderingComposer,
+      $$RemoteDesktopProfilesTableAnnotationComposer,
+      $$RemoteDesktopProfilesTableCreateCompanionBuilder,
+      $$RemoteDesktopProfilesTableUpdateCompanionBuilder,
+      (RemoteDesktopProfileRow, $$RemoteDesktopProfilesTableReferences),
+      RemoteDesktopProfileRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ContainerHostsTableCreateCompanionBuilder =
+    ContainerHostsCompanion Function({
+      required String serverId,
+      required String type,
+      required String host,
+    });
+typedef $$ContainerHostsTableUpdateCompanionBuilder =
+    ContainerHostsCompanion Function({
+      Value<String> serverId,
+      Value<String> type,
+      Value<String> host,
+    });
+
+final class $$ContainerHostsTableReferences
+    extends BaseReferences<_$AppDb, $ContainerHostsTable, ContainerHostRow> {
+  $$ContainerHostsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('container_host__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ContainerHostsTableFilterComposer
+    extends Composer<_$AppDb, $ContainerHostsTable> {
+  $$ContainerHostsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get host => $composableBuilder(
+    column: $table.host,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerHostsTableOrderingComposer
+    extends Composer<_$AppDb, $ContainerHostsTable> {
+  $$ContainerHostsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get host => $composableBuilder(
+    column: $table.host,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerHostsTableAnnotationComposer
+    extends Composer<_$AppDb, $ContainerHostsTable> {
+  $$ContainerHostsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get host =>
+      $composableBuilder(column: $table.host, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerHostsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ContainerHostsTable,
+          ContainerHostRow,
+          $$ContainerHostsTableFilterComposer,
+          $$ContainerHostsTableOrderingComposer,
+          $$ContainerHostsTableAnnotationComposer,
+          $$ContainerHostsTableCreateCompanionBuilder,
+          $$ContainerHostsTableUpdateCompanionBuilder,
+          (ContainerHostRow, $$ContainerHostsTableReferences),
+          ContainerHostRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ContainerHostsTableTableManager(_$AppDb db, $ContainerHostsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ContainerHostsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ContainerHostsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ContainerHostsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String> host = const Value.absent(),
+              }) => ContainerHostsCompanion(
+                serverId: serverId,
+                type: type,
+                host: host,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String type,
+                required String host,
+              }) => ContainerHostsCompanion.insert(
+                serverId: serverId,
+                type: type,
+                host: host,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ContainerHostsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ContainerHostsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn:
+                                    $$ContainerHostsTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ContainerHostsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ContainerHostsTable,
+      ContainerHostRow,
+      $$ContainerHostsTableFilterComposer,
+      $$ContainerHostsTableOrderingComposer,
+      $$ContainerHostsTableAnnotationComposer,
+      $$ContainerHostsTableCreateCompanionBuilder,
+      $$ContainerHostsTableUpdateCompanionBuilder,
+      (ContainerHostRow, $$ContainerHostsTableReferences),
+      ContainerHostRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ContainerRuntimesTableCreateCompanionBuilder =
+    ContainerRuntimesCompanion Function({
+      required String serverId,
+      required String type,
+    });
+typedef $$ContainerRuntimesTableUpdateCompanionBuilder =
+    ContainerRuntimesCompanion Function({
+      Value<String> serverId,
+      Value<String> type,
+    });
+
+final class $$ContainerRuntimesTableReferences
+    extends
+        BaseReferences<_$AppDb, $ContainerRuntimesTable, ContainerRuntimeRow> {
+  $$ContainerRuntimesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('container_runtime__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ContainerRuntimesTableFilterComposer
+    extends Composer<_$AppDb, $ContainerRuntimesTable> {
+  $$ContainerRuntimesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerRuntimesTableOrderingComposer
+    extends Composer<_$AppDb, $ContainerRuntimesTable> {
+  $$ContainerRuntimesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerRuntimesTableAnnotationComposer
+    extends Composer<_$AppDb, $ContainerRuntimesTable> {
+  $$ContainerRuntimesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ContainerRuntimesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ContainerRuntimesTable,
+          ContainerRuntimeRow,
+          $$ContainerRuntimesTableFilterComposer,
+          $$ContainerRuntimesTableOrderingComposer,
+          $$ContainerRuntimesTableAnnotationComposer,
+          $$ContainerRuntimesTableCreateCompanionBuilder,
+          $$ContainerRuntimesTableUpdateCompanionBuilder,
+          (ContainerRuntimeRow, $$ContainerRuntimesTableReferences),
+          ContainerRuntimeRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ContainerRuntimesTableTableManager(
+    _$AppDb db,
+    $ContainerRuntimesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ContainerRuntimesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ContainerRuntimesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ContainerRuntimesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+              }) => ContainerRuntimesCompanion(serverId: serverId, type: type),
+          createCompanionCallback:
+              ({required String serverId, required String type}) =>
+                  ContainerRuntimesCompanion.insert(
+                    serverId: serverId,
+                    type: type,
+                  ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ContainerRuntimesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable:
+                                    $$ContainerRuntimesTableReferences
+                                        ._serverIdTable(db),
+                                referencedColumn:
+                                    $$ContainerRuntimesTableReferences
+                                        ._serverIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ContainerRuntimesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ContainerRuntimesTable,
+      ContainerRuntimeRow,
+      $$ContainerRuntimesTableFilterComposer,
+      $$ContainerRuntimesTableOrderingComposer,
+      $$ContainerRuntimesTableAnnotationComposer,
+      $$ContainerRuntimesTableCreateCompanionBuilder,
+      $$ContainerRuntimesTableUpdateCompanionBuilder,
+      (ContainerRuntimeRow, $$ContainerRuntimesTableReferences),
+      ContainerRuntimeRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ServerPvesTableCreateCompanionBuilder =
+    ServerPvesCompanion Function({
+      required String serverId,
+      required String addr,
+      required String auth,
+      Value<String?> pwd,
+      Value<String?> tokenId,
+      Value<String?> tokenSecret,
+      Value<String?> certSha256,
+    });
+typedef $$ServerPvesTableUpdateCompanionBuilder =
+    ServerPvesCompanion Function({
+      Value<String> serverId,
+      Value<String> addr,
+      Value<String> auth,
+      Value<String?> pwd,
+      Value<String?> tokenId,
+      Value<String?> tokenSecret,
+      Value<String?> certSha256,
+    });
+
+final class $$ServerPvesTableReferences
+    extends BaseReferences<_$AppDb, $ServerPvesTable, ServerPveRow> {
+  $$ServerPvesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_pve__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerPvesTableFilterComposer
+    extends Composer<_$AppDb, $ServerPvesTable> {
+  $$ServerPvesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get addr => $composableBuilder(
+    column: $table.addr,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get auth => $composableBuilder(
+    column: $table.auth,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pwd => $composableBuilder(
+    column: $table.pwd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tokenId => $composableBuilder(
+    column: $table.tokenId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tokenSecret => $composableBuilder(
+    column: $table.tokenSecret,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get certSha256 => $composableBuilder(
+    column: $table.certSha256,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerPvesTableOrderingComposer
+    extends Composer<_$AppDb, $ServerPvesTable> {
+  $$ServerPvesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get addr => $composableBuilder(
+    column: $table.addr,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get auth => $composableBuilder(
+    column: $table.auth,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pwd => $composableBuilder(
+    column: $table.pwd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tokenId => $composableBuilder(
+    column: $table.tokenId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tokenSecret => $composableBuilder(
+    column: $table.tokenSecret,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get certSha256 => $composableBuilder(
+    column: $table.certSha256,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerPvesTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerPvesTable> {
+  $$ServerPvesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get addr =>
+      $composableBuilder(column: $table.addr, builder: (column) => column);
+
+  GeneratedColumn<String> get auth =>
+      $composableBuilder(column: $table.auth, builder: (column) => column);
+
+  GeneratedColumn<String> get pwd =>
+      $composableBuilder(column: $table.pwd, builder: (column) => column);
+
+  GeneratedColumn<String> get tokenId =>
+      $composableBuilder(column: $table.tokenId, builder: (column) => column);
+
+  GeneratedColumn<String> get tokenSecret => $composableBuilder(
+    column: $table.tokenSecret,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get certSha256 => $composableBuilder(
+    column: $table.certSha256,
+    builder: (column) => column,
+  );
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerPvesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerPvesTable,
+          ServerPveRow,
+          $$ServerPvesTableFilterComposer,
+          $$ServerPvesTableOrderingComposer,
+          $$ServerPvesTableAnnotationComposer,
+          $$ServerPvesTableCreateCompanionBuilder,
+          $$ServerPvesTableUpdateCompanionBuilder,
+          (ServerPveRow, $$ServerPvesTableReferences),
+          ServerPveRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerPvesTableTableManager(_$AppDb db, $ServerPvesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerPvesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerPvesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerPvesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> addr = const Value.absent(),
+                Value<String> auth = const Value.absent(),
+                Value<String?> pwd = const Value.absent(),
+                Value<String?> tokenId = const Value.absent(),
+                Value<String?> tokenSecret = const Value.absent(),
+                Value<String?> certSha256 = const Value.absent(),
+              }) => ServerPvesCompanion(
+                serverId: serverId,
+                addr: addr,
+                auth: auth,
+                pwd: pwd,
+                tokenId: tokenId,
+                tokenSecret: tokenSecret,
+                certSha256: certSha256,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String addr,
+                required String auth,
+                Value<String?> pwd = const Value.absent(),
+                Value<String?> tokenId = const Value.absent(),
+                Value<String?> tokenSecret = const Value.absent(),
+                Value<String?> certSha256 = const Value.absent(),
+              }) => ServerPvesCompanion.insert(
+                serverId: serverId,
+                addr: addr,
+                auth: auth,
+                pwd: pwd,
+                tokenId: tokenId,
+                tokenSecret: tokenSecret,
+                certSha256: certSha256,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerPvesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ServerPvesTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ServerPvesTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerPvesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerPvesTable,
+      ServerPveRow,
+      $$ServerPvesTableFilterComposer,
+      $$ServerPvesTableOrderingComposer,
+      $$ServerPvesTableAnnotationComposer,
+      $$ServerPvesTableCreateCompanionBuilder,
+      $$ServerPvesTableUpdateCompanionBuilder,
+      (ServerPveRow, $$ServerPvesTableReferences),
+      ServerPveRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ConnStatsTableCreateCompanionBuilder =
+    ConnStatsCompanion Function({
+      required String id,
+      required String serverId,
+      required String serverName,
+      required int timestamp,
+      required String result,
+      Value<String> errorMessage,
+      required int durationMs,
+    });
+typedef $$ConnStatsTableUpdateCompanionBuilder =
+    ConnStatsCompanion Function({
+      Value<String> id,
+      Value<String> serverId,
+      Value<String> serverName,
+      Value<int> timestamp,
+      Value<String> result,
+      Value<String> errorMessage,
+      Value<int> durationMs,
+    });
+
+final class $$ConnStatsTableReferences
+    extends BaseReferences<_$AppDb, $ConnStatsTable, ConnStatRow> {
+  $$ConnStatsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('conn_stat__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ConnStatsTableFilterComposer
+    extends Composer<_$AppDb, $ConnStatsTable> {
+  $$ConnStatsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get serverName => $composableBuilder(
+    column: $table.serverName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get result => $composableBuilder(
+    column: $table.result,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ConnStatsTableOrderingComposer
+    extends Composer<_$AppDb, $ConnStatsTable> {
+  $$ConnStatsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get serverName => $composableBuilder(
+    column: $table.serverName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get timestamp => $composableBuilder(
+    column: $table.timestamp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get result => $composableBuilder(
+    column: $table.result,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ConnStatsTableAnnotationComposer
+    extends Composer<_$AppDb, $ConnStatsTable> {
+  $$ConnStatsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get serverName => $composableBuilder(
+    column: $table.serverName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<String> get result =>
+      $composableBuilder(column: $table.result, builder: (column) => column);
+
+  GeneratedColumn<String> get errorMessage => $composableBuilder(
+    column: $table.errorMessage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get durationMs => $composableBuilder(
+    column: $table.durationMs,
+    builder: (column) => column,
+  );
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ConnStatsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ConnStatsTable,
+          ConnStatRow,
+          $$ConnStatsTableFilterComposer,
+          $$ConnStatsTableOrderingComposer,
+          $$ConnStatsTableAnnotationComposer,
+          $$ConnStatsTableCreateCompanionBuilder,
+          $$ConnStatsTableUpdateCompanionBuilder,
+          (ConnStatRow, $$ConnStatsTableReferences),
+          ConnStatRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ConnStatsTableTableManager(_$AppDb db, $ConnStatsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ConnStatsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ConnStatsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ConnStatsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> serverId = const Value.absent(),
+                Value<String> serverName = const Value.absent(),
+                Value<int> timestamp = const Value.absent(),
+                Value<String> result = const Value.absent(),
+                Value<String> errorMessage = const Value.absent(),
+                Value<int> durationMs = const Value.absent(),
+              }) => ConnStatsCompanion(
+                id: id,
+                serverId: serverId,
+                serverName: serverName,
+                timestamp: timestamp,
+                result: result,
+                errorMessage: errorMessage,
+                durationMs: durationMs,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String serverId,
+                required String serverName,
+                required int timestamp,
+                required String result,
+                Value<String> errorMessage = const Value.absent(),
+                required int durationMs,
+              }) => ConnStatsCompanion.insert(
+                id: id,
+                serverId: serverId,
+                serverName: serverName,
+                timestamp: timestamp,
+                result: result,
+                errorMessage: errorMessage,
+                durationMs: durationMs,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ConnStatsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ConnStatsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ConnStatsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ConnStatsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ConnStatsTable,
+      ConnStatRow,
+      $$ConnStatsTableFilterComposer,
+      $$ConnStatsTableOrderingComposer,
+      $$ConnStatsTableAnnotationComposer,
+      $$ConnStatsTableCreateCompanionBuilder,
+      $$ConnStatsTableUpdateCompanionBuilder,
+      (ConnStatRow, $$ConnStatsTableReferences),
+      ConnStatRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$ServerDistsTableCreateCompanionBuilder =
+    ServerDistsCompanion Function({
+      required String serverId,
+      required String dist,
+      required int updatedAt,
+    });
+typedef $$ServerDistsTableUpdateCompanionBuilder =
+    ServerDistsCompanion Function({
+      Value<String> serverId,
+      Value<String> dist,
+      Value<int> updatedAt,
+    });
+
+final class $$ServerDistsTableReferences
+    extends BaseReferences<_$AppDb, $ServerDistsTable, ServerDistRow> {
+  $$ServerDistsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('server_dist__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ServerDistsTableFilterComposer
+    extends Composer<_$AppDb, $ServerDistsTable> {
+  $$ServerDistsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get dist => $composableBuilder(
+    column: $table.dist,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDistsTableOrderingComposer
+    extends Composer<_$AppDb, $ServerDistsTable> {
+  $$ServerDistsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get dist => $composableBuilder(
+    column: $table.dist,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDistsTableAnnotationComposer
+    extends Composer<_$AppDb, $ServerDistsTable> {
+  $$ServerDistsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get dist =>
+      $composableBuilder(column: $table.dist, builder: (column) => column);
+
+  GeneratedColumn<int> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ServerDistsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $ServerDistsTable,
+          ServerDistRow,
+          $$ServerDistsTableFilterComposer,
+          $$ServerDistsTableOrderingComposer,
+          $$ServerDistsTableAnnotationComposer,
+          $$ServerDistsTableCreateCompanionBuilder,
+          $$ServerDistsTableUpdateCompanionBuilder,
+          (ServerDistRow, $$ServerDistsTableReferences),
+          ServerDistRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$ServerDistsTableTableManager(_$AppDb db, $ServerDistsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ServerDistsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ServerDistsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ServerDistsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> serverId = const Value.absent(),
+                Value<String> dist = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+              }) => ServerDistsCompanion(
+                serverId: serverId,
+                dist: dist,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                required String serverId,
+                required String dist,
+                required int updatedAt,
+              }) => ServerDistsCompanion.insert(
+                serverId: serverId,
+                dist: dist,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ServerDistsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$ServerDistsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$ServerDistsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ServerDistsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $ServerDistsTable,
+      ServerDistRow,
+      $$ServerDistsTableFilterComposer,
+      $$ServerDistsTableOrderingComposer,
+      $$ServerDistsTableAnnotationComposer,
+      $$ServerDistsTableCreateCompanionBuilder,
+      $$ServerDistsTableUpdateCompanionBuilder,
+      (ServerDistRow, $$ServerDistsTableReferences),
+      ServerDistRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$BenchmarkRunsTableCreateCompanionBuilder =
+    BenchmarkRunsCompanion Function({
+      required String id,
+      required String serverId,
+      required int startedAt,
+      Value<int?> finishedAt,
+      required String status,
+      required String options,
+      required String runDir,
+      Value<String?> resultJson,
+      Value<String> log,
+      Value<int?> exitCode,
+      Value<String> error,
+    });
+typedef $$BenchmarkRunsTableUpdateCompanionBuilder =
+    BenchmarkRunsCompanion Function({
+      Value<String> id,
+      Value<String> serverId,
+      Value<int> startedAt,
+      Value<int?> finishedAt,
+      Value<String> status,
+      Value<String> options,
+      Value<String> runDir,
+      Value<String?> resultJson,
+      Value<String> log,
+      Value<int?> exitCode,
+      Value<String> error,
+    });
+
+final class $$BenchmarkRunsTableReferences
+    extends BaseReferences<_$AppDb, $BenchmarkRunsTable, BenchmarkRunRow> {
+  $$BenchmarkRunsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ServersTable _serverIdTable(_$AppDb db) =>
+      db.servers.createAlias('benchmark_run__server_id__server__id');
+
+  $$ServersTableProcessedTableManager get serverId {
+    final $_column = $_itemColumn<String>('server_id')!;
+
+    final manager = $$ServersTableTableManager(
+      $_db,
+      $_db.servers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_serverIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$BenchmarkRunsTableFilterComposer
+    extends Composer<_$AppDb, $BenchmarkRunsTable> {
+  $$BenchmarkRunsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get finishedAt => $composableBuilder(
+    column: $table.finishedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get options => $composableBuilder(
+    column: $table.options,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get runDir => $composableBuilder(
+    column: $table.runDir,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get resultJson => $composableBuilder(
+    column: $table.resultJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get log => $composableBuilder(
+    column: $table.log,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get exitCode => $composableBuilder(
+    column: $table.exitCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get error => $composableBuilder(
+    column: $table.error,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ServersTableFilterComposer get serverId {
+    final $$ServersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableFilterComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BenchmarkRunsTableOrderingComposer
+    extends Composer<_$AppDb, $BenchmarkRunsTable> {
+  $$BenchmarkRunsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get finishedAt => $composableBuilder(
+    column: $table.finishedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get options => $composableBuilder(
+    column: $table.options,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get runDir => $composableBuilder(
+    column: $table.runDir,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get resultJson => $composableBuilder(
+    column: $table.resultJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get log => $composableBuilder(
+    column: $table.log,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get exitCode => $composableBuilder(
+    column: $table.exitCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get error => $composableBuilder(
+    column: $table.error,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ServersTableOrderingComposer get serverId {
+    final $$ServersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableOrderingComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BenchmarkRunsTableAnnotationComposer
+    extends Composer<_$AppDb, $BenchmarkRunsTable> {
+  $$BenchmarkRunsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get startedAt =>
+      $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get finishedAt => $composableBuilder(
+    column: $table.finishedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get options =>
+      $composableBuilder(column: $table.options, builder: (column) => column);
+
+  GeneratedColumn<String> get runDir =>
+      $composableBuilder(column: $table.runDir, builder: (column) => column);
+
+  GeneratedColumn<String> get resultJson => $composableBuilder(
+    column: $table.resultJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get log =>
+      $composableBuilder(column: $table.log, builder: (column) => column);
+
+  GeneratedColumn<int> get exitCode =>
+      $composableBuilder(column: $table.exitCode, builder: (column) => column);
+
+  GeneratedColumn<String> get error =>
+      $composableBuilder(column: $table.error, builder: (column) => column);
+
+  $$ServersTableAnnotationComposer get serverId {
+    final $$ServersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.serverId,
+      referencedTable: $db.servers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ServersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.servers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BenchmarkRunsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $BenchmarkRunsTable,
+          BenchmarkRunRow,
+          $$BenchmarkRunsTableFilterComposer,
+          $$BenchmarkRunsTableOrderingComposer,
+          $$BenchmarkRunsTableAnnotationComposer,
+          $$BenchmarkRunsTableCreateCompanionBuilder,
+          $$BenchmarkRunsTableUpdateCompanionBuilder,
+          (BenchmarkRunRow, $$BenchmarkRunsTableReferences),
+          BenchmarkRunRow,
+          PrefetchHooks Function({bool serverId})
+        > {
+  $$BenchmarkRunsTableTableManager(_$AppDb db, $BenchmarkRunsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BenchmarkRunsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BenchmarkRunsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BenchmarkRunsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> serverId = const Value.absent(),
+                Value<int> startedAt = const Value.absent(),
+                Value<int?> finishedAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String> options = const Value.absent(),
+                Value<String> runDir = const Value.absent(),
+                Value<String?> resultJson = const Value.absent(),
+                Value<String> log = const Value.absent(),
+                Value<int?> exitCode = const Value.absent(),
+                Value<String> error = const Value.absent(),
+              }) => BenchmarkRunsCompanion(
+                id: id,
+                serverId: serverId,
+                startedAt: startedAt,
+                finishedAt: finishedAt,
+                status: status,
+                options: options,
+                runDir: runDir,
+                resultJson: resultJson,
+                log: log,
+                exitCode: exitCode,
+                error: error,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String serverId,
+                required int startedAt,
+                Value<int?> finishedAt = const Value.absent(),
+                required String status,
+                required String options,
+                required String runDir,
+                Value<String?> resultJson = const Value.absent(),
+                Value<String> log = const Value.absent(),
+                Value<int?> exitCode = const Value.absent(),
+                Value<String> error = const Value.absent(),
+              }) => BenchmarkRunsCompanion.insert(
+                id: id,
+                serverId: serverId,
+                startedAt: startedAt,
+                finishedAt: finishedAt,
+                status: status,
+                options: options,
+                runDir: runDir,
+                resultJson: resultJson,
+                log: log,
+                exitCode: exitCode,
+                error: error,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BenchmarkRunsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({serverId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (serverId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.serverId,
+                                referencedTable: $$BenchmarkRunsTableReferences
+                                    ._serverIdTable(db),
+                                referencedColumn: $$BenchmarkRunsTableReferences
+                                    ._serverIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$BenchmarkRunsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $BenchmarkRunsTable,
+      BenchmarkRunRow,
+      $$BenchmarkRunsTableFilterComposer,
+      $$BenchmarkRunsTableOrderingComposer,
+      $$BenchmarkRunsTableAnnotationComposer,
+      $$BenchmarkRunsTableCreateCompanionBuilder,
+      $$BenchmarkRunsTableUpdateCompanionBuilder,
+      (BenchmarkRunRow, $$BenchmarkRunsTableReferences),
+      BenchmarkRunRow,
+      PrefetchHooks Function({bool serverId})
+    >;
+typedef $$TombstonesTableCreateCompanionBuilder =
+    TombstonesCompanion Function({
+      required String tbl,
+      required String rowId,
+      required int deletedAt,
+    });
+typedef $$TombstonesTableUpdateCompanionBuilder =
+    TombstonesCompanion Function({
+      Value<String> tbl,
+      Value<String> rowId,
+      Value<int> deletedAt,
+    });
+
+class $$TombstonesTableFilterComposer
+    extends Composer<_$AppDb, $TombstonesTable> {
+  $$TombstonesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get tbl => $composableBuilder(
+    column: $table.tbl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get rowId => $composableBuilder(
+    column: $table.rowId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$TombstonesTableOrderingComposer
+    extends Composer<_$AppDb, $TombstonesTable> {
+  $$TombstonesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get tbl => $composableBuilder(
+    column: $table.tbl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get rowId => $composableBuilder(
+    column: $table.rowId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$TombstonesTableAnnotationComposer
+    extends Composer<_$AppDb, $TombstonesTable> {
+  $$TombstonesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get tbl =>
+      $composableBuilder(column: $table.tbl, builder: (column) => column);
+
+  GeneratedColumn<String> get rowId =>
+      $composableBuilder(column: $table.rowId, builder: (column) => column);
+
+  GeneratedColumn<int> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+}
+
+class $$TombstonesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $TombstonesTable,
+          TombstoneRow,
+          $$TombstonesTableFilterComposer,
+          $$TombstonesTableOrderingComposer,
+          $$TombstonesTableAnnotationComposer,
+          $$TombstonesTableCreateCompanionBuilder,
+          $$TombstonesTableUpdateCompanionBuilder,
+          (
+            TombstoneRow,
+            BaseReferences<_$AppDb, $TombstonesTable, TombstoneRow>,
+          ),
+          TombstoneRow,
+          PrefetchHooks Function()
+        > {
+  $$TombstonesTableTableManager(_$AppDb db, $TombstonesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TombstonesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TombstonesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TombstonesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> tbl = const Value.absent(),
+                Value<String> rowId = const Value.absent(),
+                Value<int> deletedAt = const Value.absent(),
+              }) => TombstonesCompanion(
+                tbl: tbl,
+                rowId: rowId,
+                deletedAt: deletedAt,
+              ),
+          createCompanionCallback:
+              ({
+                required String tbl,
+                required String rowId,
+                required int deletedAt,
+              }) => TombstonesCompanion.insert(
+                tbl: tbl,
+                rowId: rowId,
+                deletedAt: deletedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$TombstonesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $TombstonesTable,
+      TombstoneRow,
+      $$TombstonesTableFilterComposer,
+      $$TombstonesTableOrderingComposer,
+      $$TombstonesTableAnnotationComposer,
+      $$TombstonesTableCreateCompanionBuilder,
+      $$TombstonesTableUpdateCompanionBuilder,
+      (TombstoneRow, BaseReferences<_$AppDb, $TombstonesTable, TombstoneRow>),
+      TombstoneRow,
+      PrefetchHooks Function()
+    >;
+typedef $$SyncStatesTableCreateCompanionBuilder =
+    SyncStatesCompanion Function({required String k, required String v});
+typedef $$SyncStatesTableUpdateCompanionBuilder =
+    SyncStatesCompanion Function({Value<String> k, Value<String> v});
+
+class $$SyncStatesTableFilterComposer
+    extends Composer<_$AppDb, $SyncStatesTable> {
+  $$SyncStatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get k => $composableBuilder(
+    column: $table.k,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get v => $composableBuilder(
+    column: $table.v,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$SyncStatesTableOrderingComposer
+    extends Composer<_$AppDb, $SyncStatesTable> {
+  $$SyncStatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get k => $composableBuilder(
+    column: $table.k,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get v => $composableBuilder(
+    column: $table.v,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$SyncStatesTableAnnotationComposer
+    extends Composer<_$AppDb, $SyncStatesTable> {
+  $$SyncStatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get k =>
+      $composableBuilder(column: $table.k, builder: (column) => column);
+
+  GeneratedColumn<String> get v =>
+      $composableBuilder(column: $table.v, builder: (column) => column);
+}
+
+class $$SyncStatesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDb,
+          $SyncStatesTable,
+          SyncStateRow,
+          $$SyncStatesTableFilterComposer,
+          $$SyncStatesTableOrderingComposer,
+          $$SyncStatesTableAnnotationComposer,
+          $$SyncStatesTableCreateCompanionBuilder,
+          $$SyncStatesTableUpdateCompanionBuilder,
+          (
+            SyncStateRow,
+            BaseReferences<_$AppDb, $SyncStatesTable, SyncStateRow>,
+          ),
+          SyncStateRow,
+          PrefetchHooks Function()
+        > {
+  $$SyncStatesTableTableManager(_$AppDb db, $SyncStatesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SyncStatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SyncStatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SyncStatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> k = const Value.absent(),
+                Value<String> v = const Value.absent(),
+              }) => SyncStatesCompanion(k: k, v: v),
+          createCompanionCallback: ({required String k, required String v}) =>
+              SyncStatesCompanion.insert(k: k, v: v),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$SyncStatesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDb,
+      $SyncStatesTable,
+      SyncStateRow,
+      $$SyncStatesTableFilterComposer,
+      $$SyncStatesTableOrderingComposer,
+      $$SyncStatesTableAnnotationComposer,
+      $$SyncStatesTableCreateCompanionBuilder,
+      $$SyncStatesTableUpdateCompanionBuilder,
+      (SyncStateRow, BaseReferences<_$AppDb, $SyncStatesTable, SyncStateRow>),
+      SyncStateRow,
+      PrefetchHooks Function()
+    >;
+
+class $AppDbManager {
+  final _$AppDb _db;
+  $AppDbManager(this._db);
+  $$PrivateKeysTableTableManager get privateKeys =>
+      $$PrivateKeysTableTableManager(_db, _db.privateKeys);
+  $$BmcCredentialsTableTableManager get bmcCredentials =>
+      $$BmcCredentialsTableTableManager(_db, _db.bmcCredentials);
+  $$ServersTableTableManager get servers =>
+      $$ServersTableTableManager(_db, _db.servers);
+  $$ServerTagsTableTableManager get serverTags =>
+      $$ServerTagsTableTableManager(_db, _db.serverTags);
+  $$ServerEnvsTableTableManager get serverEnvs =>
+      $$ServerEnvsTableTableManager(_db, _db.serverEnvs);
+  $$ServerJumpsTableTableManager get serverJumps =>
+      $$ServerJumpsTableTableManager(_db, _db.serverJumps);
+  $$ServerDisabledCmdsTableTableManager get serverDisabledCmds =>
+      $$ServerDisabledCmdsTableTableManager(_db, _db.serverDisabledCmds);
+  $$ServerCustomCmdsTableTableManager get serverCustomCmds =>
+      $$ServerCustomCmdsTableTableManager(_db, _db.serverCustomCmds);
+  $$KnownHostsTableTableManager get knownHosts =>
+      $$KnownHostsTableTableManager(_db, _db.knownHosts);
+  $$SnippetsTableTableManager get snippets =>
+      $$SnippetsTableTableManager(_db, _db.snippets);
+  $$SnippetTagsTableTableManager get snippetTags =>
+      $$SnippetTagsTableTableManager(_db, _db.snippetTags);
+  $$SnippetAutoRunOnTableTableManager get snippetAutoRunOn =>
+      $$SnippetAutoRunOnTableTableManager(_db, _db.snippetAutoRunOn);
+  $$PortForwardsTableTableManager get portForwards =>
+      $$PortForwardsTableTableManager(_db, _db.portForwards);
+  $$RemoteDesktopProfilesTableTableManager get remoteDesktopProfiles =>
+      $$RemoteDesktopProfilesTableTableManager(_db, _db.remoteDesktopProfiles);
+  $$ContainerHostsTableTableManager get containerHosts =>
+      $$ContainerHostsTableTableManager(_db, _db.containerHosts);
+  $$ContainerRuntimesTableTableManager get containerRuntimes =>
+      $$ContainerRuntimesTableTableManager(_db, _db.containerRuntimes);
+  $$ServerPvesTableTableManager get serverPves =>
+      $$ServerPvesTableTableManager(_db, _db.serverPves);
+  $$ConnStatsTableTableManager get connStats =>
+      $$ConnStatsTableTableManager(_db, _db.connStats);
+  $$ServerDistsTableTableManager get serverDists =>
+      $$ServerDistsTableTableManager(_db, _db.serverDists);
+  $$BenchmarkRunsTableTableManager get benchmarkRuns =>
+      $$BenchmarkRunsTableTableManager(_db, _db.benchmarkRuns);
+  $$TombstonesTableTableManager get tombstones =>
+      $$TombstonesTableTableManager(_db, _db.tombstones);
+  $$SyncStatesTableTableManager get syncStates =>
+      $$SyncStatesTableTableManager(_db, _db.syncStates);
+}

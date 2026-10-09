@@ -1,0 +1,89 @@
+# ServerBox monorepo Rust workspace
+# - crates/sbm_parser: shared status parser (used by both monitor and the app via FFI)
+# - crates/sbm_native: native (syscall/procfs) status sampling for monitor's local
+#                       collection path only — never used by the SSH-based app
+# - crates/sbm_ffi:    flutter_rust_bridge binding layer + cargokit Flutter plugin shell (one directory)
+# - monitor:           server-side monitoring (service + web frontend)
+[workspace]
+resolver = "2"
+members = ["crates/sbm_parser", "crates/sbm_native", "crates/sbm_ffi", "monitor"]
+exclude = ["third_party/ironrdp"]
+
+# IronRDP 0.17 pins an sspi/picky combination that still pins pre-release
+# RustCrypto crates. They cannot coexist with russh's stable ed25519-dalek 3
+# in this workspace. These dependency-only upstream updates keep the IronRDP
+# APIs and crate versions unchanged while selecting the stable crypto stack.
+[patch.crates-io]
+ironrdp-client = { path = "third_party/ironrdp/crates/ironrdp-client" }
+ironrdp-connector = { path = "third_party/ironrdp/crates/ironrdp-connector" }
+ironrdp-tls = { path = "third_party/ironrdp/crates/ironrdp-tls" }
+sspi = { git = "https://github.com/Devolutions/sspi-rs.git", rev = "847304fe35859a8aec401a50033e39df4c7235f4", version = "=0.21.3" }
+
+[profile.release]
+# Smaller release binaries for the shipped container / native packages
+strip = true
+
+# A proc-macro is a dylib the compiler dlopens while it is building, not
+# something that ships — so stripping one buys nothing, and on macOS 26+ it
+# costs the build outright. `strip` above otherwise applies to them too, and
+# the stripped result is rejected by the loader:
+#
+#   error: .../libsqlx_macros-<hash>.dylib: dlopen(...): tried:
+#     '...' (mis-aligned LINKEDIT string pool, fileOffset=0x005B195C)
+#   error: could not compile `sqlx` (lib) due to 1 previous error
+#
+# Which makes `cargo build --release -p server_box_monitor` — and every
+# profile inheriting this one, `release-monitor` included — fail on a
+# developer machine while CI, on older linkers, goes on passing. Build
+# scripts are in the same override and equally not shipped.
+[profile.release.build-override]
+strip = false
+
+# The one exception, and it is not about size.
+#
+# `sbm_ffi` is linked into the app, where it is one of the few things that can
+# take the process down — and a native crash arrives as a tombstone full of
+# addresses. Stripping here throws away the only thing those addresses can be
+# resolved against, so `crash_native` would be as far as any report ever got.
+#
+# On the platforms this is for, the shipped artifact is not larger. Gradle's
+# `debugSymbolLevel` extracts the symbols and strips the library on its way
+# into the APK; Apple's dSYM has always worked that way, and the copy inside
+# the `.app` carries 25 symbols against the 9664 cargo now emits. The monitor
+# binary is untouched and keeps the workspace setting, since a server-side
+# crash has the host's own tooling and a container image that should stay
+# small.
+#
+# Linux and Windows are the loose end, and the cost is about 1 MB. Neither has
+# an equivalent of `ApplicationExitInfo` or MetricKit, so nothing collects a
+# native crash there automatically, and whether their bundling strips this is
+# not something the Apple/Android paths above tell us. The symbols are still
+# what a core dump or a minidump would be read against, which is why this is
+# left as it is rather than special-cased. If the size matters more than that,
+# the fix is a strip step in those two CI jobs, not a different profile —
+# cargo cannot vary `strip` per target.
+[profile.release.package.sbm_ffi]
+strip = false
+
+# The agent's own release profile, used by `monitor-release.yml` and by
+# `monitor/Dockerfile`, and by nothing the app builds.
+#
+# `lto` and `codegen-units` are profile-wide — `[profile.release.package.*]`
+# accepts neither — so setting them above would put a fat-LTO link in front of
+# every app build, for a binary no app ships. Here they cost only the agent's
+# release, which is built by hand a few times a release. Measured on the
+# agent: 20.1 MB → 15.2 MB, at +1 minute.
+#
+# `opt-level` is deliberately left at the inherited 3. `"s"` takes it to
+# 11.2 MB, and this is the process that samples the machine and terminates
+# every TLS connection to it; that trade is not one a build profile should
+# make silently.
+#
+# `monitor/Dockerfile` builds the crate *outside* this workspace — it rewrites
+# the `sbm_parser` path so `monitor/Cargo.toml` becomes the root — so nothing
+# in this file reaches it, `[profile.release]` above included. It passes the
+# same settings as `CARGO_PROFILE_RELEASE_*` and says so there.
+[profile.release-monitor]
+inherits = "release"
+lto = "fat"
+codegen-units = 1

@@ -1,0 +1,507 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
+
+import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter/foundation.dart' show compute;
+import 'package:server_box/core/utils/server_dedup.dart';
+import 'package:server_box/data/model/app/share/server_share.dart';
+import 'package:server_box/data/model/server/private_key_info.dart';
+import 'package:server_box/data/model/server/pve_config.dart';
+import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:server_box/data/res/store.dart';
+
+/// How a share payload is carried to the other device.
+///
+/// The carrier decides the KDF cost and whether the payload expires, because
+/// the two carriers fail in different ways. A QR is on a screen for a minute
+/// and is protected by a code spoken out loud, so its password is short and
+/// the cost has to make up for it; a file is saved deliberately and protected
+/// by a passphrase the user chose, so it gets the same cost every backup does.
+enum ShareCarrier {
+  /// Six digits is twenty bits. Nothing makes that a strong password — the
+  /// cost and the deadline together are what make guessing it not worth
+  /// starting, and both are stated in the dialog rather than implied.
+  ///
+  /// 600k is the OWASP figure for PBKDF2-HMAC-SHA256 and is roughly 0.6s on a
+  /// phone, paid once per share and once per scan.
+  qr(iterations: 600000, ttl: Duration(minutes: 10)),
+
+  /// What a backup gets, against a passphrase the user chose. No deadline: a
+  /// file is saved to be opened later, and expiring it would only mean the
+  /// user's own copy stopped working.
+  file(iterations: Cryptor.defaultIterations, ttl: null);
+
+  const ShareCarrier({required this.iterations, required this.ttl});
+
+  final int iterations;
+  final Duration? ttl;
+}
+
+/// Raised when a payload decoded but its deadline has passed.
+class ServerShareExpiredException implements Exception {
+  const ServerShareExpiredException();
+
+  @override
+  String toString() => 'ServerShareExpiredException';
+}
+
+/// Raised when the text is neither an encrypted payload nor a bare server.
+class ServerShareUnreadableException implements Exception {
+  const ServerShareUnreadableException(this.cause);
+
+  final Object cause;
+
+  @override
+  String toString() => 'ServerShareUnreadableException: $cause';
+}
+
+/// Collects a decompression, and refuses one that is producing too much.
+///
+/// Between the filter and the buffer, because the check has to happen while
+/// the output is still arriving in pieces: asking a finished buffer how large
+/// it is means it has already been allocated.
+final class _CappedSink implements Sink<List<int>> {
+  const _CappedSink(this._out, this._limit);
+
+  final BytesBuilder _out;
+  final int _limit;
+
+  @override
+  void add(List<int> chunk) {
+    if (_out.length + chunk.length > _limit) {
+      throw const ServerShareUnreadableException('payload too large');
+    }
+    _out.add(chunk);
+  }
+
+  @override
+  void close() {}
+}
+
+/// Packs a server into a string, and reads one back.
+abstract final class ServerShareCodec {
+  /// How many digits [generateCode] produces.
+  ///
+  /// Read by the dialog so the field's length and the code's cannot drift.
+  static const codeDigits = 6;
+
+  /// A one-time code for the [ShareCarrier.qr] flavour, from a CSPRNG.
+  ///
+  /// `Random.secure()` rather than `Random()`: the sender's code is the only
+  /// thing between a photographed QR and the plaintext, and a predictable one
+  /// would leave nothing at all.
+  static String generateCode() {
+    final random = Random.secure();
+    return List.generate(codeDigits, (_) => random.nextInt(10)).join();
+  }
+
+  /// What a compressed plaintext starts with.
+  ///
+  /// A payload written before compression is UTF-8 JSON, so its first byte is
+  /// `{`. One byte tells the two apart, which is why neither the envelope nor
+  /// the JSON needed a field for it — and why a share written by this build is
+  /// readable by nothing older, which is stated in [decode].
+  static const _packedMarker = 0x01;
+
+  /// Raw deflate, with no zlib framing: the marker already says what this is,
+  /// and the six bytes a zlib header costs are six bytes of QR.
+  static final _deflate = ZLibCodec(raw: true, level: ZLibOption.maxLevel);
+
+  /// The bytes that get encrypted.
+  ///
+  /// Compressed first, because the size of the QR is the whole problem: a
+  /// server alone goes from 308 JSON bytes to 223, and one carrying an ed25519
+  /// key from 985 to 748. That is a version and a half off the symbol, and a
+  /// version is four more modules across a code the camera already struggles
+  /// to resolve.
+  ///
+  /// Compressing before encrypting means the ciphertext length says roughly
+  /// how compressible the plaintext was. Accepted: the payload is one
+  /// self-contained record with no attacker-chosen part, and its length was
+  /// already visible in the size of the code on screen.
+  static List<int> _pack(String jsonText) => [
+    _packedMarker,
+    ..._deflate.encode(utf8.encode(jsonText)),
+  ];
+
+  /// The most a payload may decompress to.
+  ///
+  /// Deflate reaches about 1000:1, so compression is also where the size of
+  /// what this app is handed stopped bounding what it allocates — and what it
+  /// is handed is a code or a file somebody else made, decrypted with a
+  /// password that somebody else chose and read out. A real payload is a
+  /// server and at most a key or two, which is kilobytes.
+  static const _maxPlainBytes = 1 << 20;
+
+  /// The most an encrypted payload may be, checked before the key derivation
+  /// is paid.
+  ///
+  /// A QR cannot exceed [qrCapacity] by construction. A file has no natural
+  /// limit, and running 600k rounds of PBKDF2 and AES-GCM across a hundred
+  /// megabytes only to reject what comes out is work done on request.
+  static const _maxEncodedChars = 1 << 20;
+
+  /// The inverse of [_pack], which also accepts what came before it.
+  static String _unpack(Uint8List bytes) {
+    if (bytes.isNotEmpty && bytes.first == _packedMarker) {
+      try {
+        return utf8.decode(_inflate(bytes.sublist(1)));
+      } on ServerShareUnreadableException {
+        // Already the sentence this should throw. Falling into the catch below
+        // would wrap it in a second one.
+        rethrow;
+      } catch (e) {
+        throw ServerShareUnreadableException('$e');
+      }
+    }
+    try {
+      return utf8.decode(bytes);
+    } on FormatException catch (e) {
+      // What `Cryptor.decrypt` would have said. A payload that authenticated
+      // and is still not text is not a wrong password, and reporting it as one
+      // sends the user to change something that was right.
+      throw ServerShareUnreadableException('$e');
+    }
+  }
+
+  /// Decompresses, and stops if the output runs away.
+  ///
+  /// Chunked rather than `ZLibCodec.decode`, which answers one buffer and so
+  /// has already allocated whatever it was asked for by the time its size can
+  /// be looked at. The filter hands its output over as it produces it, so the
+  /// running total can be checked while there is still something to refuse.
+  static Uint8List _inflate(Uint8List body) {
+    final out = BytesBuilder(copy: false);
+    final sink = _deflate.decoder.startChunkedConversion(
+      _CappedSink(out, _maxPlainBytes),
+    );
+    sink.add(body);
+    sink.close();
+    return out.takeBytes();
+  }
+
+  static String encode(
+    ServerShare share,
+    String password,
+    ShareCarrier carrier,
+  ) {
+    return Cryptor.encryptBytes(
+      _pack(json.encode(share.toWireJson())),
+      password,
+      iterations: carrier.iterations,
+    );
+  }
+
+  /// [encode] on another isolate.
+  ///
+  /// 600k rounds of PBKDF2 is most of a second, which on the isolate drawing
+  /// frames is the share button appearing not to work. `compute`, not
+  /// `Computer.shared`, for the reason `ssh_key_unlock` gives: the shared one
+  /// has to be turned on and is not under `flutter test`.
+  static Future<String> encodeAsync(
+    ServerShare share,
+    String password,
+    ShareCarrier carrier,
+  ) => compute(_encrypt, (
+    json.encode(share.toWireJson()),
+    password,
+    carrier.iterations,
+  ));
+
+  static String _encrypt((String, String, int) args) =>
+      Cryptor.encryptBytes(_pack(args.$1), args.$2, iterations: args.$3);
+
+  /// The largest symbol a share may be offered as, counted in modules across.
+  ///
+  /// Not the largest a QR can be. A version-40 symbol is 177 modules across,
+  /// and a camera streaming 1080p sees a code held far enough away for the
+  /// lens to focus at well under two pixels per module — under what any
+  /// decoder needs. Offering one is offering a code that cannot be read, so
+  /// the cap is what the scanner can actually manage and anything past it is
+  /// sent as a file.
+  static const qrMaxModules = 125;
+
+  /// The most bytes that fits in [qrMaxModules] at error correction level L,
+  /// which is the level the share dialog asks `QrView` for.
+  ///
+  /// Held against the real encoder by `test/unit/server/server_share_qr_test.dart`, since
+  /// this pair is two numbers out of a table that has to agree.
+  static const qrCapacity = 1465;
+
+  /// How long [encode] will make this payload, without paying the KDF to find
+  /// out.
+  ///
+  /// Exact, not an estimate: AES-GCM ciphertext is the plaintext's length plus
+  /// a 16-byte tag, and everything else in the envelope is fixed width. The
+  /// compression is run for real, because how well a payload compresses is the
+  /// one part that cannot be predicted from its length. Used to decide whether
+  /// to offer a QR at all — an RSA key does not fit in one, and finding that
+  /// out from `QrCode.fromData` throwing is finding it out too late.
+  static int encodedLengthOf(
+    ServerShare share, {
+    ShareCarrier carrier = ShareCarrier.qr,
+  }) {
+    final plain = _pack(json.encode(share.toWireJson())).length;
+    // magic(12) + salt(32) + nonce(12) + tag(16), and four more for the
+    // iteration count — which `Cryptor` writes only when the cost is not its
+    // default, so the carrier decides whether those four are there.
+    final envelope = carrier.iterations == Cryptor.defaultIterations ? 72 : 76;
+    return ((plain + envelope + 2) ~/ 3) * 4;
+  }
+
+  static bool fitsInQr(ServerShare share) =>
+      encodedLengthOf(share, carrier: ShareCarrier.qr) <= qrCapacity;
+
+  /// Answers bytes rather than the unpacked text so that [_unpack] runs on the
+  /// calling isolate: everything it throws is this file's own exception, and
+  /// an exception raised inside `compute` has to survive being sent back.
+  static Uint8List _decrypt((String, String) args) =>
+      Cryptor.decryptBytes(args.$1, args.$2);
+
+  /// Whether [text] has to be decrypted before it can be read.
+  ///
+  /// False for a QR written by a build that predates this format, which is a
+  /// bare `Spi` in clear text. Asked before prompting, so a user scanning an
+  /// old code is not asked for a code that was never generated.
+  static bool needsPassword(String text) => Cryptor.isEncrypted(text.trim());
+
+  /// Reads [text] into a payload, or throws saying why it could not.
+  ///
+  /// Accepts two shapes, in this order:
+  /// - an encrypted [ServerShare], compressed or not — this build writes the
+  ///   compressed form, and a build between the format landing and compression
+  ///   arriving wrote the other;
+  /// - a bare `Spi` JSON, which is every QR code shared before this format.
+  ///
+  /// A clear-text `ServerShare` is **not** one of them, and [_fromPlain] says
+  /// why. The second shape is why this cannot simply parse and throw: dropping
+  /// it would mean a code printed and stuck on a rack stopped working on
+  /// upgrade. The compatibility runs one way only — a build that predates
+  /// [_packedMarker] reads a compressed payload as a failure to decrypt —
+  /// which is what the ten-minute deadline on a QR share makes affordable.
+  static ServerShare decode(String text, {String? password}) {
+    final trimmed = text.trim();
+    if (trimmed.length > _maxEncodedChars) {
+      throw const ServerShareUnreadableException('payload too large');
+    }
+
+    String plain;
+    if (Cryptor.isEncrypted(trimmed)) {
+      if (password == null || password.isEmpty) {
+        throw const ServerShareUnreadableException('password required');
+      }
+      // Whatever `decryptBytes` throws — a wrong password and a corrupt
+      // payload are the same `Exception` — is the caller's to show. Not
+      // wrapped, so the message the user reads is the one that says which.
+      plain = _unpack(Cryptor.decryptBytes(trimmed, password));
+    } else {
+      plain = trimmed;
+    }
+    return _fromPlain(plain, wasEncrypted: Cryptor.isEncrypted(trimmed));
+  }
+
+  /// [decode] with the key derivation on another isolate. See [encodeAsync].
+  static Future<ServerShare> decodeAsync(
+    String text, {
+    String? password,
+  }) async {
+    final trimmed = text.trim();
+    if (trimmed.length > _maxEncodedChars) {
+      throw const ServerShareUnreadableException('payload too large');
+    }
+    if (!Cryptor.isEncrypted(trimmed)) {
+      return _fromPlain(trimmed, wasEncrypted: false);
+    }
+    if (password == null || password.isEmpty) {
+      throw const ServerShareUnreadableException('password required');
+    }
+    return _fromPlain(
+      _unpack(await compute(_decrypt, (trimmed, password))),
+      wasEncrypted: true,
+    );
+  }
+
+  static ServerShare _fromPlain(String plain, {required bool wasEncrypted}) {
+    final Object? decoded;
+    try {
+      decoded = json.decode(plain);
+    } catch (e) {
+      throw ServerShareUnreadableException(e);
+    }
+    if (decoded is! Map<String, dynamic>) {
+      throw const ServerShareUnreadableException('not an object');
+    }
+
+    // **Only a payload that was encrypted may be a `ServerShare`.** Nothing
+    // has ever written a clear-text one, so accepting it bought no
+    // compatibility and cost the format's only guarantee: a file carrying
+    // `keys` would have been taken in with no password asked for, and
+    // `needsPassword` would have answered false so the user was never
+    // prompted. The clear-text branch below is the one that does have a
+    // compatibility claim -- every QR shared before this format is a bare
+    // `Spi`, and one printed and stuck on a rack has to keep working.
+    if (wasEncrypted) {
+      final ServerShare share;
+      try {
+        share = ServerShare.fromJson(decoded);
+      } catch (e) {
+        // Wrapped for the same reason the `Spi` branch below is. A truncated
+        // or hand-edited payload — `{"version": 1}`, a `version` that is a
+        // string — reaches the generated decoder and comes out as a bare
+        // `TypeError`, which the caller renders verbatim: the user is shown
+        // "type 'Null' is not a subtype of type 'Map<String, dynamic>'"
+        // instead of the sentence this exception exists to produce.
+        throw ServerShareUnreadableException(e);
+      }
+      // Outside the catch: these two are answers about the payload, not
+      // failures to read it, and each has its own message.
+      share.validate();
+      if (share.isExpired()) throw const ServerShareExpiredException();
+      return share;
+    }
+
+    try {
+      return ServerShare(
+        version: ServerShare.formatVer,
+        spi: Spi.fromJson(decoded),
+        // Such a QR carried PVE inside `custom`, which `ServerCustom` no
+        // longer reads.
+        // TODO(migration): remove after 5 releases, with
+        // `PveConfig.fromLegacyRecord`.
+        pve: PveConfig.fromLegacyRecord(decoded),
+      );
+    } catch (e) {
+      throw ServerShareUnreadableException(e);
+    }
+  }
+}
+
+/// What installing a payload did.
+final class ServerShareResult {
+  const ServerShareResult({required this.spi, required this.addedKeys});
+
+  /// The server as it was actually written, with its id, name and key
+  /// reference resolved against what was already here.
+  final Spi spi;
+
+  /// Keys this added. Empty when the payload carried one the device already
+  /// had, which is what re-importing the same share does.
+  final List<PrivateKeyInfo> addedKeys;
+}
+
+/// Writes a decoded payload into the local stores.
+///
+/// Additive, always. Nothing here can remove or overwrite a record the user
+/// already had — which is the one hard difference from a backup restore, where
+/// an absent key means a deletion.
+abstract final class ServerShareInstaller {
+  /// The server this payload describes, if this device already has it.
+  ///
+  /// Deliberately not `Spi.isSameAs`: that compares the whole connection
+  /// setup — password, keys, jump hosts — so a share of a machine this device
+  /// reaches with a different password read as a new one.
+  ///
+  /// TODO: fold this back into `Spi.isSameAs` once that grows an identity
+  /// covering both transports, and delete this.
+  static Spi? findExisting(Spi incoming) {
+    for (final existing in Stores.server.fetch()) {
+      if (existing.id == incoming.id) return existing;
+
+      final a = incoming.ssh, b = existing.ssh;
+      if (a != null && b != null) {
+        if (a.ip == b.ip && a.port == b.port && a.user == b.user) {
+          return existing;
+        }
+      }
+
+      final ma = incoming.monitorHttp, mb = existing.monitorHttp;
+      if (ma != null && mb != null && ma.addr == mb.addr) return existing;
+    }
+    return null;
+  }
+
+  /// Writes [share] and answers what it did.
+  ///
+  /// One unit: a payload whose server is rejected must not leave its key
+  /// behind, which is a credential the user never agreed to hold.
+  static ServerShareResult install(ServerShare share) =>
+      SqliteStore.transact(() => _install(share));
+
+  static ServerShareResult _install(ServerShare share) {
+    final added = <PrivateKeyInfo>[];
+    final keyIds = <String, String>{};
+    for (final key in share.keys) {
+      final (id, isNew) = _installKey(key);
+      keyIds[key.id] = id;
+      if (isNew) added.add(key.copyWith(id: id));
+    }
+
+    var spi = share.spi;
+    final keyId = spi.ssh?.keyId;
+    if (keyId != null) {
+      // A payload whose `keys` does not carry the id its server names is one
+      // the sender could not complete. Dropped rather than kept, for the same
+      // reason `ServerShare._portable` drops it: a dangling reference looks
+      // like key auth and behaves like nothing.
+      spi = spi.copyWith(ssh: spi.ssh?.copyWith(keyId: keyIds[keyId]));
+    }
+
+    final existing = Stores.server.fetch();
+    if (spi.id.isEmpty || existing.any((e) => e.id == spi.id)) {
+      spi = spi.copyWith(id: ShortId.generate());
+    }
+    // `existingServers` passed rather than left to default, which reads
+    // `ServerStore.instance` — a different object from `Stores.server` with a
+    // cache of its own, so the default answers from whatever that instance
+    // last read. Two installs in a row saw an empty list the second time.
+    spi = ServerDeduplication.resolveNameConflicts(
+      [spi],
+      existingServers: existing,
+    ).first;
+
+    // Before the write, and here rather than left to `ServerNotifier.addServer`
+    // — a payload is a file someone else made, so "carries a way in at all" is
+    // not something this side may assume. The transaction takes the key with
+    // it when this throws.
+    spi.validateOrThrow();
+
+    Stores.server.put(spi);
+    final pve = share.pve;
+    if (pve != null) Stores.pve.put(spi.id, pve);
+    return ServerShareResult(spi: spi, addedKeys: added);
+  }
+
+  /// Returns the id to point the server at, and whether a row was written.
+  ///
+  /// Key material decides identity here, not the name and not the id. A name
+  /// match would be wrong in the direction that costs the most: `Stores.key`
+  /// has a UNIQUE name and `EntityStore.reconcile` resolves a collision by
+  /// *taking the existing row's id* — which through `put` would overwrite the
+  /// receiver's own key with the sender's. That is right for restoring a
+  /// backup of one's own device and wrong for a payload from someone else's.
+  static (String id, bool isNew) _installKey(PrivateKeyInfo incoming) {
+    final existing = Stores.key.fetch();
+
+    final same = existing.firstWhereOrNull(
+      (e) => e.key.trim() == incoming.key.trim(),
+    );
+    if (same != null) return (same.id, false);
+
+    final names = existing.map((e) => e.name).toSet();
+    // The same helper the server's own rename goes through, eleven lines
+    // below. Two loops with different starting numbers meant one collision
+    // produced a server named `web (1)` beside its key named `laptop (2)`.
+    final name = ServerDeduplication.uniqueName(
+      incoming.name,
+      taken: names.contains,
+    );
+
+    final id = existing.any((e) => e.id == incoming.id)
+        ? ShortId.generate()
+        : incoming.id;
+    Stores.key.put(incoming.copyWith(id: id, name: name));
+    return (id, true);
+  }
+}

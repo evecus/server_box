@@ -1,0 +1,121 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:server_box/core/extension/context/locale.dart';
+import 'package:server_box/data/model/app/tab.dart';
+import 'package:server_box/data/res/store.dart';
+import 'package:server_box/data/res/url.dart';
+import 'package:server_box/generated/l10n/l10n.dart';
+import 'package:server_box/view/page/home_tab.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class MacOSMenuBarManager {
+  static List<PlatformMenu> buildMenuBar(
+    BuildContext context,
+    void Function(int) onTabChanged, {
+    required VoidCallback onSettings,
+  }) {
+    final l10n = context.l10n;
+    final homeTabs = Stores.setting.homeTabs.fetch();
+    return [
+      PlatformMenu(
+        label: 'Server Box',
+        menus: [
+          PlatformMenuItem(
+            label: libL10n.about,
+            onSelected: () => _showAboutDialog(),
+          ),
+          PlatformMenuItem(
+            label: libL10n.menuSettings,
+            shortcut: const SingleActivator(
+              LogicalKeyboardKey.comma,
+              meta: true,
+            ),
+            onSelected: onSettings,
+          ),
+          PlatformMenuItem(
+            label: libL10n.menuQuit,
+            shortcut: const SingleActivator(
+              LogicalKeyboardKey.keyQ,
+              meta: true,
+            ),
+            onSelected: SystemNavigator.pop,
+          ),
+        ],
+      ),
+      PlatformMenu(
+        label: libL10n.menuNavigate,
+        menus: _buildNavigateMenuItems(l10n, homeTabs, onTabChanged),
+      ),
+      PlatformMenu(
+        label: libL10n.menuInfo,
+        menus: [
+          PlatformMenuItem(
+            label: l10n.menuGitHubRepository,
+            onSelected: () => _openURL(Urls.thisRepo),
+          ),
+          PlatformMenuItem(
+            label: libL10n.menuWiki,
+            onSelected: () => _openURL(Urls.appWiki),
+          ),
+          PlatformMenuItem(
+            label: libL10n.menuHelp,
+            onSelected: () => _openURL(Urls.appHelp),
+          ),
+        ],
+      ),
+    ];
+  }
+
+  static List<PlatformMenuItem> _buildNavigateMenuItems(
+    AppLocalizations l10n,
+    List<AppTab> homeTabs,
+    void Function(int) onTabChanged,
+  ) {
+    final menuItems = <PlatformMenuItem>[];
+    for (var i = 0; i < homeTabs.length; i++) {
+      // The bar's own label, rather than a second table of them here: that
+      // table had fallen behind the enum, and a tab it did not name was left
+      // out of the menu without a word.
+      final label = homeTabs[i].label;
+      final shortcutKey = _getShortcutKeyForIndex(i);
+      menuItems.add(
+        PlatformMenuItem(
+          label: label,
+          shortcut: shortcutKey != null
+              ? SingleActivator(shortcutKey, meta: true)
+              : null,
+          onSelected: () => onTabChanged(i),
+        ),
+      );
+    }
+    return menuItems;
+  }
+
+  static LogicalKeyboardKey? _getShortcutKeyForIndex(int index) {
+    const keys = [
+      LogicalKeyboardKey.digit1,
+      LogicalKeyboardKey.digit2,
+      LogicalKeyboardKey.digit3,
+      LogicalKeyboardKey.digit4,
+      LogicalKeyboardKey.digit5,
+      LogicalKeyboardKey.digit6,
+      LogicalKeyboardKey.digit7,
+      LogicalKeyboardKey.digit8,
+      LogicalKeyboardKey.digit9,
+    ];
+    return index < keys.length ? keys[index] : null;
+  }
+
+  static Future<void> _showAboutDialog() async {
+    const channel = MethodChannel('about');
+    await channel.invokeMethod('showAboutPanel');
+  }
+
+  static Future<void> _openURL(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+}

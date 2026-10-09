@@ -1,0 +1,229 @@
+import 'dart:async';
+
+import 'package:fl_lib/fl_lib.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:server_box/core/diag.dart';
+import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:xterm/core.dart';
+
+part 'snippet.g.dart';
+part 'snippet.freezed.dart';
+
+@freezed
+abstract class Snippet with _$Snippet {
+  const factory Snippet({
+    /// Generated. A snippet used to be keyed by [name], so renaming one was a
+    /// delete and an insert — and `snippetOrder` still pointed at the old name.
+    required String id,
+    required String name,
+    required String script,
+    List<String>? tags,
+    String? note,
+
+    /// Server ids on which this snippet runs automatically.
+    List<String>? autoRunOn,
+  }) = _Snippet;
+
+  /// A record written before snippets had ids gets one here.
+  ///
+  /// Safe to generate rather than derive: nothing references a snippet. Its
+  /// `autoRunOn` names *servers*, and `snippetOrder` is a list of names.
+  factory Snippet.fromJson(Map<String, dynamic> json) => _$SnippetFromJson({
+    ...json,
+    if ((json['id'] as String?)?.isNotEmpty != true) 'id': ShortId.generate(),
+  });
+
+  static const example = Snippet(
+    id: 'example',
+    name: 'example',
+    script: 'echo hello',
+    tags: ['tag'],
+    note: 'note',
+    autoRunOn: ['server_id'],
+  );
+}
+
+extension SnippetX on Snippet {
+  static final fmtFinder = RegExp(r'\$\{[^{}]+\}');
+
+  /// Whether this script names something only a server has.
+  ///
+  /// `${host}`, `${user}` and the rest are answered from a [Spi]. A terminal on
+  /// this device has none, so a snippet that asks for one is not a snippet it
+  /// can run — and substituting an empty string would quietly run a *different*
+  /// command instead of refusing.
+  bool get needsServer => fmtArgs.keys.any(script.contains);
+
+  /// [spi] is null for a terminal that is not on a server. Only meaningful
+  /// where [needsServer] is false, which is what the callers filter on: there
+  /// is then nothing in the script for this to substitute.
+  String fmtWithSpi(Spi? spi) {
+    if (spi == null) return script;
+    return script.replaceAllMapped(fmtFinder, (match) {
+      final key = match.group(0);
+      final func = fmtArgs[key];
+      if (func != null) return func(spi);
+      // Preserve unknown placeholders for later processing.
+      return key ?? '';
+    });
+  }
+
+  /// Types this snippet into [terminal]. A placeholder can wait (`${sleep N}`)
+  /// or wait for a key; after each one the rest is typed only while [alive]
+  /// says the shell it began in is still the one [terminal] writes to — a
+  /// reconnect or a switch to tmux replaces it, and the rest was not written
+  /// for that one.
+  Future<void> runInTerm(
+    Terminal terminal,
+    Spi? spi, {
+    bool autoEnter = false,
+    bool Function()? alive,
+  }) async {
+    final argsFmted = fmtWithSpi(spi);
+    final matches = fmtFinder.allMatches(argsFmted);
+
+    // That one ran, and whether it was parameterised — never the script, the
+    // name or the server. `interactive` is the branch below: a snippet with
+    // `${key}` placeholders is typed in pieces and waits for the user between
+    // them, which is a different feature from pasting a fixed command and the
+    // one worth knowing is used before it is maintained.
+    Diag.crumb(
+      SbDiag.snippet,
+      'run',
+      data: {'interactive': matches.isEmpty ? 'no' : 'yes'},
+    );
+
+    // A fixed script can be sent as one input operation.
+    if (matches.isEmpty) {
+      terminal.textInput(argsFmted);
+      if (autoEnter) terminal.keyInput(TerminalKey.enter);
+      return;
+    }
+
+    // Keep both bounds because input between placeholders is sent separately.
+    final (starts, ends) = matches.fold((<int>[], <int>[]), (pre, e) {
+      pre.$1.add(e.start);
+      pre.$2.add(e.end);
+      return pre;
+    });
+
+    // Reject overlapping placeholders before slicing the script.
+    for (var i = 0; i < starts.length - 1; i++) {
+      final lastEnd = ends[i];
+      final nextStart = starts[i + 1];
+      if (nextStart < lastEnd) {
+        throw 'Invalid format: $nextStart < $lastEnd';
+      }
+    }
+
+    if (starts.first > 0) {
+      terminal.textInput(argsFmted.substring(0, starts.first));
+    }
+
+    for (var idx = 0; idx < starts.length; idx++) {
+      final start = starts[idx];
+      final end = ends[idx];
+      final key = argsFmted.substring(start, end).toLowerCase();
+
+      final special = _find(SnippetFuncs.specialCtrl, key);
+      if (special != null) {
+        final raw = key.substring(special.key.length + 1, key.length - 1);
+        await special.value((term: terminal, raw: raw));
+        if (alive != null && !alive()) return;
+      } else {
+        // Remaining placeholders represent terminal keys.
+        final termKey = _find(fmtTermKeys, key);
+        if (termKey != null) {
+          await _doTermKeys(terminal, termKey, key);
+          if (alive != null && !alive()) return;
+        } else {
+          // Normal input
+          terminal.textInput(key);
+        }
+      }
+
+      // Text between this and next match
+      if (idx < starts.length - 1) {
+        terminal.textInput(argsFmted.substring(end, starts[idx + 1]));
+      }
+    }
+
+    // End term input
+    if (ends.last < argsFmted.length) {
+      terminal.textInput(argsFmted.substring(ends.last));
+    }
+
+    if (autoEnter) terminal.keyInput(TerminalKey.enter);
+  }
+
+  Future<void> _doTermKeys(
+    Terminal terminal,
+    MapEntry<String, TerminalKey> termKey,
+    String key,
+  ) async {
+    final ctrlAlt = switch (termKey.value) {
+      TerminalKey.control => (ctrl: true, alt: false),
+      TerminalKey.alt => (ctrl: false, alt: true),
+      _ => (ctrl: false, alt: false),
+    };
+
+    if (!key.contains('+')) return;
+
+    // `${ctrl+ad}` -> `ctrla + d`
+    final chars = key.substring(termKey.key.length + 1, key.length - 1);
+    if (chars.isEmpty) return;
+    final ok = terminal.charInput(
+      chars.codeUnitAt(0),
+      ctrl: ctrlAlt.ctrl,
+      alt: ctrlAlt.alt,
+    );
+    if (!ok) {
+      Loggers.app.warning('Failed to input: $key');
+    }
+
+    terminal.textInput(chars.substring(1));
+  }
+
+  MapEntry<String, T>? _find<T>(Map<String, T> map, String key) {
+    return map.entries.firstWhereOrNull((e) => key.startsWith(e.key));
+  }
+
+  static final fmtArgs = {
+    r'${host}': (Spi spi) => spi.ssh?.ip ?? '',
+    r'${port}': (Spi spi) => (spi.ssh?.port ?? 22).toString(),
+    r'${user}': (Spi spi) => spi.ssh?.user ?? '',
+    r'${pwd}': (Spi spi) => spi.ssh?.pwd ?? '',
+    r'${id}': (Spi spi) => spi.id,
+    r'${name}': (Spi spi) => spi.name,
+  };
+
+  /// r'${ctrl+ad}' -> TerminalKey.control, a, d
+  static final fmtTermKeys = {
+    r'${ctrl': TerminalKey.control,
+    r'${alt': TerminalKey.alt,
+  };
+}
+
+typedef SnippetFuncCtx = ({Terminal term, String raw});
+
+abstract final class SnippetFuncs {
+  static final specialCtrl = {
+    // `${sleep 3}` -> sleep 3 seconds
+    r'${sleep': SnippetFuncs.sleep,
+    r'${enter': SnippetFuncs.enter,
+  };
+
+  static FutureOr<void> sleep(SnippetFuncCtx ctx) async {
+    final seconds = int.tryParse(ctx.raw);
+    if (seconds == null) return;
+    final duration = Duration(seconds: seconds);
+    await Future.delayed(duration);
+  }
+
+  static FutureOr<void> enter(SnippetFuncCtx ctx) async {
+    final times = int.tryParse(ctx.raw) ?? 1;
+    for (var i = 0; i < times; i++) {
+      ctx.term.keyInput(TerminalKey.enter);
+    }
+  }
+}

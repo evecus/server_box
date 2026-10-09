@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>$(PRODUCT_COPYRIGHT)</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<!-- `serverbox://` links: see `AppLink` in lib/data/model/app/app_link.dart. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>tech.lolli.toolbox</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>serverbox</string>
+			</array>
+		</dict>
+	</array>
+	<!-- What this app is offered for in "Open With", and what AirDrop hands
+	     it. One type, its own: claiming `.json` would claim every JSON file on
+	     the machine. `Alternate` rather than `Owner` is wrong here — this app
+	     defines the format, and the exported declaration below is the
+	     definition. -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>ServerBox Shared Server</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>tech.lolli.serverbox.share</string>
+			</array>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>tech.lolli.serverbox.share</string>
+			<key>UTTypeDescription</key>
+			<string>ServerBox Shared Server</string>
+			<!-- Text, because it is: base64 of an encrypted payload. Saying so
+			     is what lets a mail client or a chat app treat it sensibly
+			     instead of guessing. -->
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>sbxsrv</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>NSFileProviderExtensionAccessControlPolicy</key>
+	<string>NSFileProviderExtensionAccessControlPolicyRequiresExplicitAccess</string>
+	<key>NSFileProviderExtensionUsageDescription</key>
+	<string>This app needs to access SSH configuration files to import server connection settings from ~/.ssh/config. This allows users to quickly add their existing SSH servers without manual configuration.</string>
+</dict>
+</plist>

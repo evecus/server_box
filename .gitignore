@@ -1,0 +1,121 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+node_modules/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+# .dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+ios/build/
+android/build/
+windows/build/
+linux/build/
+macos/build/
+# `make coverage` output. Was committed once and then went stale for a year,
+# naming files that have since moved.
+/coverage/
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+/android/app/fjy.androidstudio.key
+/android/app/app.key
+/release
+test.dart
+
+# Keep generated l10n files
+# /.dart_tool/*
+# !/.dart_tool/flutter_gen
+
+.dart_tool
+
+# Linux release
+linux.AppDir
+**/*.AppImage
+
+untranslated.json
+
+# Per-developer overrides merged into BuildData by fl_build's updateBuildData().
+# Optional by design, so a committed one silently changes every build made from
+# that checkout.
+more_build_data.json
+
+.vscode/settings.json
+trans.txt
+android/app/.cxx
+.env.release
+.env
+
+# Rust workspace
+/target/
+/target-alpine/
+
+# Runtime artifacts of a locally-run monitor agent. `monitor/.gitignore`
+# already covers these when it runs from its own directory; these rules catch
+# the case where it was started from the repo root instead.
+/config.toml
+/jwt.secret
+
+# SQLite databases (monitor's metrics store, and anything else local)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Agent scratch space: worktrees here are checkouts of this same repo.
+.claude/worktrees/
+# Widget Preview related
+.widget_preview/
+
+# Built by scripts/build-proot-android.sh — GPL binaries, not sources.
+/android/app/src/main/jniLibs/
+/build/proot-android/
+/.fdroid-cache/
+
+# Local switch for the iOS Linux engine — see ios/Flutter/Ish.xcconfig.
+/ios/Flutter/IshLocal.xcconfig
+
+# The working scratchpad for what is not done yet. Kept on disk, out of the
+# history: it churns every session, and what belongs in the repo is the TODO
+# beside the code it is about.
+/TODOS.md
+
+# Written by the website build from store/ (scripts/store-tarball.sh).
+website/public/store.tar.gz

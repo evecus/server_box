@@ -1,0 +1,5126 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'l10n.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Indonesian (`id`).
+class AppLocalizationsId extends AppLocalizations {
+  AppLocalizationsId([String locale = 'id']) : super(locale);
+
+  @override
+  String get crashCollect => 'Data diagnostik';
+
+  @override
+  String get crashCollectIntro =>
+      'ServerBox mencatat apa yang terjadi saat berjalan agar masalah dapat diperbaiki. Pilih jumlah informasi yang dikirim.';
+
+  @override
+  String get crashCollectNone => 'Tidak ada';
+
+  @override
+  String get crashCollectNoneTip =>
+      'Laporan tetap tersimpan di perangkat ini; setelah terjadi kerusakan, Anda dapat mengirimkannya secara manual.';
+
+  @override
+  String get crashCollectBasic => 'Informasi dasar';
+
+  @override
+  String get crashCollectBasicTip =>
+      'Hanya informasi kerusakan yang disertakan; log dan data performa tidak disertakan. **Ini membantu kami menyempurnakan aplikasi dan memperbaiki bug.**';
+
+  @override
+  String get crashCollectFull => 'Informasi lengkap';
+
+  @override
+  String get crashCollectFullTip =>
+      'Selain log kerusakan, data performa dan penggunaan fitur juga disertakan: **Berguna untuk menemukan apa yang lambat dan fitur mana yang benar-benar dipakai.**';
+
+  @override
+  String get crashCollectFooter =>
+      'Pada tingkat apa pun, nama server yang dikenal beserta alamat dan nama penggunanya diganti dengan placeholder saat dicatat. Tingkat pengumpulan dapat diubah nanti di Pengaturan.';
+
+  @override
+  String get privacy => 'Privasi';
+
+  @override
+  String get privacyPolicy => 'Kebijakan privasi';
+
+  @override
+  String get crashLastRunFailed =>
+      'ServerBox berhenti secara tak terduga saat terakhir dijalankan.';
+
+  @override
+  String get crashReportTitle => 'Laporan kerusakan';
+
+  @override
+  String get crashReportHint =>
+      'Ini adalah log dari sesi sebelumnya. Nama dan alamat server yang dikenal telah diganti dengan placeholder, tetapi detail lain mungkin tersisa. Baca dengan saksama sebelum mengirimkannya.';
+
+  @override
+  String get crashReportSubmit => 'Salin & laporkan';
+
+  @override
+  String get preReleaseUpdates => 'Terima pembaruan pra-rilis';
+
+  @override
+  String get addSystemPrivateKeyTip =>
+      'Saat ini tidak memiliki kunci privat, apakah Anda menambahkan kunci yang disertakan dengan sistem (~/.ssh/id_rsa)?';
+
+  @override
+  String get added2List => 'Ditambahkan ke Daftar Tugas';
+
+  @override
+  String get askAi => 'Tanya AI';
+
+  @override
+  String get askAiInsertTerminal => 'Masukkan ke terminal';
+
+  @override
+  String get remoteDesktop => 'Desktop jarak jauh';
+
+  @override
+  String get askAiRiskReadOnly => 'Hanya baca';
+
+  @override
+  String get askAiRiskCaution => 'Mengubah sistem';
+
+  @override
+  String get askAiRiskUnvetted => 'Host belum diverifikasi';
+
+  @override
+  String get askAiRiskDestructive => 'Risiko tinggi';
+
+  @override
+  String get askAiAutoRunSafeCommands =>
+      'Jalankan otomatis perintah hanya-baca';
+
+  @override
+  String get askAiAutoRunSafeCommandsTip =>
+      'Hanya jalan jika model dan pemeriksaan lokal sama-sama menyebutnya hanya-baca';
+
+  @override
+  String get askAiHistory => 'Riwayat percakapan';
+
+  @override
+  String get askAiNewConversation => 'Percakapan baru';
+
+  @override
+  String get askAiUntitledConversation => 'Tanpa judul';
+
+  @override
+  String get askAiRenameConversation => 'Ganti nama percakapan';
+
+  @override
+  String get askAiDeleteConversationTitle => 'Hapus percakapan ini?';
+
+  @override
+  String get askAiDeleteConversationTip =>
+      'Menghapusnya dari perangkat ini. Tidak bisa dibatalkan.';
+
+  @override
+  String get agentNoHistory =>
+      'Tidak ada percakapan Agent global yang tersimpan';
+
+  @override
+  String get agentClearHistoryTitle => 'Hapus riwayat Agent global?';
+
+  @override
+  String get agentClearHistoryTip =>
+      'Semua percakapan Agent global akan dihapus dari perangkat ini.';
+
+  @override
+  String get agentToolShell => 'Shell';
+
+  @override
+  String get agentToolReadFile => 'Baca berkas';
+
+  @override
+  String get agentToolWriteFile => 'Tulis berkas';
+
+  @override
+  String get floatOverTabs => 'Mengambang di atas tab lain';
+
+  @override
+  String get agentToolSshConnect => 'Sambungkan SSH';
+
+  @override
+  String get agentToolSshDisconnect => 'Putuskan SSH';
+
+  @override
+  String get agentSshConnectTitle => 'Sambungkan ke host baru';
+
+  @override
+  String get agentAuthMethod => 'Autentikasi';
+
+  @override
+  String get agentSshConnectTip =>
+      'Agent ingin koneksi SSH. Masukkan kata sandi di sini';
+
+  @override
+  String get agentAdHocSessions => 'Koneksi sementara';
+
+  @override
+  String get agentSaveServerTitle => 'Simpan sebagai server';
+
+  @override
+  String get agentSaveServerTip =>
+      'Host ini dan kata sandi yang dimasukkan disimpan di perangkat ini';
+
+  @override
+  String get agentMonitorOptional => 'Agen monitor (opsional)';
+
+  @override
+  String get authFailTip => 'Autentikasi gagal. Periksa datanya';
+
+  @override
+  String get autoBackupConflict =>
+      'Hanya satu pencadangan otomatis yang dapat diaktifkan pada saat yang bersamaan.';
+
+  @override
+  String get autoConnect => 'Hubungkan otomatis';
+
+  @override
+  String get autoRun => 'Berjalan Otomatis';
+
+  @override
+  String get autoUpdateHomeWidget => 'Widget Rumah Pembaruan Otomatis';
+
+  @override
+  String get availableTabs => 'Tab Tersedia';
+
+  @override
+  String get backupEncrypted => 'Cadangan telah dienkripsi';
+
+  @override
+  String get backupNotEncrypted => 'Cadangan tidak dienkripsi';
+
+  @override
+  String get backupPassword => 'Kata sandi cadangan';
+
+  @override
+  String get backupPasswordRemoved => 'Kata sandi cadangan dihapus';
+
+  @override
+  String get backupPasswordSet => 'Kata sandi cadangan ditetapkan';
+
+  @override
+  String get backupPasswordTip =>
+      'Setel kata sandi untuk mengenkripsi file cadangan. Biarkan kosong untuk menonaktifkan enkripsi.';
+
+  @override
+  String get backupPasswordWrong => 'Kata sandi cadangan salah';
+
+  @override
+  String get connectAll => 'Hubungkan semua';
+
+  @override
+  String get disconnectAll => 'Putuskan semua';
+
+  @override
+  String get distIcon => 'Tanda distribusi';
+
+  @override
+  String get distIconIntroLegal =>
+      'Sebuah tanda hanya menyatakan apa yang dibaca perangkat ini dari sistem jarak jauh, yang bisa saja keliru atau usang, dan tidak menandakan turunan, hasil bangun ulang, maupun versi tertentu. Bila tidak dapat dikenali, ikon biasa yang digambar.\n\nSetiap tanda adalah merek dagang pemiliknya masing-masing dan di sini hanya dipakai untuk merujuk pada sistem yang ditandainya.';
+
+  @override
+  String get distIconTip =>
+      'Tampilkan tanda kecil di samping setiap server untuk sistem yang tampaknya dijalankannya';
+
+  @override
+  String get distNameMap => 'Pemetaan nama';
+
+  @override
+  String get distNameMapTip =>
+      'Hanya untuk distribusi yang nama berkasnya berbeda di tempat Anda menaruh tanda-tanda itu. Kuncinya adalah nama yang dipakai aplikasi ini; nilainya adalah nama yang akan diambil. Biarkan kosong selama tidak ada tanda yang hilang.';
+
+  @override
+  String get logoUrl => 'URL logo';
+
+  @override
+  String get logoUrlTip =>
+      'Gambar besar di bagian atas halaman sebuah server, dengan warna aslinya.';
+
+  @override
+  String get globe => 'Bola dunia';
+
+  @override
+  String get locationTip =>
+      'Tempat server ini digambar di bola dunia. Lintang lalu bujur, dalam derajat — misalnya 39.9042, 116.4074.';
+
+  @override
+  String get markUrl => 'URL tanda';
+
+  @override
+  String get markUrlTip =>
+      'Tanda kecil di samping nama server pada daftar. Kosong berarti tidak ada.\n\nBukan gambar yang sama dengan logo';
+
+  @override
+  String get navTabMenuTip =>
+      'Tekan lama sebuah tab — atau klik kanan — untuk menghubungkan atau memutuskan semuanya sekaligus.';
+
+  @override
+  String nTags(int count) {
+    return '$count tag';
+  }
+
+  @override
+  String get remoteBackupPasswordRequired =>
+      'Cadangan jarak jauh memerlukan kata sandi cadangan yang tidak kosong';
+
+  @override
+  String get monitorHttpsRequired =>
+      'Agen monitor jarak jauh butuh HTTPS, kecuali HTTP diizinkan untuknya.';
+
+  @override
+  String get monitorAllowInsecureHttp => 'Izinkan HTTP';
+
+  @override
+  String get plainHttpTitle => 'Agen ini disajikan lewat HTTP polos';
+
+  @override
+  String get plainHttpTip =>
+      'Kata sandi dan semua yang diminta aplikasi ini akan dikirim tanpa enkripsi. Belum ada yang dikirim.';
+
+  @override
+  String get allowForThisServer => 'Izinkan untuk server ini';
+
+  @override
+  String get viewError => 'Lihat kesalahan';
+
+  @override
+  String get monitorAllowInsecureHttpTip =>
+      'Hanya di jaringan privat tepercaya yang mengenkripsi transportnya sendiri, misalnya Tailscale';
+
+  @override
+  String monitorHttpTip(String url) {
+    return 'Membaca status server ini dari HTTP API agen **monitor**, bukan menjalankan perintah lewat SSH.\n\nAgen harus dipasang di server terlebih dahulu; tren, aplikasi jam tangan, dan widget layar utama bergantung padanya.\n\n[Cara memasang agen monitor]($url)';
+  }
+
+  @override
+  String get backupTip =>
+      'Data yang diekspor dapat dienkripsi dengan kata sandi. \nHarap jaga keamanannya.';
+
+  @override
+  String get icloudBackupStatusTitle => 'Status cadangan';
+
+  @override
+  String get icloudBackupStatusLoading => 'Memuat status cadangan iCloud...';
+
+  @override
+  String get icloudBackupStatusError =>
+      'Tidak dapat membaca metadata cadangan iCloud';
+
+  @override
+  String get icloudBackupStatusEmpty =>
+      'Belum ada berkas cadangan iCloud yang ditemukan';
+
+  @override
+  String get icloudBackupStateUploading => 'Mengunggah';
+
+  @override
+  String get icloudBackupStateConflict => 'Terdeteksi konflik';
+
+  @override
+  String get icloudBackupStateUploaded => 'Terunggah';
+
+  @override
+  String get icloudBackupStateWaiting => 'Menunggu iCloud';
+
+  @override
+  String icloudBackupStatusSummary(String lastModified, String remoteState) {
+    return 'Cadangan terakhir: $lastModified\nStatus: $remoteState';
+  }
+
+  @override
+  String get bgRun => 'Jalankan di Backgroud';
+
+  @override
+  String get bgRunTip =>
+      'Sakelar ini hanya berarti aplikasi akan mencoba berjalan di latar belakang, apakah aplikasi dapat berjalan di latar belakang tergantung pada apakah izin diaktifkan atau tidak. Untuk Android asli, nonaktifkan \"Pengoptimalan Baterai\" di aplikasi ini, dan untuk miui, ubah kebijakan penghematan daya ke \"Tidak Terbatas\".';
+
+  @override
+  String get trayReadings => 'Pembacaan';
+
+  @override
+  String get trayChart => 'Grafik';
+
+  @override
+  String get trayChartNone => 'Tidak ada';
+
+  @override
+  String get trayCompact => 'Baris ringkas';
+
+  @override
+  String get trayCompactTip =>
+      'Satu baris per server, tanpa grafik. Linux selalu menggunakan tata letak satu baris karena menu panelnya dikirim melalui D-Bus, yang membawa label alih-alih tata letak khusus; grafik yang dipilih tetap dapat disertakan sebagai gambar.';
+
+  @override
+  String get trayKeepRunning => 'Tetap berjalan di baki sistem';
+
+  @override
+  String get trayKeepRunningTip =>
+      'Menutup jendela akan membiarkan aplikasi tetap berjalan di bilah menu atau area notifikasi, dan tetap memantau server Anda. Nonaktifkan ini agar tombol tutup mengakhiri aplikasi.';
+
+  @override
+  String get bgRunNeedsNotification =>
+      'Berjalan di latar belakang butuh notifikasi permanen, dan aplikasi ini tidak punya izin notifikasi. Ketuk untuk memberikannya.';
+
+  @override
+  String get clearAllStatsContent =>
+      'Apakah Anda yakin ingin menghapus semua statistik koneksi server? Tindakan ini tidak dapat dibatalkan.';
+
+  @override
+  String get clearAllStatsTitle => 'Hapus Semua Statistik';
+
+  @override
+  String clearServerStatsContent(String serverName) {
+    return 'Apakah Anda yakin ingin menghapus statistik koneksi untuk server \"$serverName\"? Tindakan ini tidak dapat dibatalkan.';
+  }
+
+  @override
+  String clearServerStatsTitle(String serverName) {
+    return 'Hapus Statistik $serverName';
+  }
+
+  @override
+  String get clearThisServerStats => 'Hapus Statistik Server Ini';
+
+  @override
+  String get closeAfterSave => 'Simpan dan tutup';
+
+  @override
+  String get collapseUITip =>
+      'Apakah akan menciutkan daftar panjang yang ada di UI secara default atau tidak';
+
+  @override
+  String get connectionDetails => 'Detail Koneksi';
+
+  @override
+  String get connectionStats => 'Statistik Koneksi';
+
+  @override
+  String get connectionStatsDesc =>
+      'Lihat tingkat keberhasilan koneksi server dan riwayat';
+
+  @override
+  String get containerTrySudoTip =>
+      'Contohnya: Di dalam aplikasi, pengguna diatur sebagai aaa, tetapi Docker diinstal di bawah pengguna root. Dalam kasus ini, Anda perlu mengaktifkan opsi ini.';
+
+  @override
+  String get containerSudoPasswordRequired =>
+      'Kata sandi sudo diperlukan untuk mengakses Docker. Silakan masukkan kata sandi Anda.';
+
+  @override
+  String get containerSudoPasswordIncorrect =>
+      'Kata sandi sudo salah atau tidak diizinkan. Silakan coba lagi.';
+
+  @override
+  String get copyPath => 'Path Copy';
+
+  @override
+  String get customCmd => 'Perintah kustom';
+
+  @override
+  String get deleteServers => 'Penghapusan server secara batch';
+
+  @override
+  String get deleteDirRecursive => 'Hapus folder beserta seluruh isinya';
+
+  @override
+  String get dirEmpty => 'Pastikan dir kosong.';
+
+  @override
+  String get discoverSshServers => 'Temukan Server SSH';
+
+  @override
+  String get discoveryFailed => 'Penemuan gagal';
+
+  @override
+  String get discoverySettings => 'Pengaturan Penemuan';
+
+  @override
+  String get distro => 'Distribusi';
+
+  @override
+  String get diskHealth => 'Kesehatan disk';
+
+  @override
+  String dl2Local(String fileName) {
+    return 'Unduh $fileName ke lokal?';
+  }
+
+  @override
+  String get dockerEmptyRunningItems =>
+      'Tidak ada wadah yang sedang berjalan.\nHal ini dapat terjadi karena:\n- Pengguna instalasi Docker tidak sama dengan nama pengguna yang dikonfigurasi di dalam Aplikasi.\n- Variabel lingkungan DOCKER_HOST tidak terbaca dengan benar. Anda bisa mendapatkannya dengan menjalankan `echo \$DOCKER_HOST` di terminal.';
+
+  @override
+  String get dockerProjectOther => 'Lainnya';
+
+  @override
+  String get dockerPruneTip =>
+      'Hapus data yang tidak digunakan untuk mengosongkan ruang disk';
+
+  @override
+  String get dockerStatistics => 'Statistik Docker';
+
+  @override
+  String get editVirtKeys => 'Kunci virtual';
+
+  @override
+  String get editorHighlightTip =>
+      'Performa penyorotan kode saat ini lebih buruk, dan dapat dimatikan secara opsional untuk perbaikan.';
+
+  @override
+  String get enableMdns => 'Aktifkan mDNS';
+
+  @override
+  String get enableMdnsDesc =>
+      'Gunakan mDNS/Bonjour untuk menemukan layanan SSH';
+
+  @override
+  String get envVars => 'Variabel lingkungan';
+
+  @override
+  String get extraArgs => 'Args ekstra';
+
+  @override
+  String get fallbackSshDest => 'Tujuan SSH mundur';
+
+  @override
+  String get fdroidReleaseTip =>
+      'Jika Anda mengunduh aplikasi ini dari F-Droid, disarankan untuk mematikan opsi ini.';
+
+  @override
+  String fileTooLarge(String file, String size, String sizeMax) {
+    return 'File \'$file\' terlalu besar $size, max $sizeMax';
+  }
+
+  @override
+  String get fileDirGone => 'Folder ini sudah tidak ada';
+
+  @override
+  String get fileDirGoneTip => 'Sudah dihapus atau diganti nama';
+
+  @override
+  String get fullScreen => 'Layar penuh';
+
+  @override
+  String get fullScreenJitter => 'Jitter layar penuh';
+
+  @override
+  String get fullScreenJitterHelp => 'Untuk menghindari pembakaran layar';
+
+  @override
+  String get fullScreenTip =>
+      'Apakah mode layar penuh diaktifkan ketika perangkat diputar ke modus lanskap? Opsi ini hanya berlaku untuk tab server.';
+
+  @override
+  String get githubGistIdOptional => 'ID Gist (opsional)';
+
+  @override
+  String get githubGistToken => 'Token GitHub Gist';
+
+  @override
+  String get githubGistTokenEmpty => 'Token kosong';
+
+  @override
+  String get goto => 'Pergi ke';
+
+  @override
+  String get homeTabs => 'Tab Beranda';
+
+  @override
+  String get homeTabsCustomizeDesc =>
+      'Sesuaikan tab mana yang muncul di halaman beranda dan urutannya';
+
+  @override
+  String get ignoreCert => 'Abaikan sertifikat';
+
+  @override
+  String get image => 'Gambar';
+
+  @override
+  String get macDmgBody =>
+      'App Store mengharuskan aplikasi ini berjalan dalam sandbox, dan sandbox tidak bisa membuka terminal. Versi DMG bisa.\n\nVersi App Store mungkin berhenti diperbarui.';
+
+  @override
+  String get macDmgImportDenied =>
+      'macOS tidak mengizinkan membaca data versi sebelumnya';
+
+  @override
+  String get macDmgImported => 'Data versi sebelumnya diimpor';
+
+  @override
+  String get macDmgImportFailed => 'Tidak bisa membaca data versi sebelumnya';
+
+  @override
+  String get macDmgTip =>
+      'Terminal lokal dan menjalankan snippet secara lokal (versi DMG)';
+
+  @override
+  String get macDmgTitle => 'Versi DMG';
+
+  @override
+  String get showHiddenFiles => 'Tampilkan berkas tersembunyi';
+
+  @override
+  String get sshKeyAlgorithm => 'Algoritme';
+
+  @override
+  String get sshKeyComment => 'Komentar';
+
+  @override
+  String get sshKeyGenerate => 'Buat pasangan kunci';
+
+  @override
+  String get sshKeyGenerating => 'Membuat…';
+
+  @override
+  String sshKeyLockedFmt(String name) {
+    return 'Kunci privat [$name] belum dibuka.';
+  }
+
+  @override
+  String get sshKeyPassphraseTip =>
+      'Opsional. Kunci dengan frasa sandi disimpan terenkripsi, dan frasa itu diminta saat koneksi pertama memakai kunci ini.';
+
+  @override
+  String get sshKeyPassphraseWrong => 'Frasa sandi salah.';
+
+  @override
+  String get sshKeyPublicKey => 'Kunci publik';
+
+  @override
+  String get sshKeyPublicKeyTip =>
+      'Tambahkan baris ini ke ~/.ssh/authorized_keys di server.';
+
+  @override
+  String get sshKeyRecommended => 'Disarankan';
+
+  @override
+  String sshKeyUnlockTip(String name) {
+    return 'Masukkan frasa sandi untuk kunci privat [$name].';
+  }
+
+  @override
+  String get ungrouped => 'Tanpa grup';
+
+  @override
+  String get containerReclaimable => 'Reclaimable';
+
+  @override
+  String get unused => 'Tidak terpakai';
+
+  @override
+  String get dangling => 'Menggantung';
+
+  @override
+  String get pruneUnusedImages => 'Bersihkan gambar tidak terpakai';
+
+  @override
+  String get pruneDanglingImages => 'Bersihkan gambar menggantung';
+
+  @override
+  String get pruneImages => 'Bersihkan gambar';
+
+  @override
+  String get unusedTaggedImages => 'Bertag tidak digunakan';
+
+  @override
+  String get pruneDanglingImagesTip => 'Hanya menghapus image menggantung.';
+
+  @override
+  String get pruneUnusedImagesTip =>
+      'Juga hapus gambar bertag yang tidak digunakan kontainer mana pun.';
+
+  @override
+  String get includeUnusedVolumesTip =>
+      'Juga hapus volume yang tidak digunakan kontainer mana pun.';
+
+  @override
+  String get pruneCommandPreview => 'Pratinjau perintah';
+
+  @override
+  String get pruneForceSshTip =>
+      '-f melewati konfirmasi interaktif dan selalu aktif untuk eksekusi SSH.';
+
+  @override
+  String get pruneVolumes => 'Bersihkan volume';
+
+  @override
+  String get pruneUnusedData => 'Bersihkan data yang tidak digunakan';
+
+  @override
+  String get pull => 'Tarik';
+
+  @override
+  String get invalidHostFormat =>
+      'Format host tidak valid. Hanya karakter IPv4, IPv6, dan domain yang diizinkan.';
+
+  @override
+  String get jumpServer => 'Lompat server';
+
+  @override
+  String jumpServersNotFoundFmt(String serverName, String jumpIds) {
+    return 'Jump server tidak ditemukan untuk $serverName: $jumpIds';
+  }
+
+  @override
+  String nameAlreadyExistsFmt(String name) {
+    return '\"$name\" sudah ada';
+  }
+
+  @override
+  String get noJumpServerAvailable => 'Tidak ada jump server yang tersedia.';
+
+  @override
+  String get jumpServerAndProxyCommandCannotBeUsedTogether =>
+      'Jump server dan ProxyCommand tidak bisa dipakai bersamaan.';
+
+  @override
+  String get noConnectionMethod => 'Atur SSH, agen monitor, atau keduanya';
+
+  @override
+  String get keepForeground => 'Simpan Aplikasi Foreground!';
+
+  @override
+  String get keepStatusWhenErr => 'Menyimpan status server terakhir';
+
+  @override
+  String get keepStatusWhenErrTip =>
+      'Hanya ketika terjadi kesalahan saat menjalankan skrip';
+
+  @override
+  String get keyAuth => 'Auth kunci';
+
+  @override
+  String get lastFailure => 'Gagal Terakhir';
+
+  @override
+  String get lastSuccess => 'Sukses Terakhir';
+
+  @override
+  String get letterCache => 'Input keyboard biasa';
+
+  @override
+  String get letterCacheTip =>
+      'Saat diaktifkan, input akan melalui IME biasa, yang dapat menghindari prompt keyboard aman di terminal pada beberapa sistem.';
+
+  @override
+  String get linuxShellTip =>
+      'Shell yang dipakai terminal. Kosong mengembalikan /bin/sh.';
+
+  @override
+  String get linuxNetTip => 'Server DNS. Kosong mengembalikan bawaan';
+
+  @override
+  String madeWithLove(String myGithub) {
+    return 'Dibuat dengan ❤️ oleh $myGithub';
+  }
+
+  @override
+  String get maxConcurrency => 'Konkurensi Maksimum';
+
+  @override
+  String get maxRetryCount => 'Jumlah penyambungan kembali server';
+
+  @override
+  String get mirror => 'Mirror';
+
+  @override
+  String get needRestart => 'Perlu memulai ulang aplikasi';
+
+  @override
+  String get newContainer => 'Wadah baru';
+
+  @override
+  String get noConnectionStatsData => 'Tidak ada data statistik koneksi';
+
+  @override
+  String get noPrivateKeyTip =>
+      'Kunci privat tidak ada, mungkin telah dihapus atau ada kesalahan konfigurasi.';
+
+  @override
+  String get noPromptAgain => 'Jangan tanya lagi';
+
+  @override
+  String get openLastPath => 'Buka jalur terakhir';
+
+  @override
+  String get openLastPathTip =>
+      'Server yang berbeda akan memiliki catatan yang berbeda, dan catatan tersebut adalah jalur menuju pintu keluar';
+
+  @override
+  String get parseContainerStatsTip =>
+      'Parsing status okupansi oleh Docker agak lambat';
+
+  @override
+  String get privateKey => 'Kunci Pribadi';
+
+  @override
+  String privateKeyNotFoundFmt(String keyId) {
+    return 'Kunci privat [$keyId] tidak ditemukan.';
+  }
+
+  @override
+  String get bmcPowerOnAction => 'Nyalakan';
+
+  @override
+  String get bmcShutdown => 'Matikan';
+
+  @override
+  String get bmcForceOff => 'Paksa mati';
+
+  @override
+  String get restart => 'Mulai ulang';
+
+  @override
+  String get bmcPowerCycle => 'Siklus daya';
+
+  @override
+  String bmcPowerConfirm(String server, String resetType) {
+    return 'Kirim ini ke $server? Layanan akan diminta \"$resetType\"';
+  }
+
+  @override
+  String get bmcPowerDone => 'Status daya berubah';
+
+  @override
+  String get bmcPowerAccepted =>
+      'Diterima, tetapi status daya belum berubah. Operasi halus bergantung pada OS';
+
+  @override
+  String get bmcPowerUnsupported =>
+      'Layanan ini tidak mengizinkan apa pun untuk tindakan itu';
+
+  @override
+  String get bmcUnauthorized => 'BMC menolak akun ini';
+
+  @override
+  String get bmcAccountMissing => 'Tidak ada akun yang diatur untuk BMC ini';
+
+  @override
+  String get bmcPowerOn => 'Menyala';
+
+  @override
+  String get bmcPowerOff => 'Mati';
+
+  @override
+  String get bmcCertRejected =>
+      'Sertifikat ditolak — tinjau di pengaturan server';
+
+  @override
+  String get bmcNotAService => 'Tidak ada layanan Redfish di alamat ini';
+
+  @override
+  String get bmcNoSystem => 'Layanan tidak melaporkan sistem apa pun';
+
+  @override
+  String get bmcSensorsTruncated => 'Hanya sensor pertama yang ditampilkan';
+
+  @override
+  String get bmcMultipleSystems => 'Hanya sistem pertama yang ditampilkan';
+
+  @override
+  String get bmcTip =>
+      'BMC adalah komputer terpisah di motherboard, tetap terjangkau saat sistem operasi host tidak. Dikonfigurasi di sini, ia melaporkan status daya dan sensor perangkat keras saat server mati atau macet. Perlu Redfish, yang ada pada sebagian besar perangkat keras enterprise sejak sekitar 2016.';
+
+  @override
+  String get bmcCert => 'Sertifikat';
+
+  @override
+  String get bmcCertPinned => 'Ditinjau dan disematkan';
+
+  @override
+  String get bmcCertUnreviewed =>
+      'Belum ditinjau — ketuk untuk melihat sertifikat';
+
+  @override
+  String get bmcCertReview =>
+      'Sertifikat yang ditandatangani sendiri. Bandingkan sebelum menerima. Setelah itu hanya yang ini dipercaya.';
+
+  @override
+  String get bmcCertChanged => 'Sertifikat tidak cocok. Periksa.';
+
+  @override
+  String get bmcCertExpired => 'Kedaluwarsa.';
+
+  @override
+  String bmcCertWas(String fingerprint) {
+    return 'Diterima sebelumnya: $fingerprint';
+  }
+
+  @override
+  String get bmcAddrInvalid =>
+      'Alamat BMC harus berupa URL, mis. https://10.0.0.9';
+
+  @override
+  String get proxyCommandSandboxed =>
+      'Build ini berjalan dalam sandbox: perintah mendapat home kosong, bukan milikmu, jadi apa pun yang membaca ~/.ssh gagal. Versi DMG tidak.';
+
+  @override
+  String privateKeyFileUnreadable(String path, String reason) {
+    return 'Tidak dapat membaca berkas kunci privat $path: $reason';
+  }
+
+  @override
+  String privateKeyFileSandboxed(String path) {
+    return 'Build ini tidak dapat membaca berkas di luar kontainernya, sehingga kunci di $path tidak terjangkau. Impor kunci di Pengaturan, atau gunakan versi DMG.';
+  }
+
+  @override
+  String get pushToken => 'Dorong token';
+
+  @override
+  String get liveActivity => 'Aktivitas Live';
+
+  @override
+  String get liveActivityTip =>
+      'Tampilkan sesi terminal di Layar Terkunci dan Dynamic Island. Nama server dan status koneksi dapat dilihat tanpa membuka kunci perangkat.';
+
+  @override
+  String get liveActivitySystemDisabled =>
+      'iOS tidak mengizinkannya. Sakelarnya ada di Pengaturan › ServerBox › Aktivitas Live dan Pengaturan › Face ID & Kode Sandi › Aktivitas Live.';
+
+  @override
+  String get proxyCommandNeedsLinux =>
+      'ProxyCommand berjalan di lingkungan Linux perangkat ini. Pasang sistem Linux terlebih dahulu.';
+
+  @override
+  String get proxyCommandMobileTip =>
+      'Di ponsel, perintah dijalankan di sistem Linux yang dipilih. Pasang dulu alat yang dipakainya (nc, socat, …) di sana.';
+
+  @override
+  String get pveIgnoreCertTip =>
+      'Tidak disarankan untuk diaktifkan, waspadai risiko keamanan! Jika Anda menggunakan sertifikat default dari PVE, Anda perlu mengaktifkan opsi ini.';
+
+  @override
+  String get pvePasswordRequired =>
+      'Kata sandi PVE diperlukan. Atur di pengaturan server.';
+
+  @override
+  String get pveOtpRequired =>
+      'Autentikasi dua faktor aktif di server PVE ini. Masukkan kode OTP.';
+
+  @override
+  String get pveOtpCodeRequired => 'Kode OTP wajib diisi.';
+
+  @override
+  String get pveOtpVerificationFailed =>
+      'Verifikasi OTP gagal. Coba lagi dengan kode baru.';
+
+  @override
+  String get pveOtpTitle => 'Verifikasi OTP';
+
+  @override
+  String get pveOtpLabel => 'Kode OTP';
+
+  @override
+  String get pveInvalidResponseBody =>
+      'Login PVE mengembalikan isi respons yang tidak valid.';
+
+  @override
+  String get pveInvalidResponseData =>
+      'Respons login PVE tidak berisi data yang valid.';
+
+  @override
+  String get pveMissingAuthTicket =>
+      'Login PVE berhasil, tetapi tidak ada tiket autentikasi yang dikembalikan.';
+
+  @override
+  String get pveLoadingConnect => 'Menghubungkan...';
+
+  @override
+  String get pvePassword => 'Kata sandi PVE';
+
+  @override
+  String get pvePasswordHint =>
+      'Diperlukan saat memakai autentikasi SSH berbasis kunci';
+
+  @override
+  String get read => 'Baca';
+
+  @override
+  String get recentConnections => 'Koneksi Terkini';
+
+  @override
+  String get rememberPwdInMem => 'Ingat kata sandi di dalam memori';
+
+  @override
+  String get rememberPwdInMemTip =>
+      'Digunakan untuk kontainer, menangguhkan, dll.';
+
+  @override
+  String get remotePath => 'Jalur jarak jauh';
+
+  @override
+  String rootfsUpdateTip(
+    String distro,
+    String installed,
+    String latest,
+    String pm,
+  ) {
+    return '$distro $installed terpasang, ada $latest. Pembaruan mengganti seluruh kontainer: data $pm hilang';
+  }
+
+  @override
+  String linuxSystemInUse(String name) {
+    return 'Tutup terminal di $name sebelum menghapusnya';
+  }
+
+  @override
+  String get rootfsSubtitle => 'Lingkungan pengguna Linux di perangkat ini';
+
+  @override
+  String rootfsInstallTip(String distro, String version, int size) {
+    return 'Mengunduh $distro $version (sekitar $size MB) dan mengekstraknya di perangkat ini.';
+  }
+
+  @override
+  String get sameIdServerExist => 'Server dengan ID yang sama sudah ada';
+
+  @override
+  String get second => 'S';
+
+  @override
+  String get serverFilesUnavailableTip =>
+      'Perlu SSH ke server ini, atau server_box_monitor terpasang dengan API file aktif.';
+
+  @override
+  String get back => 'Kembali';
+
+  @override
+  String get history => 'Riwayat';
+
+  @override
+  String get homeDir => 'Beranda';
+
+  @override
+  String selected(int count) {
+    return '$count dipilih';
+  }
+
+  @override
+  String get sendTo => 'Kirim ke…';
+
+  @override
+  String get serverFuncBtns => 'Tombol fungsi server';
+
+  @override
+  String get serverOrder => 'Pesanan server';
+
+  @override
+  String get serverOverview => 'Ringkasan server';
+
+  @override
+  String get serverOverviewTip =>
+      'Tampilkan ringkasan di atas daftar server, dan bilah server di atas server yang terbuka';
+
+  @override
+  String get serverTabEmpty => 'Belum ada server';
+
+  @override
+  String get serverTabRequired => 'Tab server tidak dapat dihapus';
+
+  @override
+  String get shareCodeHint =>
+      'Sampaikan digit ini secara terpisah kepada penerima. Digit ini tidak disertakan dalam kode QR.';
+
+  @override
+  String get shareCodePrompt => 'Kode 6 digit';
+
+  @override
+  String get shareCodeTitle => 'Kode sekali pakai';
+
+  @override
+  String get shareExpired =>
+      'Data yang dibagikan sudah kedaluwarsa. Minta yang baru.';
+
+  @override
+  String get shareImportFile => 'Dari file yang dibagikan';
+
+  @override
+  String get shareImportTitle => 'Impor server yang dibagikan';
+
+  @override
+  String get shareIncludesKey =>
+      'Data yang dibagikan menyertakan kunci privat.';
+
+  @override
+  String get shareOmittedBmc =>
+      'Kredensial BMC. Alamat disertakan, tetapi kredensial tidak.';
+
+  @override
+  String get shareOmittedJump =>
+      'Server jump, karena disimpan sebagai server terpisah di perangkat ini.';
+
+  @override
+  String get shareOmittedKeyPath =>
+      'File kunci, karena lokasinya hanya berlaku di perangkat ini.';
+
+  @override
+  String get shareOmittedMissingKey =>
+      'Kunci privat, karena tidak ada di penyimpanan kunci perangkat ini.';
+
+  @override
+  String get shareOmittedTip =>
+      'Tidak disertakan; penerima harus mengonfigurasi:';
+
+  @override
+  String get sharePassphraseTip =>
+      'Frasa sandi ini mengenkripsi file. Penerima memerlukannya untuk mengimpor server dan frasa ini tidak dapat dipulihkan.';
+
+  @override
+  String shareQrTip(int minutes) {
+    return 'Data koneksi dalam kode QR ini dienkripsi. Data yang dibagikan akan kedaluwarsa dalam $minutes menit.';
+  }
+
+  @override
+  String get shareScanQr => 'Pindai kode QR';
+
+  @override
+  String shareServerExists(String name) {
+    return '“$name” di perangkat ini sudah menggunakan alamat tersebut. Tetap impor?';
+  }
+
+  @override
+  String get shareTooBigForQr =>
+      'Terlalu besar untuk kode QR. Bagikan sebagai file.';
+
+  @override
+  String get shareTooNew =>
+      'Data ini dibuat dengan versi ServerBox yang lebih baru. Perbarui aplikasi untuk membukanya.';
+
+  @override
+  String get shareUnreadable => 'Ini bukan data ServerBox yang valid.';
+
+  @override
+  String get shareVia => 'Bagikan melalui';
+
+  @override
+  String get sftpDlPrepare => 'Bersiap untuk terhubung ...';
+
+  @override
+  String get sftpEditorTip =>
+      'Kosong memakai editor bawaan. Misalnya `vim` (disarankan membaca `EDITOR`).';
+
+  @override
+  String get sftpRmrDirSummary => 'Gunakan `rm -r` untuk menghapus dir di SFTP';
+
+  @override
+  String get sftpSSHConnected => 'Sftp terhubung';
+
+  @override
+  String get sftpShowFoldersFirst => 'Folder ditampilkan lebih dulu';
+
+  @override
+  String get sftpUnavailableUseScp =>
+      'Jika host ini tidak punya subsistem SFTP, seperti banyak perangkat tertanam, ubah transfer berkasnya menjadi SCP di pengaturan server.';
+
+  @override
+  String get sshFileTransportTip =>
+      'SFTP cocok untuk perangkat masa kini. Pilih SCP untuk host lama atau tertanam yang server SSH-nya tidak punya subsistem SFTP: ia butuh perintah `scp` dan shell yang juga punya utilitas berkas umum (`find`, `stat`, `mv`, `chmod`).';
+
+  @override
+  String get specifyDev => 'Tentukan perangkat';
+
+  @override
+  String get specifyDevTip =>
+      'Trafik jaringan menghitung semua perangkat; sebutkan satu di sini';
+
+  @override
+  String get tempIsCelsiusTip =>
+      'Jika aktif, nilai suhu diperlakukan sebagai Celsius, bukan milicelsius. Aktifkan hanya bila suhu tampil keliru (misalnya 0,1 °C, bukan 58 °C).';
+
+  @override
+  String spentTime(String time) {
+    return 'Menghabiskan waktu: $time';
+  }
+
+  @override
+  String sshConfigAllExist(int duplicateCount) {
+    return 'Semua server sudah ada (ditemukan $duplicateCount duplikat)';
+  }
+
+  @override
+  String sshConfigDuplicatesSkipped(int duplicateCount) {
+    return '$duplicateCount duplikat akan dilewati';
+  }
+
+  @override
+  String get sshConfigFound => 'Kami menemukan konfigurasi SSH di sistem Anda';
+
+  @override
+  String sshConfigFoundServers(int totalCount) {
+    return 'Ditemukan $totalCount server';
+  }
+
+  @override
+  String get sshConfigImport => 'Impor Konfigurasi SSH';
+
+  @override
+  String get sshConfigImportPermission =>
+      'Apakah Anda ingin memberikan izin untuk membaca ~/.ssh/config dan secara otomatis mengimpor pengaturan server?';
+
+  @override
+  String get sshConfigImportTip =>
+      'Prompt untuk membaca ~/.ssh/config saat pembuatan server pertama';
+
+  @override
+  String sshConfigImported(int count) {
+    return 'Berhasil mengimpor $count server dari konfigurasi SSH';
+  }
+
+  @override
+  String sshHostKeyChangedDesc(String serverName) {
+    return 'Kunci host SSH untuk $serverName telah berubah. Lanjutkan hanya jika Anda mempercayai server ini.';
+  }
+
+  @override
+  String get sshHostKeyType => 'Jenis kunci host SSH';
+
+  @override
+  String get sshKnownHostKeys => 'Host dikenal';
+
+  @override
+  String get sshKnownHostKeysTip =>
+      'Kunci host yang sudah diterima aplikasi ini';
+
+  @override
+  String sshHostKeyNewDesc(String serverName) {
+    return 'Kunci host SSH baru diterima dari $serverName. Periksa sidik jarinya sebelum mempercayai.';
+  }
+
+  @override
+  String sshHostKeyStoredFingerprint(String fingerprint) {
+    return 'Sidik jari tersimpan: $fingerprint';
+  }
+
+  @override
+  String get sshVerificationCode => 'Kode verifikasi';
+
+  @override
+  String get sshConfigManualSelect =>
+      'Apakah Anda ingin memilih file konfigurasi SSH secara manual?';
+
+  @override
+  String get sshConfigNoServers =>
+      'Tidak ada server yang ditemukan dalam konfigurasi SSH';
+
+  @override
+  String get sshConfigPermissionDenied =>
+      'Tidak dapat mengakses file konfigurasi SSH karena izin macOS.';
+
+  @override
+  String sshConfigServersToImport(int importCount) {
+    return '$importCount server akan diimpor';
+  }
+
+  @override
+  String get sshTermHelp =>
+      'Ketika terminal dapat digulirkan, menggeser secara horizontal dapat memilih teks. Mengklik tombol keyboard mengaktifkan/menonaktifkan keyboard. Ikon file membuka SFTP jalur saat ini. Tombol papan klip menyalin konten saat teks dipilih, dan menempelkan konten dari papan klip ke terminal saat tidak ada teks yang dipilih dan ada konten di papan klip. Ikon kode menempelkan potongan kode ke terminal dan mengeksekusinya.';
+
+  @override
+  String get sshVirtualKeyAutoOff => 'Switching Otomatis Kunci Virtual';
+
+  @override
+  String get supportFmtArgs => 'Parameter pemformatan berikut ini didukung:';
+
+  @override
+  String get suspendTip =>
+      'Fungsi penangguhan memerlukan hak akses root dan dukungan systemd.';
+
+  @override
+  String switchTo(String val) {
+    return 'Beralih ke $val';
+  }
+
+  @override
+  String get syncAppSettings => 'Sinkronkan pengaturan aplikasi';
+
+  @override
+  String get syncAppSettingsTip =>
+      'Sertakan tema, tata letak, editor, terminal, dan preferensi perangkat lain dalam sinkronisasi otomatis.';
+
+  @override
+  String get termFontSizeTip =>
+      'Pengaturan ini akan memengaruhi ukuran terminal (lebar dan tinggi). Anda dapat melakukan zoom pada halaman terminal untuk menyesuaikan ukuran font sesi saat ini.';
+
+  @override
+  String get textScalerTip =>
+      '1.0 => 100% (ukuran asli), hanya berfungsi pada bagian halaman server font, tidak disarankan untuk diubah.';
+
+  @override
+  String get times => 'Waktu';
+
+  @override
+  String get trySudo => 'Cobalah menggunakan sudo';
+
+  @override
+  String get sudoPromptNotFound =>
+      'Tidak ada permintaan kata sandi sudo yang aktif.';
+
+  @override
+  String get updateServerStatusInterval => 'Interval Pembaruan Status Server';
+
+  @override
+  String get useNoPwd => 'Tidak ada kata sandi yang akan digunakan';
+
+  @override
+  String get usePodmanByDefault => 'Menggunakan Podman sebagai bawaan';
+
+  @override
+  String get used => 'Digunakan';
+
+  @override
+  String get viewDetails => 'Lihat Detail';
+
+  @override
+  String get virtKeyHelpIME => 'Menyalakan/mematikan keyboard';
+
+  @override
+  String get virtKeyHelpSFTP => 'Buka direktori saat ini di SFTP.';
+
+  @override
+  String get virtKeyHelpSnippet =>
+      'Pilih sebuah snippet dan jalankan di terminal ini.';
+
+  @override
+  String get virtKeyHelpTmux => 'Berpindah antar sesi dan jendela tmux.';
+
+  @override
+  String get virtKeyIntroActions => 'Pintasan';
+
+  @override
+  String get virtKeyIntroActionsTip =>
+      'Tombol-tombol ini tidak mengetik, melainkan membuka sesuatu. Tahan salah satunya untuk membaca fungsinya.';
+
+  @override
+  String get virtKeyIntroCustomizeTip =>
+      'Di pengaturan terminal kamu bisa mengubah urutannya, menyalakan tombol lain (file, sudo, F1–F12…), atau menyembunyikan yang tidak pernah dipakai.';
+
+  @override
+  String get virtKeyIntroModifiers => 'Tombol pengubah';
+
+  @override
+  String get virtKeyIntroModifiersTip =>
+      'Ketuk satu untuk mengaktifkannya, lalu ketuk huruf di papan ketik. Berlaku untuk satu tombol itu saja.';
+
+  @override
+  String get virtKeyIntroNav => 'Navigasi';
+
+  @override
+  String get virtKeyIntroNavTip =>
+      'Tombol-tombol ini menggerakkan kursor. Tahan tombol panah untuk mengulanginya.';
+
+  @override
+  String get virtKeyIntroSelect =>
+      'Selama terminal masih bisa digulir, seret ke samping untuk memilih teks.';
+
+  @override
+  String get virtKeyRows => 'Baris yang tampil sekaligus';
+
+  @override
+  String get virtKeyRowsTip =>
+      'Sisanya berada di halaman tersendiri, digeser ke samping.';
+
+  @override
+  String get waitConnection => 'Harap tunggu koneksi akan dibuat.';
+
+  @override
+  String get wakeLock => 'Tetap terjaga';
+
+  @override
+  String get watchNotPaired => 'Tidak ada Apple Watch yang dipasangkan';
+
+  @override
+  String get webdavSettingEmpty => 'Pengaturan webdav kosong';
+
+  @override
+  String get whenOpenApp => 'Saat membuka aplikasi';
+
+  @override
+  String get wolTip =>
+      'Setelah mengonfigurasi WOL (Wake-on-LAN), permintaan WOL dikirim setiap kali server terhubung.';
+
+  @override
+  String get write => 'Tulis';
+
+  @override
+  String get writeScriptFailTip =>
+      'Penulisan ke skrip gagal, mungkin karena tidak ada izin atau direktori tidak ada.';
+
+  @override
+  String get writeScriptTip =>
+      'Setelah terhubung ke server, sebuah skrip akan ditulis ke `~/.config/server_box` \n | `/tmp/server_box` untuk memantau status sistem. Anda dapat meninjau konten skrip tersebut.';
+
+  @override
+  String get menuGitHubRepository => 'Repositori GitHub';
+
+  @override
+  String get podmanDockerEmulationDetected =>
+      'Emulasi Podman Docker terdeteksi. Silakan beralih ke Podman di pengaturan.';
+
+  @override
+  String get betaTip =>
+      'Fitur ini masih dalam uji beta. Fungsinya belum dijamin.';
+
+  @override
+  String get portForward_startPrompt =>
+      'Tambahkan aturan penerusan porta untuk memulai';
+
+  @override
+  String get portForward_localHost => 'Host lokal';
+
+  @override
+  String get portForward_localPort => 'Porta lokal';
+
+  @override
+  String get portForward_remoteHost => 'Host jarak jauh';
+
+  @override
+  String get portForward_remotePort => 'Porta jarak jauh';
+
+  @override
+  String portForward_deleteConfirmFmt(String name) {
+    return 'Hapus $name?';
+  }
+
+  @override
+  String get sponsor => 'Sponsor';
+
+  @override
+  String get sortByJoinTime => 'Menurut waktu ditambahkan';
+
+  @override
+  String get tmuxAutoAttach => 'Sambung otomatis ke tmux';
+
+  @override
+  String get tmuxAuto => 'tmux otomatis';
+
+  @override
+  String get tmuxAutoTip =>
+      'Mulai atau sambungkan tmux secara otomatis saat terhubung lewat SSH';
+
+  @override
+  String get tmuxSessionSelector => 'Pemilih sesi';
+
+  @override
+  String get tmuxSessionSelectorTip =>
+      'Tampilkan pemilih sesi saat menghubungkan';
+
+  @override
+  String get tmuxDefaultSessionName => 'Nama sesi bawaan';
+
+  @override
+  String get tmuxSessionName => 'Nama sesi';
+
+  @override
+  String get tmuxNewSession => 'Sesi baru';
+
+  @override
+  String get tmuxNewWindow => 'Jendela baru';
+
+  @override
+  String get tmuxNoWindowsFound => 'Tidak ada jendela yang ditemukan';
+
+  @override
+  String tmuxWindowCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jendela',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tmuxAttached => 'Tersambung';
+
+  @override
+  String get tmuxSkip => 'Lewati';
+
+  @override
+  String get tmuxNotAvailable => 'tmux tidak tersedia';
+
+  @override
+  String containerSegmentsMismatch(int count) {
+    return 'Jumlah segmen respons kontainer tidak sesuai: $count';
+  }
+
+  @override
+  String get containerOperationInProgress =>
+      'Operasi kontainer lain sedang berlangsung';
+
+  @override
+  String processCount(int count) {
+    return '$count proses';
+  }
+
+  @override
+  String get processParseUnsupportedOutput =>
+      'Format daftar proses tidak didukung.';
+
+  @override
+  String get processParseInvalidRows =>
+      'Beberapa entri proses tidak dapat dibaca.';
+
+  @override
+  String get processParseInvalidWindowsJson =>
+      'Respons proses Windows tidak dapat dibaca.';
+
+  @override
+  String get processParseInvalidWindowsRows =>
+      'Beberapa entri proses Windows tidak dapat dibaca.';
+
+  @override
+  String get processKillTargetChanged =>
+      'Proses telah berubah atau berhenti. Segarkan daftar lalu coba lagi.';
+
+  @override
+  String get processSearchHint => 'Nama, pengguna, atau PID';
+
+  @override
+  String processShowKernelThreads(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tampilkan $count thread kernel',
+      one: 'Tampilkan 1 thread kernel',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get processForceKill => 'Force kill';
+
+  @override
+  String get processStarted => 'Started';
+
+  @override
+  String get processThreads => 'Threads';
+
+  @override
+  String get watchServers => 'Server di jam tangan';
+
+  @override
+  String get watchServersTip =>
+      'Jam mengambil sendiri dari monitor, jadi hanya server yang punya monitor bisa dipilih.';
+
+  @override
+  String get watchNoMonitorServer =>
+      'Tidak ada server dengan agen monitor terkonfigurasi';
+
+  @override
+  String get legacyStatusGoneTitle => 'URL status tidak berfungsi lagi';
+
+  @override
+  String get legacyStatusGoneBody =>
+      'Aplikasi jam tangan dan widget layar utama membaca alamat `/status` yang diketik manual. Endpoint itu sudah dihapus: ia hanya bisa melaporkan nilai saat ini sebagai teks, itulah sebabnya keduanya tidak pernah bisa menampilkan grafik.\n\nSekarang keduanya membaca API monitor yang terautentikasi, sehingga bisa menggambar tren dan tetap selaras dengan aplikasi sendiri. Atur server sekali di aplikasi, dan setiap jam tangan dan widget akan mengambilnya.';
+
+  @override
+  String get services => 'Layanan';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get enable => 'Aktifkan';
+
+  @override
+  String get disable => 'Nonaktifkan';
+
+  @override
+  String get starting => 'Memulai';
+
+  @override
+  String get stopping => 'Menghentikan';
+
+  @override
+  String get serviceManagerUnsupported => 'Pengelola layanan tidak didukung';
+
+  @override
+  String get serviceManagerUnsupportedTip =>
+      'Server ini menggunakan pengelola layanan yang belum didukung ServerBox. Pengelola yang didukung: systemd, procd, dan OpenRC.';
+
+  @override
+  String serviceManagerFmt(String manager) {
+    return 'Dikelola oleh $manager';
+  }
+
+  @override
+  String get serviceListFailed => 'Tidak dapat menampilkan daftar layanan';
+
+  @override
+  String get serviceDetailsUnavailable =>
+      'Beberapa detail layanan tidak tersedia';
+
+  @override
+  String get serviceDetailsUnavailableTip =>
+      'Daftar layanan dapat digunakan, tetapi pengelola tidak memberikan semua informasi status atau mulai otomatis.';
+
+  @override
+  String get systemdUserScopeMissing => 'Unit pengguna tidak ditampilkan';
+
+  @override
+  String get systemdUserScopeMissingTip =>
+      'Akun ini tidak memiliki bus sesi pengguna di server, jadi hanya unit sistem yang ditampilkan.';
+
+  @override
+  String get serviceSearchHint => 'Unit name';
+
+  @override
+  String get serviceNeedsAttention => 'Needs attention';
+
+  @override
+  String serviceOtherUnits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unit lainnya',
+      one: '1 unit lainnya',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get serviceUnit => 'Unit';
+
+  @override
+  String get serviceUnitType => 'Type';
+
+  @override
+  String get serviceScope => 'Scope';
+
+  @override
+  String get serviceStartup => 'Startup';
+
+  @override
+  String serviceUpFor(String duration) {
+    return 'up $duration';
+  }
+
+  @override
+  String serviceDownFor(String duration) {
+    return 'down $duration';
+  }
+
+  @override
+  String serviceNextIn(String duration) {
+    return 'next $duration';
+  }
+
+  @override
+  String serviceStoppedAgo(String duration) {
+    return 'Berhenti $duration lalu';
+  }
+
+  @override
+  String serviceExitStatus(int code) {
+    return 'status keluar $code';
+  }
+
+  @override
+  String get serviceFullJournal => 'Full journal';
+
+  @override
+  String get serviceUnitFile => 'Unit file';
+
+  @override
+  String serviceJournalRecent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count baris terakhir',
+      one: 'Baris terakhir',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get serviceJournalUnreadable => 'Akun ini tidak dapat membaca journal';
+
+  @override
+  String get serverUnreachable =>
+      'Tidak dapat menjalankan perintah di server ini';
+
+  @override
+  String get containerNoRuntime => 'Tidak ada runtime kontainer di sini';
+
+  @override
+  String get containerNoRuntimeTip =>
+      'Baik `docker` maupun `podman` tidak merespons di mesin ini. Jika salah satunya terpasang untuk akun lain, aktifkan \"Cobalah menggunakan sudo\" di Pengaturan.';
+
+  @override
+  String get containerUnreadable =>
+      'Runtime kontainer merespons dalam bentuk yang tidak terduga';
+
+  @override
+  String get power => 'Daya';
+
+  @override
+  String get fan => 'Kipas';
+
+  @override
+  String get clockSpeed => 'Clock';
+
+  @override
+  String get vendor => 'Vendor';
+
+  @override
+  String get continueInTerminal => 'Lanjutkan di terminal';
+
+  @override
+  String get askAiRiskUnknown => 'Tidak terklasifikasi';
+
+  @override
+  String get agentLocalExec => 'Jalankan perintah di perangkat ini';
+
+  @override
+  String get agentLocalExecTip =>
+      'Membiarkan Agent bekerja di mesin yang menjalankan ServerBox. Perintah hanya-baca pun ditinjau';
+
+  @override
+  String get agentLocalExecRootfsTip =>
+      'Membiarkan Agent bekerja lokal, terbatas pada kontainer Linux yang dipasang ServerBox';
+
+  @override
+  String macDmgImportedPartly(String path) {
+    return 'Data dari versi yang terpasang sebelumnya telah diimpor. Berkas unduhan tetap berada di $path.';
+  }
+
+  @override
+  String get bmcAccount => 'Akun';
+
+  @override
+  String get bmcAccountUnset =>
+      'Belum dipilih — ketuk untuk memilih atau membuat';
+
+  @override
+  String bmcAccountShared(int count) {
+    return 'Dipakai oleh $count server';
+  }
+
+  @override
+  String get bmcAccounts => 'Akun BMC';
+
+  @override
+  String get bmcAccountSharedTip =>
+      'Mengubahnya mengubah yang dipakai semuanya.';
+
+  @override
+  String bmcAccountInUse(int count) {
+    return '$count server memakainya. Alamatnya tetap, akunnya hilang.';
+  }
+
+  @override
+  String get bmcStaleWrite => 'BMC berubah saat proses tulis. Coba lagi.';
+
+  @override
+  String get privacyBlur => 'Privasi latar belakang';
+
+  @override
+  String get privacyBlurTip =>
+      'Sembunyikan konten aplikasi di pengalih aplikasi';
+
+  @override
+  String get floatReturnToTab => 'Kembalikan ke tab';
+
+  @override
+  String get termInFloatWindow => 'Terminal ini ada di jendela mengambang';
+
+  @override
+  String get globeEnabledTip =>
+      'Gambar server di bola dunia, di tempat alamatnya berada. Mati akan menghapus tombolnya dan menghentikan semua pencarian.';
+
+  @override
+  String get geoShardsConsentAttribution =>
+      'Geolokasi IP oleh [DB-IP](https://db-ip.com), CC BY 4.0.';
+
+  @override
+  String get geoMissPrivate => 'Alamat privat';
+
+  @override
+  String get geoMissNoData => 'Tidak ada data lokasi';
+
+  @override
+  String get globeGuide =>
+      'Ketuk di sini untuk melihat server pada bola dunia, di lokasi alamatnya.';
+
+  @override
+  String get publicIp => 'IP publik';
+
+  @override
+  String get geoData => 'Data tingkat kota';
+
+  @override
+  String get geoDataTip =>
+      'Setelah diunduh, semua pencarian lokasi menggunakan data yang tersimpan di perangkat ini. Alamat server dan aktivitas pencarian tidak dikirim ke layanan unduhan.';
+
+  @override
+  String get geoDataMissing => 'Belum diunduh';
+
+  @override
+  String get geoDataUnreachable => 'Tidak dapat mengambil data.';
+
+  @override
+  String get geoDataRemoveFailed => 'Tidak dapat menghapus data.';
+
+  @override
+  String geoDataCurrent(String month) {
+    return '$month sudah terpasang.';
+  }
+
+  @override
+  String geoDataConsent(String download, String disk) {
+    return '**Unduhan: $download · Penyimpanan di perangkat: $disk.** Seluruh kumpulan data disimpan di perangkat ini dan semua pencarian lokasi berikutnya dilakukan secara lokal. Alamat server dan aktivitas pencarian tidak dikirim ke layanan unduhan.\n\nDiperbarui setiap bulan. Versi yang lebih baru menggantikan data yang terpasang tanpa menyimpan salinan tambahan. Anda dapat menghapusnya kapan saja.';
+  }
+
+  @override
+  String get benchmark => 'Uji performa';
+
+  @override
+  String get benchmarkIntro =>
+      'Menjalankan Yet Another Bench Script di server ini untuk menguji disk, jaringan, dan CPU. Pengujian lengkap memerlukan 10–20 menit dan tetap berjalan jika Anda meninggalkan halaman ini atau menutup aplikasi.';
+
+  @override
+  String get benchmarkNoRuns => 'Belum ada uji performa.';
+
+  @override
+  String get benchmarkRunning => 'Uji performa sedang berjalan';
+
+  @override
+  String get benchmarkStartFailed => 'Tidak dapat memulai uji performa';
+
+  @override
+  String get benchmarkCancelConfirm =>
+      'Hentikan pengujian ini? Semua hasil pengukuran sejauh ini akan hilang.';
+
+  @override
+  String get benchmarkDeleteConfirm => 'Hapus hasil pengujian ini?';
+
+  @override
+  String get benchmarkNothingSelected =>
+      'Semua tahap dinonaktifkan. Pengujian hanya akan mengumpulkan informasi sistem dan selesai dalam beberapa detik.';
+
+  @override
+  String get benchmarkDiskTip =>
+      'fio dengan empat ukuran blok; sekitar 3 menit. Menulis file uji 2 GB ke direktori kerja dan memerlukan ruang kosong sebesar itu.';
+
+  @override
+  String get benchmarkNetworkTip =>
+      'iperf3 terhadap server publik; sekitar 4 menit.';
+
+  @override
+  String get benchmarkReducedNetwork => 'Lebih sedikit lokasi';
+
+  @override
+  String benchmarkReducedNetworkTip(String full, String reduced) {
+    return 'Tiga lokasi, bukan tujuh. Perkiraan lalu lintas berkurang dari $full menjadi $reduced.';
+  }
+
+  @override
+  String get benchmarkCpuTip =>
+      'Mengunduh Geekbench, program berpemilik, lalu **menerbitkan hasilnya pada halaman publik di geekbench.com**, termasuk model CPU, jumlah inti, dan memori.';
+
+  @override
+  String get benchmarkSensitiveOptions =>
+      'Opsi di bawah mengunduh dan menjalankan perangkat lunak pihak ketiga di server ini atau mengirim informasi server kepada pihak ketiga. Opsi ini dinonaktifkan secara default.';
+
+  @override
+  String get benchmarkIpInfoTip =>
+      'Mengirim alamat publik server ini ke ip-api.com melalui HTTP tanpa enkripsi.';
+
+  @override
+  String get benchmarkIpInfo => 'Cari pemilik IP';
+
+  @override
+  String get benchmarkPreferBin => 'Unduh fio dan iperf3';
+
+  @override
+  String get benchmarkPreferBinTip =>
+      'Mengunduh keduanya dari GitHub alih-alih menggunakan paket milik host. Aktifkan hanya jika keduanya tidak terpasang di host.';
+
+  @override
+  String get benchmarkWorkDir => 'Direktori kerja';
+
+  @override
+  String get benchmarkWorkDirTip =>
+      'Menentukan sistem file yang diukur oleh pengujian disk. Jika kosong, direktori home akun masuk akan digunakan.';
+
+  @override
+  String benchmarkEstimatedTime(int minutes) {
+    return 'Sekitar $minutes menit';
+  }
+
+  @override
+  String benchmarkEstimatedTraffic(String size) {
+    return 'Sekitar $size lalu lintas';
+  }
+
+  @override
+  String get benchmarkPhaseSystem => 'Membaca informasi sistem';
+
+  @override
+  String get benchmarkPhaseDisk => 'Menguji disk';
+
+  @override
+  String get benchmarkPhaseNetwork => 'Menguji jaringan';
+
+  @override
+  String get benchmarkPhaseCpu => 'Menguji CPU';
+
+  @override
+  String get benchmarkPhaseDone => 'Menyelesaikan';
+
+  @override
+  String get benchmarkResultUnreadable =>
+      'Hasil ini tidak dapat dibaca sebagai JSON. Teks mentah ditampilkan di bawah.';
+
+  @override
+  String get benchmarkViewOnGeekbench => 'Lihat di Geekbench';
+
+  @override
+  String get benchmarkGeekbenchPublic =>
+      'Hasil ini dipublikasikan melalui tautan di atas.';
+
+  @override
+  String get benchmarkSingleCore => 'Inti tunggal';
+
+  @override
+  String get benchmarkMultiCore => 'Multi-inti';
+
+  @override
+  String get benchmarkIops => 'IOPS';
+
+  @override
+  String get benchmarkSend => 'Unggah';
+
+  @override
+  String get benchmarkRecv => 'Unduh';
+
+  @override
+  String get benchmarkLatency => 'Latensi';
+
+  @override
+  String get benchmarkVirt => 'Virtualisasi';
+
+  @override
+  String get benchmarkRawLog => 'Log pengujian';
+
+  @override
+  String benchmarkUpstream(String version) {
+    return 'Didukung oleh Yet Another Bench Script ($version)';
+  }
+
+  @override
+  String get benchmarkPhaseStarting => 'Memulai';
+
+  @override
+  String get benchmarkNoOutputYet =>
+      'Belum ada keluaran. Sebelum menampilkan baris pertama, YABS memeriksa apakah google.com dan icanhazip.com dapat dijangkau. Pada jaringan yang memblokir salah satu situs tersebut, proses ini dapat memerlukan beberapa menit.';
+
+  @override
+  String get tagsEmptyTip =>
+      'Belum ada tag. Tambahkan tag saat mengedit server, dan tag tersebut akan muncul di sini.';
+
+  @override
+  String get benchmarkNoServers =>
+      'Tambahkan server terlebih dahulu, lalu kembali untuk menjalankan benchmark.';
+
+  @override
+  String get schemaTooNewTitle => 'Data ini lebih baru daripada aplikasi';
+
+  @override
+  String schemaTooNewBody(int stored, int supported) {
+    return 'Data ini ditulis oleh versi ServerBox yang lebih baru (penyimpanan v$stored); versi ini hanya dapat membaca hingga v$supported. Tidak ada yang diubah.';
+  }
+
+  @override
+  String get schemaTooNewReinstall =>
+      'Instal kembali versi yang lebih baru itu agar semua data dapat dibuka seperti semula.';
+
+  @override
+  String get schemaTooNewExportPlain => 'Ekspor tanpa kata sandi';
+
+  @override
+  String get schemaTooNewPlainWarn =>
+      'File ini akan menyimpan semua kunci privat SSH, kata sandi server, dan kunci API dalam teks biasa. Siapa pun yang mendapatkan file ini akan mendapatkan semuanya.';
+
+  @override
+  String get schemaTooNewWipe => 'Hapus semua data';
+
+  @override
+  String get schemaTooNewWipeConfirm =>
+      'Semua server, kunci, cuplikan, dan pengaturan di perangkat ini akan dihapus dan tidak dapat dibatalkan. Cadangan yang diekspor di sini akan menjadi satu-satunya salinan yang tersisa.';
+
+  @override
+  String get schemaTooNewWipeDone =>
+      'Data dihapus. Buka kembali aplikasi untuk memulai dari awal.';
+
+  @override
+  String get schemaTooNewWipeFailed =>
+      'Sebagian data tidak dapat dihapus, dan versi ini masih tidak dapat membuka data yang tersisa. Instal kembali versi yang lebih baru untuk mengaksesnya.';
+
+  @override
+  String get systemUsers => 'Users';
+
+  @override
+  String get userManagerLinuxOnly =>
+      'Pengelolaan pengguna sistem saat ini hanya mendukung server Linux.';
+
+  @override
+  String get userRegularAccount => 'Regular';
+
+  @override
+  String get userCurrentAccount => 'Current account';
+
+  @override
+  String get userSystemAccount => 'System account';
+
+  @override
+  String get userUid => 'UID';
+
+  @override
+  String get userLoginStatus => 'Status';
+
+  @override
+  String get userLoginEnabled => 'Login enabled';
+
+  @override
+  String get userDetailAccount => 'Account';
+
+  @override
+  String get userDetailSecurity => 'Security';
+
+  @override
+  String get userSshKeys => 'SSH keys';
+
+  @override
+  String get userExpires => 'Expires';
+
+  @override
+  String get userNever => 'Never';
+
+  @override
+  String get userPasswordSet => 'Set';
+
+  @override
+  String get userPasswordLocked => 'Locked';
+
+  @override
+  String get userPasswordNone => 'None';
+
+  @override
+  String get userSuperuser => 'Superuser';
+
+  @override
+  String get userOpenShell => 'Open shell';
+
+  @override
+  String get userRootChangesWarning =>
+      'Perubahan pada root langsung berlaku di semua sesi.';
+
+  @override
+  String get userComment => 'Comment';
+
+  @override
+  String get userPrimaryGroup => 'Primary group';
+
+  @override
+  String get userSupplementaryGroups => 'Grup tambahan';
+
+  @override
+  String get userLoginShell => 'Login shell';
+
+  @override
+  String get userCreateHome => 'Buat direktori home';
+
+  @override
+  String get userMoveHome =>
+      'Pindahkan direktori home yang ada saat path berubah';
+
+  @override
+  String get userRemoveHome => 'Hapus direktori home';
+
+  @override
+  String get userPasswordCreateTip =>
+      'Kosongkan kata sandi untuk membuat akun yang tidak dapat masuk dengan kata sandi.';
+
+  @override
+  String get userPasswordEditTip =>
+      'Kosongkan kata sandi untuk mempertahankan kata sandi yang ada.';
+
+  @override
+  String funcUnavailableFmt(String func) {
+    return '$func tidak tersedia melalui koneksi server ini.';
+  }
+
+  @override
+  String funcNeedsAgentGrant(String func, String setting) {
+    return '$func memerlukan $setting diaktifkan di Monitor agent.';
+  }
+
+  @override
+  String funcNeedsAgentUpdate(String func) {
+    return '$func memerlukan Monitor agent yang lebih baru.';
+  }
+
+  @override
+  String get portForwardRemoteNeedsAgent =>
+      'Penerusan jarak jauh melalui Monitor agent memerlukan versi yang lebih baru: perbarui di server.';
+
+  @override
+  String get rangeLive => 'Langsung';
+
+  @override
+  String get diskIo => 'I/O Disk';
+
+  @override
+  String get peak => 'puncak';
+
+  @override
+  String get hardware => 'Perangkat keras';
+
+  @override
+  String get cores => 'Inti';
+
+  @override
+  String get historyNoStored =>
+      'Hanya agen monitor yang menyimpan riwayat. Koneksi ini hanya menyimpan apa yang dilihat aplikasi sejak terhubung.';
+
+  @override
+  String get noHistoryYet => 'Belum ada pengukuran';
+
+  @override
+  String get noData => 'tidak ada data';
+
+  @override
+  String get from => 'Dari';
+
+  @override
+  String get to => 'Sampai';
+
+  @override
+  String get beyondRetention => 'lebih lama dari yang disimpan agen ini';
+
+  @override
+  String agentRetentionFmt(String kept) {
+    return 'Agen menyimpan $kept';
+  }
+
+  @override
+  String get agentServerTools => 'Alat server';
+
+  @override
+  String get agentServerToolsTip =>
+      'Menjalankan perintah serta membaca atau menulis berkas di server Anda, terhubung ke host lain lewat SSH, dan memakai tindakan ServerBox sendiri.';
+
+  @override
+  String get agentTerminalTools => 'Terminal';
+
+  @override
+  String get agentTerminalToolsTip =>
+      'Di obrolan milik terminal: membaca apa yang ditampilkan terminal dan menjalankan perintah di servernya.';
+
+  @override
+  String get agentToolTerminalScreen => 'Baca layar';
+
+  @override
+  String get agentProviders => 'Penyedia';
+
+  @override
+  String get agentProvidersTip =>
+      'Kunci API, model, dan model untuk obrolan baru';
+
+  @override
+  String get agentTools => 'Alat';
+
+  @override
+  String get agentToolsTip =>
+      'Apa yang boleh dipakai Agent, dan server MCP-nya';
+
+  @override
+  String get agentSnippetToolsTip =>
+      'Menampilkan, menambah, mengubah, dan menghapus snippet. Perubahan akan ditanyakan.';
+
+  @override
+  String get agentVirtToolsTip =>
+      'Membaca VM dan kontainer yang dimuat tab Virtualisasi.';
+
+  @override
+  String get agentBenchmarkToolsTip =>
+      'Membaca hasil benchmark; menjalankan atau menghentikan benchmark dengan persetujuanmu.';
+
+  @override
+  String get agentRemoteDesktopToolsTip =>
+      'Menampilkan profil remote desktop; menghubungkan atau memutus dengan persetujuanmu.';
+
+  @override
+  String get agentSkills => 'Skills';
+
+  @override
+  String get agentSkillsTip =>
+      'Petunjuk untuk tugas tertentu, dipasang dari GitHub atau tautan';
+
+  @override
+  String get agentPermissions => 'Izin';
+
+  @override
+  String get agentEmptyHint =>
+      'Tanyakan tentang server Anda, atau minta Agent melakukan sesuatu di sana.';
+
+  @override
+  String get agentTerminalEmptyHint =>
+      'Tanyakan tentang server ini. Agent dapat membaca terminal ini dan menjalankan perintah di sini.';
+
+  @override
+  String oldestSampleFmt(String time) {
+    return 'sampel terlama $time';
+  }
+
+  @override
+  String get rangeEndsBeforeItStarts => 'Akhir rentang harus setelah awalnya.';
+
+  @override
+  String get samples => 'sampel';
+
+  @override
+  String get unavailable => 'tidak tersedia';
+
+  @override
+  String get metricUnavailableTip =>
+      'Bagian lain halaman ini tidak terpengaruh. Periksa perintah sumber pembacaan ini di host.';
+
+  @override
+  String get waitingFirstSample => 'Menunggu sampel pertama';
+
+  @override
+  String atTimeFmt(String time) {
+    return 'pukul $time';
+  }
+
+  @override
+  String get stored => 'tersimpan';
+
+  @override
+  String lastSampleFmt(String ago) {
+    return 'sampel terakhir $ago';
+  }
+
+  @override
+  String staleSinceFmt(String ago, String time) {
+    return 'Semua di bawah ini berasal dari $time, $ago.';
+  }
+
+  @override
+  String noDataBeforeFmt(String time) {
+    return 'tidak ada data sebelum $time';
+  }
+
+  @override
+  String loadingRangeFmt(String range) {
+    return 'Memuat $range…';
+  }
+
+  @override
+  String noStoredHistoryFor(String metric) {
+    return 'Tidak ada riwayat tersimpan untuk $metric';
+  }
+
+  @override
+  String devicesFmt(int count) {
+    return '$count perangkat';
+  }
+
+  @override
+  String devicesBusiestFmt(int count, String name) {
+    return '$count perangkat · $name tersibuk';
+  }
+
+  @override
+  String devicesPlottedFmt(int plotted, int total) {
+    return '$plotted dari $total perangkat';
+  }
+
+  @override
+  String sensorsHottestFmt(int count, String name) {
+    return '$count sensor · $name paling panas';
+  }
+
+  @override
+  String get oneDeviceAtLeast =>
+      'Setidaknya satu perangkat tetap ada di grafik.';
+
+  @override
+  String shownOfFmt(int shown, int total, String what) {
+    return '$shown dari $total $what';
+  }
+
+  @override
+  String countOfFmt(int count, String what) {
+    return '$count $what';
+  }
+
+  @override
+  String get unitDevices => 'perangkat';
+
+  @override
+  String get unitSensors => 'sensor';
+
+  @override
+  String get unitBatteries => 'baterai';
+
+  @override
+  String get unitCommands => 'perintah';
+
+  @override
+  String get unitReadings => 'pembacaan';
+
+  @override
+  String get unitGpus => 'GPU';
+
+  @override
+  String get hottest => 'paling panas';
+
+  @override
+  String get oldest => 'paling lama';
+
+  @override
+  String get notApplicable => 'tidak berlaku';
+
+  @override
+  String get attributes => 'atribut';
+
+  @override
+  String get powerOnHours => 'Jam menyala';
+
+  @override
+  String get powerCycles => 'Siklus daya';
+
+  @override
+  String get lifeLeft => 'Sisa umur';
+
+  @override
+  String get lifetimeWrite => 'Total tulis';
+
+  @override
+  String get lifetimeRead => 'Total baca';
+
+  @override
+  String get averageErase => 'Rata-rata hapus';
+
+  @override
+  String get unsafeShutdowns => 'Mati tidak aman';
+
+  @override
+  String get diskAllPassed => 'semua PASSED';
+
+  @override
+  String diskWarningFmt(int count) {
+    return '$count peringatan';
+  }
+
+  @override
+  String diskWrongOfFmt(int total, int wrong) {
+    return '$wrong dari $total perangkat';
+  }
+
+  @override
+  String get diskSmartSortedTip => 'Terburuk lebih dulu';
+
+  @override
+  String readAgoFmt(String ago) {
+    return 'dibaca $ago';
+  }
+
+  @override
+  String processesFmt(int count) {
+    return '$count proses';
+  }
+
+  @override
+  String diskFailingFmt(int count) {
+    return '$count bermasalah';
+  }
+
+  @override
+  String get diskSmartOpenTip => 'Ketuk untuk melihat atributnya';
+
+  @override
+  String get cycle => 'Siklus';
+
+  @override
+  String get window => 'jendela';
+
+  @override
+  String ofFmt(String total) {
+    return 'dari $total';
+  }
+
+  @override
+  String get serverDetailCards => 'Kartu halaman detail';
+
+  @override
+  String get connection => 'Koneksi';
+
+  @override
+  String get connectionTip =>
+      'Keduanya bisa aktif bersamaan. Urutannya adalah urutan pemanggilan.';
+
+  @override
+  String get transportNoneOn =>
+      'Keduanya nonaktif — server ini tidak dapat dihubungi.';
+
+  @override
+  String get thisDevice => 'Perangkat ini';
+
+  @override
+  String get localServerTip =>
+      'Membaca perangkat ini secara langsung dengan menjalankan skrip status di sini. SSH dan Monitor HTTP tidak digunakan, dan pengaturannya tetap disimpan.';
+
+  @override
+  String get localServerUnsupported =>
+      'Platform ini tidak dapat membaca perangkat ini sebagai server. Linux, Windows, dan versi DMG macOS mendukungnya.';
+
+  @override
+  String get remoteDesktopIntro =>
+      'Buka desktop RDP atau VNC sebuah server di dalam aplikasi. Koneksi melewati koneksi SSH server atau agen Monitor-nya, jadi port desktop tidak perlu dapat dijangkau dari jaringan.';
+
+  @override
+  String get remoteDesktopIntroProfiles =>
+      'Simpan satu profil per desktop dari tombol Desktop jarak jauh pada server, atau dari tab Desktop jarak jauh.';
+
+  @override
+  String get localServerIntro =>
+      'Tambahkan perangkat yang menjalankan ServerBox sebagai server. Status, proses, layanan, kontainer, terminal, dan berkas berfungsi tanpa SSH atau agen Monitor.';
+
+  @override
+  String get localServerAdd => 'Tambahkan perangkat ini';
+
+  @override
+  String get localServerIntroFooter =>
+      'Ini juga bisa diaktifkan nanti, di halaman edit server pada bagian Koneksi.';
+
+  @override
+  String get transportSectionOff =>
+      'Nonaktif. Kolom di bawah disimpan untuk saat Anda mengaktifkannya lagi.';
+
+  @override
+  String get monitorAgent => 'Agen monitor';
+
+  @override
+  String get plainHttpEditTip =>
+      'Kredensial dan metrik melintasi jaringan tanpa enkripsi. Batasi pada LAN atau alamat Tailscale, atau tempatkan agen di belakang TLS.';
+
+  @override
+  String get behaviour => 'Perilaku';
+
+  @override
+  String get optional => 'Opsional';
+
+  @override
+  String get sshAdvanced => 'SSH lanjutan';
+
+  @override
+  String get sshAdvancedTip =>
+      'Tujuan cadangan, ProxyCommand, server lompat, transport berkas, jalur jarak jauh';
+
+  @override
+  String get sshLegacyAlgorithms => 'Algoritma lama';
+
+  @override
+  String get sshLegacyAlgorithmsTip =>
+      'Untuk server SSH lama, seperti router atau switch, yang hanya menawarkan kunci host SHA-1 `ssh-rsa` atau pertukaran kunci SHA-1. Keamanannya lebih rendah; aktifkan hanya untuk host yang memerlukannya.';
+
+  @override
+  String get appearanceAndPlace => 'Tampilan & lokasi';
+
+  @override
+  String get appearanceAndPlaceTip => 'Logo, koordinat';
+
+  @override
+  String get statusCollection => 'Pengumpulan status';
+
+  @override
+  String get statusCollectionTip =>
+      'Perintah mana yang berjalan, perintah kustom, perangkat mana yang dibaca';
+
+  @override
+  String get tagAllTags => 'Semua tag';
+
+  @override
+  String get tagMatching => 'Cocok';
+
+  @override
+  String get tagNewHint => 'Tag baru';
+
+  @override
+  String tagCreateFmt(String tag) {
+    return 'Buat #$tag';
+  }
+
+  @override
+  String get tagOnThisServer => 'di server ini';
+
+  @override
+  String tagServersFmt(int count) {
+    return '$count server';
+  }
+
+  @override
+  String tagOnThisServerFmt(int count) {
+    return '$count di server ini';
+  }
+
+  @override
+  String get tagMatchesTyped => 'cocok dengan yang Anda ketik';
+
+  @override
+  String get tagEditorTip =>
+      'Mengetik akan menyaring daftar; tombolnya membuat tag dan langsung memasangnya di server ini. Pensil mengganti namanya di setiap server yang memakainya. Tag yang tidak dipakai server mana pun akan hilang saat disimpan.';
+
+  @override
+  String get tagRenamesOnSave => 'Penggantian nama diterapkan saat menyimpan';
+
+  @override
+  String get scheduledTasks => 'Scheduled tasks';
+
+  @override
+  String get scheduledTaskLinuxOnly =>
+      'Pengelolaan tugas terjadwal saat ini hanya mendukung server Linux.';
+
+  @override
+  String get scheduledTaskUnavailable =>
+      'crontab tidak tersedia di server ini.';
+
+  @override
+  String get scheduledTaskPreserveTip =>
+      'Komentar, environment variable, dan baris yang tidak dikenali dalam crontab ini akan dipertahankan.';
+
+  @override
+  String get scheduledTaskSchedule => 'Schedule';
+
+  @override
+  String get scheduledTaskAdd => 'Add task';
+
+  @override
+  String get scheduledTaskNextRun => 'Next run';
+
+  @override
+  String scheduledTaskNextInFmt(String time) {
+    return 'in $time';
+  }
+
+  @override
+  String get scheduledTaskEnabled => 'Enabled';
+
+  @override
+  String get scheduledTaskCommentedOut => 'Commented out';
+
+  @override
+  String scheduledTaskSummaryFmt(int enabled, int total) {
+    return '$total tugas · $enabled aktif';
+  }
+
+  @override
+  String get scheduledTaskFilterHint => 'Filter tasks';
+
+  @override
+  String get scheduledTaskPreserved => 'Preserved lines';
+
+  @override
+  String get scheduledTaskRaw => 'Raw crontab';
+
+  @override
+  String get scheduledTaskEnableNow => 'Enable now';
+
+  @override
+  String get scheduledTaskEnableNowTip =>
+      'Jika dimatikan, baris akan ditulis sebagai komentar.';
+
+  @override
+  String scheduledTaskEmptyFmt(String user) {
+    return 'Tidak ada tugas terjadwal untuk $user. Yang ditambahkan di sini akan ditulis ke crontab akun tersebut.';
+  }
+
+  @override
+  String get scheduledTaskFieldMinute => 'Minute';
+
+  @override
+  String get scheduledTaskFieldHour => 'Hour';
+
+  @override
+  String get scheduledTaskFieldDayOfMonth => 'Tanggal dalam bulan';
+
+  @override
+  String get scheduledTaskFieldMonth => 'Month';
+
+  @override
+  String get scheduledTaskFieldDayOfWeek => 'Hari dalam minggu';
+
+  @override
+  String get cronErrScheduleEmpty => 'Jadwal wajib diisi.';
+
+  @override
+  String get cronErrCommandEmpty => 'Perintah wajib diisi.';
+
+  @override
+  String get cronErrLineBreak =>
+      'Baris crontab tidak boleh berisi pergantian baris.';
+
+  @override
+  String get cronErrMacro => 'Macro terdiri dari satu kata, seperti @reboot.';
+
+  @override
+  String get cronErrFieldCount =>
+      'Jadwal cron memiliki lima kolom, atau macro seperti @reboot.';
+
+  @override
+  String get cronAtBoot => 'At boot';
+
+  @override
+  String get cronEveryMin => 'Every minute';
+
+  @override
+  String cronEveryMinsFmt(int minutes) {
+    return 'Setiap $minutes menit';
+  }
+
+  @override
+  String cronHourlyAtFmt(String minute) {
+    return 'Setiap jam pada menit :$minute';
+  }
+
+  @override
+  String cronEveryHoursFmt(int hours) {
+    return 'Setiap $hours jam';
+  }
+
+  @override
+  String cronEveryHoursAtFmt(int hours, String minute) {
+    return 'Setiap $hours jam pada menit :$minute';
+  }
+
+  @override
+  String cronDailyAtFmt(String time) {
+    return 'Setiap hari pukul $time';
+  }
+
+  @override
+  String cronWeekdaysAtFmt(String time) {
+    return 'Pada hari kerja pukul $time';
+  }
+
+  @override
+  String cronWeekdayAtFmt(String day, String time) {
+    return 'Setiap $day pukul $time';
+  }
+
+  @override
+  String cronMonthlyAtFmt(int day, String time) {
+    return 'Tanggal $day setiap bulan pukul $time';
+  }
+
+  @override
+  String get monitorSettings => 'Monitor settings';
+
+  @override
+  String get monitorAgentDefault => 'Agent default';
+
+  @override
+  String get monitorNeedsRestart => 'Berlaku setelah agent dimulai ulang';
+
+  @override
+  String get monitorCollection => 'Collection';
+
+  @override
+  String get extendedInterval => 'Interval siklus lanjutan';
+
+  @override
+  String get idlePause => 'Jeda saat tidak ada yang memantau';
+
+  @override
+  String get idlePauseTip =>
+      'Siklus lanjutan menjalankan smartctl, sensors, dan amd-smi. Menjedanya saat tidak ada client yang meminta data mencegah disk dibangunkan untuk data yang tidak dibaca siapa pun.';
+
+  @override
+  String get idlePauseThreshold => 'Idle after';
+
+  @override
+  String get monitorAlerts => 'Alerts';
+
+  @override
+  String get monitoringRules => 'Alert rules';
+
+  @override
+  String get ruleMonitorType => 'Metric';
+
+  @override
+  String get ruleThreshold => 'Threshold';
+
+  @override
+  String get ruleMatcher => 'Matcher';
+
+  @override
+  String get ruleTip =>
+      'Metrik: cpu / memory / swap / disk / network / temperature. Pencocok: cpu0 untuk satu core, used / free / avail untuk memori, rx / tx untuk jaringan; disk dan suhu mengabaikannya. Ambang: operator pembanding dan nilai, seperti >=80%, >=70c, atau >10m/s.';
+
+  @override
+  String get pushChannels => 'Saluran notifikasi';
+
+  @override
+  String get pushType => 'Type';
+
+  @override
+  String get pushRate => 'Rate limit';
+
+  @override
+  String get pushHeaders => 'Headers';
+
+  @override
+  String get pushSecretSet => 'Ditetapkan di agent, tidak ditampilkan';
+
+  @override
+  String get pushSecretKeep => 'Kosongkan untuk mempertahankan';
+
+  @override
+  String get pushTestTip =>
+      'Mengirim satu notifikasi melalui channel ini dengan pengaturan saat ini, baik sudah disimpan maupun belum.';
+
+  @override
+  String get pushTestSent => 'Channel menerima notifikasi';
+
+  @override
+  String get pushTestFailed => 'Channel menolak notifikasi';
+
+  @override
+  String get pushTestMessage => 'Notifikasi uji dari ServerBox Monitor';
+
+  @override
+  String get pushUnknownType =>
+      'Agent ini tidak memiliki pengirim untuk jenis channel ini, sehingga pengaturannya tidak ditampilkan. Channel dapat dihapus di sini atau diedit dalam config.toml agent.';
+
+  @override
+  String get pushJsonInvalid => 'bukan JSON yang valid';
+
+  @override
+  String get dataRetention => 'Data retention';
+
+  @override
+  String get dataRetentionTip =>
+      'Jika dimatikan, agent tidak pernah menghapus data dan database akan terus membesar tanpa batas.';
+
+  @override
+  String get retentionMetrics => 'Keep metrics';
+
+  @override
+  String get retentionAlerts => 'Keep alerts';
+
+  @override
+  String get retentionCleanup => 'Jalankan pembersihan setiap';
+
+  @override
+  String get retentionMaxDbSize => 'Batas ukuran database';
+
+  @override
+  String get corsOrigins => 'Origin CORS yang diizinkan';
+
+  @override
+  String get corsOriginsTip =>
+      'Origin yang boleh digunakan panel browser untuk memanggil agent ini. Kosong berarti hanya same-origin.';
+
+  @override
+  String get monitorNoRemoteAccess =>
+      'Agen ini hanya dikonfigurasi untuk pemantauan. Anda tidak dapat membuka terminal, menjalankan perintah, atau menjelajahi berkas dari sini. Untuk mengaktifkan fitur tersebut, edit [remote_access] dalam config.toml agen.';
+
+  @override
+  String get alerts => 'Peringatan';
+
+  @override
+  String get online => 'online';
+
+  @override
+  String get densityCards => 'Kartu';
+
+  @override
+  String get densityRows => 'Baris';
+
+  @override
+  String get densityGrid => 'Kisi';
+
+  @override
+  String get connect => 'Hubungkan';
+
+  @override
+  String get disconnect => 'Putuskan';
+
+  @override
+  String get searchServerTip =>
+      'Mencari nama dan alamat — dua hal yang pertama kali diminta editor.';
+
+  @override
+  String get addServerTip =>
+      'Isi salah satunya, pindai kode QR, atau impor file yang dibagikan seseorang.';
+
+  @override
+  String get move => 'Pindahkan';
+
+  @override
+  String get moveToTop => 'Pindah ke atas';
+
+  @override
+  String get moveToBottom => 'Pindah ke bawah';
+
+  @override
+  String get groupByTag => 'Kelompokkan menurut tag';
+
+  @override
+  String get groupByTagTip => 'Tag diatur di halaman edit server.';
+
+  @override
+  String get connecting => 'Menghubungkan…';
+
+  @override
+  String get authShort => 'Auth';
+
+  @override
+  String get remoteDesktopFitToWindow => 'Sesuaikan dengan jendela';
+
+  @override
+  String get remoteDesktopActualSize => 'Ukuran sebenarnya';
+
+  @override
+  String get remoteDesktopZoom => 'Perbesar/perkecil';
+
+  @override
+  String get remoteDesktopViewOnly => 'Hanya lihat';
+
+  @override
+  String get remoteDesktopDisableViewOnly => 'Nonaktifkan hanya lihat';
+
+  @override
+  String get remoteDesktopSendClipboardText => 'Kirim teks papan klip';
+
+  @override
+  String get remoteDesktopShowKeyboard => 'Tampilkan keyboard';
+
+  @override
+  String get remoteDesktopMoreControls => 'Kontrol lainnya';
+
+  @override
+  String get remoteDesktopUseDirectPointer => 'Gunakan penunjuk langsung';
+
+  @override
+  String get remoteDesktopUseTouchpadPointer => 'Gunakan penunjuk touchpad';
+
+  @override
+  String get remoteDesktopSendCtrlAltDelete => 'Kirim Ctrl+Alt+Delete';
+
+  @override
+  String get remoteDesktopReconnect => 'Hubungkan kembali';
+
+  @override
+  String get remoteDesktopFullScreen => 'Layar penuh';
+
+  @override
+  String get remoteDesktopExitFullScreen => 'Keluar dari layar penuh';
+
+  @override
+  String get remoteDesktopCloseSession => 'Tutup sesi';
+
+  @override
+  String get remoteDesktopConnected => 'Terhubung';
+
+  @override
+  String get remoteDesktopConnecting => 'Menghubungkan';
+
+  @override
+  String get remoteDesktopReconnecting => 'Menghubungkan kembali';
+
+  @override
+  String get remoteDesktopDisconnected => 'Terputus';
+
+  @override
+  String get remoteDesktopGuideTouch => 'Touchpad';
+
+  @override
+  String get remoteDesktopGuideTouchTip =>
+      'Satu jari menggerakkan penunjuk seperti touchpad, dan ketukan mengeklik. Ketuk dengan dua jari untuk klik kanan, seret dengan dua jari untuk menggulir, dan cubit untuk memperbesar. Ketuk dua kali dan tahan jari untuk menyeret.';
+
+  @override
+  String get remoteDesktopGuideKeyboardTip =>
+      'Membuka keyboard layar. Yang Anda ketik dikirim ke desktop jarak jauh.';
+
+  @override
+  String get remoteDesktopGuideViewOnlyTip =>
+      'Berhenti mengirim penunjuk dan tombol, sehingga Anda bisa melihat tanpa tidak sengaja mengeklik.';
+
+  @override
+  String get remoteDesktopGuideMoreTip =>
+      'Ctrl+Alt+Delete, sambung ulang, dan layar penuh ada di sini.';
+
+  @override
+  String get remoteDesktopGuidePointerTip =>
+      'Begitu juga penunjuk langsung, di mana jari mengeklik tempat yang disentuhnya.';
+
+  @override
+  String get remoteDesktopVncClipboardLatin1Only =>
+      'Clipboard VNC hanya mendukung teks Latin-1.';
+
+  @override
+  String get remoteDesktopAddProfile => 'Tambah profil';
+
+  @override
+  String get remoteDesktopNoProfiles => 'Tidak ada profil desktop jarak jauh';
+
+  @override
+  String get remoteDesktopAdd => 'Tambah desktop jarak jauh';
+
+  @override
+  String get remoteDesktopEdit => 'Edit desktop jarak jauh';
+
+  @override
+  String get remoteDesktopTargetTip =>
+      'Target diresolusikan dari server SSH atau agen Monitor. localhost mengacu pada mesin itu.';
+
+  @override
+  String get remoteDesktopDomain => 'Domain (opsional)';
+
+  @override
+  String get remoteDesktopPassword => 'Kata sandi (opsional)';
+
+  @override
+  String get remoteDesktopSavePassword => 'Simpan kata sandi';
+
+  @override
+  String get remoteDesktopSavePasswordTip =>
+      'Disimpan di basis data terenkripsi. Cadangan menyertakan kata sandi tersimpan, dan hanya dienkripsi bila kata sandi cadangan ditetapkan.';
+
+  @override
+  String get remoteDesktopShareSession => 'Bagikan sesi';
+
+  @override
+  String get remoteDesktopProtocol => 'Protokol';
+
+  @override
+  String get remoteDesktopUniqueName =>
+      'Nama profil harus unik untuk server ini.';
+
+  @override
+  String get remoteDesktopVncPasswordLength =>
+      'Kata sandi VNC klasik dibatasi 8 byte ASCII.';
+
+  @override
+  String get remoteDesktopNameRequired => 'Masukkan nama profil.';
+
+  @override
+  String get remoteDesktopHostRequired => 'Masukkan host target.';
+
+  @override
+  String get remoteDesktopPortRequired => 'Masukkan port yang valid.';
+
+  @override
+  String get remoteDesktopUsernameRequired => 'Masukkan nama pengguna RDP.';
+
+  @override
+  String get remoteDesktopVncPasswordAscii =>
+      'Kata sandi VNC klasik hanya boleh berisi karakter ASCII.';
+
+  @override
+  String get remoteDesktopCertificateRequired =>
+      'Konfirmasi sertifikat diperlukan';
+
+  @override
+  String get remoteDesktopWaiting => 'Menunggu desktop…';
+
+  @override
+  String get remoteDesktopCertificateChanged =>
+      'Sertifikat desktop jarak jauh berubah';
+
+  @override
+  String get remoteDesktopTrustCertificate => 'Percayai sertifikat?';
+
+  @override
+  String get remoteDesktopCertificateChangedTip =>
+      'Sidik jari sertifikat tidak lagi cocok dengan nilai tersimpan. Verifikasi sidik jari baru sebelum mengganti kepercayaan.';
+
+  @override
+  String get remoteDesktopCertificateUnverifiedTip =>
+      'Sistem tidak dapat memverifikasi sertifikat ini. Verifikasi sidik jari SHA-256-nya sebelum melanjutkan.';
+
+  @override
+  String get remoteDesktopReplaceTrust => 'Ganti kepercayaan';
+
+  @override
+  String get remoteDesktopTrustReconnect => 'Percayai dan sambungkan ulang';
+
+  @override
+  String remoteDesktopDeleteProfile(String name) {
+    return 'Hapus profil desktop jarak jauh “$name”?';
+  }
+
+  @override
+  String remoteDesktopReconnectAttempt(int attempt) {
+    return 'Menghubungkan kembali ($attempt/3)…';
+  }
+
+  @override
+  String remoteDesktopPreviousCertificate(String fingerprint) {
+    return 'Sebelumnya dipercaya\n$fingerprint';
+  }
+
+  @override
+  String remoteDesktopCertificateSubject(String subject) {
+    return 'Subjek: $subject';
+  }
+
+  @override
+  String remoteDesktopCertificateIssuer(String issuer) {
+    return 'Penerbit: $issuer';
+  }
+
+  @override
+  String remoteDesktopCertificateValidity(String start, String end) {
+    return 'Berlaku: $start – $end';
+  }
+
+  @override
+  String get pveAuthToken => 'Token API';
+
+  @override
+  String get pveVersionLow =>
+      'Fitur ini saat ini sedang dalam tahap pengujian dan hanya diuji pada PVE 8+. Gunakan dengan hati-hati.';
+
+  @override
+  String get pveTokenId => 'ID token';
+
+  @override
+  String get pveTokenSecret => 'Rahasia token';
+
+  @override
+  String get pveTokenTip =>
+      'Buat di PVE pada Datacenter → Permissions → API Tokens. Token memerlukan VM.Audit, VM.PowerMgmt, VM.Console, VM.Snapshot, VM.Snapshot.Rollback, Datastore.Audit, dan Sys.Audit pada jalur yang ingin ditampilkan; jika pemisahan hak aktif, berikan hak tersebut ke token itu sendiri.';
+
+  @override
+  String pveTokenNoPrivileges(String account, String command) {
+    return 'Token $account tidak dapat melihat apa pun di host ini. Token dengan pemisahan hak akses tidak mewarisi izin penggunanya; berikan izin di host PVE:\n$command\natau hapus centang \"Privilege Separation\" pada token.';
+  }
+
+  @override
+  String pveUserNoPrivileges(String account, String command) {
+    return '$account tidak dapat melihat apa pun di host ini. Berikan izin di host PVE:\n$command';
+  }
+
+  @override
+  String get pveTokenIdInvalid => 'ID token harus berbentuk user@realm!tokenid';
+
+  @override
+  String get pvePasswordAuthTip =>
+      'Masuk sebagai pengguna SSH di realm PAM, dengan kata sandi SSH, atau dengan kata sandi PVE di bawah jika SSH memakai kunci. Kode dua faktor diminta bila diperlukan.';
+
+  @override
+  String get pveCertUnpinned =>
+      'Belum ada yang dikonfirmasi. Kecuali ditandatangani CA tepercaya, koneksi berikutnya menampilkan sertifikat untuk dikonfirmasi.';
+
+  @override
+  String get pveCertForget => 'Lupakan sertifikat';
+
+  @override
+  String get pveCertForgetTip =>
+      'Koneksi berikutnya akan menampilkan sertifikat PVE lagi untuk dikonfirmasi.';
+
+  @override
+  String get virtualization => 'Virtualisasi';
+
+  @override
+  String get virtIntro =>
+      'Kelola mesin virtual dan kontainer di host Proxmox VE dan libvirt/KVM: status, aksi daya, dan konsol.';
+
+  @override
+  String get virtIntroPveMoved =>
+      'Proxmox VE telah pindah dari halaman server ke tab ini. Kartu PVE sebuah server membukanya di sini.';
+
+  @override
+  String get virtIntroLibvirt =>
+      'Server dengan virsh dari libvirt terpasang muncul sebagai host, beserta mesin virtual QEMU/KVM-nya.';
+
+  @override
+  String get virtIntroTransports =>
+      'Keduanya bekerja lewat SSH, melalui agen Monitor, atau di perangkat ini.';
+
+  @override
+  String get virtIntroTokens =>
+      'PVE dapat masuk dengan token API alih-alih kata sandi. Atur di halaman edit server, pada bagian PVE.';
+
+  @override
+  String get virtIntroInBar => 'Tab ini telah ditambahkan ke bilah tab.';
+
+  @override
+  String get virtIntroInMore =>
+      'Tab ini ada di Lainnya. Tab Beranda di Pengaturan dapat memindahkannya ke bilah tab.';
+
+  @override
+  String get virtGuests => 'Mesin virtual';
+
+  @override
+  String get virtHosts => 'Host';
+
+  @override
+  String get virtCheckServer => 'Periksa server ini';
+
+  @override
+  String get virtCheckAll => 'Periksa semua server';
+
+  @override
+  String get virtProbeNotChecked => 'Belum diperiksa';
+
+  @override
+  String get virtProbeAbsent => 'Bukan host';
+
+  @override
+  String virtProbeContainer(String kind) {
+    return 'Kontainer $kind';
+  }
+
+  @override
+  String get virtProbeContainerTip =>
+      'Server ini berjalan di dalam kontainer, jadi merupakan tamu, bukan host. Kelola dari host yang menjalankannya.';
+
+  @override
+  String get virtProbePve => 'PVE, belum disiapkan';
+
+  @override
+  String virtPveSetupTip(String version) {
+    return '$version berjalan di server ini. Isi akses API-nya di pengaturan server (disarankan token API) untuk mengelola mesin virtual dan kontainernya di sini.';
+  }
+
+  @override
+  String get virtNoHosts => 'Tidak ada host virtualisasi';
+
+  @override
+  String get virtNoHostsTip =>
+      'Server yang menjalankan Proxmox VE dengan akses API terisi adalah host, begitu juga server tempat virsh merespons. Server lainnya dapat diperiksa dari pengalih host.';
+
+  @override
+  String get virtNoGuests => 'Tidak ada mesin virtual atau kontainer';
+
+  @override
+  String get virtPaused => 'Dijeda';
+
+  @override
+  String get virtStarting => 'Memulai…';
+
+  @override
+  String get virtStopping => 'Menghentikan…';
+
+  @override
+  String get virtRebooting => 'Memulai ulang…';
+
+  @override
+  String get virtMigrating => 'Memigrasi…';
+
+  @override
+  String get virtBackingUp => 'Mencadangkan…';
+
+  @override
+  String get virtResume => 'Lanjutkan';
+
+  @override
+  String get virtOverview => 'Ikhtisar';
+
+  @override
+  String get virtConsole => 'Konsol';
+
+  @override
+  String get virtConsoleNone =>
+      'Tidak ada konsol yang dikonfigurasi untuk tamu ini';
+
+  @override
+  String get virtConsoleGraphical => 'Grafis';
+
+  @override
+  String get virtVncPasswordNeeded => 'Tampilan ini meminta kata sandi';
+
+  @override
+  String get virtConsoleSerialTip =>
+      'Membuka konsol serial tamu dengan virsh di host. Putuskan, atau Ctrl+], kembali ke shell host.';
+
+  @override
+  String virtConsoleVia(String transport) {
+    return 'melalui $transport';
+  }
+
+  @override
+  String get virtConsoleEnterTip => 'Tidak ada keluaran? Tekan Enter';
+
+  @override
+  String virtConsoleAutoEnter(int seconds) {
+    return 'Enter akan ditekan dalam $seconds detik untuk menampilkan prompt';
+  }
+
+  @override
+  String get virtConsoleEnterNow => 'Sekarang';
+
+  @override
+  String get virtOffTip =>
+      'Jalankan untuk melihat CPU, memori, disk, dan jaringan secara langsung di sini.';
+
+  @override
+  String get virtAllocated => 'Dialokasikan';
+
+  @override
+  String virtRunningCount(int running, int total) {
+    return '$running berjalan · $total total';
+  }
+
+  @override
+  String get virtTemplate => 'Templat';
+
+  @override
+  String get virtAutostart => 'Mulai bersama host';
+
+  @override
+  String get virtErrUnreachable => 'Tidak dapat menjangkau host ini';
+
+  @override
+  String get virtErrNotConfigured => 'Pengaturan PVE server ini belum lengkap';
+
+  @override
+  String get virtErrNotConfiguredTip =>
+      'Periksa alamat, serta kata sandi atau token API, di pengaturan server.';
+
+  @override
+  String get virtErrAuthFailed => 'Host menolak login';
+
+  @override
+  String get virtErrCertUnconfirmed => 'Konfirmasi sertifikat host';
+
+  @override
+  String get virtErrCertChanged => 'Sertifikat host telah berubah';
+
+  @override
+  String get virtErrRelayNotGranted => 'Agent Monitor tidak meneruskan koneksi';
+
+  @override
+  String get virtErrExecNotGranted =>
+      'Agent Monitor tidak menjalankan perintah';
+
+  @override
+  String get virtErrNotInstalled => 'virsh tidak terpasang di server ini';
+
+  @override
+  String get virtErrServerRemoved => 'Server ini sudah tidak ada';
+
+  @override
+  String get virtErrSudoRequired =>
+      'sudo memerlukan kata sandi untuk mengakses libvirt';
+
+  @override
+  String get virtErrSudoRejected => 'sudo menolak kata sandi';
+
+  @override
+  String get virtErrInvalidResponse =>
+      'Host menjawab dalam bentuk yang tidak terduga';
+
+  @override
+  String get virtErrActionFailed => 'Host menolak tindakan tersebut';
+
+  @override
+  String get remoteSessionIdleTimeout => 'Tutup saat ditinggalkan';
+
+  @override
+  String get remoteSessionIdleTimeoutTip =>
+      'Berapa lama desktop jarak jauh atau konsol tamu tetap terhubung setelah Anda meninggalkannya. Sebelum ditutup, pemberitahuan memberi Anda 10 detik untuk mempertahankannya.';
+
+  @override
+  String get remoteSessionKeepAlive => 'Pertahankan';
+
+  @override
+  String get remoteSessionClosedAway => 'Ditutup karena tidak aktif';
+
+  @override
+  String remoteSessionClosingIn(int seconds) {
+    return 'Ditutup dalam $seconds dtk';
+  }
+
+  @override
+  String get virtSnapshots => 'Snapshot';
+
+  @override
+  String get virtSnapshotCreate => 'Ambil snapshot';
+
+  @override
+  String get virtSnapshotNone => 'Belum ada snapshot';
+
+  @override
+  String get virtSnapshotWithMemory => 'Disk dan memori';
+
+  @override
+  String get virtSnapshotDiskOnly => 'Hanya disk';
+
+  @override
+  String get virtSnapshotParent => 'Induk';
+
+  @override
+  String get virtSnapshotRevert => 'Kembalikan';
+
+  @override
+  String get virtSnapshotMemory => 'Sertakan memori';
+
+  @override
+  String get virtSnapshotMemoryTip =>
+      'Mengembalikan akan melanjutkan guest dari saat ini.';
+
+  @override
+  String get virtSnapshotMemoryAlways =>
+      'Di sini snapshot guest yang berjalan selalu menyertakan memorinya.';
+
+  @override
+  String get virtSnapshotMemoryOff =>
+      'Guest tidak berjalan, jadi hanya disknya yang disimpan.';
+
+  @override
+  String get virtSnapshotNameInvalid =>
+      'Diawali huruf, lalu huruf, angka, - atau _; 2 sampai 40 karakter.';
+
+  @override
+  String get virtSnapshotNameTaken => 'Snapshot dengan nama ini sudah ada.';
+
+  @override
+  String get virtSnapshotRevertTip =>
+      'Mengembalikan akan membuang semua perubahan sejak snapshot.';
+
+  @override
+  String virtSnapshotRevertAsk(String guest, String snapshot) {
+    return 'Kembalikan $guest ke $snapshot? Semua perubahan sejak itu akan hilang.';
+  }
+
+  @override
+  String virtSnapshotRevertStops(String guest) {
+    return 'Snapshot ini tanpa memori: $guest akan dihentikan.';
+  }
+
+  @override
+  String get virtSnapshotStartAfter => 'Jalankan setelahnya';
+
+  @override
+  String get virtVolumes => 'Volume';
+
+  @override
+  String get virtNoPools => 'Tidak ada pool penyimpanan';
+
+  @override
+  String get virtNoNetworks => 'Tidak ada jaringan';
+
+  @override
+  String get virtPoolInactive =>
+      'Pool tidak aktif, jadi volumenya tidak dapat dicantumkan.';
+
+  @override
+  String get virtShared => 'Dibagi antar node';
+
+  @override
+  String get virtBackingFile => 'Berkas dasar';
+
+  @override
+  String get virtNetIsolated => 'Terisolasi';
+
+  @override
+  String get virtNetBridged => 'Bridge';
+
+  @override
+  String get virtNetRouted => 'Dirutekan';
+
+  @override
+  String get virtBridge => 'Bridge';
+
+  @override
+  String get virtPorts => 'Port';
+
+  @override
+  String get virtAttachedGuests => 'Guest di dalamnya';
+
+  @override
+  String get virtNoAttachedGuests => 'Tidak ada guest di dalamnya';
+
+  @override
+  String get virtCreateVm => 'Mesin virtual baru';
+
+  @override
+  String get virtCreateLxc => 'Kontainer baru';
+
+  @override
+  String get virtCreateGuest => 'Mesin virtual atau kontainer baru';
+
+  @override
+  String get virtKindVm => 'Mesin virtual';
+
+  @override
+  String get virtKindLxc => 'Kontainer';
+
+  @override
+  String get virtHostname => 'Nama host';
+
+  @override
+  String get virtInstallMedia => 'Media instalasi';
+
+  @override
+  String get virtNoIsos => 'Tidak ada image ISO di host ini';
+
+  @override
+  String get virtNoTemplates =>
+      'Tidak ada templat kontainer di host ini. CT Templates pada sebuah penyimpanan di PVE dapat mengunduhnya.';
+
+  @override
+  String get virtNoDiskStorage =>
+      'Tidak ada penyimpanan di host ini yang menerima disk baru';
+
+  @override
+  String get virtStartAfterCreate => 'Jalankan setelah dibuat';
+
+  @override
+  String get virtUnprivileged => 'Kontainer tanpa hak istimewa';
+
+  @override
+  String get virtUnprivilegedTip => 'root-nya adalah pengguna biasa di host.';
+
+  @override
+  String get virtSshKeys => 'Kunci publik SSH';
+
+  @override
+  String get virtCredentialsTip => 'Kata sandi root, kunci SSH, atau keduanya.';
+
+  @override
+  String virtCreated(String name) {
+    return '$name dibuat';
+  }
+
+  @override
+  String virtCreatedNotStarted(String name) {
+    return '$name dibuat tetapi tidak berjalan';
+  }
+
+  @override
+  String get virtErrExists => 'Tamu atau disk dengan nama ini sudah ada';
+
+  @override
+  String get virtCreateNameInvalidLibvirt =>
+      'Huruf, angka, ., _ dan -, diawali huruf atau angka; hingga 63 karakter.';
+
+  @override
+  String get virtCreateNameInvalidPve =>
+      'Huruf, angka dan -, dalam bagian yang dipisahkan titik; hingga 63 karakter.';
+
+  @override
+  String get virtCreateNameTaken => 'Sudah ada tamu dengan nama ini.';
+
+  @override
+  String get virtCreateVmidTaken => 'VMID ini sudah dipakai.';
+
+  @override
+  String get virtCreateCoresInvalid =>
+      'Lebih banyak core daripada yang diizinkan host ini.';
+
+  @override
+  String get virtCreateMemoryInvalid => 'Memori tidak cukup.';
+
+  @override
+  String get virtCreateStorageMissing => 'Pilih tempat disknya.';
+
+  @override
+  String get virtCreateDiskInvalid => 'Dari 1 GiB sampai 64 TiB.';
+
+  @override
+  String get virtCreateTemplateMissing => 'Pilih templat.';
+
+  @override
+  String get virtCreateCredentialsMissing =>
+      'Atur kata sandi root atau kunci SSH.';
+
+  @override
+  String virtCreatePasswordShort(int min) {
+    return 'Minimal $min karakter.';
+  }
+
+  @override
+  String get virtCreateSshKeysInvalid => 'Satu kunci publik OpenSSH per baris.';
+
+  @override
+  String get virtDeleteDisks => 'Hapus juga disknya';
+
+  @override
+  String get virtDeleteDisksPve =>
+      'Disknya ikut dihapus; media instalasi tetap disimpan.';
+
+  @override
+  String virtDeleted(String name) {
+    return '$name dihapus';
+  }
+
+  @override
+  String get pveTokenTipCreate =>
+      'Membuat dan menghapus tamu juga memerlukan VM.Allocate, VM.Config.*, Datastore.AllocateSpace dan SDN.Use.';
+
+  @override
+  String get pveTokenTipHardware =>
+      'Mengedit perangkat keras memerlukan VM.Config.CPU, VM.Config.Memory, VM.Config.Disk, VM.Config.CDROM, VM.Config.Network, dan VM.Config.Options; disk dan antarmuka baru juga memerlukan Datastore.AllocateSpace dan SDN.Use. Kartu grafis serta perangkat USB dan PCI juga membutuhkan VM.Config.HWType; perangkat lewat pemetaan sumber daya membutuhkan Mapping.Use padanya, dan Mapping.Audit untuk mendaftar pemetaan.';
+
+  @override
+  String get pveTokenTipBackup =>
+      'Klon memerlukan VM.Clone, backup dan pemulihan VM.Backup, dan menjadikan template VM.Allocate; tugas backup juga memerlukan Sys.Audit untuk membacanya dan Sys.Modify pada / untuk membuat, mengedit, dan menghapusnya, dengan Datastore.AllocateSpace di tempat salinan atau backup pergi.';
+
+  @override
+  String get virtErrConflict => 'Diubah di tempat lain';
+
+  @override
+  String get virtErrConflictTip =>
+      'Seseorang mengubah konfigurasi ini setelah dibaca di sini, jadi tidak ada yang diubah. Konfigurasi telah dibaca ulang: ulangi perubahan jika masih diperlukan.';
+
+  @override
+  String get virtHardware => 'Perangkat keras';
+
+  @override
+  String get virtHwAddDisk => 'Tambah disk';
+
+  @override
+  String get virtHwAddMount => 'Tambah titik kait';
+
+  @override
+  String get virtHwAddNic => 'Tambah antarmuka jaringan';
+
+  @override
+  String get virtHwAppliesOnRestart =>
+      'Tersimpan. Berlaku saat mulai berikutnya.';
+
+  @override
+  String get virtHwAutostart => 'Mulai bersama host';
+
+  @override
+  String get virtHwAutostartPve => 'onboot · dijalankan menurut urutan VMID';
+
+  @override
+  String get virtHwBalloonLibvirt => 'Memori saat ini';
+
+  @override
+  String get virtHwBalloonNote =>
+      'Memungkinkan host mengambil kembali memori menganggur tamu saat memori menipis';
+
+  @override
+  String get virtHwBoot => 'Boot';
+
+  @override
+  String get virtHwBootOrder => 'Urutan boot';
+
+  @override
+  String get virtHwBootTip =>
+      'Panah memindahkan perangkat; ketuk untuk mengaktifkan atau menonaktifkan boot darinya.';
+
+  @override
+  String get virtHwCdrom => 'CD-ROM';
+
+  @override
+  String get virtHwConfigFile => 'Berkas konfigurasi';
+
+  @override
+  String get virtHwCores => 'Inti';
+
+  @override
+  String get virtHwCpuTypeDefault => 'Bawaan';
+
+  @override
+  String get virtHwDeleteVolume => 'Hapus juga volumenya';
+
+  @override
+  String get virtHwDetach => 'Lepas';
+
+  @override
+  String get virtHwDiskHotplug => 'Hot-plug: bisa ditambah saat berjalan';
+
+  @override
+  String get virtHwDisksLxc => 'Disk root dan titik kait';
+
+  @override
+  String get virtHwEject => 'Keluarkan';
+
+  @override
+  String get virtHwEmpty => 'Tanpa media';
+
+  @override
+  String get virtHwFirewall => 'Firewall';
+
+  @override
+  String virtHwFree(String size) {
+    return '$size bebas';
+  }
+
+  @override
+  String get virtHwGrow => 'Perbesar';
+
+  @override
+  String get virtHwGrowNote => 'Disk hanya bisa diperbesar.';
+
+  @override
+  String get virtHwGrowNoteRunning =>
+      'Disk hanya bisa diperbesar. Jika diperbesar saat berjalan, partisi harus diperbesar di dalam tamu.';
+
+  @override
+  String get virtHwGuestUsed => 'Dipakai tamu';
+
+  @override
+  String virtHwHostCpus(int threads, int allocated) {
+    return 'Host $threads thread · $allocated dialokasikan';
+  }
+
+  @override
+  String virtHwHostMem(String total, String allocated) {
+    return 'Host $total · $allocated dialokasikan';
+  }
+
+  @override
+  String get virtHwHotplugNow => 'Hot-plug: langsung berlaku.';
+
+  @override
+  String get virtHwIssueBootEmpty => 'Centang minimal satu perangkat';
+
+  @override
+  String virtHwIssueCpuCount(int max) {
+    return 'Total 1 hingga $max vCPU';
+  }
+
+  @override
+  String get virtHwIssueCpuOnline => 'vCPU aktif: dari 1 hingga total';
+
+  @override
+  String get virtHwIssueDiskShrink =>
+      'Lebih besar dari sekarang: disk hanya bisa diperbesar';
+
+  @override
+  String get virtHwIssueDiskSize => 'Dari 1 hingga 65536 GiB';
+
+  @override
+  String virtHwIssueMemory(int min, int max) {
+    return 'Dari $min hingga $max MiB';
+  }
+
+  @override
+  String get virtHwIssueMemoryMin => 'Tidak lebih dari memori';
+
+  @override
+  String get virtHwIssueMountPoint => 'Jalur absolut, seperti /data';
+
+  @override
+  String get virtHwIssueStorageSpace => 'Lebih dari ruang kosong penyimpanan';
+
+  @override
+  String get virtHwIssueSwap => 'Tidak negatif';
+
+  @override
+  String get virtHwLater => 'Berlaku setelah mulai ulang';
+
+  @override
+  String get virtHwLess => 'Kurangi';
+
+  @override
+  String get virtHwLinkDown => 'Terputus';
+
+  @override
+  String get virtHwLinkNote =>
+      'Mati, tamu melihat kabel dicabut; tidak perlu mulai ulang';
+
+  @override
+  String get virtHwLinkUp => 'Terhubung';
+
+  @override
+  String get virtHwMac => 'Alamat MAC';
+
+  @override
+  String get virtHwModel => 'Model';
+
+  @override
+  String get virtHwMore => 'Tambah';
+
+  @override
+  String get virtHwMountFromPool =>
+      'Titik kait dialokasikan langsung dari penyimpanan';
+
+  @override
+  String get virtHwMountPoint => 'Titik kait';
+
+  @override
+  String get virtHwMoveDown => 'Turun';
+
+  @override
+  String get virtHwMoveUp => 'Naik';
+
+  @override
+  String get virtHwNewDisk => 'Disk baru';
+
+  @override
+  String get virtHwNewMount => 'Titik kait baru';
+
+  @override
+  String get virtHwNewNic => 'Antarmuka jaringan baru';
+
+  @override
+  String get virtHwNicHotplug => 'NIC virtio mendukung hot-plug';
+
+  @override
+  String get virtHwNics => 'Antarmuka jaringan';
+
+  @override
+  String get virtHwNoMedia => 'Tanpa media';
+
+  @override
+  String get virtHwNoNetworks => 'Tidak ada jaringan atau bridge di sini';
+
+  @override
+  String get virtHwNoStorage =>
+      'Tidak ada penyimpanan di sini yang menampung disk';
+
+  @override
+  String get virtHwOnline => 'vCPU aktif';
+
+  @override
+  String get virtHwPendingBanner =>
+      'Sebagian perubahan perangkat keras berlaku setelah mulai ulang';
+
+  @override
+  String get virtHwPickNet => 'Pilih jaringan';
+
+  @override
+  String get virtHwPickPool => 'Pilih penyimpanan dan ukuran';
+
+  @override
+  String get virtHwProcessor => 'Prosesor';
+
+  @override
+  String get virtHwRemove => 'Hapus';
+
+  @override
+  String get virtHwRemoveCdrom => 'Hapus CD-ROM';
+
+  @override
+  String virtHwRemoveDiskAsk(String disk, String guest) {
+    return 'Lepas $disk dari $guest?';
+  }
+
+  @override
+  String virtHwRemoveNicAsk(String nic, String guest) {
+    return 'Lepas $nic dari $guest?';
+  }
+
+  @override
+  String get virtHwResources => 'Sumber daya';
+
+  @override
+  String get virtHwRestartNow => 'Mulai ulang sekarang';
+
+  @override
+  String get virtHwRevert => 'Kembalikan';
+
+  @override
+  String get virtHwRevertAll => 'Kembalikan semua';
+
+  @override
+  String get virtSetRenameStopped =>
+      'Matikan tamu untuk mengganti namanya: libvirt hanya mengganti nama tamu yang tidak berjalan.';
+
+  @override
+  String virtSetIssueDescription(int max) {
+    return 'Paling banyak $max byte (UTF-8), tanpa karakter kontrol.';
+  }
+
+  @override
+  String get virtSetManualStart => 'Dimulai manual';
+
+  @override
+  String get virtSetProtection => 'Perlindungan';
+
+  @override
+  String get virtSetProtectionNote =>
+      'Mencegah penghapusan tamu dan perubahan disknya';
+
+  @override
+  String get virtSetIrreversible => 'Tidak dapat dibatalkan';
+
+  @override
+  String get virtSetDeleteStopFirst => 'Matikan sebelum menghapusnya.';
+
+  @override
+  String get virtSetDeleteProtected =>
+      'Perlindungan aktif: matikan dulu di Umum.';
+
+  @override
+  String get virtSetDeleteAgain => 'Tekan lagi untuk mengonfirmasi';
+
+  @override
+  String virtSetDeleteConfirm(String name) {
+    return 'Hapus $name';
+  }
+
+  @override
+  String get virtSetDeleteVm => 'Hapus mesin virtual';
+
+  @override
+  String get virtSetDeleteLxc => 'Hapus kontainer';
+
+  @override
+  String get virtHwSockets => 'Soket';
+
+  @override
+  String get virtHwSource => 'Sumber';
+
+  @override
+  String get virtHwSwap => 'Swap';
+
+  @override
+  String get virtHwTopology => 'Soket × inti';
+
+  @override
+  String virtHwTopologyValue(int sockets, int cores, int threads) {
+    return '$sockets soket × $cores inti × $threads thread';
+  }
+
+  @override
+  String virtHwTotal(String size) {
+    return '$size total';
+  }
+
+  @override
+  String get virtHwVolumeKept =>
+      'Dilepas, tetapi tamu yang berjalan masih memakai disk itu, jadi volumenya disimpan. Disk akan dilepas saat mulai berikutnya.';
+
+  @override
+  String get virtHwBus => 'Bus';
+
+  @override
+  String get virtHwCache => 'Cache';
+
+  @override
+  String get virtHwBusStopped => 'Bus hanya bisa diganti saat tamu berhenti.';
+
+  @override
+  String get virtHwMacGenerate => 'Buat';
+
+  @override
+  String get virtHwIssueMac =>
+      'Harus alamat MAC unicast, misalnya 52:54:00:12:34:56';
+
+  @override
+  String get virtHwIssueStopFirst => 'Hentikan tamu dulu';
+
+  @override
+  String get virtHwIssueStorageMissing => 'Pilih penyimpanan dulu';
+
+  @override
+  String get virtHwIssueDevice => 'Pilih perangkat dulu';
+
+  @override
+  String get virtHwDevices => 'CD-ROM dan passthrough';
+
+  @override
+  String get virtHwDevicesEmpty => 'Passthrough USB dan PCI, CD-ROM, TPM';
+
+  @override
+  String get virtHwAddDevice => 'Tambah perangkat';
+
+  @override
+  String get virtHwNewDevice => 'Perangkat baru';
+
+  @override
+  String get virtHwUsbHotplug => 'Passthrough USB mendukung hot-plug.';
+
+  @override
+  String get virtHwPci => 'Passthrough PCI';
+
+  @override
+  String get virtHwIommuOffTitle => 'Host tidak punya IOMMU';
+
+  @override
+  String get virtHwIommuOffBody =>
+      'Aktifkan dulu VT-d atau AMD-Vi di BIOS host dan IOMMU di kernelnya. Sampai saat itu, tamu yang diberi perangkat PCI tidak akan menyala.';
+
+  @override
+  String get virtHwPciTitle => 'Butuh IOMMU di host';
+
+  @override
+  String get virtHwPciBody =>
+      'Setelah diteruskan, host tidak bisa memakai perangkat itu dan tamu tidak bisa dimigrasi saat berjalan.';
+
+  @override
+  String virtHwIommuGroup(int group) {
+    return 'Grup IOMMU $group';
+  }
+
+  @override
+  String virtHwIommuShared(int count) {
+    return '$count perangkat berbagi grup IOMMU-nya dan diteruskan bersama';
+  }
+
+  @override
+  String get virtHwNoHostDevices =>
+      'Tidak ada perangkat untuk diteruskan di host ini';
+
+  @override
+  String get virtHwMappingsOnly =>
+      'Di sini hanya pemetaan sumber daya yang bisa dipakai: PVE hanya mengizinkan root@pam yang masuk dengan kata sandinya meneruskan perangkat mentah. Buat pemetaan di Datacenter → Resource Mappings.';
+
+  @override
+  String get virtHwTpmNote => 'Windows 11 membutuhkan TPM 2.0.';
+
+  @override
+  String get virtHwDisplay => 'Tampilan';
+
+  @override
+  String get virtHwProtocol => 'Protokol';
+
+  @override
+  String get virtHwListen => 'Dengar';
+
+  @override
+  String get virtHwGpu => 'Kartu grafis';
+
+  @override
+  String get virtHwListenAllTitle => 'Konsol terbuka ke jaringan';
+
+  @override
+  String get virtHwListenAllBody =>
+      'Mendengar di semua alamat membuat siapa pun yang menjangkau host bisa membuka konsol. Tetap di 127.0.0.1 dan sambungkan lewat terowongan SSH.';
+
+  @override
+  String get virtHwFirmware => 'Firmware';
+
+  @override
+  String get virtHwUefiSub =>
+      'OVMF · mendukung Secure Boot, dibutuhkan Windows 11';
+
+  @override
+  String get virtHwBiosSub => 'SeaBIOS · sistem lama dan disk MBR';
+
+  @override
+  String get virtHwSecureBootNote =>
+      'Hanya mem-boot kernel dan boot loader bertanda tangan';
+
+  @override
+  String get virtHwFirmwareWarnTitle =>
+      'Jangan ganti firmware sistem yang sudah terpasang';
+
+  @override
+  String get virtHwFirmwareWarnBody =>
+      'Berpindah antara UEFI dan BIOS membuat sistem terpasang tidak bisa boot.';
+
+  @override
+  String get virtHwFirmwareStopped =>
+      'Firmware hanya bisa diganti saat tamu berhenti.';
+
+  @override
+  String get virtHwSecureBootVars =>
+      'Menyalakan atau mematikan Secure Boot membuat ulang variabel EFI; entri boot yang tersimpan di dalamnya akan hilang.';
+
+  @override
+  String get virtHwEfiStorage => 'Tempat variabel EFI';
+
+  @override
+  String virtHwSwitchFirmwareAsk(String guest, String firmware) {
+    return 'Ganti $guest ke $firmware?';
+  }
+
+  @override
+  String get virtCloneName => 'Nama baru';
+
+  @override
+  String get virtCloneFull => 'Klon penuh';
+
+  @override
+  String get virtCloneCopyDisks => 'Salin isi disk';
+
+  @override
+  String get virtCloneLinkedNote =>
+      'Mati: klon tertaut, bergantung pada disk templat';
+
+  @override
+  String get virtCloneFullOnly =>
+      'Hanya templat yang dapat dikloning sebagai klon tertaut';
+
+  @override
+  String get virtCloneEmptyNote => 'Mati: disk kosong baru berukuran sama';
+
+  @override
+  String get virtCloneStopFirst => 'Matikan sebelum mengkloning.';
+
+  @override
+  String get virtCloneFullShort => 'Penuh';
+
+  @override
+  String get virtCloneLinkedShort => 'Tertaut';
+
+  @override
+  String get virtCloneEmptyShort => 'Disk kosong';
+
+  @override
+  String get virtCloning => 'Mengkloning…';
+
+  @override
+  String virtCloned(String name) {
+    return 'Dikloning sebagai $name';
+  }
+
+  @override
+  String get virtBackupPlan => 'Jadwal';
+
+  @override
+  String get virtBackupPlanWhere => 'Pusat data → Cadangan';
+
+  @override
+  String get virtBackupNoPlanShort => 'Tanpa jadwal';
+
+  @override
+  String get virtBackupNoPlan =>
+      'Tidak ada tugas cadangan terjadwal yang mencakup tamu ini.';
+
+  @override
+  String get virtBackupKeep => 'Simpan';
+
+  @override
+  String get virtBackupJobDisabled => 'Tugas ini dinonaktifkan.';
+
+  @override
+  String virtBackupCount(int count) {
+    return '$count cadangan';
+  }
+
+  @override
+  String virtSnapshotCount(int count) {
+    return '$count snapshot';
+  }
+
+  @override
+  String get virtBackupNoStorage =>
+      'Tidak ada penyimpanan di node ini yang menampung cadangan.';
+
+  @override
+  String get virtBackupLiveTip => 'Berjalan: mode snapshot, tanpa henti';
+
+  @override
+  String get virtBackupStoppedTip => 'Mati: dicadangkan apa adanya';
+
+  @override
+  String get virtBackupNow => 'Cadangkan sekarang';
+
+  @override
+  String get virtBackupNotes => 'Catatan';
+
+  @override
+  String get virtBackupProtected =>
+      'Dilindungi: tidak dapat dihapus sampai perlindungan dicabut di PVE.';
+
+  @override
+  String virtBackupVerified(String state) {
+    return 'Verifikasi: $state';
+  }
+
+  @override
+  String get virtBackupRestoreOverwrites => 'Memulihkan menimpa disk saat ini';
+
+  @override
+  String get virtBackupStopFirst => 'Matikan sebelum memulihkan.';
+
+  @override
+  String get virtBackupRestoreAgain =>
+      'Disk dan konfigurasi tamu diganti dengan milik cadangan.';
+
+  @override
+  String get virtBackupDeleteConfirm => 'Hapus cadangan';
+
+  @override
+  String get virtBackupRestoreNew => 'Pulihkan sebagai baru';
+
+  @override
+  String get virtBackupRestoreConfirm => 'Pulihkan menimpa';
+
+  @override
+  String get virtBackupDone => 'Pencadangan selesai';
+
+  @override
+  String get virtBackupDeleted => 'Cadangan dihapus';
+
+  @override
+  String virtBackupRestored(String time) {
+    return 'Dipulihkan dari $time';
+  }
+
+  @override
+  String pveNeedsPrivilege(
+    String account,
+    String privilege,
+    String path,
+    String command,
+  ) {
+    return '$account tidak memiliki $privilege pada $path. Berikan di host PVE:\n$command';
+  }
+
+  @override
+  String get virtCanDelete => 'Dapat dihapus';
+
+  @override
+  String get virtInUse => 'Sedang digunakan';
+
+  @override
+  String get virtOps => 'Operasi';
+
+  @override
+  String get virtPool => 'Pool penyimpanan';
+
+  @override
+  String get virtPoolNew => 'Pool penyimpanan baru';
+
+  @override
+  String get virtStorageAdd => 'Tambah penyimpanan';
+
+  @override
+  String virtPoolUsedPct(String pct) {
+    return '$pct% terpakai';
+  }
+
+  @override
+  String get virtPoolInUse =>
+      'Sebuah VM memakai volume di sini, jadi pool tidak dapat dihentikan atau dihapus.';
+
+  @override
+  String get virtPoolDelete => 'Hapus pool';
+
+  @override
+  String get virtStorageRemove => 'Hapus penyimpanan';
+
+  @override
+  String virtPoolDeleteAsk(String name) {
+    return 'Hapus pool $name? Definisinya dihapus; volumenya tetap di tempatnya.';
+  }
+
+  @override
+  String virtStorageRemoveAsk(String name) {
+    return 'Hapus penyimpanan $name dari konfigurasi PVE? Isinya tetap ada.';
+  }
+
+  @override
+  String virtPoolDeleteKeepsVolumes(int count) {
+    return '$count volumenya tetap disimpan di disk.';
+  }
+
+  @override
+  String get virtPoolDeleteStorage =>
+      'Hapus juga direktorinya (hanya jika kosong)';
+
+  @override
+  String virtPoolStopAsk(String name) {
+    return 'Hentikan pool $name? Volumenya tidak dapat didaftar atau dibuat sampai dijalankan lagi.';
+  }
+
+  @override
+  String get virtStorageClusterWide =>
+      'Ini berlaku untuk setiap node di klaster yang memiliki penyimpanan ini.';
+
+  @override
+  String get virtStorageDisable => 'Nonaktifkan';
+
+  @override
+  String get virtStorageEnable => 'Aktifkan';
+
+  @override
+  String virtStorageDisableAsk(String name) {
+    return 'Nonaktifkan penyimpanan $name? VM dengan disk di sana tidak dapat dijalankan sampai diaktifkan lagi.';
+  }
+
+  @override
+  String get virtPoolLogicalNote =>
+      'Volume group yang ada dipakai apa adanya; tidak ada yang diformat.';
+
+  @override
+  String get virtPoolMountPoint => 'Titik kait';
+
+  @override
+  String get virtPoolSourceNfs => 'Sumber (host:/path)';
+
+  @override
+  String get virtPoolSourceVg => 'Volume group';
+
+  @override
+  String get virtPoolSourceThin => 'Volume group / thin pool';
+
+  @override
+  String get virtPoolSourceZfs => 'Pool ZFS';
+
+  @override
+  String get virtPoolTypeVg => 'Volume group LVM';
+
+  @override
+  String get virtResNameEmpty => 'Masukkan nama';
+
+  @override
+  String get virtResNameInvalid =>
+      'Bukan nama yang diterima host ini (huruf, angka, . _ -)';
+
+  @override
+  String get virtResSourceInvalid => 'Bukan path atau sumber yang valid';
+
+  @override
+  String get virtResTargetInvalid => 'Path absolut';
+
+  @override
+  String get virtResCidrInvalid =>
+      'Alamat dengan prefiks, mis. 192.168.150.1/24';
+
+  @override
+  String get virtResDhcpInvalid =>
+      'Dua alamat di jaringan, berurutan, tanpa alamat host';
+
+  @override
+  String get virtResSubnetTaken => 'Jaringan lain di sini memakai subnet ini';
+
+  @override
+  String get virtResBridgeInvalid => 'Bukan nama antarmuka';
+
+  @override
+  String get virtResFormat => 'Pool ini tidak mendukung format itu';
+
+  @override
+  String get virtVolNew => 'Volume baru';
+
+  @override
+  String virtVolCount(int count) {
+    return '$count volume';
+  }
+
+  @override
+  String get virtVolNone => 'Pool ini belum punya volume.';
+
+  @override
+  String get virtVolEmptyAttach =>
+      'Volume baru bisa dipasang ke VM mana pun nanti';
+
+  @override
+  String get virtVolEmptyUpload => 'ISO juga bisa diunggah langsung';
+
+  @override
+  String get virtVolPveName =>
+      'PVE menamai volume sesuai VM-nya: vm-<VMID>-disk-<N>';
+
+  @override
+  String get virtVolUsers => 'Dipakai oleh';
+
+  @override
+  String get virtVolAllocated => 'Teralokasi';
+
+  @override
+  String get virtVolGrowFromGuest =>
+      'Dipakai sebuah VM: perbesar dari tampilan Perangkat Keras VM itu';
+
+  @override
+  String get virtVolInUse => 'Sebuah VM memakai volume ini';
+
+  @override
+  String virtVolBackingOf(String names) {
+    return 'Berkas dasar untuk $names';
+  }
+
+  @override
+  String get virtVolIsBase =>
+      'Volume lain dibuat di atas volume ini; menghapusnya akan merusaknya';
+
+  @override
+  String get virtVolAttach => 'Pasang ke VM';
+
+  @override
+  String get virtVolAttachNote =>
+      'Dipasang sebagai disk baru, di bus disk pertamanya';
+
+  @override
+  String virtVolAttached(String name) {
+    return 'Terpasang ke $name';
+  }
+
+  @override
+  String get virtVolInsert => 'Masukkan ke CD-ROM';
+
+  @override
+  String virtVolInserted(String name) {
+    return 'Dimasukkan ke CD-ROM $name';
+  }
+
+  @override
+  String virtVolNoCdrom(String name) {
+    return '$name tidak punya CD-ROM';
+  }
+
+  @override
+  String virtVolDeleteAsk(String name, String pool) {
+    return 'Hapus volume $name dari $pool? Isinya hilang selamanya.';
+  }
+
+  @override
+  String get virtUploadIso => 'Unggah ISO';
+
+  @override
+  String virtUploadTo(String pool) {
+    return 'Unggah ke $pool';
+  }
+
+  @override
+  String virtUploadDone(String name) {
+    return '$name terunggah';
+  }
+
+  @override
+  String get virtNetConfig => 'Konfigurasi';
+
+  @override
+  String get virtNetConfigFile => 'Berkas konfigurasi';
+
+  @override
+  String get virtNetInternal => 'Internal';
+
+  @override
+  String get virtNetBridgePorts => 'Port bridge';
+
+  @override
+  String get virtNetHostBridge => 'Bridge host';
+
+  @override
+  String get virtNetPortsHint => 'eno2; kosongkan untuk bridge internal';
+
+  @override
+  String get virtNetDhcpRange => 'Rentang DHCP';
+
+  @override
+  String get virtNetDhcpTip => 'dnsmasq memberi alamat ke VM';
+
+  @override
+  String get virtNetVlanTip => 'NIC VM boleh membawa tag VLAN';
+
+  @override
+  String get virtNetNatTip =>
+      'Lewat host: VM bisa keluar, dari luar tidak bisa masuk';
+
+  @override
+  String get virtNetRoutedTip =>
+      'Dirutekan host tanpa NAT: LAN perlu rute balik';
+
+  @override
+  String get virtNetIsolatedTip => 'Hanya VM dan host yang saling terhubung';
+
+  @override
+  String get virtNetBridgedTip =>
+      'VM bergabung ke bridge host, di jaringan fisiknya';
+
+  @override
+  String get virtNetNew => 'Jaringan baru';
+
+  @override
+  String get virtNetNewBridge => 'Linux bridge baru';
+
+  @override
+  String get virtNetVirtual => 'Jaringan virtual';
+
+  @override
+  String get virtNetDelete => 'Hapus jaringan';
+
+  @override
+  String virtNetDeleteAsk(String name) {
+    return 'Hapus jaringan $name? Jaringan dihentikan dan definisinya dihapus.';
+  }
+
+  @override
+  String virtNetDeleteAskPve(String name, String node) {
+    return 'Hapus bridge $name dari $node? Dihapus dari konfigurasi tertunda sekarang, dan dari host setelah diterapkan.';
+  }
+
+  @override
+  String virtNetInUse(int count) {
+    return 'VM di dalamnya: $count. Tidak dapat dihapus.';
+  }
+
+  @override
+  String virtNetStopAsk(String name, int count) {
+    return 'Hentikan $name? $count VM di dalamnya kehilangan jaringan sampai dijalankan lagi.';
+  }
+
+  @override
+  String get virtNetInactivePve =>
+      'Tidak aktif: bridge baru menunggu di konfigurasi tertunda sampai diterapkan.';
+
+  @override
+  String get virtNetPveApplyNote =>
+      'Disimpan sebagai perubahan tertunda: berlaku saat konfigurasi diterapkan (ifreload -a).';
+
+  @override
+  String get virtNetPendingSaved =>
+      'Disimpan sebagai tertunda: terapkan konfigurasi agar berlaku';
+
+  @override
+  String virtNetPendingTitle(String node) {
+    return 'Perubahan jaringan tertunda di $node';
+  }
+
+  @override
+  String get virtNetPendingTip =>
+      'PVE menyimpan perubahan jaringan di interfaces.new sampai diterapkan.';
+
+  @override
+  String get virtNetPendingShow => 'Lihat perubahan';
+
+  @override
+  String get virtNetApply => 'Terapkan konfigurasi';
+
+  @override
+  String virtNetApplyAsk(String node) {
+    return 'Terapkan konfigurasi jaringan tertunda di $node? PVE memuat ulang jaringan host (ifreload -a): kesalahan bisa memutus host.';
+  }
+
+  @override
+  String virtNetRevertAsk(String node) {
+    return 'Buang konfigurasi jaringan tertunda di $node?';
+  }
+
+  @override
+  String get pveTokenTipStorage =>
+      'Mengelola penyimpanan butuh Datastore.Allocate pada /storage (tambah, nonaktifkan, hapus), Datastore.AllocateSpace (volume) dan Datastore.AllocateTemplate (unggahan); Linux bridge dan menerapkan konfigurasi jaringan butuh Sys.Modify pada node.';
+
+  @override
+  String get virtCreateUnnamed => 'Tanpa nama';
+
+  @override
+  String get virtCreateNotChosen => 'Belum dipilih';
+
+  @override
+  String get virtCreateKindVmSub => 'qm · mesin virtual KVM penuh';
+
+  @override
+  String get virtCreateKindLxcSub => 'pct · berbagi kernel host, lebih ringan';
+
+  @override
+  String get virtCloudImage => 'Image cloud';
+
+  @override
+  String get virtCloudImageTip =>
+      'Disk yang sudah berisi sistem: disalin, diperbesar ke ukuran di Penyimpanan, dan diatur oleh cloud-init saat boot pertama. Image-nya sendiri tidak diubah.';
+
+  @override
+  String get virtNoCloudImagesLibvirt =>
+      'Tidak ada image cloud di sini: taruh image qcow2 atau raw di sebuah pool (unggah di Penyimpanan) yang tidak dipakai VM mana pun.';
+
+  @override
+  String get virtNoCloudImagesPve =>
+      'Tidak ada image cloud di sini: unggah image qcow2, raw, atau vmdk ke penyimpanan dengan tipe konten Import (PVE 8.2+).';
+
+  @override
+  String get virtCreateWindowsTitle =>
+      'Windows 11 membutuhkan UEFI dan TPM 2.0';
+
+  @override
+  String get virtCreateWindowsBody => 'Pilih UEFI dan aktifkan TPM di atas.';
+
+  @override
+  String get virtCreateWindowsNoTpm =>
+      'Host ini tidak punya TPM perangkat lunak (swtpm): pasang agar VM bisa diberi TPM.';
+
+  @override
+  String virtCreateImageSize(String size) {
+    return 'Image-nya $size: disk harus minimal sebesar itu.';
+  }
+
+  @override
+  String get virtCreateImageMissing => 'Pilih image cloud.';
+
+  @override
+  String get virtCreateIncomplete =>
+      'Lengkapi dulu bagian yang ditandai oranye.';
+
+  @override
+  String virtCreateOn(String host) {
+    return 'Dibuat di $host';
+  }
+
+  @override
+  String get virtCiTip =>
+      'Akun dengan sudo, masuk dengan kata sandi, kunci SSH, atau keduanya.';
+
+  @override
+  String get virtCiUserInvalid =>
+      'Huruf kecil, angka, _ dan -, diawali huruf atau _';
+
+  @override
+  String get virtCiCredentialsMissing => 'Atur kata sandi atau kunci SSH.';
+
+  @override
+  String get virtCiHostnamePve => 'Nama host adalah nama VM.';
+
+  @override
+  String get virtCiStatic => 'Statis';
+
+  @override
+  String get virtCiAddressInvalid =>
+      'Alamat IPv4 dengan prefiksnya, seperti 10.0.0.5/24';
+
+  @override
+  String get virtCiGatewayInvalid => 'Alamat IPv4, seperti 10.0.0.1';
+
+  @override
+  String get virtCiDnsFromDhcp => 'Kosong: dari DHCP';
+
+  @override
+  String get virtCiDnsInvalid => 'Alamat IP, dipisahkan spasi atau koma';
+
+  @override
+  String get virtCiSearch => 'Domain pencarian';
+
+  @override
+  String get virtCiSeedNote =>
+      'Ditulis ke ISO kecil di sebelah disk, dipasang sebagai CD-ROM, dan dihapus bersama VM. Hanya hash kata sandi yang disimpan.';
+
+  @override
+  String get virtCiNoToolTitle =>
+      'Tidak ada alat di host untuk membuat data cloud-init';
+
+  @override
+  String virtCiNoToolBody(String tools) {
+    return 'Pasang salah satu dari $tools di host. Tanpa cloud-init, image berjalan tanpa akun untuk masuk.';
+  }
+
+  @override
+  String get virtHwCloudInitNote =>
+      'Data yang dibaca cloud-init saat boot pertama. Bukan media instalasi: tidak ada yang dimasukkan di sini.';
+
+  @override
+  String get virtHwCdromLater =>
+      'Selama berjalan, drive ditambahkan saat start berikutnya (SATA dan IDE tidak mendukung hot-plug).';
+
+  @override
+  String virtCreateDiskKept(String size) {
+    return 'Disk tetap $size, ukuran image itu sendiri, lebih besar dari yang diminta: disk tidak pernah dipotong di bawah sistem di dalamnya.';
+  }
+
+  @override
+  String get virtCiEditTip =>
+      'Yang diatur cloud-init di VM ini: akun dengan sudo, cara masuk ke akun itu, hostname, dan alamat.';
+
+  @override
+  String get virtCiForeignTitle =>
+      'Seed ini berisi lebih dari yang ditulis aplikasi ini';
+
+  @override
+  String get virtCiForeignBody =>
+      'Pengaturan yang dibuat di tempat lain (paket, perintah, akun lain) tidak ditampilkan di sini. Menyimpan akan mengganti seed dengan yang ditampilkan.';
+
+  @override
+  String get virtCiPasswordKept =>
+      'Sudah diatur. Biarkan kosong untuk mempertahankannya';
+
+  @override
+  String get virtCiRemovePassword => 'Hapus kata sandi';
+
+  @override
+  String get virtCiRemovePasswordNote => 'Masuk hanya dengan kunci SSH';
+
+  @override
+  String get virtCiKeysAdded =>
+      'Kunci ditambahkan ke akun. Kunci yang dihapus di sini tetap ada di sistem sampai dihapus di sana, dan nama pengguna baru membuat akun baru di samping akun lama.';
+
+  @override
+  String get virtCiEffectTitle => 'Berlaku saat boot berikutnya';
+
+  @override
+  String get virtCiEffectLibvirt =>
+      'Menyimpan menulis seed baru dengan ID instans baru.';
+
+  @override
+  String get virtCiEffectPve =>
+      'PVE langsung menulis ulang drive cloud-init-nya, dengan ID instans yang diturunkan dari pengaturan ini, jadi setiap perubahan di sini membuat ID baru.';
+
+  @override
+  String get virtCiNewInstance =>
+      'Saat boot berikutnya, cloud-init memperlakukan sistem sebagai instans baru: mengatur ulang hostname, membuat akun jika belum ada, mengatur kata sandinya, menambahkan kunci, dan menulis ulang konfigurasi jaringan. Ia juga membuat kunci host SSH baru, sehingga klien SSH akan memperingatkan bahwa kunci host berubah. Tidak ada yang berubah sebelum boot itu.';
+
+  @override
+  String get virtCiSaved => 'Tersimpan. Berlaku saat boot berikutnya.';
+
+  @override
+  String get virtSnapshotExternal => 'Hanya disk saat berjalan';
+
+  @override
+  String get virtSnapshotExternalTip =>
+      'Guest tetap berjalan. Setiap disk mendapat overlay qcow2 di pool terpilih; guest berada pada rantai.';
+
+  @override
+  String get virtSnapshotFormInternal => 'Internal (di dalam image)';
+
+  @override
+  String get virtSnapshotOverlayPool => 'Pool overlay';
+
+  @override
+  String get virtSnapshotOverlayBeside => 'Di samping setiap disk';
+
+  @override
+  String get virtSnapshotExternalNoMemory =>
+      'Snapshot eksternal tidak pernah menyimpan memori: guest tidak dihentikan.';
+
+  @override
+  String get virtSnapshotChain => 'Rantai disk';
+
+  @override
+  String virtSnapshotChainDepth(String count) {
+    return '$count lapisan';
+  }
+
+  @override
+  String get virtSnapshotChainFile => 'Berkas';
+
+  @override
+  String get virtSnapshotChainActive => 'Sedang dipakai';
+
+  @override
+  String get virtSnapshotChainBase => 'Image dasar';
+
+  @override
+  String get virtSnapshotNoSupport =>
+      'Penyimpanan guest tidak mendukung snapshot, jadi tidak ada yang bisa dibuat.';
+
+  @override
+  String get virtSnapshotRevertChain =>
+      'Mengembalikan pada rantai menggabungkan overlay yang berjalan ke dalam image dan membuat snapshot berikutnya tidak terpakai. Hanya snapshot terbaru yang bisa dikembalikan.';
+
+  @override
+  String get virtSnapshotRevertHasChildren =>
+      'Ditolak selama snapshot berikutnya berada di atas yang ini.';
+
+  @override
+  String get virtSnapshotDiff => 'Perbedaan dari sekarang';
+
+  @override
+  String get virtSnapshotDiffNone =>
+      'Konfigurasi tidak berubah sejak snapshot ini.';
+
+  @override
+  String get virtSnapshotDiffShow => 'Bandingkan dengan sekarang';
+
+  @override
+  String get virtSnapshotDiffGroupCpu => 'Prosesor';
+
+  @override
+  String get virtSnapshotDiffGroupMemory => 'Memori';
+
+  @override
+  String get virtSnapshotDiffGroupDisks => 'Disk';
+
+  @override
+  String get virtSnapshotDiffGroupNic => 'Antarmuka';
+
+  @override
+  String get virtSnapshotDiffGroupFirmware => 'Firmware';
+
+  @override
+  String get virtSnapshotDiffGroupBoot => 'Boot';
+
+  @override
+  String get virtSnapshotDiffGroupOther => 'Lainnya';
+
+  @override
+  String virtSnapshotDiffValue(String after, String before) {
+    return '$before → $after';
+  }
+
+  @override
+  String get virtSnapshotDiffRemoved => 'dihapus';
+
+  @override
+  String get virtSnapshotDiffAdded => 'ditambahkan';
+
+  @override
+  String virtSnapshotDiffAsk(String snapshot) {
+    return 'Apa yang berubah jika Anda mengembalikan ke $snapshot:';
+  }
+
+  @override
+  String virtSnapshotDiffHost(String error) {
+    return 'Host tidak dapat mengatakan apa yang berbeda: $error';
+  }
+
+  @override
+  String virtSnapshotExternalExists(String count) {
+    return 'Guest sudah berada di $count lapisan; snapshot ini menambah satu lagi.';
+  }
+
+  @override
+  String get virtToTemplate => 'Jadikan template';
+
+  @override
+  String get virtToTemplateNote =>
+      'Template tidak dapat dijalankan dan tidak dapat dikembalikan menjadi guest. Disk-nya menjadi image dasar, yang dibagi oleh klon tertaut.';
+
+  @override
+  String virtToTemplateConfirm(String name) {
+    return 'Jadikan $name template?';
+  }
+
+  @override
+  String get virtToTemplateIrreversible =>
+      'Ini tidak dapat dibatalkan: template tidak dapat dikembalikan menjadi guest.';
+
+  @override
+  String get virtToTemplateStopped => 'Matikan dulu.';
+
+  @override
+  String get virtToTemplateSnapshots =>
+      'Guest dengan snapshot tidak dapat menjadi template.';
+
+  @override
+  String virtTemplateCreated(String name) {
+    return '$name kini template';
+  }
+
+  @override
+  String get virtTemplateTip => 'Template hanya berjalan setelah diklon.';
+
+  @override
+  String get virtCloneStorageSame => 'Sama seperti sumber';
+
+  @override
+  String get virtCloneNodeSame => 'Sama seperti sumber';
+
+  @override
+  String get virtCloneStorageContent =>
+      'Penyimpanan ini tidak menyimpan disk VM.';
+
+  @override
+  String get virtCloneStorageShared =>
+      'Menyalin ke node lain memerlukan penyimpanan bersama.';
+
+  @override
+  String get virtCloneNodeUnknown => 'Host ini tidak memiliki node tersebut.';
+
+  @override
+  String get virtCloneLinkedTarget =>
+      'Klon tertaut berbagi disk template, jadi tidak dapat menyebut penyimpanan atau node.';
+
+  @override
+  String get virtBackupJobs => 'Tugas backup';
+
+  @override
+  String get virtBackupJobsNone =>
+      'Tidak ada tugas backup terjadwal. Tambahkan satu untuk mencadangkan guest secara berkala.';
+
+  @override
+  String get virtBackupJobNew => 'Tugas baru';
+
+  @override
+  String get virtBackupJobRun => 'Jalankan sekarang';
+
+  @override
+  String get virtBackupJobRunAsk => 'Mulai tugas backup ini sekarang?';
+
+  @override
+  String virtBackupJobDeleteAsk(String id) {
+    return 'Hapus tugas backup $id? Backup yang dibuat tetap ada.';
+  }
+
+  @override
+  String get virtBackupJobSaved => 'Tugas disimpan';
+
+  @override
+  String get virtBackupJobDeleted => 'Tugas dihapus';
+
+  @override
+  String get virtBackupJobStarted => 'Tugas backup dimulai';
+
+  @override
+  String get virtBackupSchedule => 'Jadwal';
+
+  @override
+  String get virtBackupScheduleHelp =>
+      'Subset dari peristiwa kalender systemd: 02:30, mon..fri 02:30, sat 03:00, daily, hourly, */15.';
+
+  @override
+  String get virtBackupScheduleInvalid => 'Jadwal ini tidak diterima host.';
+
+  @override
+  String virtBackupScheduleNext(String times) {
+    return 'Jalan berikutnya: $times';
+  }
+
+  @override
+  String get virtBackupSelection => 'Guest';
+
+  @override
+  String get virtBackupSelectionAll => 'Semua guest';
+
+  @override
+  String get virtBackupSelectionList => 'Guest terpilih';
+
+  @override
+  String get virtBackupSelectionNone => 'Pilih setidaknya satu guest.';
+
+  @override
+  String get virtBackupMail => 'Notifikasi';
+
+  @override
+  String get virtBackupNotesTemplate => 'Catatan backup';
+
+  @override
+  String virtBackupNotesTemplateTip(String vars) {
+    return 'Catatan ditambahkan ke setiap backup tugas. Digantikan: $vars.';
+  }
+
+  @override
+  String get virtBackupPrune => 'Retensi';
+
+  @override
+  String get virtBackupPruneTip =>
+      'Opsi retensi PVE, mis. keep-last=7,keep-daily=4. Kosong: milik penyimpanan atau node.';
+
+  @override
+  String get virtBackupJobNode => 'Node';
+
+  @override
+  String get virtBackupJobNodeAny => 'Semua node';
+
+  @override
+  String get virtBackupEnabled => 'Aktif';
+
+  @override
+  String get virtBackupOptions => 'Opsi';
+
+  @override
+  String get virtBackupProtect => 'Lindungi';
+
+  @override
+  String get virtBackupProtectTip =>
+      'Backup yang dilindungi tidak dipangkas dan tidak dapat dihapus selama dilindungi.';
+
+  @override
+  String get virtBackupEditNotes => 'Catatan';
+
+  @override
+  String get virtBackupSaveNotes => 'Simpan';
+
+  @override
+  String get virtBackupEdited => 'Backup diperbarui';
+
+  @override
+  String get virtBackupRestoreStorage => 'Pulihkan ke penyimpanan';
+
+  @override
+  String get virtBackupRestoreStorageSame => 'Seperti di backup';
+
+  @override
+  String get virtCloneStorageMissing =>
+      'Tidak ada penyimpanan di node ini yang menyimpan disk VM.';
+
+  @override
+  String get virtBackupCompress => 'Kompresi';
+
+  @override
+  String get virtBackupUnprotect => 'Buka perlindungan';
+
+  @override
+  String get virtBackupModeStops =>
+      'suspend dan stop menghentikan sementara guest yang berjalan saat disalin.';
+
+  @override
+  String get virtBackupScheduleValidate => 'Periksa ke host';
+
+  @override
+  String virtBackupSelected(int count) {
+    return '$count dipilih';
+  }
+
+  @override
+  String get virtBackupExcludeTip =>
+      'Semua guest di node diambil. Matikan satu untuk mengecualikannya.';
+
+  @override
+  String virtNetEditAsk(int count) {
+    return 'Jaringan yang berjalan mempertahankan kondisinya sampai dimulai ulang. Mulai ulang memutus VM di dalamnya ($count).';
+  }
+
+  @override
+  String get virtNetEditAskNoGuest =>
+      'Jaringan yang berjalan mempertahankan kondisinya sampai dimulai ulang.';
+
+  @override
+  String get virtNetEditRestart => 'Mulai ulang untuk menerapkan sekarang';
+
+  @override
+  String get virtNetEditRestartNote =>
+      'VM di dalamnya kehilangan jaringan selama dimulai ulang.';
+
+  @override
+  String get virtNetEditPending =>
+      'Definisi berisi perubahan yang belum dipakai jaringan yang berjalan.';
+
+  @override
+  String get virtNetRestart => 'Mulai ulang';
+
+  @override
+  String virtNetRestartAsk(String name, int count) {
+    return 'Mulai ulang $name? VM di dalamnya ($count) kehilangan jaringan sampai kembali.';
+  }
+
+  @override
+  String virtNetRestartAskNone(String name) {
+    return 'Mulai ulang $name? Tidak ada yang terhubung.';
+  }
+
+  @override
+  String get virtNetHosts => 'Alamat statis';
+
+  @override
+  String get virtNetHostAdd => 'Tambah alamat';
+
+  @override
+  String get virtNetHostMac => 'MAC';
+
+  @override
+  String get virtNetHostIp => 'Alamat';
+
+  @override
+  String get virtNetHostName => 'Nama (opsional)';
+
+  @override
+  String get virtNetHostEmpty =>
+      'Tidak ada MAC yang diberi alamat sendiri: setiap VM mendapat alamat dari rentang DHCP.';
+
+  @override
+  String get virtNetHostOthers =>
+      'Setiap VM lainnya mendapat alamat dari rentang DHCP.';
+
+  @override
+  String get virtNetHostInvalid =>
+      'MAC, alamat, atau nama yang akan ditolak host, atau MAC yang sama dua kali.';
+
+  @override
+  String get virtNetManagementIface =>
+      'Antarmuka ini membawa alamat host sendiri. Mengedit atau menerapkannya akan memutus host.';
+
+  @override
+  String get virtNetManagementTip =>
+      'Antarmuka ini membawa lalu lintas manajemen host, atau berada di bawah antarmuka yang membawanya: aplikasi tidak mengeditnya.';
+
+  @override
+  String get virtNetPhysicalTip =>
+      'Antarmuka fisik milik host sendiri: aplikasi hanya mengedit bridge.';
+
+  @override
+  String get virtNetVlanAware => 'VLAN aware';
+
+  @override
+  String get virtCiExpire => 'Kata sandi kedaluwarsa';
+
+  @override
+  String get virtCiExpireNote =>
+      'Login pertama dengannya harus menetapkan kata sandi baru. Hanya libvirt: PVE menulis \"expire: false\" dan tidak punya opsi untuk ini.';
+
+  @override
+  String get virtCiSearchHint => 'lab.example dev.lab.example';
+
+  @override
+  String get virtCiSearchTip =>
+      'Beberapa, dipisahkan spasi; resolv.conf menyimpan beberapa yang pertama.';
+
+  @override
+  String virtCiNicsTip(int count) {
+    return '$count NIC di konfigurasi jaringan seed; formulir mengedit yang pertama.';
+  }
+
+  @override
+  String get virtUsbByVendor => 'Menurut vendor dan produk';
+
+  @override
+  String get virtUsbByAddress => 'Menurut alamat';
+
+  @override
+  String get virtUsbAddressTip =>
+      'Perangkat mengikuti alamat ini: apa pun yang dicolok di sana diberikan ke VM. libvirt menamai hostdev USB dengan nomor bus dan perangkat.';
+
+  @override
+  String virtUsbPortNote(int bus, String port) {
+    return 'bus $bus · port $port';
+  }
+
+  @override
+  String get virtSbUnsupported =>
+      'Deskriptor firmware host tidak memiliki firmware Secure Boot dengan kunci terdaftar, jadi domain yang memakainya tidak dapat dimulai.';
+
+  @override
+  String get virtCreateSecureBoot => 'Secure Boot';
+
+  @override
+  String get virtCreateSecureBootNote =>
+      'Hanya kernel dan bootloader bertanda tangan yang di-boot.';
+
+  @override
+  String virtUsbAddressNote(int bus, int device) {
+    return 'bus $bus · perangkat $device';
+  }
+
+  @override
+  String get virtHwRevertPendingTitle => 'Buang perubahan tertunda';
+
+  @override
+  String virtHwRevertPendingBody(String name) {
+    return '$name dikembalikan ke yang sedang berjalan: definisi ditulis ulang dari yang berjalan, dan start berikutnya mendapat persis yang dimiliki saat ini. File NVRAM dan firmware-nya tetap seperti semula.';
+  }
+
+  @override
+  String virtHwRevertAllAsk(String name) {
+    return 'Buang semua perubahan yang menunggu start berikutnya dari $name?';
+  }
+
+  @override
+  String get virtBackupPlanNew => 'Rencana baru';
+
+  @override
+  String get virtBackupPlanNewTip => 'Jadwal yang mencadangkan tamu ini saja.';
+
+  @override
+  String virtBackupPlanOthers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Juga mencadangkan $count tamu lain',
+      zero: 'Tidak ada tamu lain',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reduceMotion => 'Kurangi gerakan';
+
+  @override
+  String get copyLink => 'Salin tautan';
+
+  @override
+  String funcNeedsAgentPermission(String func) {
+    return 'Akun Anda di Monitor agent ini tidak punya izin untuk $func. Minta kepada admin agent.';
+  }
+
+  @override
+  String funcNeedsAgentHttps(String func) {
+    return '$func memerlukan HTTPS ke Monitor agent ini, atau HTTP diizinkan di agent dan aplikasi ini.';
+  }
+
+  @override
+  String funcNeedsAgentSetup(String func) {
+    return '$func belum disiapkan di Monitor agent ini; operatornya harus mengonfigurasinya.';
+  }
+
+  @override
+  String get monitorFilesReadOnly =>
+      'Hanya baca: akun ini dapat menelusuri file di agent tetapi tidak dapat mengubahnya.';
+
+  @override
+  String get monitorAccess => 'Akses';
+
+  @override
+  String get monitorAccounts => 'Akun';
+
+  @override
+  String get monitorRoles => 'Peran';
+
+  @override
+  String get monitorRole => 'Peran';
+
+  @override
+  String get monitorChangePassword => 'Ubah kata sandi';
+
+  @override
+  String get monitorNewPassword => 'Kata sandi baru';
+
+  @override
+  String get monitorCurrentPassword => 'Kata sandi Anda saat ini';
+
+  @override
+  String get monitorReauthTip =>
+      'Mengubah akses memerlukan kata sandi Anda lagi.';
+
+  @override
+  String get monitorPasswordTooShort => 'Minimal 8 karakter';
+
+  @override
+  String get monitorPasswordMismatch => 'Kata sandi tidak cocok';
+
+  @override
+  String get monitorErrReauth => 'Kata sandi Anda salah.';
+
+  @override
+  String get monitorErrLastAdmin =>
+      'Agent memerlukan setidaknya satu akun admin.';
+
+  @override
+  String get monitorErrConflict => 'Sudah ada, atau masih digunakan.';
+
+  @override
+  String get monitorErrForbidden => 'Hanya admin yang dapat melakukan ini.';
+
+  @override
+  String get monitorRoleNameRule =>
+      'Huruf kecil, angka, - dan _, maksimal 32 karakter';
+
+  @override
+  String get monitorGrantShell => 'Shell dan perintah';
+
+  @override
+  String get monitorGrantShellTip =>
+      'Terminal, proses, layanan, kontainer, snippet, daya — sebagai akun agent';
+
+  @override
+  String get monitorGrantSshTerminal => 'Terminal panel lewat SSH';
+
+  @override
+  String get monitorGrantFiles => 'File';
+
+  @override
+  String get monitorGrantConnect => 'Koneksi keluar';
+
+  @override
+  String get monitorGrantConnectTip =>
+      'Penerusan port lokal dan dinamis, desktop jarak jauh';
+
+  @override
+  String get monitorGrantConnectAllow =>
+      'Tujuan yang diizinkan (IP atau CIDR, opsional :port atau :dari-sampai; satu per baris, kosong = di mana saja)';
+
+  @override
+  String get monitorGrantListen => 'Mendengarkan di server';
+
+  @override
+  String get monitorGrantListenTip => 'Penerusan port jarak jauh';
+
+  @override
+  String get monitorGrantListenPublic => 'Alamat non-loopback';
+
+  @override
+  String get monitorGrantPorts => 'Rentang port (kosong = apa saja)';
+
+  @override
+  String get monitorGrantOff => 'Mati';
+
+  @override
+  String get monitorBuiltin => 'Bawaan';
+
+  @override
+  String get monitorAdminRoleTip =>
+      'Mengelola akun, peran, dan pengaturan agent';
+
+  @override
+  String get monitorYou => 'Anda';
+
+  @override
+  String get monitorNoAccessToSettings =>
+      'Hanya admin yang dapat mengubah pengaturan agent ini.';
+
+  @override
+  String get monitorPasswordNotSaved =>
+      'Kata sandi sudah diubah di agen, tetapi aplikasi gagal menyimpannya. Perbarui kata sandi Monitor di pengaturan server ini.';
+}

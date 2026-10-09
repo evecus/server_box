@@ -1,0 +1,48 @@
+[submodule "dartssh2"]
+	path = packages/dartssh2
+	url = https://github.com/lollipopkit/dartssh2
+	branch = master
+[submodule "xterm"]
+	path = packages/xterm
+	url = https://github.com/lollipopkit/xterm.dart
+	branch = master
+[submodule "fl_lib"]
+	path = packages/fl_lib
+	url = https://github.com/lollipopkit/fl_lib
+	branch = main
+[submodule "fl_build"]
+	path = packages/fl_build
+	url = https://github.com/lollipopkit/fl_build.git
+	branch = main
+[submodule "circle_chart"]
+	path = packages/circle_chart
+	url = https://github.com/lollipopkit/circle_chart
+	branch = main
+[submodule "plain_notification_token"]
+	path = packages/plain_notification_token
+	url = https://github.com/lollipopkit/plain_notification_token
+	branch = master
+[submodule "watch_connectivity"]
+	path = packages/watch_connectivity
+	url = https://github.com/lollipopkit/watch_connectivity
+	branch = master
+[submodule "third_party/ish-arm64"]
+	path = third_party/ish-arm64
+	url = https://github.com/lollipopkit/ShellBox
+	branch = main
+[submodule "packages/flutter_pty"]
+	path = packages/flutter_pty
+	url = https://github.com/lollipopkit/flutter_pty
+	branch = main
+[submodule "packages/redfish"]
+	path = packages/redfish
+	url = https://github.com/lollipopkit/redfish
+	branch = main
+[submodule "third_party/ironrdp"]
+	path = third_party/ironrdp
+	url = https://github.com/lollipopkit/IronRDP.git
+	branch = serverbox
+[submodule "packages/fl_pi_llm"]
+	path = packages/fl_pi_llm
+	url = https://github.com/lollipopkit/fl_pi_llm
+	branch = main

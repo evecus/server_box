@@ -1,0 +1,136 @@
+import 'dart:async';
+
+import 'package:fl_lib/fl_lib.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:server_box/core/extension/context/locale.dart';
+import 'package:server_box/core/route.dart';
+import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:server_box/data/provider/benchmark.dart';
+import 'package:server_box/view/page/benchmark/config.dart';
+import 'package:server_box/view/page/benchmark/running_card.dart';
+
+/// One machine's benchmark: the form to start one, or the run in flight.
+///
+/// Its own widget rather than something the tab draws inline, because it is
+/// shown in two places: beside the history when there is room for two columns,
+/// and *as* the single column when there is not. It has no route — nothing
+/// pushes it — so the machine it shows changes by rebuilding rather than by
+/// stacking a page per machine.
+class BenchmarkRunPage extends ConsumerStatefulWidget {
+  const BenchmarkRunPage({
+    super.key,
+    required this.args,
+    this.inPane = false,
+    this.appBar,
+  });
+
+  final SpiRequiredArgs args;
+
+  /// Supplied by whoever is showing this, or the plain one below.
+  ///
+  /// With one column this page *is* the tab, so its bar is the tab's: which
+  /// machine, and the way to the rest. Beside a history column it needs
+  /// neither — both are already on screen — and a `CustomAppBar` naming the
+  /// machine is the whole of it.
+  final PreferredSizeWidget? appBar;
+
+  /// Whether this is the root of a detail pane rather than a pushed page.
+  ///
+  /// `CustomAppBar` offers a back button at a pane's root, wired to closing the
+  /// detail. Right for something opened *into* the pane; wrong here, where this
+  /// is what a detail is closed back *to* — the button would have nowhere to go.
+  final bool inPane;
+
+  @override
+  ConsumerState<BenchmarkRunPage> createState() => _BenchmarkRunPageState();
+}
+
+class _BenchmarkRunPageState extends ConsumerState<BenchmarkRunPage> {
+  /// Read through rather than held.
+  ///
+  /// Whoever shows this keys it on `spi.id`, and the tab rebuilds its `Spi`
+  /// from the store on every build — so renaming a machine arrives as new
+  /// `args` under an unchanged key. The element survives that, and a copy taken
+  /// in `initState` would keep the old name in the bar for as long as the tab
+  /// is open.
+  Spi get _spi => widget.args.spi;
+
+  /// Redraws the elapsed clock. The record itself only changes when a poll
+  /// comes back, which is up to twenty seconds apart.
+  Timer? _tick;
+
+  /// Whether a run is going, as of the last build.
+  ///
+  /// The clock reads this rather than the provider: a timer fires whenever it
+  /// likes, including while the element is deactivated — moved between panes —
+  /// and `ref` there fails ("looking up a deactivated widget's ancestor").
+  /// `build` already watches the provider, and every change rebuilds.
+  var _running = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _tick = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted && _running) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _tick?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(benchmarkProvider(_spi.id));
+    _running = state.active != null;
+    ref.listen<String?>(benchmarkProvider(_spi.id).select((s) => s.error), (
+      _,
+      err,
+    ) {
+      if (err == null) return;
+      Toast.error(l10n.benchmarkStartFailed, body: err);
+      ref.read(benchmarkProvider(_spi.id).notifier).clearError();
+    });
+
+    return Scaffold(
+      appBar:
+          widget.appBar ??
+          CustomAppBar(
+            leading: widget.inPane ? const SizedBox.shrink() : null,
+            title: Text(_spi.name),
+          ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 7),
+        children: [
+          if (state.active case final run?)
+            BenchmarkRunningCard(
+              run: run,
+              busy: state.isBusy,
+              onCancel: _onCancel,
+            )
+          else
+            BenchmarkConfig(
+              initial: state.history.firstOrNull?.options,
+              busy: state.isBusy,
+              onStart: (options) =>
+                  ref.read(benchmarkProvider(_spi.id).notifier).start(options),
+            ),
+          UIs.height13,
+        ],
+      ),
+    );
+  }
+
+  Future<void> _onCancel() async {
+    final ok = await context.showRoundDialog<bool>(
+      title: libL10n.attention,
+      child: Text(l10n.benchmarkCancelConfirm),
+      actions: Btnx.cancelRedOk,
+    );
+    if (ok != true) return;
+    await ref.read(benchmarkProvider(_spi.id).notifier).cancel();
+  }
+}

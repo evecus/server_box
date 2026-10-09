@@ -1,0 +1,2 @@
+-keep class com.jcraft.**  { *; }
+-keep class io.flutter.util.PathUtils { *; }

@@ -1,0 +1,149 @@
+import type { Translation } from '../i18n-types.js'
+
+const ja: Translation = {
+  meta: {
+    lang: 'ja',
+    title: 'ServerBox — サーバー状態、SSH、運用を 1 つの Flutter アプリで',
+    description:
+      'ServerBox は、状態チャート、SSH ターミナル、SFTP、Docker、プロセス、systemd、S.M.A.R.T、通知、ウィジェット、watchOS で Linux、Unix、Windows サーバーを監視します。',
+  },
+  nav: {
+    features: '機能',
+    capabilities: 'ツール',
+    download: 'ダウンロード',
+    docs: 'ドキュメント',
+    themes: 'テーマ',
+    plugins: 'プラグイン',
+    languageLabel: '言語',
+  },
+  hero: {
+    titlePrefix: 'サーバー状態を、',
+    titleSuffix: 'ポケットの中に。',
+    subtitle:
+      'ServerBox はチャート、SSH ターミナル、SFTP、Docker、プロセス制御、systemd、S.M.A.R.T、通知、ウィジェット、watchOS を 1 つの Flutter アプリにまとめます。',
+    primaryAction: 'ServerBox をダウンロード',
+    secondaryAction: '機能を見る',
+  },
+  screenshots: {
+    label: 'ServerBox のインタラクティブなスクリーンショット',
+    one: 'ServerBox サーバー概要のスクリーンショット',
+    two: 'ServerBox 状態チャートのスクリーンショット',
+    three: 'ServerBox ターミナルのスクリーンショット',
+    four: 'ServerBox ファイルブラウザのスクリーンショット',
+  },
+  gallery: {
+    title: 'すべての画面を、すべてのデバイスで。',
+    subtitle:
+      'iPhone・iPad・macOS の 31 枚のスクリーンショット。ページを軽く保つため、開くまで読み込みません。',
+    count: '{count} 枚',
+  },
+  features: {
+    title: '日常のサーバーメンテナンスに使える小さな作業場。',
+    subtitle:
+      '装飾を抑え、実際のメンテナンス作業に対応する機能だけを集めています。',
+    charts: {
+      title: '状態チャート',
+      description:
+        'CPU、メモリ、センサー、GPU、ネットワーク、ディスク、ホスト状態をモバイルチャートで確認できます。',
+    },
+    workspace: {
+      title: 'クロスプラットフォーム',
+      description:
+        'iOS、Android、macOS、Linux、Windows で同じ Flutter インターフェースを使えます。',
+    },
+    terminal: {
+      title: 'SSH ターミナルと SFTP',
+      description:
+        'サーバーカードからターミナルとファイルセッションを直接開けます。dartssh2 と xterm.dart を使用しています。',
+    },
+    native: {
+      title: 'ネイティブ連携',
+      description:
+        '生体認証、通知、ホームウィジェット、watchOS により、サーバーの状況を近くに保てます。',
+    },
+    platforms: {
+      title: 'Docker、プロセス、systemd',
+      description:
+        '監視の流れを離れずに、コンテナ、プロセス、サービスを確認できます。',
+    },
+  },
+  capabilities: {
+    title: '必要なツールを 1 つのアプリに。',
+    subtitle:
+      'ServerBox はターミナル、ファイル転送、サービス確認、ハードウェア状態、デバイス通知を同じ流れにまとめます。',
+    installIosPrompt: '# iOS',
+    installReleasePrompt: '# Android、Linux、Windows',
+  },
+  themes: {
+    title: '自分好みの見た目に。',
+    subtitle:
+      'ServerBox の公式テーマです。アプリのテーマストアと同じものを掲載しています。アプリの 設定 → 外観 → テーマストア からインストールするか、パッケージをダウンロードして テーマをインストール → ファイル を選んでください。',
+    empty:
+      '公式テーマはまだありません。テーマは manifest.toml を含むフォルダーで、ライトとダークの配色、コンポーネントのスタイル、アイコン、背景、スプラッシュを指定できます。作り方とストアへの公開方法はガイドを参照してください。',
+    note: 'アプリはストアのパッケージをインストールする前に SHA-256 を検証します。',
+    authoring: 'テーマを作る',
+    download: '.fsbt をダウンロード',
+    source: 'ソース',
+    light: 'ライト',
+    dark: 'ダーク',
+    search: 'テーマを検索',
+    modeLabel: 'モード',
+    all: 'すべて',
+    sortLabel: '並び替え',
+    sortName: '名前',
+    sortUpdated: '最近の更新',
+    noMatch: '一致するテーマがありません。別の名前やモードを試してください。',
+    storeTitle: 'テーマストア',
+    storeSubtitle:
+      'ServerBox の公式テーマを、アプリが描くとおりに表示します。配色、コンポーネント、アイコン、スプラッシュを確認できます。アプリのテーマストアからインストールするか、パッケージをダウンロードしてください。',
+    browse: 'テーマストアを開く',
+    back: 'すべてのテーマ',
+    details: '詳細',
+    icons: 'アイコン',
+    tabIcons: 'タブと選択時',
+    navIcons: 'シンボル',
+    palette: '配色',
+    components: 'コンポーネント',
+    splash: 'スプラッシュ',
+    install: 'インストール',
+    installSteps:
+      'アプリで 設定 → 外観 → テーマストア を開き、{name} を選びます。パッケージをダウンロードして テーマをインストール → ファイル を選ぶこともできます。',
+    base: '通常',
+    hovered: 'ホバー',
+    pressed: '押下',
+    disabled: '無効',
+    loadFailed: 'このテーマのプレビューを読み込めませんでした。',
+    retry: '再試行',
+    previewNote:
+      'プレビューで正確なのはテーマのアイコンと配色のみです。そのほかの画面は参考用です。',
+  },
+  plugins: {
+    title: 'プラグイン。',
+    subtitle: 'ServerBox の公式プラグイン。アプリのプラグインストアからインストールします。',
+    empty: '公式プラグインはまだありません。',
+    download: 'ダウンロード',
+  },
+  download: {
+    title: 'すべてのプラットフォーム、すべての配布元。',
+    subtitle:
+      'デバイスに合った信頼できる配布元を選んでください。iOS 版は App Store から入手できます。macOS の App Store 版は Apple シリコンにのみ対応しており、Intel Mac では GitHub Releases または Homebrew からインストールできます。Android、Linux、Windows 向けには直接ダウンロードも用意されています。',
+    copied: 'インストールコマンドをコピーしました',
+    copyPrompt: 'このインストールコマンドをコピーしてください:',
+    note:
+      '信頼できる配布元からのみダウンロードしてください。サーバー側の通知、ウィジェット、companion 監視には、サーバーに ServerBoxMonitor を別途インストールしてください。',
+  },
+  cta: {
+    title: 'ServerBox は AGPLv3 の無料オープンソースです。',
+    subtitle:
+      'App Store、GitHub Releases、F-Droid、OpenAPK、またはプロジェクト CDN からインストールできます。',
+    appStoreAction: 'App Store を開く',
+    githubAction: 'GitHub Releases からダウンロード',
+  },
+  footer: {
+    features: '機能',
+    capabilities: 'ツール',
+    releases: 'リリース',
+  },
+}
+
+export default ja

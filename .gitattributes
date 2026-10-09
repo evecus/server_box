@@ -1,0 +1,43 @@
+# Test inputs the parsers read verbatim. The tests build and match marker lines
+# with "\n", so a CRLF checkout changes what they assert:
+# `create_host_prefers_kvm_and_q35` replaces "kvm\n<domainCapabilities>" and,
+# with CRLF, replaces nothing — the parser then sees the KVM the test expects
+# to have been simulated away — and
+# `vnc_console_without_a_password_or_refused_one` looks up "{marker}\n", finds
+# no match, and unwraps the None. Pin the endings; the files hold no CR today,
+# so nothing in history is rewritten.
+#
+# The binaries among them (`*.hive`, `*.bin`) carry CR bytes that belong to the
+# data the storage-migration tests restore, and those fixtures cannot be
+# regenerated. `text` would normalise them at checkout, so each extension is
+# excluded — a later line wins, and the exclusions below come after. The
+# rules that follow this block (`rootfs_manifest/*.sig`) are narrower still
+# and override it for their own files.
+crates/sbm_parser/tests/fixtures/** text eol=lf
+test/fixtures/** text eol=lf
+test/fixtures/**/*.hive -text
+test/fixtures/**/*.bin -text
+
+# sqlx hashes each migration file's bytes and records the checksum in the
+# agent's `_sqlx_migrations` table. `migrate!` embeds those bytes at compile
+# time, so a checkout that converted line endings produces a binary whose
+# checksums disagree with the ones an earlier build already recorded, and the
+# migrator refuses to start rather than run against a database it cannot
+# account for.
+#
+# Windows checkouts are where this bites: `Rust tests (windows-latest)` failed
+# `shipped_migrations_keep_their_checksums` because CRLF changed migration 1's
+# SHA-384 from ac7a765b… to 1ca2d91b…. Pin the bytes so every platform hashes
+# the same file.
+monitor/migrations/*.sql text eol=lf
+
+# Ed25519 verifies the original bytes, including line endings.
+test/fixtures/rootfs_manifest/signed.json text eol=lf
+test/fixtures/rootfs_manifest/*.sig -text
+
+# No Git LFS: every tracked image and theme package is a regular blob. An LFS
+# rule over them makes each file whose mtime changes (a build, an IDE) show as
+# modified, and `git add` would turn it into a pointer. The theme store also
+# cannot hold pointers: `git archive HEAD:store` (scripts/store-tarball.sh)
+# reads no `.gitattributes` above the subtree, so no smudge runs. Moving to LFS
+# means `git add --renormalize` on the files in the same change.

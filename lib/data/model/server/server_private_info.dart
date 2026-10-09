@@ -1,0 +1,403 @@
+import 'dart:convert';
+
+import 'package:fl_lib/fl_lib.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:server_box/data/model/app/error.dart';
+import 'package:server_box/data/model/server/bmc_cfg.dart';
+import 'package:server_box/data/model/server/custom.dart';
+import 'package:server_box/data/model/server/monitor_http_credential.dart';
+import 'package:server_box/data/model/server/ssh_credential.dart';
+import 'package:server_box/data/model/server/system.dart';
+import 'package:server_box/data/model/server/wol_cfg.dart';
+import 'package:server_box/data/store/server.dart';
+
+part 'server_private_info.freezed.dart';
+part 'server_private_info.g.dart';
+
+enum SpiValidationError {
+  jumpServerAndProxyCommandConflict,
+
+  /// Neither [Spi.ssh] nor [Spi.monitorHttp] is configured, and the server
+  /// is not [Spi.local].
+  ///
+  /// This used to be the opposite complaint — carrying *both* was the error.
+  /// A server may now carry both, with [Spi.preferredTransport] saying which
+  /// is tried first; what it still may not do is carry neither, which is a
+  /// name and an address of nothing.
+  noConnectionMethod,
+}
+
+/// Which way of reaching a server is tried first.
+///
+/// Only meaningful when both are configured. Stored **by name**, never by
+/// index: an index silently changes meaning when a case is inserted, and this
+/// outlives the build that wrote it.
+enum ServerTransport {
+  ssh,
+  monitorHttp,
+
+  /// This device, with no connection at all — see [Spi.local]. Never stored
+  /// as a preference: a local server has nothing to order.
+  local;
+
+  static ServerTransport? fromName(Object? name) =>
+      ServerTransport.values.firstWhereOrNull((e) => e.name == name);
+}
+
+class SpiValidationException implements Exception {
+  const SpiValidationException(this.error);
+
+  final SpiValidationError error;
+
+  @override
+  String toString() => 'SpiValidationException($error)';
+}
+
+/// In the first version, it's called `ServerPrivateInfo` which was designed to
+/// store the private information of a server.
+///
+/// Some params named as `spi` in the codebase which is the abbreviation of `ServerPrivateInfo`.
+///
+/// Nowaday, more fields are added to this class, and it's renamed to `Spi`.
+@freezed
+abstract class Spi with _$Spi {
+  const Spi._();
+
+  @JsonSerializable(includeIfNull: false)
+  const factory Spi({
+    required String name,
+
+    /// How to reach this server over SSH, or null if it isn't configured for
+    /// SSH at all. A peer of [monitorHttp] — see `ServerConnectCredential`.
+    ///
+    /// Nested rather than flat (as `ip`/`port`/`user`/... used to be) so that
+    /// "has SSH" is expressible. While they were flat and non-nullable, a
+    /// monitor-only server had to invent an address and a user named
+    /// `monitor` to satisfy them.
+    SshCredential? ssh,
+
+    /// Reach this server via a `monitor` instance's HTTP API. A peer of
+    /// [ssh]; a server may carry either one, or both.
+    MonitorHttpCredential? monitorHttp,
+
+    /// Whether [ssh] is dialled at all.
+    ///
+    /// Off is not the same as absent, which is why this exists: turning a
+    /// method off used to mean the editor dropped its fields on save, so
+    /// coming back to it meant typing the host, the port, the account and the
+    /// key again. Off keeps all of that and stops the app using it.
+    ///
+    /// Read through [Spix.sshOn] and [Spix.monitorOn], never on their own: a
+    /// switch that is on for a method with nothing configured means nothing,
+    /// and the pair of questions is one question.
+    ///
+    /// True for every record written before the switches existed, which is
+    /// what those servers were doing.
+    @Default(true) bool sshEnabled,
+    @Default(true) bool monitorEnabled,
+
+    /// This server is the device the app runs on: commands are processes
+    /// started here, the terminal is a local pty and the files are this
+    /// device's own.
+    ///
+    /// Excludes the other two rather than joining the order. "This device"
+    /// needs no address and no credential, and a record that is local and
+    /// also dials an address would be two machines under one name. [ssh] and
+    /// [monitorHttp] are kept when this is on, the same way a switched-off
+    /// method keeps its fields, so turning it off does not mean retyping them;
+    /// [Spix.sshOn] and [Spix.monitorOn] are what stop them being dialled.
+    ///
+    /// Means whichever device reads the record. A backup restored or a sync
+    /// pulled on another machine shows that machine, and on a platform
+    /// without `LocalServer.isSupported` the server reports that it cannot be
+    /// read rather than reaching for an address.
+    @Default(false) bool local,
+
+    /// Which of the two is tried first, when both are configured.
+    ///
+    /// Null on every server with only one way in, which is most of them, and
+    /// on every record written before the two could coexist. Read through
+    /// [Spix.transport], which resolves that.
+    ///
+    /// A name this build does not know reads as null rather than throwing.
+    /// Without that, one unrecognised word makes `Spi.fromJson` fail and takes
+    /// the *whole server record* with it — through a backup restore, a sync,
+    /// or a shared QR code. A build that grows a third transport writes a word
+    /// this one has never seen, and losing a server over it would be a far
+    /// worse answer than falling back to the resolution [Spix.transport]
+    /// already does for a preference that names nothing configured.
+    @JsonKey(
+      includeIfNull: false,
+      unknownEnumValue: JsonKey.nullForUndefinedEnumValue,
+    )
+    ServerTransport? preferredTransport,
+    List<String>? tags,
+    @Default(true) bool autoConnect,
+    ServerCustom? custom,
+    WakeOnLanCfg? wolCfg,
+
+    /// This server's BMC, or null when it has none configured. A side channel
+    /// beside [wolCfg], not a way of reaching the host — see `BmcCfg`.
+    BmcCfg? bmc,
+
+    /// It only applies to SSH terminal.
+    Map<String, String>? envs,
+    @Default('') @JsonKey(fromJson: Spi.parseId) String id,
+
+    /// Custom system type (unix or windows). If set, skip auto-detection.
+    @JsonKey(includeIfNull: false) SystemType? customSystemType,
+
+    /// Disabled command types for this server
+    @JsonKey(includeIfNull: false) List<String>? disabledCmdTypes,
+  }) = _Spi;
+
+  /// Accepts both the nested layout and the pre-v3 flat one, so old backups,
+  /// QR codes shared from older builds and `~/.ssh/config` imports keep
+  /// working. Writing only ever produces the nested layout.
+  factory Spi.fromJson(Map<String, dynamic> json) =>
+      _$SpiFromJson(json.containsKey('ssh') ? json : _liftFlatSsh(json));
+
+  /// Moves the pre-v3 top-level SSH keys under `ssh`.
+  ///
+  /// A record with none of them is left without SSH rather than given an
+  /// empty one: absent means "not configured", and inventing a blank host
+  /// would make it look reachable.
+  static Map<String, dynamic> _liftFlatSsh(Map<String, dynamic> json) {
+    const flatKeys = [
+      'ip',
+      'port',
+      'user',
+      'pwd',
+      'pubKeyId',
+      // Missing from this list, so a flat record carrying one decoded with no
+      // key at all — silently turning an `IdentityFile` credential into
+      // password auth. Listed whether or not any release wrote it flat: the
+      // cost of naming a key nothing carries is nothing.
+      'keyPath',
+      'identityFiles',
+      'alterUrl',
+      'jumpId',
+      'jumpIds',
+      'proxyCommand',
+    ];
+    final ip = json['ip'];
+    if (ip is! String || ip.isEmpty) return json;
+
+    final lifted = Map<String, dynamic>.from(json)
+      ..removeWhere((k, _) => flatKeys.contains(k));
+    lifted['ssh'] = {
+      for (final k in flatKeys)
+        if (json[k] != null) k: json[k],
+    };
+    return lifted;
+  }
+
+  /// Says *which* server without saying where it is or who logs into it.
+  ///
+  /// **This string ends up in places nobody chose.** Riverpod names a family
+  /// provider by its argument's `toString`, and four providers are keyed by a
+  /// whole [Spi] — so `Spi<user@host:port>` was quoted verbatim into an
+  /// `UnmountedRefException` and uploaded with it, address, account and all.
+  /// A `toString` is not a display string; [displayAddr] is, and the pages
+  /// that want an address call it directly.
+  ///
+  /// [Redact.id] rather than the raw [id] so this reads as the same token the
+  /// crumbs carry under `server` — a report can still be followed through one
+  /// machine, which is all an identifier here is for.
+  @override
+  String toString() => 'Spi<${Redact.id(id)}>';
+
+  /// Returns [id] when valid, or generates one when it is null or empty.
+  static String parseId(Object? id) {
+    if (id == null || id is! String || id.isEmpty) return ShortId.generate();
+    return id;
+  }
+}
+
+extension Spix on Spi {
+  /// Shorthand for the SSH-only helpers; null when this server has no SSH
+  /// configuration, which callers must handle rather than assume away.
+  List<String> get resolvedJumpIds => ssh?.resolvedJumpIds ?? const [];
+
+  String? get firstJumpId => ssh?.firstJumpId;
+
+  /// This server's SSH credential, or null when there is none *or* when SSH is
+  /// switched off.
+  ///
+  /// The question every caller deciding how to reach the machine is actually
+  /// asking. [Spi.ssh] is the stored configuration and stays readable with the
+  /// switch off — that is the point of the switch — so it answers "is there a
+  /// host to put in the form", which is a different question and the one the
+  /// editor asks.
+  SshCredential? get sshOn => sshEnabled && !local ? ssh : null;
+
+  /// This server's monitor agent, or null when there is none *or* when it is
+  /// switched off. The peer of [sshOn]; [Spix.monitor] is the stored one.
+  ///
+  /// Both are null on a [Spi.local] server, whatever is on file.
+  MonitorHttpCredential? get monitorOn =>
+      monitorEnabled && !local ? monitor : null;
+
+  SpiValidationError? validate() {
+    // Nothing is dialled, so nothing about the parked configuration can be in
+    // conflict.
+    if (local) return null;
+    // The credential that is going to be *dialled*, not the one on file. With
+    // SSH switched off its settings are kept and never used, so a conflict
+    // among them is not a reason to refuse the record — and the fields it
+    // would name are not on screen to be corrected. Switching SSH back on is
+    // a save of its own, and this refuses it then.
+    final s = sshOn;
+    if (s == null && monitorOn == null) {
+      // Both switched off is a server that cannot be connected, and the form
+      // says so while it is being edited — but it is not a record worth
+      // keeping, so the save is what refuses it. A server is a way in.
+      return SpiValidationError.noConnectionMethod;
+    }
+    if (s == null) return null;
+    final hasJumpServer = s.resolvedJumpIds.isNotEmpty;
+    final proxy = s.proxyCommand;
+    final hasProxyCommand = proxy != null && proxy.trim().isNotEmpty;
+    if (hasJumpServer && hasProxyCommand) {
+      return SpiValidationError.jumpServerAndProxyCommandConflict;
+    }
+    return null;
+  }
+
+  void validateOrThrow() {
+    final validationError = validate();
+    if (validationError == null) return;
+    throw SpiValidationException(validationError);
+  }
+
+  /// An address to identify this server by in logs and lists. Prefers SSH,
+  /// falls back to the monitor endpoint for servers that have no SSH
+  /// configuration, and finally to the opaque [Spi.id].
+  String get displayAddr {
+    if (local) return 'localhost';
+    final s = ssh;
+    // A tunneled server has no address of its own — showing `user@:22` would
+    // be noise, and showing `127.0.0.1` would be wrong on every such server
+    if (s != null) return '${s.user}@${s.ip}:${s.port}';
+    return monitorHttp?.addr ?? id;
+  }
+
+  /// Which way of reaching this server is tried first.
+  ///
+  /// With one configured there is nothing to prefer, and the answer is
+  /// whichever exists — so a stored preference naming the *other* one is
+  /// ignored rather than honoured into a dead end. That happens: turning a
+  /// server's SSH off leaves the preference behind, and nothing clears it.
+  ///
+  /// With both, and nothing stored, SSH leads. Not arbitrary — it is what
+  /// every such server was before this field existed, and it is the transport
+  /// that can do everything, so a server that gains an agent does not quietly
+  /// lose its terminal.
+  ServerTransport get transport {
+    if (local) return ServerTransport.local;
+    final hasSsh = sshOn != null;
+    final hasMonitor = monitorOn != null;
+    if (!hasMonitor) return ServerTransport.ssh;
+    if (!hasSsh) return ServerTransport.monitorHttp;
+    return preferredTransport ?? ServerTransport.ssh;
+  }
+
+  /// The other way in, when there is one.
+  ServerTransport? get fallbackTransport {
+    if (sshOn == null || monitorOn == null) return null;
+    return transport == ServerTransport.ssh
+        ? ServerTransport.monitorHttp
+        : ServerTransport.ssh;
+  }
+
+  /// This server's monitor agent as configured, switch or no switch.
+  ///
+  /// What the editor and the display read. Anything deciding whether to *dial*
+  /// it wants [monitorOn].
+  MonitorHttpCredential? get monitor {
+    final m = monitorHttp;
+    if (m == null || m.addr.trim().isEmpty) return null;
+    return m;
+  }
+
+  /// The pre-1155 storage key.
+  ///
+  /// SSH-only by construction: no install old enough to still be keyed this
+  /// way could have had a monitor server.
+  String get oldId {
+    final s = ssh;
+    return s == null ? id : '${s.user}@${s.ip}:${s.port}';
+  }
+
+  /// Save the [Spi] to the local storage.
+  void save() => ServerStore.instance.put(this);
+
+  /// Json encode to string.
+  String toJsonString() => json.encode(toJson());
+
+  /// Returns true if the connection info is the same as [other].
+  ///
+  /// With no SSH on either side, the monitor agent's address: comparing only
+  /// the SSH credentials answered true for any two monitor-only servers. The
+  /// one local server has neither, and is the same as itself.
+  bool isSameAs(Spi other) {
+    if (local != other.local) return false;
+    final a = ssh, b = other.ssh;
+    if (a != null || b != null) return a != null && a.isSameAs(b);
+    return monitorHttp?.addr == other.monitorHttp?.addr;
+  }
+
+  /// Returns true if the connection should be re-established.
+  ///
+  /// [ServerCustom.cmds] used to count: custom commands were spliced into the
+  /// generated script, so changing one meant reinstalling the script, and the
+  /// reconnect is what did that. They are files on the server now, written on
+  /// their own, and reconnecting for them would only cost the user their
+  /// session — including during the one-time migration, which edits this very
+  /// field while the connection it would tear down is being set up.
+  bool shouldReconnect(Spi old) {
+    return !isSameAs(old) ||
+        ssh?.alterUrl != old.ssh?.alterUrl ||
+        monitorHttp != old.monitorHttp ||
+        // Which transport leads decides where the status poll goes and which
+        // connection `ensureExec` opens, so changing it has to tear down what
+        // the old answer built.
+        transport != old.transport;
+  }
+
+  /// Parse the SSH [SshCredential.alterUrl] to (ip, user, port).
+  (String ip, String usr, int port) parseAlterUrl() {
+    final s = ssh;
+    if (s == null) {
+      throw SSHErr(type: SSHErrType.connect, message: 'no ssh credential');
+    }
+    return s.parseAlterUrl();
+  }
+
+  /// Just for showing the struct of the class.
+  ///
+  /// **NOT** the default value.
+  static final example = Spi(
+    name: 'name',
+    ssh: SshCredential(
+      ip: 'ip',
+      port: 22,
+      user: 'root',
+      pwd: 'pwd',
+      keyId: 'private_key_id',
+      alterUrl: 'user@ip:port',
+      proxyCommand: 'socat - PROXY:proxy.example.com:%h:%p,proxyport=8080',
+    ),
+    tags: ['tag1', 'tag2'],
+    autoConnect: true,
+    custom: ServerCustom(
+      cmds: {'echo': 'echo hello'},
+      preferTempDev: 'nvme-pci-0400',
+      logoUrl: 'https://example.com/logo.png',
+    ),
+    id: 'id',
+  );
+
+  /// Returns true if the SSH user is 'root'.
+  bool get isRoot => ssh?.isRoot ?? false;
+}

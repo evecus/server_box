@@ -1,0 +1,291 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:server_box/core/utils/jump_chain.dart';
+import 'package:server_box/core/utils/server.dart';
+import 'package:server_box/core/utils/ssh_key_unlock.dart';
+import 'package:server_box/data/model/server/monitor_http_credential.dart';
+import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:server_box/data/model/server/ssh_credential.dart';
+import 'package:server_box/data/res/store.dart';
+
+/// One end of a transfer: somewhere files live, and a path in it.
+///
+/// Serializable, because a transfer runs in an isolate and a live `SSHClient`
+/// does not cross one. What travels is everything needed to *build* the
+/// backend on the other side, which is why [SshFileRef] carries a whole
+/// credential bundle rather than a connection.
+///
+/// The counterpart of `FileBackend`: that one is a connection somebody already
+/// has, this one is a description of how to get it.
+sealed class FileRef {
+  const FileRef();
+
+  String get path;
+
+  /// The last component. What a transfer list calls the job.
+  String get name {
+    final normalized = path.replaceAll(r'\', '/');
+    final trimmed = normalized.endsWith('/') && normalized.length > 1
+        ? normalized.substring(0, normalized.length - 1)
+        : normalized;
+    // The root has no last component but is still somewhere; without this it
+    // would name itself the empty string.
+    if (trimmed == '/') return '/';
+    final slash = trimmed.lastIndexOf('/');
+    return slash < 0 ? trimmed : trimmed.substring(slash + 1);
+  }
+
+  /// A path inside this one, for naming a destination after its source.
+  FileRef child(String name);
+}
+
+/// This device.
+final class LocalFileRef extends FileRef {
+  const LocalFileRef(this.path);
+
+  @override
+  final String path;
+
+  @override
+  LocalFileRef child(String name) =>
+      LocalFileRef(path.joinPath(name, separator: '/'));
+
+  @override
+  bool operator ==(Object other) => other is LocalFileRef && other.path == path;
+
+  @override
+  int get hashCode => Object.hash(LocalFileRef, path);
+
+  @override
+  String toString() => 'LocalFileRef($path)';
+}
+
+/// A server, over its SSH connection.
+///
+/// Which protocol runs on top of that connection — SFTP or `scp` — is the
+/// server's own answer and travels inside [creds], so this is one kind of end
+/// and not two. A transfer that had to be told is a transfer that could be told
+/// something the server disagrees with.
+final class SshFileRef extends FileRef {
+  const SshFileRef({required this.creds, required this.path});
+
+  /// Built from a server the app knows about, resolving its keys now, on the
+  /// isolate that has the stores.
+  factory SshFileRef.forServer(Spi spi, String path) =>
+      SshFileRef(creds: SshTransferCreds.forServer(spi), path: path);
+
+  final SshTransferCreds creds;
+
+  @override
+  final String path;
+
+  Spi get spi => creds.spi;
+
+  /// What this server said it speaks. SFTP for a server carrying no SSH
+  /// credential at all, which cannot happen for a ref that exists — the
+  /// fallback is there so callers need no `?`.
+  SshFileTransport get transport =>
+      spi.ssh?.fileTransport ?? SshFileTransport.sftp;
+
+  /// Always `/`: the far side is a Linux-like system, whatever this device is.
+  @override
+  SshFileRef child(String name) =>
+      SshFileRef(creds: creds, path: path.joinPath(name, separator: '/'));
+
+  // The whole [Spi], not its id. A queued transfer names where it is going, and
+  // an id outlives an edit that moved the server somewhere else — so two refs
+  // that were equal by id could be to two different hosts. `SshCredential`
+  // hashes its jump servers normalised for this to hold.
+  @override
+  bool operator ==(Object other) =>
+      other is SshFileRef && other.path == path && other.spi == spi;
+
+  @override
+  int get hashCode => Object.hash(SshFileRef, spi, path);
+
+  @override
+  String toString() => 'SshFileRef(${spi.id}:$path)';
+}
+
+/// A server, through its `monitor` agent's file API.
+///
+/// Carries the credential rather than a client, for the same reason
+/// [SshFileRef] carries one — except that this one need not cross an isolate
+/// at all: the agent is reached over HTTPS, whose crypto is native rather than
+/// pure Dart, so a transfer with this at either end does not peg the UI
+/// thread the way an SSH one would.
+final class MonitorFileRef extends FileRef {
+  const MonitorFileRef({
+    required this.spi,
+    required this.monitor,
+    required this.path,
+  });
+
+  /// Reads [Spix.monitor] rather than resolving a connect credential.
+  ///
+  /// The two came apart once a server could carry both transports:
+  /// `fromSpi` answers whichever *leads*, which for such a server is usually
+  /// SSH — and a cast to the monitor variant would then throw. Naming the
+  /// agent directly is also what this means. Choosing to browse a server's
+  /// files over its agent is a decision about the file backend, and has
+  /// nothing to do with which transport its status poll uses.
+  factory MonitorFileRef.forServer(Spi spi, String path) {
+    final monitor = spi.monitor;
+    if (monitor == null) {
+      throw StateError('${spi.name} has no monitor agent to browse');
+    }
+    return MonitorFileRef(spi: spi, monitor: monitor, path: path);
+  }
+
+  final Spi spi;
+  final MonitorHttpCredential monitor;
+
+  @override
+  final String path;
+
+  /// Always `/`: the agent describes a POSIX-shaped filesystem whatever it is
+  /// running on.
+  @override
+  MonitorFileRef child(String name) => MonitorFileRef(
+    spi: spi,
+    monitor: monitor,
+    path: path.joinPath(name, separator: '/'),
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is MonitorFileRef &&
+      other.path == path &&
+      other.spi == spi &&
+      other.monitor == monitor;
+
+  @override
+  int get hashCode => Object.hash(MonitorFileRef, spi, monitor, path);
+
+  @override
+  String toString() => 'MonitorFileRef(${spi.id}:$path)';
+}
+
+/// Everything needed to open an SSH connection somewhere else.
+///
+/// Read out of the stores when the transfer is queued rather than when it
+/// runs, because the isolate that runs it has no stores — this is the whole
+/// reason a transfer carries a bundle and not a server id.
+class SshTransferCreds {
+  SshTransferCreds.forServer(this.spi) {
+    privateKeysByKeyId = {};
+
+    // `resolvePrivateKeys`, not `Stores.key` directly: a key may be a file this
+    // machine holds rather than one the store does, and reading it has to
+    // happen here, where there is a filesystem the user granted and a UI to
+    // report a refusal to. The isolate has neither.
+    final ssh = spi.ssh;
+    if (ssh != null && ssh.keyRefs.isNotEmpty) {
+      try {
+        final keys = resolvePrivateKeys(ssh, originalHost: spi.name);
+        privateKeysByKeyId!.addAll(keys);
+        privateKey = keys[ssh.keyRefs.first];
+      } catch (e) {
+        if (ssh.pwd?.isNotEmpty != true) rethrow;
+        Loggers.app.warning(
+          'Transfer key unavailable for ${spi.name}; using password',
+          e,
+        );
+      }
+    }
+
+    final allServers = {
+      for (final server in Stores.server.fetch()) server.id: server,
+    };
+    jumpSpisById = collectJumpServers(spi: spi, serversById: allServers);
+
+    final firstJumpId = spi.firstJumpId;
+    if (firstJumpId != null) {
+      jumpSpi = jumpSpisById?[firstJumpId];
+      final jumpSsh = jumpSpi?.ssh;
+      if (jumpSsh != null && jumpSsh.keyRefs.isNotEmpty) {
+        // A jump server whose key cannot be resolved is not fatal here: the
+        // hop may authenticate by password, and failing the whole transfer at
+        // queue time would take the other candidates with it.
+        final keys = _tryResolveAll(jumpSpi!);
+        privateKeysByKeyId!.addAll(keys);
+        jumpPrivateKey = keys[jumpSsh.keyRefs.first];
+      }
+    }
+
+    for (final jump in jumpSpisById?.values ?? const <Spi>[]) {
+      final jumpSsh = jump.ssh;
+      final jumpKeyRefs = jumpSsh?.keyRefs ?? const <String>[];
+      if (jumpKeyRefs.isEmpty ||
+          jumpKeyRefs.every(privateKeysByKeyId!.containsKey)) {
+        continue;
+      }
+      privateKeysByKeyId!.addAll(_tryResolveAll(jump));
+    }
+
+    if (jumpSpisById != null && jumpSpisById!.isEmpty) jumpSpisById = null;
+    if (privateKeysByKeyId != null && privateKeysByKeyId!.isEmpty) {
+      privateKeysByKeyId = null;
+    }
+
+    try {
+      knownHostFingerprints = Map<String, String>.from(
+        Stores.setting.sshKnownHostFingerprints.get(),
+      );
+    } catch (e, s) {
+      Loggers.app.warning('Failed to load SSH known host fingerprints', e, s);
+      knownHostFingerprints = null;
+    }
+  }
+
+  /// [resolvePrivateKeys] for a hop, or null if it could not be had.
+  ///
+  /// The target server's key is allowed to throw — a transfer to a host whose
+  /// key is gone should say so at once. A jump server's is not: it may not need
+  /// one, and one unusable candidate must not take the others with it.
+  static Map<String, String> _tryResolveAll(Spi spi) {
+    try {
+      return resolvePrivateKeys(spi.ssh!, originalHost: spi.name);
+    } catch (e) {
+      Loggers.app.warning('Jump server key unavailable', e);
+      return const {};
+    }
+  }
+
+  final Spi spi;
+  String? privateKey;
+  Spi? jumpSpi;
+  String? jumpPrivateKey;
+  Map<String, Spi>? jumpSpisById;
+  Map<String, String>? privateKeysByKeyId;
+
+  Map<String, String>? knownHostFingerprints;
+
+  /// Opens any key in this bundle that is stored encrypted.
+  ///
+  /// Not in the constructor, for two reasons that point the same way: asking
+  /// for a passphrase is a dialog and the constructor is synchronous, and the
+  /// isolate this bundle is *for* has no screen to ask on. A key that is still
+  /// locked when it crosses can only fail over there, with nothing to say why.
+  ///
+  /// Awaited once, where the transfer starts. A key already opened this run
+  /// costs nothing here.
+  Future<void> unlockKeys() async {
+    final keys = privateKeysByKeyId;
+    if (keys == null) return;
+    for (final ref in keys.keys.toList()) {
+      final pem = keys[ref]!;
+      if (!PrivateKeyUnlock.isLocked(pem)) continue;
+      keys[ref] = await PrivateKeyUnlock.open(
+        pem,
+        cacheKey: ref,
+        keyName: privateKeyDisplayName(ref),
+      );
+    }
+    // The two hold the same string for the main server's key, so the copy
+    // outside the map has to be moved along with it.
+    final mainRef = spi.ssh?.keyRef;
+    if (mainRef != null) privateKey = keys[mainRef] ?? privateKey;
+    final jumpRef = jumpSpi?.ssh?.keyRef;
+    if (jumpRef != null) jumpPrivateKey = keys[jumpRef] ?? jumpPrivateKey;
+  }
+}

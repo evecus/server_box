@@ -1,0 +1,179 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:server_box/data/model/app/scripts/cmd_types.dart';
+import 'package:server_box/data/model/server/amd.dart';
+import 'package:server_box/data/model/server/battery.dart';
+import 'package:server_box/data/model/server/conn.dart';
+import 'package:server_box/data/model/server/cpu.dart';
+import 'package:server_box/data/model/server/disk.dart';
+import 'package:server_box/data/model/server/disk_smart.dart';
+import 'package:server_box/data/model/server/dist.dart';
+import 'package:server_box/data/model/server/gpu.dart';
+import 'package:server_box/data/model/server/memory.dart';
+import 'package:server_box/data/model/server/net_speed.dart';
+import 'package:server_box/data/model/server/nvdia.dart';
+import 'package:server_box/data/model/server/sensors.dart';
+import 'package:server_box/data/model/server/status_history.dart';
+import 'package:server_box/data/model/server/system.dart';
+import 'package:server_box/data/model/server/temp.dart';
+
+class ServerStatus {
+  Cpus cpu;
+  Memory mem;
+  Swap swap;
+  List<Disk> disk;
+  Conn tcp;
+  NetSpeed netSpeed;
+  Temperatures temps;
+  SystemType system;
+  Err? err;
+  DiskIO diskIO;
+  List<DiskSmart> diskSmart;
+
+  /// When [diskSmart] was last read.
+  ///
+  /// SMART is on the extended cadence — minutes apart, because asking at poll
+  /// frequency keeps a disk from spinning down — so a reading here is older
+  /// than everything else on the page, and by an amount worth saying.
+  DateTime? diskSmartAt;
+  List<NvidiaSmiItem>? nvidia;
+  List<AmdSmiItem>? amd;
+  List<GpuItem> gpus;
+  final List<Battery> batteries = [];
+  final Map<StatusCmdType, String> more = {};
+
+  /// What a section of the status said instead of a reading, by the section
+  /// name both mappers use.
+  ///
+  /// A status is a dozen independent readings, and one of them failing is not
+  /// the page failing: a host with no `sensors` installed still has a CPU. The
+  /// row that has no number says why it has none, and the rest are unaffected
+  /// — which is only possible if the failure is recorded against the section
+  /// it happened in rather than against the whole status.
+  final Map<String, String> sectionErrs = {};
+  final List<SensorItem> sensors = [];
+
+  /// [disk] summed — see [DiskUsage.parse] — or null with no disks, or when
+  /// the parse failed.
+  ///
+  /// Computed here, the first time it is asked for, and kept until [disk] is
+  /// replaced: the card row, the chart's disk line, the overview, the detail
+  /// and `recordSample` all read it, so they get one answer between them. A
+  /// failure is kept the same way — an unavailable reading, not a parse
+  /// retried on every build of every one of them, where it would throw again.
+  ///
+  /// Keyed on the list's identity, which holds because nothing edits one in
+  /// place: both mappers assign a new list, and a copy of the status copies it.
+  DiskUsage? get diskUsage {
+    final disks = disk;
+    if (!identical(disks, _diskUsageOf)) {
+      _diskUsageOf = disks;
+      _diskUsage = null;
+      if (disks.isNotEmpty) {
+        try {
+          _diskUsage = DiskUsage.parse(disks);
+        } catch (e, s) {
+          Loggers.app.warning('Disk usage', e, s);
+        }
+      }
+    }
+    return _diskUsage;
+  }
+
+  List<Disk>? _diskUsageOf;
+  DiskUsage? _diskUsage;
+  final Map<String, String> customCmds = {};
+
+  /// The machine's own interface addresses, as it reported them.
+  ///
+  /// Every address the `ip` command printed — loopback, LAN, and whatever
+  /// netmask happened to parse as one. Which of them are reachable from
+  /// outside is `SelfAddr`'s question, answered with `isPrivateAddress`, the
+  /// one table this app has for it.
+  ///
+  /// Collected on the extended cadence rather than every poll: it changes when
+  /// a machine moves, not between two samples. Both transports fill it — SSH
+  /// from the shared script, a monitor agent from its own `/metrics` — which
+  /// is the whole reason it is a manifest command rather than something the
+  /// app runs on the side.
+  List<String> ips = const [];
+
+  /// `/etc/os-release`'s `ID=`, when the far end has that file.
+  ///
+  /// Kept apart from [more] rather than filed under another [StatusCmdType]:
+  /// that map is what the detail page lists, and this is an identifier for
+  /// matching rather than anything to read. Linux only — the BSD and Windows
+  /// `sys` commands report a version string with no such field.
+  String? osId;
+
+  /// `/etc/os-release`'s `ID_LIKE=`, closest base first. See [osId].
+  List<String> osIdLike = const [];
+
+  /// Which distribution this machine is running, or null if nothing said.
+  ///
+  /// Here rather than at each of the four places that draw a mark, so that all
+  /// of them ask the same question of the same three fields — the answer moved
+  /// from the prose to `ID=` once already.
+  Dist? get dist => resolveDist(
+    osId: osId,
+    sysVersion: more[StatusCmdType.sys],
+    osIdLike: osIdLike,
+  );
+
+  /// Trend data for the chart cards, appended to after every successful
+  /// refresh. Lives here rather than in the UI so it survives navigation, and
+  /// so both the SSH and the monitor HTTP path feed one buffer.
+  ///
+  /// A refresh builds a new [ServerStatus] around the same mutable sub-objects
+  /// (`cpu`, `netSpeed`, ...); callers doing that must carry this over too, or
+  /// the trend restarts from empty every cycle.
+  final StatusHistory history;
+
+  ServerStatus({
+    required this.cpu,
+    required this.mem,
+    required this.disk,
+    required this.tcp,
+    required this.netSpeed,
+    required this.swap,
+    required this.temps,
+    required this.system,
+    required this.diskIO,
+    this.diskSmart = const [],
+    this.diskSmartAt,
+    this.err,
+    this.nvidia,
+    this.gpus = const [],
+    StatusHistory? history,
+  }) : history = history ?? StatusHistory();
+}
+
+enum ServerConn {
+  failed,
+  disconnected,
+  connecting,
+
+  /// Connected to server
+  connected,
+
+  /// Status parsing
+  loading,
+
+  /// Status parsing finished
+  finished;
+
+  /// On its way to a first answer: connecting, connected and being set up,
+  /// or reading the status.
+  ///
+  /// One definition for everything that draws "busy" — the card's spinner, a
+  /// line's progress bar, the detail page's placeholder — because each of them
+  /// used to list the three states itself, and they have to agree.
+  bool get busy => switch (this) {
+    connecting || connected || loading => true,
+    failed || disconnected || finished => false,
+  };
+
+  /// Orders by declaration index: failed < disconnected < connecting <
+  /// connected < loading < finished. Do NOT reorder the enum values
+  /// above without auditing all call sites that rely on this ordering.
+  bool operator <(ServerConn other) => index < other.index;
+}

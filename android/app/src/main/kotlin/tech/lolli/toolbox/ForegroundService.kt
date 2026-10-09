@@ -1,0 +1,386 @@
+package tech.lolli.toolbox
+
+import android.app.*
+import android.content.Intent
+import android.content.pm.ServiceInfo
+import android.graphics.drawable.Icon
+import android.os.Build
+import android.os.IBinder
+import android.util.Log
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.util.*
+
+class ForegroundService : Service() {
+    companion object {
+        @Volatile
+        var isRunning: Boolean = false
+
+        const val ACTION_STOP_SERVICE = "tech.lolli.toolbox.ACTION_STOP_SERVICE"
+    }
+    private val chanId = "ForegroundServiceChannel"
+    private val NOTIFICATION_ID = 1000
+    private val ACTION_STOP_FOREGROUND = "ACTION_STOP_FOREGROUND"
+    private val ACTION_UPDATE_SESSIONS = "tech.lolli.toolbox.ACTION_UPDATE_SESSIONS"
+    private val ACTION_DISCONNECT_SESSION = "tech.lolli.toolbox.ACTION_DISCONNECT_SESSION"
+
+    private var isFgStarted = false
+    private val postedIds = mutableSetOf<Int>()
+    // Stable mapping from session-id -> notification-id to avoid hash collisions
+    private val notificationIdMap = mutableMapOf<String, Int>()
+    private val nextNotificationId = java.util.concurrent.atomic.AtomicInteger(2001)
+
+    private fun logError(message: String, error: Throwable? = null) {
+        Log.e("ForegroundService", message, error)
+        try {
+            val logFile = File(getExternalFilesDir(null), "server_box.log")
+            val timestamp = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
+            val logMessage = "$timestamp [ForegroundService] ERROR: $message\n${error?.stackTraceToString() ?: ""}\n"
+            logFile.appendText(logMessage)
+        } catch (e: Exception) {
+            Log.e("ForegroundService", "Failed to write log", e)
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("ForegroundService", "Service onCreate")
+        isRunning = true
+        createNotificationChannel()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        try {
+            if (intent?.action == ACTION_STOP_SERVICE) {
+                Log.d("ForegroundService", "Stopping after queued starts")
+                stopForegroundService()
+                return START_NOT_STICKY
+            }
+
+            // Before the permission check below, because stopping needs no
+            // notification. A user who revokes the permission while this is
+            // running still has the action on a notification the system has not
+            // taken down yet, and it used to take the early exit — killing the
+            // service without ever telling Flutter to disconnect anything.
+            if (intent?.action == ACTION_STOP_FOREGROUND) {
+                val stopAllIntent = Intent("tech.lolli.toolbox.STOP_ALL_CONNECTIONS")
+                    .setPackage(packageName)
+                sendBroadcast(stopAllIntent, "tech.lolli.toolbox.permission.INTERNAL_BROADCAST")
+                stopForegroundService()
+                return START_NOT_STICKY
+            }
+
+            // Check notification permission for Android 13+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                androidx.core.content.ContextCompat.checkSelfPermission(
+                    this, android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.w("ForegroundService", "Notification permission denied. Stopping service gracefully.")
+                // Don't call stopForegroundService() here as we haven't started foreground yet
+                stopSelf()
+                return START_NOT_STICKY
+            }
+
+            // A null intent is the system restarting this service after killing
+            // the process, which is exactly what START_STICKY asks it to do.
+            // Stopping here threw that contract away: the one case the sticky
+            // restart exists for — a backgrounded app with a session open —
+            // ended with no service, no notification and a process free to be
+            // frozen, and nothing left running to notice. The placeholder is
+            // what re-enters the foreground; Dart re-states the session list
+            // through `updateSessions` as soon as an engine is up.
+            if (intent == null) {
+                Log.w("ForegroundService", "Restarted with a null intent; going foreground with a placeholder")
+                ensureForeground(createMergedNotification(0, emptyList(), emptyList()))
+                return START_STICKY
+            }
+
+            val action = intent.action
+            Log.d("ForegroundService", "onStartCommand action=$action")
+
+            return when (action) {
+                ACTION_UPDATE_SESSIONS -> {
+                    // The promise `startForegroundService` made, kept before
+                    // anything downstream can decide not to.
+                    //
+                    // Every exit from `handleUpdateSessions` used to have to
+                    // remember this for itself, and the one that stands down
+                    // when nothing is connected did not: it cancelled the
+                    // notification and called `stopSelf`, which does not
+                    // discharge the obligation while a later start command is
+                    // in flight. The system then kills the process with a
+                    // `ForegroundServiceDidNotStartInTimeException` — thirty
+                    // of them in one afternoon of testing, every time the last
+                    // session closed with `bgRun` off.
+                    //
+                    // Entering the foreground and leaving it again is the
+                    // sanctioned way to stand down. The placeholder is
+                    // replaced within the same call, so nothing is shown.
+                    if (!isFgStarted) {
+                        ensureForeground(createMergedNotification(0, emptyList(), emptyList()))
+                    }
+                    val payload = intent.getStringExtra("payload") ?: "{}"
+                    handleUpdateSessions(payload)
+                    START_STICKY
+                }
+                else -> {
+                    // Default bring up foreground with placeholder
+                    ensureForeground(createMergedNotification(0, emptyList(), emptyList()))
+                    START_STICKY
+                }
+            }
+            
+        } catch (e: Exception) {
+            logError("Error in onStartCommand", e)
+            stopSelf()
+            return START_NOT_STICKY
+        }
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                val manager = getSystemService(NotificationManager::class.java)
+                if (manager == null) {
+                    Log.e("ForegroundService", "Failed to get NotificationManager")
+                    return
+                }
+                val serviceChannel = NotificationChannel(
+                    chanId,
+                    "ForegroundServiceChannel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description = "For foreground service"
+                }
+                manager.createNotificationChannel(serviceChannel)
+                Log.d("ForegroundService", "Notification channel created successfully")
+            } catch (e: Exception) {
+                logError("Failed to create notification channel", e)
+            }
+        }
+    }
+
+    private fun ensureForeground(notification: Notification) {
+        try {
+            // Double-check notification permission before starting foreground service
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                androidx.core.content.ContextCompat.checkSelfPermission(
+                    this, android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.w("ForegroundService", "Cannot start foreground service without notification permission")
+                stopSelf()
+                return
+            }
+
+            if (!isFgStarted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+                } else {
+                    startForeground(NOTIFICATION_ID, notification)
+                }
+                isFgStarted = true
+                Log.d("ForegroundService", "Foreground service started successfully")
+            } else {
+                val nm = getSystemService(NotificationManager::class.java)
+                if (nm != null) {
+                    nm.notify(NOTIFICATION_ID, notification)
+                } else {
+                    Log.w("ForegroundService", "NotificationManager is null, cannot update notification")
+                }
+            }
+        } catch (e: SecurityException) {
+            logError("Security exception when starting foreground service (likely missing permission)", e)
+            stopSelf()
+        } catch (e: Exception) {
+            logError("Failed to start/update foreground", e)
+            // Only a SecurityException makes continued foreground operation
+            // impossible; log other failures and allow a later update to retry.
+        }
+    }
+
+
+    private fun createMergedNotification(count: Int, lines: List<String>, sessions: List<SessionItem>): Notification {
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE
+        )
+        val stopIntent = Intent(this, ForegroundService::class.java).apply { action = ACTION_STOP_FOREGROUND }
+        val stopPending = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
+
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(this, chanId)
+        } else {
+            @Suppress("DEPRECATION")
+            Notification.Builder(this)
+        }
+
+        // Use the earliest session's start time for chronometer
+        val earliestStartTime = sessions.minOfOrNull { it.startWhen } ?: System.currentTimeMillis()
+
+        val title = when (count) {
+            0 -> "Server Box"
+            1 -> sessions.first().title
+            else -> "SSH sessions: $count active"
+        }
+
+        val contentText = when (count) {
+            0 -> "Ready for connections"
+            1 -> {
+                val session = sessions.first()
+                "${session.subtitle} · ${session.status}"
+            }
+            else -> "Multiple SSH connections active"
+        }
+
+        // For multiple sessions, show details in expanded view
+        val style = if (count > 1) {
+            val inbox = Notification.InboxStyle()
+            val maxLines = 5
+            val displayLines = if (lines.size > maxLines) {
+                lines.take(maxLines) + "...and ${lines.size - maxLines} more"
+            } else {
+                lines
+            }
+            displayLines.forEach { inbox.addLine(it) }
+            inbox.setBigContentTitle(title)
+            inbox
+        } else {
+            null
+        }
+
+        val notification = builder
+            .setContentTitle(title)
+            .setContentText(contentText)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setWhen(earliestStartTime)
+            .setUsesChronometer(true)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .setContentIntent(pendingIntent)
+            .addAction(
+                Notification.Action.Builder(
+                    Icon.createWithResource(this, android.R.drawable.ic_delete),
+                    "Stop All",
+                    stopPending
+                ).build()
+            )
+
+        if (style != null) {
+            notification.setStyle(style)
+        }
+
+        return notification.build()
+    }
+
+    private fun handleUpdateSessions(payload: String) {
+        val nm = getSystemService(NotificationManager::class.java)
+        if (nm == null) {
+            logError("NotificationManager null")
+            return
+        }
+
+        val sessions = mutableListOf<SessionItem>()
+        // Whether the app still needs the process kept out of the freezer even
+        // with nothing connected — see `TermSessionManager._serviceWanted`.
+        // Without this an empty list meant "stop being a foreground service",
+        // which is exactly what a backgrounded app can never undo.
+        var keepAlive = false
+        try {
+            val obj = JSONObject(payload)
+            keepAlive = obj.optBoolean("keepAlive", false)
+            val arr: JSONArray = obj.optJSONArray("sessions") ?: JSONArray()
+            for (i in 0 until arr.length()) {
+                val s = arr.optJSONObject(i) ?: continue
+                val id = s.optString("id")
+                val title = s.optString("title")
+                val sub = s.optString("subtitle")
+                val whenMs = s.optLong("startTimeMs", System.currentTimeMillis())
+                val status = s.optString("status", "connected")
+                if (id.isNotEmpty()) {
+                    sessions.add(SessionItem(id, title, sub, whenMs, status))
+                }
+            }
+        } catch (e: Exception) {
+            // Not read as "no sessions, no keep-alive", which is what falling
+            // through would mean: one corrupt message would then cancel the
+            // notification of a backgrounded app and take away the only thing
+            // keeping it out of the freezer. Whatever was last shown stands.
+            logError("Failed to parse payload", e)
+            return
+        }
+
+        // Nothing connected. Either stand down, or stay foreground with a
+        // placeholder so the app is still running when something can be
+        // connected again.
+        if (sessions.isEmpty()) {
+            if (!keepAlive) {
+                stopForegroundService()
+                return
+            }
+            ensureForeground(createMergedNotification(0, emptyList(), emptyList()))
+            return
+        }
+
+        // Cancel any existing individual notifications (we only show merged notification now)
+        val toCancel = postedIds.toSet()
+        toCancel.forEach { nm.cancel(it) }
+        postedIds.clear()
+        notificationIdMap.clear()
+
+        // Create merged notification content
+        val summaryLines = sessions.map { "${it.title}: ${it.status}" }
+        val mergedNotification = createMergedNotification(sessions.size, summaryLines, sessions)
+        ensureForeground(mergedNotification)
+    }
+
+    data class SessionItem(
+        val id: String,
+        val title: String,
+        val subtitle: String,
+        val startWhen: Long,
+        val status: String,
+    )
+
+    /**
+     * Leaves the foreground, takes every notification down, and stops.
+     *
+     * `stopForeground` unconditionally, not only when this instance believes
+     * it called `startForeground`: the flag is this process's view and the
+     * notification outlives it. Cancelling the notification by hand instead —
+     * which is what the callers used to do first — left the service foreground
+     * as far as the system was concerned, and reset the flag so nothing here
+     * would ever leave it.
+     */
+    private fun stopForegroundService() {
+        try {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } catch (e: Exception) {
+            logError("Error stopping foreground", e)
+        }
+        isFgStarted = false
+        try {
+            val nm = getSystemService(NotificationManager::class.java)
+            nm?.cancel(NOTIFICATION_ID)
+            postedIds.forEach { id -> nm?.cancel(id) }
+        } catch (e: Exception) {
+            logError("Error cancelling notifications", e)
+        }
+        postedIds.clear()
+        notificationIdMap.clear()
+        stopSelf()
+        Log.d("ForegroundService", "ForegroundService stopped")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("ForegroundService", "Service onDestroy")
+        isRunning = false
+    }
+}

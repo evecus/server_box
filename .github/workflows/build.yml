@@ -1,0 +1,1068 @@
+name: Flutter Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Create GitHub Release from the selected v1.0.<build> tag'
+        required: false
+        type: boolean
+        default: false
+      jobs:
+        # Comma-separated rather than a `choice`, which allows only one value,
+        # and there is no multi-select for `workflow_dispatch`. Empty means all,
+        # so the tag-push path is unaffected and so is dispatching without
+        # thinking about it.
+        #
+        # Unknown names are refused rather than ignored — see `Check job
+        # selection`. A typo that silently builds nothing looks exactly like a
+        # workflow that is broken.
+        description: 'What to run: android,ios,linux,windows,macos,monitor (empty = all; monitor is verification only)'
+        required: false
+        type: string
+        default: ''
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+env:
+  BUILD_TAG: test-build-${{ github.run_number }}-${{ github.sha }}
+
+jobs:
+  reproducibilityCheck:
+    # Static build-input validation. The independent byte-for-byte Android
+    # builds live in android-reproducible.yml.
+    name: Build input checks
+    runs-on: ubuntu-latest
+    outputs:
+      # The selection, canonicalised once and matched exactly by every job
+      # below. Wrapped in commas so `contains(..., ',linux,')` cannot match a
+      # substring of another name, and so the jobs never see the raw input —
+      # which is what let `an droid` validate (whitespace was stripped before
+      # the check) and then match nothing (it was not stripped afterwards),
+      # skipping every job while reporting success.
+      selected: ${{ steps.selection.outputs.selected }}
+      # What the artifacts are called, read from the one line that says so —
+      # `fl_build:` in pubspec.yaml. `fl_build` names the files it produces
+      # after it and the steps below name the files they publish, so a second
+      # copy here that drifted would publish a release whose asset paths match
+      # nothing, which `action-gh-release` reports as a warning and an empty
+      # release rather than as a failure.
+      appName: ${{ steps.appName.outputs.name }}
+      # The version every job names its artifacts after. Resolved once, here,
+      # because it was resolved in two jobs and used in six: Android, Linux and
+      # Windows renamed with an empty `BUILD_NUMBER`, so their globs looked for
+      # `*__*.apk` and their release paths for `v1.0.`, and
+      # `action-gh-release` reported a warning rather than a failure.
+      buildNumber: ${{ steps.buildNumber.outputs.build }}
+      # Whether this run publishes. `github.ref_type == 'tag'` alone was true
+      # of a manual dispatch against a tag with the release box unticked, which
+      # is the one case the box exists to say no to.
+      isRelease: ${{ steps.buildNumber.outputs.release }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Require tagged releases
+        if: inputs.release == true && github.ref_type != 'tag'
+        shell: bash
+        run: |
+          echo "Release builds must be started from a committed tag so the source can be reproduced by downstream builders."
+          echo "Create and push a v1.0.<build> tag after committing the release version files."
+          exit 1
+      - name: Check tag source version
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          build_data="$(sed -n -E 's/.*static const int build = ([0-9]+);/\1/p' lib/data/res/build_data.dart | head -n 1)"
+          pub_version="$(sed -n -E 's/^version:[[:space:]]*([^+]+)\+([0-9]+)$/\1+\2/p' pubspec.yaml | head -n 1)"
+
+          if [[ -z "$build_data" ]]; then
+            echo "::error::BuildData.build not found in lib/data/res/build_data.dart"
+            exit 1
+          fi
+
+          # The whole tag, not the number on the end of it. Everything
+          # downstream writes `v1.0.<build>` out by hand — the artifact names in
+          # every platform job, and the tag `publishRelease` opens the release
+          # on — while this compared only `${GITHUB_REF_NAME##*.}` and never the
+          # `1.0.` in front of it. So a tag of any other shape validated and
+          # then published somewhere else: `v2.0.1491`, with a pubspec of
+          # `2.0.1491+1491`, passed here, built assets named `..._v1.0.1491_...`
+          # and had the release opened on `v1.0.1491` — a tag git need not even
+          # have, created at this commit — leaving the tag that was actually
+          # pushed with nothing on it.
+          expected_tag="v1.0.${build_data}"
+          if [[ "$GITHUB_REF_NAME" != "$expected_tag" ]]; then
+            echo "::error::this workflow publishes ${expected_tag}, but the tag is ${GITHUB_REF_NAME}."
+            echo "Push ${expected_tag}, or set BuildData.build to the tag's build number."
+            exit 1
+          fi
+
+          if [[ "$pub_version" != "1.0.${build_data}+${build_data}" ]]; then
+            echo "::error::pubspec.yaml version must be 1.0.${build_data}+${build_data}; got ${pub_version}."
+            exit 1
+          fi
+      - name: Check job selection
+        id: selection
+        shell: bash
+        # Through the environment, not `${{ }}` inside the script: an
+        # expression is substituted into the source before bash parses it, so
+        # a value containing a quote or a `;` would run as code. Only someone
+        # with write access can dispatch this, which lowers the stakes and does
+        # not change what the code says.
+        env:
+          REQUESTED: ${{ inputs.jobs }}
+          IS_DISPATCH: ${{ github.event_name == 'workflow_dispatch' }}
+          IS_RELEASE: ${{ inputs.release }}
+        run: |
+          set -euo pipefail
+
+          known="android ios linux windows macos monitor"
+          # `monitor` verifies a cross-build and publishes nothing, so its own
+          # `if` refuses a release run. Selecting it for one would validate,
+          # match nothing and finish green having built nothing at all.
+          verify_only="monitor"
+
+          if [[ "$IS_DISPATCH" != "true" || -z "${REQUESTED//[[:space:]]/}" ]]; then
+            # A tag push, or a dispatch that named nothing: everything runs.
+            selected="$known"
+          else
+            selected=""
+            bad=()
+            not_for_release=()
+            IFS=',' read -ra requested <<< "$REQUESTED"
+            for raw in "${requested[@]:-}"; do
+              # Trimmed at the ends only. Whitespace *inside* a token is a typo
+              # (`an droid`), not something to silently repair into a name the
+              # user did not type.
+              name="${raw#"${raw%%[![:space:]]*}"}"
+              name="${name%"${name##*[![:space:]]}"}"
+              [[ -z "$name" ]] && continue
+              if [[ " $known " != *" $name "* ]]; then bad+=("$name"); continue; fi
+              if [[ "$IS_RELEASE" == "true" && " $verify_only " == *" $name "* ]]; then
+                not_for_release+=("$name"); continue
+              fi
+              selected="$selected $name"
+            done
+
+            if (( ${#bad[@]} )); then
+              echo "Unknown job(s): ${bad[*]}"
+              echo "Valid names: $known"
+              exit 1
+            fi
+            if (( ${#not_for_release[@]} )); then
+              echo "Not available on a release run: ${not_for_release[*]}"
+              echo "Those verify a build rather than publish one."
+              exit 1
+            fi
+            if [[ -z "${selected//[[:space:]]/}" ]]; then
+              # Only reachable from a value that is all separators, such as
+              # `,` or `, ,` — which would otherwise pass and build nothing.
+              echo "No jobs selected. Leave the field empty to run all of them."
+              exit 1
+            fi
+          fi
+
+          canonical=",$(echo "$selected" | tr -s '[:space:]' ',' | sed 's/^,//;s/,$//'),"
+          echo "selected=$canonical" >> "$GITHUB_OUTPUT"
+          echo "Running:$selected"
+      - name: Check locked dependencies
+        shell: bash
+        run: |
+          flutter pub get --enforce-lockfile
+          git diff --exit-code -- pubspec.yaml pubspec.lock
+      - name: Check JNI build-id patch
+        shell: bash
+        run: scripts/release/patch-jni-build-id.sh
+      - name: Read the app name
+        id: appName
+        shell: bash
+        run: |
+          set -euo pipefail
+          # `yq eval`, which is mikefarah's — the one on the Linux runner
+          # images, and the one the Flutter setup action calls the same way.
+          # It only installs its own for Windows, which is where it is missing.
+          name="$(yq eval '.fl_build.appName' pubspec.yaml)"
+          # An absent key reads back as the string `null`, and a release named
+          # after it would publish under `null_v1.0.<n>_arm64.apk` rather than
+          # fail.
+          if [[ -z "$name" || "$name" == 'null' ]]; then
+            echo "::error::pubspec.yaml has no fl_build.appName"
+            exit 1
+          fi
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "app name: $name"
+      - name: Resolve build number
+        id: buildNumber
+        shell: bash
+        env:
+          IS_DISPATCH: ${{ github.event_name == 'workflow_dispatch' }}
+          WANTS_RELEASE: ${{ inputs.release }}
+        run: |
+          set -euo pipefail
+          build="$(sed -n -E 's/.*static const int build = ([0-9]+);/\1/p' lib/data/res/build_data.dart | head -n 1)"
+          if [[ -z "$build" ]]; then
+            echo "::error::BuildData.build not found in lib/data/res/build_data.dart"
+            exit 1
+          fi
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+
+          # A tag push always releases; a dispatch only when asked. Tag *and*
+          # dispatch is the case the old condition got wrong.
+          release=false
+          if [[ "$WANTS_RELEASE" == 'true' ]]; then
+            release=true
+          elif [[ "$IS_DISPATCH" != 'true' && "$GITHUB_REF_TYPE" == 'tag' ]]; then
+            release=true
+          fi
+          echo "release=$release" >> "$GITHUB_OUTPUT"
+          echo "build $build, release $release"
+
+  buildMacOS:
+    name: Build macOS (${{ matrix.arch }})
+    # A tag builds everything, unconditionally. The selector exists to narrow
+    # a manual dispatch; letting it decide the release path would mean an empty
+    # or unemitted output skips every job and reports success — which is the
+    # failure this whole mechanism is meant to prevent.
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',macos,')
+    needs: reproducibilityCheck
+    # From pubspec.yaml's `fl_build:`, by way of the job above — see its
+    # `appName`
+    # output. Job level rather than workflow level because that is the
+    # nearest scope an expression on `needs` can be written in.
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    # Build one DMG per architecture instead of a universal DMG. `arch` is the
+    # architecture name used in release assets, consistent with the APK and
+    # AppImage names. `xcarch` is Xcode's equivalent and becomes `ARCHS`.
+    #
+    # Separate builds also make the Intel build verifiable. This runner uses
+    # Apple silicon, so nothing executed the x86_64 slice of the former
+    # universal binary before publication. The checks below inspect every
+    # bundle and use Rosetta to launch the Intel build when available.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            xcarch: arm64
+          - arch: amd64
+            xcarch: x86_64
+    runs-on: macos-latest
+    timeout-minutes: 45
+    # Read-only, on a release run as on any other. Nothing here writes to the
+    # repository: the artifact is handed to `publishRelease`, which is the one
+    # job that needs a write-capable token — and it runs nothing but the
+    # publication.
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      # sbm_ffi is built by the build hook, into a target directory and on a
+      # toolchain rust-cache never covered, so it cached nothing this build
+      # used. Not `build-hook-cache` either: a tag cannot save under main's
+      # rule, and what main saves is a debug build this one does not reuse.
+      # The minimal profile skips what the hook's implicit install would fetch
+      # and this build never runs (docs, clippy, rustfmt).
+      - name: Install the build hook's Rust toolchain
+        working-directory: crates/sbm_ffi
+        run: rustup toolchain install --profile minimal --no-self-update
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Sign locally
+        shell: bash
+        run: |
+          set -euo pipefail
+          project=macos/Runner.xcodeproj/project.pbxproj
+          sed -i '' \
+            -e 's/CODE_SIGN_IDENTITY = "Apple Development";/CODE_SIGN_IDENTITY = "-";/' \
+            -e 's/"CODE_SIGN_IDENTITY\[sdk=macosx\*\]" = "3rd Party Mac Developer Application";/"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";/' \
+            -e 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/' \
+            -e 's/DEVELOPMENT_TEAM = BA88US33G6;/DEVELOPMENT_TEAM = "";/' \
+            -e 's/"DEVELOPMENT_TEAM\[sdk=macosx\*\]" = BA88US33G6;/"DEVELOPMENT_TEAM[sdk=macosx*]" = "";/' \
+            "$project"
+          cat > macos/Runner/Release.entitlements <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>com.apple.security.app-sandbox</key>
+            <false/>
+            <key>com.apple.security.cs.allow-jit</key>
+            <true/>
+            <key>com.apple.security.network.client</key>
+            <true/>
+            <key>com.apple.security.network.server</key>
+            <true/>
+            <key>com.apple.security.files.user-selected.read-write</key>
+            <true/>
+          </dict>
+          </plist>
+          EOF
+      - name: Build release
+        # `flutter build macos` has no `--target-platform`, but it forwards
+        # `FLUTTER_XCODE_*` variables to xcodebuild as command-line build
+        # settings. These take precedence over `ARCHS = arm64` in
+        # macos/Runner/Configs/Release.xcconfig and reach the Rust build hook
+        # as `-dDarwinArchs`.
+        env:
+          FLUTTER_XCODE_ARCHS: ${{ matrix.xcarch }}
+        run: |
+          flutter build macos --release \
+            --build-number="${BUILD_NUMBER}" \
+            --build-name="1.0.${BUILD_NUMBER}"
+      # Verify every Mach-O instead of trusting the requested architecture.
+      # This matters because `native_toolchain_rust` falls back to the host
+      # target when the requested Rust target is missing. Without this check,
+      # an Intel app could contain an arm64 sbm_ffi and fail at `RustLib.init`.
+      - name: Check the architecture
+        shell: bash
+        env:
+          EXPECTED_ARCH: ${{ matrix.xcarch }}
+        run: |
+          set -euo pipefail
+          app="build/macos/Build/Products/Release/Server Box.app"
+
+          checked=0
+          bad=()
+          while IFS= read -r -d '' binary; do
+            archs="$(lipo -archs "$binary" 2>/dev/null)" || continue
+            checked=$((checked + 1))
+            case "${binary##*/}" in
+              libswift*.dylib)
+                # Apple's Swift back-deployment runtime, copied out of the
+                # toolchain by Xcode's "Copy Swift Standard Libraries" phase
+                # and universal as it ships. It only has to carry this slice.
+                [[ " $archs " == *" $EXPECTED_ARCH "* ]] ||
+                  bad+=("${binary#"$app/"}: $archs")
+                ;;
+              *)
+                [[ "$archs" == "$EXPECTED_ARCH" ]] ||
+                  bad+=("${binary#"$app/"}: $archs")
+                ;;
+            esac
+          done < <(find "$app/Contents/MacOS" "$app/Contents/Frameworks" -type f -print0)
+
+          if (( checked == 0 )); then
+            echo "::error::no Mach-O binary found in $app"
+            exit 1
+          fi
+          if (( ${#bad[@]} )); then
+            echo "::error::${#bad[@]} binary/binaries are not $EXPECTED_ARCH alone:"
+            printf '  %s\n' "${bad[@]}"
+            exit 1
+          fi
+          echo "$checked binaries, all $EXPECTED_ARCH"
+      - name: Verify release launch
+        shell: bash
+        env:
+          EXPECTED_ARCH: ${{ matrix.xcarch }}
+        run: |
+          set -euo pipefail
+          app="build/macos/Build/Products/Release/Server Box.app"
+          executable="$app/Contents/MacOS/Server Box"
+          log_file="$RUNNER_TEMP/server-box.log"
+
+          codesign --verify --deep --strict "$app"
+
+          # Launching a foreign architecture requires Rosetta, which is not
+          # installed on every runner. Skip this smoke test when unavailable;
+          # the preceding Mach-O inspection still runs unconditionally.
+          if [[ "$EXPECTED_ARCH" != "$(uname -m)" ]] &&
+            ! /usr/bin/arch "-$EXPECTED_ARCH" /usr/bin/true >/dev/null 2>&1; then
+            echo "::notice::this runner cannot execute $EXPECTED_ARCH; skipping the launch check"
+            exit 0
+          fi
+
+          "$executable" >"$log_file" 2>&1 &
+          pid=$!
+
+          cleanup() {
+            if kill -0 "$pid" 2>/dev/null; then
+              kill "$pid"
+              wait "$pid" || true
+            fi
+          }
+          trap cleanup EXIT
+
+          for _ in {1..10}; do
+            if ! kill -0 "$pid" 2>/dev/null; then
+              wait "$pid" || true
+              cat "$log_file"
+              log show --last 2m --style compact --predicate 'process == "Server Box"' || true
+              echo "Server Box exited before the macOS launch smoke test completed."
+              exit 1
+            fi
+            sleep 1
+          done
+
+          cat "$log_file"
+      # Ad-hoc signed, like the unsigned IPA: the artifact is for looking at,
+      # not for handing to someone. macOS will refuse to open it without the
+      # user overriding Gatekeeper, and the name has to say so — `spctl` is
+      # expected to fail here, which is why the script only warns.
+      - name: Package dmg
+        shell: bash
+        env:
+          # `APP_NAME` is the *bundle* name and has a space in it. The job's
+          # own `env` sets it to `ServerBox`, which reaches every step —
+          # without this override `ditto` would stage the app into the DMG
+          # under a name it does not have, and the volume would differ from
+          # what `make package-dmg` produces locally.
+          #
+          # The two `${{ env.APP_NAME }}` below still read `ServerBox`: what a
+          # step's `env` block is evaluated against is the workflow's and the
+          # job's, never its own.
+          APP_NAME: Server Box
+          APP_ASSET_NAME: ${{ env.APP_NAME }}
+          APP_PATH: build/macos/Build/Products/Release/Server Box.app
+          DMG_BASENAME: ${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}_NoSign_${{ matrix.arch }}
+        run: bash scripts/release/package-dmg-from-xcarchive.sh
+      # Always, release or not. The artifact is how the build reaches
+      # `publishRelease`; `if-no-files-found: error` is what makes a rename
+      # that did not fire fail here, in the job that would know why, rather
+      # than by publishing a release with whatever else happened to be there.
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-macos-${{ matrix.arch }}
+          path: build/artifacts/${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}_NoSign_${{ matrix.arch }}.dmg
+          if-no-files-found: error
+          retention-days: 14
+      # macOS subscribes to MetricKit the same way iOS does, so it needs the
+      # same symbols: a call stack there is a binary UUID and an offset too.
+      # `sbm_ffi.framework.dSYM` is the one that matters most -- Rust is linked
+      # as its own framework here, and it is what can take the process down.
+      #
+      # Upload dSYMs per architecture because each file resolves addresses only
+      # for the binary slice built alongside it.
+      - name: Upload dSYMs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-macos-${{ matrix.arch }}-dsyms
+          path: build/macos/Build/Products/Release/**/*.dSYM
+          if-no-files-found: error
+          retention-days: 90
+
+  verifyMonitor:
+    name: Verify monitor ${{ matrix.platform }}-${{ matrix.arch }}
+    if: >-
+      github.event_name == 'workflow_dispatch' && inputs.release != true
+      && contains(needs.reproducibilityCheck.outputs.selected, ',monitor,')
+    needs: reproducibilityCheck
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            platform: linux
+            arch: amd64
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-musl
+            platform: linux
+            arch: arm64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            platform: macos
+            arch: arm64
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            platform: macos
+            arch: amd64
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            platform: windows
+            arch: amd64
+    runs-on: ${{ matrix.os }}
+    env:
+      SQLX_OFFLINE: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+      - name: Install musl toolchain
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+      - name: Add Rust target
+        run: rustup target add ${{ matrix.target }}
+      - name: Build
+        shell: bash
+        run: cargo build -p server_box_monitor --release --target ${{ matrix.target }}
+
+  # Two independent Android builds of this exact tree, compared byte for byte.
+  # `publishRelease` needs it, so a tree that has stopped building reproducibly
+  # does not become a release: F-Droid rebuilds from this source and compares
+  # against the published APK, and a divergence found there is found after the
+  # fact, by someone else.
+  #
+  # Gated the same way `buildAndroid` is, so a dispatch that did not ask for
+  # Android does not pay for it. It builds the unsigned F-Droid APKs rather than
+  # the signed ones this publishes — those are what the reproducibility work
+  # targets, and what F-Droid will rebuild.
+  androidReproducible:
+    name: Android reproducible build
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',android,')
+    needs: reproducibilityCheck
+    uses: ./.github/workflows/android-reproducible.yml
+
+  buildAndroid:
+    name: Build Android (${{ matrix.abi }})
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',android,')
+    needs: reproducibilityCheck
+    # From pubspec.yaml's `fl_build:`, by way of the job above — see its
+    # `appName`
+    # output. Job level rather than workflow level because that is the
+    # nearest scope an expression on `needs` can be written in.
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - abi: arm64
+            target: android-arm64
+          - abi: arm
+            target: android-arm
+          - abi: amd64
+            target: android-x64
+    # See `buildMacOS` — publication is one job, and it is the only one that
+    # needs to write.
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: "zulu"
+          java-version: "21"
+      - name: Fix the Android build epoch
+        shell: bash
+        run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "$GITHUB_ENV"
+      - name: Install the pinned Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          ndk_version="$(tr -d '[:space:]' < android/ndk-version.txt)"
+          sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "$sdkmanager" "ndk;$ndk_version"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$ndk_version" >> "$GITHUB_ENV"
+      - name: Fetch secrets
+        # Through the environment, and quoted. Expanded into the script the way
+        # they were, a space or a shell metacharacter in either value is parsed
+        # as script rather than as part of the value.
+        env:
+          BASIC_AUTH: ${{ secrets.BASIC_AUTH }}
+          URL_PREFIX: ${{ secrets.URL_PREFIX }}
+        run: |
+          set -euo pipefail
+          curl --fail --show-error --location -u "$BASIC_AUTH" -o android/app/app.key "${URL_PREFIX}app.key"
+          curl --fail --show-error --location -u "$BASIC_AUTH" -o android/key.properties "${URL_PREFIX}key.properties"
+      - name: Patch JNI build-id
+        run: |
+          flutter pub get
+          scripts/release/patch-jni-build-id.sh
+      # The Linux userland the terminal tab offers. Not in the repository —
+      # these are binaries, and they are built from pinned upstream sources
+      # here. Without this step the feature is absent from the build rather
+      # than broken in it, which is why the check below exists.
+      - name: Build proot
+        if: matrix.abi == 'arm64'
+        shell: bash
+        run: scripts/build-proot-android.sh
+      - name: Build (release)
+        if: needs.reproducibilityCheck.outputs.isRelease == 'true'
+        shell: bash
+        run: dart run fl_build -bp -p android -- --target-platform=${{ matrix.target }}
+      - name: Build (test)
+        if: needs.reproducibilityCheck.outputs.isRelease != 'true'
+        shell: bash
+        run: dart run fl_build -p android -- --target-platform=${{ matrix.target }}
+      # `useLegacyPackaging` off means nothing is extracted from the APK, so
+      # `nativeLibraryDir` does not exist and proot cannot be run from
+      # anywhere. The APK still builds, installs and runs — the rootfs entry
+      # simply never appears. Checked here because nothing else would say so.
+      - name: Check proot shipped
+        if: matrix.abi == 'arm64'
+        shell: bash
+        run: |
+          shopt -s nullglob
+          apks=(build/app/outputs/flutter-apk/*_arm64.apk)
+          [ ${#apks[@]} -gt 0 ] || { echo "no arm64 APK was built"; exit 1; }
+          for apk in "${apks[@]}"; do
+            unzip -l "$apk" | grep -q 'lib/arm64-v8a/libproot.so' ||
+              { echo "$apk carries no proot; the Linux userland would be missing"; exit 1; }
+            unzip -l "$apk" | grep -q 'lib/arm64-v8a/libproot-loader.so' ||
+              { echo "$apk carries proot but not its loader; entering the rootfs would be refused"; exit 1; }
+          done
+      - name: Rename
+        shell: bash
+        run: |
+          cd build/app/outputs/flutter-apk
+          for f in *_"${BUILD_NUMBER}"_*.apk; do
+            mv "$f" "${f/_${BUILD_NUMBER}_/_v1.0.${BUILD_NUMBER}_}"
+          done
+          # Remove original APKs copied by fl_build
+          rm -f app-*-release.apk
+      # Each matrix leg names one exact APK. Besides making a missing ABI fail
+      # at its source, this keeps the release build invocation identical to the
+      # one F-Droid runs for that ABI.
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-android-${{ matrix.abi }}
+          path: build/app/outputs/flutter-apk/${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}_${{ matrix.abi }}.apk
+          if-no-files-found: error
+          retention-days: 14
+      # A native crash reaches us as a tombstone full of addresses, and these
+      # are the only thing they resolve against. Not a release asset: users
+      # have no use for them, and `publishRelease` checks the asset list.
+      #
+      # 90 days rather than 14, because a crash is reported when a user hits
+      # it, not when the build was made. This does not cover an APK built by
+      # F-Droid on their own servers -- reproducibility is what covers that,
+      # by allowing the same binary to be rebuilt here.
+      - name: Name native debug symbols
+        shell: bash
+        run: |
+          mv build/app/outputs/native-debug-symbols/release/native-debug-symbols.zip \
+            build/app/outputs/native-debug-symbols/release/native-debug-symbols-${{ matrix.abi }}.zip
+      - name: Upload native debug symbols
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-android-${{ matrix.abi }}-symbols
+          path: build/app/outputs/native-debug-symbols/release/native-debug-symbols-${{ matrix.abi }}.zip
+          if-no-files-found: error
+          retention-days: 90
+
+  buildIOS:
+    name: Build ios
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',ios,')
+    needs: reproducibilityCheck
+    # From pubspec.yaml's `fl_build:`, by way of the job above — see its
+    # `appName`
+    # output. Job level rather than workflow level because that is the
+    # nearest scope an expression on `needs` can be written in.
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    runs-on: macos-latest
+    # See `buildMacOS` — publication is one job, and it is the only one that
+    # needs to write.
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Turn the Linux engine on
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Untracked by design. ios/Flutter/Ish.xcconfig defaults SBM_ISH to
+          # 0 so that a checkout which has not built the engine cannot link
+          # one that is not there; CI opts in the way a development machine
+          # does rather than by moving that default.
+          #
+          # The libraries themselves are fetched by the Runner target, through
+          # scripts/ensure-ish-libs.sh: the release the fork publishes for the
+          # revision the gitlink names. Nothing is built here, and no toolchain
+          # is installed — if that download has no release to find, the gitlink
+          # points at an unpublished revision and the build says so.
+          printf 'SBM_ISH = 1\n' > ios/Flutter/IshLocal.xcconfig
+      - name: Build (unsigned)
+        shell: bash
+        run: |
+          flutter build ios --release --no-codesign \
+            --build-number="${BUILD_NUMBER}" \
+            --build-name="1.0.${BUILD_NUMBER}"
+      # The step above asked for the engine; this is what says it arrived. It
+      # cannot fail at build time — nothing in the app calls those functions, so
+      # a linker that dead-strips them produces an IPA that builds, installs and
+      # runs, with the terminal tab's Linux userland simply absent. Android has
+      # `Check proot shipped` for the same reason.
+      - name: Check the Linux engine linked
+        shell: bash
+        run: scripts/check-ish-linkage.sh build/ios/iphoneos/Runner.app/Runner on
+      - name: Package ipa
+        shell: bash
+        run: APP_ASSET_NAME="${APP_NAME}" scripts/release/package-unsigned-ipa.sh
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-ios
+          path: build/artifacts/${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}_NoSign.ipa
+          if-no-files-found: error
+          retention-days: 14
+      # MetricKit's call stacks are addresses and a binary UUID, nothing more,
+      # so without these a crash report from an iOS user says only that it
+      # crashed. `dwarf-with-dsym` was already set for Release; these were
+      # simply thrown away with the runner.
+      - name: Upload dSYMs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-ios-dsyms
+          path: build/ios/Release-iphoneos/**/*.dSYM
+          if-no-files-found: error
+          retention-days: 90
+
+  buildLinux:
+    name: Build linux
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',linux,')
+    needs: reproducibilityCheck
+    # From pubspec.yaml's `fl_build:`, by way of the job above — see its
+    # `appName`
+    # output. Job level rather than workflow level because that is the
+    # nearest scope an expression on `needs` can be written in.
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    # See `buildMacOS` — publication is one job, and it is the only one that
+    # needs to write.
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runs_on: ubuntu-latest
+            release_suffix: ""
+            artifact_suffix: ""
+          - runs_on: ubuntu-22.04
+            release_suffix: "_legacy"
+            artifact_suffix: "-legacy"
+    runs-on: ${{ matrix.runs_on }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y clang cmake ninja-build pkg-config libgtk-3-dev mesa-utils libvulkan-dev desktop-file-utils wget
+          sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libunwind-dev libsecret-1-dev
+          # The status icon. `tray_manager` links it rather than opening it,
+          # so without this the Linux build fails outright — its CMake makes a
+          # missing appindicator a FATAL_ERROR.
+          sudo apt install -y libayatana-appindicator3-dev
+      - name: Build (release)
+        if: needs.reproducibilityCheck.outputs.isRelease == 'true'
+        shell: bash
+        run: dart run fl_build -bp -p linux
+      - name: Build (test)
+        if: needs.reproducibilityCheck.outputs.isRelease != 'true'
+        shell: bash
+        run: dart run fl_build -p linux
+      - name: Rename
+        shell: bash
+        run: |
+          for f in *_"${BUILD_NUMBER}"_*.AppImage; do
+            mv "$f" "${f/_${BUILD_NUMBER}_/_v1.0.${BUILD_NUMBER}_}"
+          done
+      - name: Add legacy suffix
+        if: matrix.release_suffix != ''
+        shell: bash
+        run: |
+          mv "${APP_NAME}_v1.0.${BUILD_NUMBER}_amd64.AppImage" "${APP_NAME}_v1.0.${BUILD_NUMBER}${{ matrix.release_suffix }}_amd64.AppImage"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-linux${{ matrix.artifact_suffix }}
+          path: ${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}${{ matrix.release_suffix }}_amd64.AppImage
+          if-no-files-found: error
+          retention-days: 14
+
+  buildWindows:
+    name: Build windows
+    if: >-
+      github.ref_type == 'tag'
+      || contains(needs.reproducibilityCheck.outputs.selected, ',windows,')
+    needs: reproducibilityCheck
+    # From pubspec.yaml's `fl_build:`, by way of the job above — see its
+    # `appName`
+    # output. Job level rather than workflow level because that is the
+    # nearest scope an expression on `needs` can be written in.
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    runs-on: windows-latest
+    # See `buildMacOS` — publication is one job, and it is the only one that
+    # needs to write.
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          lfs: true
+          submodules: recursive
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Build (release)
+        if: needs.reproducibilityCheck.outputs.isRelease == 'true'
+        shell: bash
+        run: dart run fl_build -bp -p windows
+      - name: Build (test)
+        if: needs.reproducibilityCheck.outputs.isRelease != 'true'
+        shell: bash
+        run: dart run fl_build -p windows
+      - name: Rename
+        shell: bash
+        run: |
+          for f in *_"${BUILD_NUMBER}"_*.zip; do
+            mv "$f" "${f/_${BUILD_NUMBER}_/_v1.0.${BUILD_NUMBER}_}"
+          done
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-windows
+          path: ${{ env.APP_NAME }}_v1.0.${{ env.BUILD_NUMBER }}_windows_amd64.zip
+          if-no-files-found: error
+          retention-days: 14
+
+  # The one job that publishes, and the only one with a write-capable token.
+  #
+  # Every platform used to open the release itself and upload into it, six jobs
+  # racing to create one thing; then the release was opened here and they
+  # uploaded into it, which stopped the race but not the half-finished result —
+  # a build that failed after another had uploaded left the tag carrying two
+  # platforms out of six, published, with nothing to say the rest were coming.
+  # `fail_on_unmatched_files` cannot see that: it knows about the files one job
+  # was asked for, not about the job that never ran.
+  #
+  # So: `needs` every platform, which a skipped or failed one fails; assemble
+  # the assets from their artifacts; refuse if the set is not complete; create
+  # the release as a **draft** and only then publish it. A failure anywhere
+  # before that last step leaves a draft, which is not a release anyone can
+  # download.
+  publishRelease:
+    name: Publish the release
+    if: needs.reproducibilityCheck.outputs.isRelease == 'true'
+    needs:
+      - reproducibilityCheck
+      - androidReproducible
+      - buildMacOS
+      - buildAndroid
+      - buildIOS
+      - buildLinux
+      - buildWindows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
+      # Built from the build number rather than read from `github.ref_name`, so
+      # it is the same expression the platform jobs name their files with. The
+      # two are only interchangeable because `Check tag source version` refuses
+      # a tag that is not exactly this; without that check this opened a release
+      # on a tag nobody pushed.
+      TAG: v1.0.${{ needs.reproducibilityCheck.outputs.buildNumber }}
+    steps:
+      - name: Collect the platform artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: ${{ env.APP_NAME }}-${{ env.BUILD_TAG }}-*
+          path: assets
+          merge-multiple: true
+      # The complete set, named here because this is the only place that can
+      # know it. Each build job knows about its own files and answers for those;
+      # a platform whose job never ran has no files and no complaint to make.
+      #
+      # It also decides what does *not* ship. The download pattern above is a
+      # glob over every artifact this run produced, and three of them are debug
+      # symbols — `-android-symbols`, `-ios-dsyms`, `-macos-dsyms` — which
+      # `merge-multiple` flattens in beside the binaries. `files: assets/*`
+      # would then publish `native-debug-symbols.zip` and every dSYM as release
+      # assets, which the jobs producing them explicitly say they are not.
+      # Pruning here rather than narrowing the pattern keeps one list of what a
+      # release consists of, and makes a new artifact opt in to shipping rather
+      # than default to it.
+      - name: Check every expected asset arrived
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected=(
+            "${APP_NAME}_${TAG}_NoSign_arm64.dmg"
+            "${APP_NAME}_${TAG}_NoSign_amd64.dmg"
+            "${APP_NAME}_${TAG}_NoSign.ipa"
+            "${APP_NAME}_${TAG}_arm64.apk"
+            "${APP_NAME}_${TAG}_arm.apk"
+            "${APP_NAME}_${TAG}_amd64.apk"
+            "${APP_NAME}_${TAG}_amd64.AppImage"
+            "${APP_NAME}_${TAG}_legacy_amd64.AppImage"
+            "${APP_NAME}_${TAG}_windows_amd64.zip"
+          )
+
+          echo "collected:"
+          ls -la assets
+
+          missing=()
+          for name in "${expected[@]}"; do
+            [ -f "assets/$name" ] || missing+=("$name")
+          done
+
+          if (( ${#missing[@]} )); then
+            echo "::error::the release is incomplete, ${#missing[@]} asset(s) missing: ${missing[*]}"
+            exit 1
+          fi
+
+          # Everything that is not on the list, including the symbol bundles.
+          # `-depth` so a dSYM's contents are removed before the directory
+          # holding them, and `-print0` so a name with a space survives the
+          # read. Compared as strings rather than matched as a pattern: these
+          # are filenames, and `.` in every one of them is a literal.
+          while IFS= read -r -d '' path; do
+            name="${path#assets/}"
+            keep=false
+            for want in "${expected[@]}"; do
+              if [[ "$name" == "$want" ]]; then keep=true; break; fi
+            done
+            if [[ "$keep" == false ]]; then rm -rf "$path"; fi
+          done < <(find assets -depth -mindepth 1 -print0)
+
+          echo "publishing:"
+          ls -la assets
+      # For checking a download by hand: none of the Windows or Linux builds is
+      # signed, and a checksum next to the file is what there is to go by.
+      # After the pruning above, so it lists exactly what is published.
+      # `scripts/release/release-macos-dmg.sh` adds the signed DMGs it uploads
+      # later.
+      - name: Write checksums
+        shell: bash
+        working-directory: assets
+        run: |
+          set -euo pipefail
+          files=(*)
+          sha256sum -- "${files[@]}" > SHA256SUMS
+          md5sum -- "${files[@]}" > MD5SUMS
+          cat SHA256SUMS MD5SUMS
+      # As a draft, so nothing is downloadable until the step below says so.
+      # `action-gh-release` sends `draft` on an update too, so a second call
+      # without it would publish the release — which is exactly what the step
+      # below is for.
+      - name: Stage the release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+        with:
+          tag_name: ${{ env.TAG }}
+          draft: true
+          fail_on_unmatched_files: true
+          files: assets/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release edit "$TAG" --draft=false --repo "$GITHUB_REPOSITORY"
+
+  # Opens the pull request that adds this release to winget-pkgs
+  # (`winget install lollipopkit.serverbox`, #1572). komac copies everything
+  # but the version, URL and hash from the manifest already there, so the
+  # first version of the package was submitted by hand.
+  #
+  # komac directly, at a pinned version checked against its digest, rather
+  # than `winget-releaser`: that action installs `cargo-binstall@main` and
+  # whatever komac is newest, and would hand both this token.
+  #
+  # The token is a classic one with `public_repo` — komac cannot open the
+  # pull request with a fine-grained one — for the account holding the
+  # winget-pkgs fork. Without the secret this says so and does nothing, and
+  # it runs after the release is public, so a failure here never holds one
+  # back.
+  publishWinget:
+    name: Publish to winget
+    needs:
+      - reproducibilityCheck
+      - publishRelease
+    runs-on: ubuntu-latest
+    permissions: {}
+    env:
+      APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
+      VERSION: 1.0.${{ needs.reproducibilityCheck.outputs.buildNumber }}
+      KOMAC_VERSION: 2.16.0
+      KOMAC_SHA256: 7d2707fa6210f2789a3702de49fbd150b736dbf426ee0b9bc8e098736f9fd82d
+      GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
+    steps:
+      - name: Submit
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$GITHUB_TOKEN" ]; then
+            echo "::notice::WINGET_TOKEN is not set, not submitting to winget"
+            exit 0
+          fi
+
+          archive="komac-${KOMAC_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          curl -fsSL -o "$archive" \
+            "https://github.com/russellbanks/Komac/releases/download/v${KOMAC_VERSION}/${archive}"
+          echo "${KOMAC_SHA256}  ${archive}" | sha256sum -c -
+          tar -xzf "$archive" komac
+
+          ./komac update lollipopkit.serverbox \
+            --version "$VERSION" \
+            --urls "https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/${APP_NAME}_v${VERSION}_windows_amd64.zip" \
+            --release-notes-url "https://github.com/${GITHUB_REPOSITORY}/releases/tag/v${VERSION}" \
+            --submit

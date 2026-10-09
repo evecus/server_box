@@ -1,0 +1,118 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'container.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(ContainerNotifier)
+final containerProvider = ContainerNotifierFamily._();
+
+final class ContainerNotifierProvider
+    extends $NotifierProvider<ContainerNotifier, ContainerState> {
+  ContainerNotifierProvider._({
+    required ContainerNotifierFamily super.from,
+    required (String, String, BuildContext) super.argument,
+  }) : super(
+         retry: null,
+         name: r'containerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$containerNotifierHash();
+
+  @override
+  String toString() {
+    return r'containerProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  ContainerNotifier create() => ContainerNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ContainerState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ContainerState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ContainerNotifierProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$containerNotifierHash() => r'f1ef5d3aa09984b646bbf75f9afbdb0a74cdfdec';
+
+final class ContainerNotifierFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          ContainerNotifier,
+          ContainerState,
+          ContainerState,
+          ContainerState,
+          (String, String, BuildContext)
+        > {
+  ContainerNotifierFamily._()
+    : super(
+        retry: null,
+        name: r'containerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ContainerNotifierProvider call(
+    String userName,
+    String hostId,
+    BuildContext context,
+  ) => ContainerNotifierProvider._(
+    argument: (userName, hostId, context),
+    from: this,
+  );
+
+  @override
+  String toString() => r'containerProvider';
+}
+
+abstract class _$ContainerNotifier extends $Notifier<ContainerState> {
+  late final _$args = ref.$arg as (String, String, BuildContext);
+  String get userName => _$args.$1;
+  String get hostId => _$args.$2;
+  BuildContext get context => _$args.$3;
+
+  ContainerState build(String userName, String hostId, BuildContext context);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ContainerState, ContainerState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ContainerState, ContainerState>,
+              ContainerState,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(
+      ref,
+      () => build(_$args.$1, _$args.$2, _$args.$3),
+    );
+  }
+}

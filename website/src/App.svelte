@@ -1,0 +1,494 @@
+<script>
+  import { Button } from '@serverbox/webui'
+  import {
+    ExternalLink,
+  } from '@lucide/svelte'
+  import { spring } from 'svelte/motion'
+  import { onMount } from 'svelte'
+  import LL, { setLocale } from './i18n/i18n-svelte'
+  import { loadLocale } from './i18n/i18n-util.sync'
+  import {
+    getInitialLocale,
+    locales,
+    localeStorageKey,
+    syncLocaleToUrl,
+  } from './lib/i18n'
+  // store/ at build time: see store-data.js.
+  import store from 'virtual:store'
+  import LazyThemePreview from './lib/LazyThemePreview.svelte'
+
+  // TODO: show once the plugin system ships in the app; until then a plugin
+  // listed here would be one nobody can install.
+  const showPlugins = false
+
+  // Keep product and protocol names untranslated. This list is the single
+  // source of truth; locale-specific copies would appear editable but be unused.
+  const capabilities = [
+    'Status chart', 'SSH Terminal', 'SFTP', 'SCP', 'Docker', 'Process',
+    'Systemd', 'S.M.A.R.T', 'GPU', 'Sensors', 'Push', 'Home Widget', 'watchOS',
+    'Monitor Agent', 'AI Agent', 'Globe', 'Benchmark',
+    'Port Forward', 'Local Shell',
+  ]
+
+  const features = [
+    { key: 'charts', icon: '⬡', wide: false },
+    { key: 'workspace', icon: '⬡', wide: true },
+    { key: 'terminal', icon: '⬡', wide: false },
+    { key: 'native', icon: '⬡', wide: false },
+    { key: 'platforms', icon: '⬡', wide: false },
+  ]
+
+  // The CDN stores original PNGs and 1440px JPEGs for the web under matching
+  // names, so refreshing an image does not require a source-code change.
+  const shotBase = 'https://cdn.lollipopkit.com/serverbox/screenshot'
+
+  // The order matches the stack transforms below. Each key also selects its
+  // localized alt text, so update all locales when changing a key's image.
+  const screenshots = [
+    { src: `${shotBase}/iphone/home.jpg`, key: 'one', x: -18, y: 8, hoverSlot: -1.5, rotate: -7, hoverRotate: -1.8, motion: 18 },
+    { src: `${shotBase}/iphone/server-details.jpg`, key: 'two', x: -6, y: -4, hoverSlot: -0.5, rotate: -2, hoverRotate: -0.6, motion: 12 },
+    { src: `${shotBase}/iphone/terminal.jpg`, key: 'three', x: 7, y: 4, hoverSlot: 0.5, rotate: 3, hoverRotate: 0.6, motion: 14 },
+    { src: `${shotBase}/iphone/files.jpg`, key: 'four', x: 18, y: -2, hoverSlot: 1.5, rotate: 8, hoverRotate: 1.8, motion: 20 },
+  ]
+
+  // These labels match the app's English screen names and are intentionally
+  // not localized independently from the app.
+  const shotLabels = {
+    home: 'Server list',
+    'server-details': 'Server details',
+    terminal: 'Terminal',
+    files: 'Files',
+    container: 'Containers',
+    process: 'Processes',
+    services: 'Services',
+    snippets: 'Snippets',
+    agent: 'Agent',
+    bench: 'Benchmark',
+    globe: 'Globe',
+    settings: 'Settings',
+  }
+
+  // Group all screenshots by device in collapsed `<details>` elements.
+  // `loading="lazy"` defers each group's images until the group is opened.
+  const gallery = [
+    { platform: 'iPhone', dir: 'iphone', shots: ['home', 'server-details', 'terminal', 'files', 'container', 'process', 'services', 'snippets', 'agent', 'bench', 'settings'] },
+    { platform: 'iPad', dir: 'ipad', shots: ['home', 'server-details', 'terminal', 'files', 'container', 'process', 'services', 'globe', 'agent', 'settings'] },
+    { platform: 'macOS', dir: 'mac', shots: ['home', 'server-details', 'terminal', 'files', 'container', 'process', 'services', 'globe', 'agent', 'settings'] },
+  ]
+
+  const downloadGroups = [
+    {
+      key: 'ios',
+      label: 'iOS',
+      sources: [
+        { label: 'App Store', href: 'https://apps.apple.com/app/id1586449703' },
+      ],
+    },
+    {
+      key: 'macos',
+      label: 'macOS',
+      sources: [
+        { label: 'App Store', href: 'https://apps.apple.com/app/id1586449703' },
+        // The App Store build supports Apple silicon only. Intel Mac users
+        // must install the app from GitHub Releases or Homebrew.
+        { label: 'GitHub Releases', href: 'https://github.com/lollipopkit/flutter_server_box/releases' },
+        { label: 'Homebrew Cask', command: 'brew install --cask server-box' },
+      ],
+    },
+    {
+      key: 'android',
+      label: 'Android',
+      sources: [
+        { label: 'GitHub Releases', href: 'https://github.com/lollipopkit/flutter_server_box/releases' },
+        { label: 'CDN', href: 'https://cdn.lollipopkit.com/serverbox/pkg/?sort=time&order=desc&layout=grid' },
+        { label: 'F-Droid', href: 'https://f-droid.org/packages/tech.lolli.toolbox' },
+        { label: 'OpenAPK', href: 'https://www.openapk.net/serverbox/tech.lolli.toolbox/' },
+      ],
+    },
+    {
+      key: 'linux',
+      label: 'Linux',
+      sources: [
+        { label: 'GitHub Releases', href: 'https://github.com/lollipopkit/flutter_server_box/releases' },
+        { label: 'CDN', href: 'https://cdn.lollipopkit.com/serverbox/pkg/?sort=time&order=desc&layout=grid' },
+      ],
+    },
+    {
+      key: 'windows',
+      label: 'Windows',
+      sources: [
+        { label: 'GitHub Releases', href: 'https://github.com/lollipopkit/flutter_server_box/releases' },
+        { label: 'CDN', href: 'https://cdn.lollipopkit.com/serverbox/pkg/?sort=time&order=desc&layout=grid' },
+      ],
+    },
+  ]
+
+  const stackMotion = spring(
+    { x: 0, y: 0 },
+    {
+      stiffness: 0.12,
+      damping: 0.38,
+    },
+  )
+
+  function getLocaleBeforeRender() {
+    if (typeof window === 'undefined') return undefined
+
+    return getInitialLocale()
+  }
+
+  const initialLocale = getLocaleBeforeRender()
+
+  if (initialLocale) {
+    loadLocale(initialLocale)
+    setLocale(initialLocale)
+  }
+
+  let locale = $state(initialLocale)
+  let copiedCommand = $state(undefined)
+  let copyFallbackCommand = $state(undefined)
+
+  function applyLocale(nextLocale) {
+    locale = nextLocale
+    loadLocale(nextLocale)
+    setLocale(nextLocale)
+    localStorage.setItem(localeStorageKey, nextLocale)
+  }
+
+  onMount(() => {
+    const nextLocale = locale || getInitialLocale()
+    applyLocale(nextLocale)
+    syncLocaleToUrl(nextLocale)
+  })
+
+  $effect(() => {
+    if (!locale) return
+
+    document.documentElement.lang = $LL.meta.lang()
+    document.title = $LL.meta.title()
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', $LL.meta.description())
+  })
+
+  function handleLocaleChange(event) {
+    const nextLocale = event.currentTarget.value
+    applyLocale(nextLocale)
+    syncLocaleToUrl(nextLocale)
+  }
+
+  function handleStackMove(event) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width - 0.5
+    const y = (event.clientY - rect.top) / rect.height - 0.5
+
+    stackMotion.set({ x, y })
+  }
+
+  function resetStack() {
+    stackMotion.set({ x: 0, y: 0 })
+  }
+
+  function scrollToSection(event, id) {
+    event.preventDefault()
+    document.getElementById(id)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
+  async function copyCommand(command) {
+    copyFallbackCommand = undefined
+
+    try {
+      await navigator.clipboard.writeText(command)
+      copiedCommand = command
+      window.setTimeout(() => {
+        if (copiedCommand === command) copiedCommand = undefined
+      }, 1800)
+    } catch {
+      copiedCommand = undefined
+      copyFallbackCommand = command
+      window.prompt($LL.download.copyPrompt(), command)
+    }
+  }
+</script>
+
+{#if locale}
+  <main class="site">
+    <header class="site-nav" id="top">
+      <a class="brand" href="#top" onclick={(event) => scrollToSection(event, 'top')}>ServerBox</a>
+      <nav>
+        <a href="#features" onclick={(event) => scrollToSection(event, 'features')}>{$LL.nav.features()}</a>
+        <a href="#capabilities" onclick={(event) => scrollToSection(event, 'capabilities')}>{$LL.nav.capabilities()}</a>
+        <a href="#themes" onclick={(event) => scrollToSection(event, 'themes')}>{$LL.nav.themes()}</a>
+        {#if showPlugins}
+          <a href="#plugins" onclick={(event) => scrollToSection(event, 'plugins')}>{$LL.nav.plugins()}</a>
+        {/if}
+        <a href="#download" onclick={(event) => scrollToSection(event, 'download')}>{$LL.nav.download()}</a>
+        <a href="/docs/">{$LL.nav.docs()}</a>
+      </nav>
+      <div class="nav-actions">
+        <label class="language-switcher">
+          <span class="sr-only">{$LL.nav.languageLabel()}</span>
+          <select
+            id="locale"
+            name="locale"
+            aria-label={$LL.nav.languageLabel()}
+            value={locale}
+            onchange={handleLocaleChange}
+          >
+            {#each locales as item}
+              <option value={item.code}>{item.label}</option>
+            {/each}
+          </select>
+        </label>
+      </div>
+    </header>
+
+    <section class="hero" id="hero">
+      <h1>{$LL.hero.titlePrefix()}<br />{$LL.hero.titleSuffix()}</h1>
+      <p class="hero-subtitle">
+        {$LL.hero.subtitle()}
+      </p>
+      <div class="hero-actions">
+        <Button href="#download" onclick={(event) => scrollToSection(event, 'download')}>{$LL.hero.primaryAction()}</Button>
+        <Button variant="secondary" href="#features" onclick={(event) => scrollToSection(event, 'features')}>{$LL.hero.secondaryAction()}</Button>
+      </div>
+
+      <div
+        class="screenshot-stack"
+        aria-label={$LL.screenshots.label()}
+        onmousemove={handleStackMove}
+        onmouseleave={resetStack}
+        role="img"
+      >
+        {#each screenshots as shot, index}
+          <img
+            class="screenshot-card"
+            src={shot.src}
+            alt={$LL.screenshots[shot.key]()}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            referrerpolicy="no-referrer"
+            style={`--base-x:${shot.x}%; --base-y:${shot.y}%; --hover-slot:${shot.hoverSlot}; --base-r:${shot.rotate}deg; --hover-r:${shot.hoverRotate}deg; --move-x:${$stackMotion.x * shot.motion}px; --move-y:${$stackMotion.y * shot.motion}px; --tilt-x:${-$stackMotion.y * 6}deg; --tilt-y:${$stackMotion.x * 8}deg; --z:${screenshots.length - index};`}
+          />
+        {/each}
+      </div>
+    </section>
+
+    <section class="page-section" id="features">
+      <div class="section-head">
+        <h2>{$LL.features.title()}</h2>
+        <p>
+          {$LL.features.subtitle()}
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        {#each features as feature}
+          <article class="feature-card" class:wide={feature.wide}>
+            <div class="icon">{feature.icon}</div>
+            <h3>{$LL.features[feature.key].title()}</h3>
+            <p>{$LL.features[feature.key].description()}</p>
+          </article>
+        {/each}
+      </div>
+    </section>
+
+    <section class="page-section" id="screenshots">
+      <div class="section-head">
+        <h2>{$LL.gallery.title()}</h2>
+        <p>
+          {$LL.gallery.subtitle()}
+        </p>
+      </div>
+
+      <div class="gallery">
+        {#each gallery as group}
+          <details class="gallery-group">
+            <summary>
+              <span class="gallery-platform">{group.platform}</span>
+              <span class="gallery-count">{$LL.gallery.count({ count: group.shots.length })}</span>
+            </summary>
+            <div class="gallery-grid" class:desktop={group.dir === 'mac'}>
+              {#each group.shots as shot}
+                <figure>
+                  <img
+                    src={`${shotBase}/${group.dir}/${shot}.jpg`}
+                    alt={`ServerBox on ${group.platform} — ${shotLabels[shot]}`}
+                    loading="lazy"
+                    decoding="async"
+                    referrerpolicy="no-referrer"
+                  />
+                  <figcaption>{shotLabels[shot]}</figcaption>
+                </figure>
+              {/each}
+            </div>
+          </details>
+        {/each}
+      </div>
+    </section>
+
+    <section class="protocol-section" id="capabilities">
+      <div class="section-head">
+        <h2>{$LL.capabilities.title()}</h2>
+        <p>
+          {$LL.capabilities.subtitle()}
+        </p>
+      </div>
+
+      <div class="protocol-badges">
+        {#each capabilities as item}
+          <span class="protocol-badge">{item}</span>
+        {/each}
+      </div>
+    </section>
+
+    <section class="page-section" id="themes">
+      <div class="section-head">
+        <h2>{$LL.themes.title()}</h2>
+        <p>{$LL.themes.subtitle()}</p>
+      </div>
+
+      {#if store.themes.length}
+        <!-- A glimpse, drawn from the themes themselves; the store page has
+             the rest: search, every mode, icons, components. -->
+        <p class="preview-note">{$LL.themes.previewNote()}</p>
+        <div class="theme-strip">
+          {#each store.themes.slice(0, 4) as theme (theme.id)}
+            <a class="theme-strip-item" href={`/themes/?lang=${locale}#${theme.id}`}>
+              <LazyThemePreview {theme} mode={theme.modes.includes('dark') ? 'dark' : theme.modes[0]} scale={0.72} />
+              <span>{theme.name}</span>
+            </a>
+          {/each}
+        </div>
+      {:else}
+        <div class="store-empty">
+          <p>{$LL.themes.empty()}</p>
+        </div>
+      {/if}
+
+      <div class="store-footer">
+        <p class="download-note">{$LL.themes.note()}</p>
+        <div class="store-actions">
+          <a class="download-icon-btn" href="/docs/development/theme-authoring/">
+            <span>{$LL.themes.authoring()}</span>
+            <ExternalLink size={14} strokeWidth={1.8} aria-hidden="true" />
+          </a>
+          <Button href={`/themes/?lang=${locale}`}>{$LL.themes.browse()}</Button>
+        </div>
+      </div>
+    </section>
+
+    {#if showPlugins}
+      <section class="page-section" id="plugins">
+        <div class="section-head">
+          <h2>{$LL.plugins.title()}</h2>
+          <p>{$LL.plugins.subtitle()}</p>
+        </div>
+
+        {#if store.plugins.length}
+          <div class="store-grid">
+            {#each store.plugins as plugin (plugin.id)}
+              <article class="feature-card store-card">
+                <h3>{plugin.name}</h3>
+                {#if plugin.description}<p>{plugin.description}</p>{/if}
+                <div class="store-meta">
+                  <span class="protocol-badge">v{plugin.latest.version}</span>
+                  {#if plugin.license}<span class="protocol-badge">{plugin.license}</span>{/if}
+                </div>
+                {#if plugin.latest.url}
+                  <div class="store-actions">
+                    <a class="download-icon-btn" href={plugin.latest.url}>
+                      <span>{$LL.plugins.download()}</span>
+                      <ExternalLink size={14} strokeWidth={1.8} aria-hidden="true" />
+                    </a>
+                  </div>
+                {/if}
+                {#if plugin.latest.sha256}
+                  <code class="store-digest" title={plugin.latest.sha256}>SHA-256 {plugin.latest.sha256.slice(0, 16)}…</code>
+                {/if}
+              </article>
+            {/each}
+          </div>
+        {:else}
+          <div class="store-empty">
+            <p>{$LL.plugins.empty()}</p>
+          </div>
+        {/if}
+      </section>
+    {/if}
+
+    <section class="download-section" id="download">
+      <div class="section-head">
+        <h2>{$LL.download.title()}</h2>
+        <p>
+          {$LL.download.subtitle()}
+        </p>
+      </div>
+
+      <div class="download-list">
+        {#each downloadGroups as group}
+          <article class="download-platform">
+            <div class="download-platform-copy">
+              <h3>{group.label}</h3>
+            </div>
+            <div class="download-actions">
+              {#each group.sources as source}
+                {#if source.command}
+                  <button
+                    class="download-icon-btn"
+                    type="button"
+                    aria-label={`${group.label} ${source.label}`}
+                    onclick={() => copyCommand(source.command)}
+                  >
+                    <span>
+                      {#if copyFallbackCommand === source.command}
+                        {source.command}
+                      {:else if copiedCommand === source.command}
+                        {$LL.download.copied()}
+                      {:else}
+                        {source.label}
+                      {/if}
+                    </span>
+                  </button>
+                {:else}
+                  <a class="download-icon-btn" href={source.href} aria-label={`${group.label} ${source.label}`}>
+                    <span>{source.label}</span>
+                    <ExternalLink size={14} strokeWidth={1.8} aria-hidden="true" />
+                  </a>
+                {/if}
+              {/each}
+            </div>
+          </article>
+        {/each}
+      </div>
+
+      <p class="download-note">{$LL.download.note()}</p>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-block">
+        <h2>{$LL.cta.title()}</h2>
+        <p>
+          {$LL.cta.subtitle()}
+        </p>
+        <div class="cta-actions">
+          <Button variant="secondary" href="https://apps.apple.com/app/id1586449703">{$LL.cta.appStoreAction()}</Button>
+          <Button href="https://github.com/lollipopkit/flutter_server_box/releases">{$LL.cta.githubAction()}</Button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>© 2026 lollipopkit</span>
+      <div class="footer-links">
+        <a href="#features" onclick={(event) => scrollToSection(event, 'features')}>{$LL.footer.features()}</a>
+        <a href="#capabilities" onclick={(event) => scrollToSection(event, 'capabilities')}>{$LL.footer.capabilities()}</a>
+        <a href="#themes" onclick={(event) => scrollToSection(event, 'themes')}>{$LL.nav.themes()}</a>
+        <a href="https://github.com/lollipopkit/flutter_server_box">GitHub</a>
+        <a href="https://github.com/lollipopkit/flutter_server_box/releases">{$LL.footer.releases()}</a>
+      </div>
+    </footer>
+  </main>
+{/if}

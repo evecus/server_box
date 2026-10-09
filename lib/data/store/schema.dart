@@ -1,0 +1,177 @@
+import 'package:fl_lib/fl_lib.dart';
+import 'package:server_box/data/store/setting.dart';
+
+/// Raised when the stored data was written by a newer build than this one.
+///
+/// The only safe response is to stop: this build cannot know what a future
+/// schema means, and writing to it would destroy whatever it doesn't
+/// understand. Refusing is what makes a downgrade recoverable — the user can
+/// reinstall the newer build and their data is still intact.
+class SchemaTooNewException implements Exception {
+  const SchemaTooNewException({required this.stored, required this.supported});
+
+  /// Version found in the data
+  final int stored;
+
+  /// Highest version this build can read
+  final int supported;
+
+  @override
+  String toString() =>
+      'Data was written by a newer version of the app '
+      '(schema v$stored, this build supports up to v$supported). '
+      'Upgrade the app to read it.';
+}
+
+/// One forward-only step between two adjacent schema versions.
+///
+/// Migrations exist so the model classes only ever describe the *current*
+/// shape, instead of every format change leaving a permanent branch behind in
+/// `fromJson` with no way to tell when it became safe to delete. A migration
+/// has a version it belongs to and a version after which it can be removed.
+abstract interface class SchemaMigration {
+  /// Applies to data stored at this version, producing [from] + 1
+  int get from;
+
+  /// Rewrites the local Hive stores in place. Must be safe to run on data that
+  /// is already partially migrated: a crash mid-way leaves the version
+  /// unchanged, so the step runs again on the next launch.
+  Future<void> apply();
+}
+
+/// Version of the app's *local storage* layout.
+///
+/// Distinct from `BuildData.build` (which gates one-off feature toggles via
+/// `Stores.setting.lastVer`) and from a backup file's envelope version, though
+/// the backup envelope carries this same number so a file can be checked
+/// against the reader's capability.
+abstract final class SchemaVersion {
+  /// Oldest schema a partially completed Hive import may have left in SQLite.
+  static const oldestSupported = 2;
+
+  /// The schema sequence, one line per step. Each migration file documents its
+  /// own reasoning; this is the index.
+  ///
+  /// v2: everything up to `monitorHttp` on Spi — the last layout written
+  ///     before versioning existed, hence the starting point rather than v1
+  /// v3: Spi's flat SSH fields nested under `ssh`
+  /// v4: Hive boxes replaced by one encrypted SQLite database
+  ///
+  /// There is no migration registered for v2 -> v3 or v3 -> v4. Both are done
+  /// by `HiveImport`, which is the only code that reads a Hive box and so the
+  /// only place a pre-v3 record can be decoded at all; it records
+  /// [hiveImportProduces] when it finishes. Every install therefore reaches
+  /// SQLite already at v4.
+  ///
+  /// v5: entities out of `kv` and into tables with columns, foreign keys and
+  ///     per-row sync metadata
+  /// v6: per-monitor explicit permission for plaintext HTTP on trusted networks
+  /// v7: the BMC side channel's columns on `server`
+  /// v8: `private_key.comment`
+  /// v9: the two settings fixups that gated themselves on their own
+  ///     `xxxMigrated` flag key
+  /// v10: the Agent shell's eight settings keys and the AI provider's six
+  ///      folded into one object row each
+  /// v11: `server_dist`, caching what each server was last seen running
+  /// v12: `horizonVirtKey`, a switch, becomes `virtKeyRows`, a count
+  /// v13: the trusted host keys v5 moved into `known_host` put back into the
+  ///      setting the app actually reads
+  /// v14: the virtual keys' order and hidden set by name rather than by index
+  /// v15: `server.ssh_file_transport`, for a host with no SFTP subsystem
+  /// v16: the watch's server selection inverted into an exclusion list
+  /// v17: the hand-typed Go-compat `/status` URLs retired, and the user told
+  /// v18: `server.preferred_transport`, and the SSH/monitor exclusivity relaxed
+  ///      so one server can carry both
+  /// v19: `server.geo_lat` and `geo_lon`
+  /// v20: the `geo` key-value rows dropped
+  /// v21: the old five-button home arrangement becomes four plus "more"
+  /// v22: the home tab selection stored as enum names instead of indexes
+  /// v23: AI endpoints store the API version previously appended at request time
+  /// v24: the server function row and the server sort field stored by enum name
+  /// v25: saved RDP and VNC profiles become a syncable server child
+  /// v26: `server.ssh_enabled` and `monitor_enabled`
+  /// v27: `server.ssh_allow_legacy_algorithms`
+  /// v28: the retired SSH recent-server history removed from `kv`
+  /// v29: `server.is_local`, and the "reached somehow" CHECK relaxed for it
+  /// v30: the theme catalog address dropped, now that the catalog is compiled in
+  /// v31: PVE moved out of `server` into `server_pve` (API tokens, pinned
+  ///      certificate), and the Virtualization tab added for installs with PVE
+  /// v32: the Agent's conversations dropped, its chats being fl_pi_llm's now
+  static const current = 32;
+
+  /// Persisted locally, never included in a backup: it describes *this
+  /// device's* storage, and restoring another device's number would make the
+  /// migrator skip or repeat steps.
+  static int get stored => SettingStore.instance.schemaVersion.fetch();
+
+  static void _store(int v) => SettingStore.instance.schemaVersion.put(v);
+
+  /// Brings local storage up to [current], one ordered step at a time.
+  ///
+  /// Throws [SchemaTooNewException] when the stored version is ahead of this
+  /// build. Callers must treat that as fatal for anything that writes — see
+  /// the class doc.
+  static Future<void> migrate(List<SchemaMigration> migrations) async {
+    // Built by hand rather than with a collection-for, which keeps the last of
+    // two steps claiming one version and drops the other with nothing said.
+    // The gap check below would only notice when the loss leaves a version
+    // this install has to cross.
+    final byFrom = <int, SchemaMigration>{};
+    for (final m in migrations) {
+      final clash = byFrom[m.from];
+      if (clash != null) {
+        throw StateError(
+          'Two schema migrations from v${m.from}: '
+          '${clash.runtimeType} and ${m.runtimeType}',
+        );
+      }
+      byFrom[m.from] = m;
+    }
+
+    final from = stored;
+    if (from == current) return;
+    if (from > current) {
+      throw SchemaTooNewException(stored: from, supported: current);
+    }
+
+    for (var v = from; v < current; v++) {
+      final step = byFrom[v];
+      if (step == null) {
+        // A gap means the migration list and `current` disagree; running on
+        // would silently leave records in a shape nothing reads
+        throw StateError('Missing schema migration from v$v to v${v + 1}');
+      }
+      Loggers.app.info('Schema migration v$v -> v${v + 1}');
+      await step.apply();
+      // Recorded per step, so an interrupted run resumes rather than restarts
+      _store(v + 1);
+    }
+  }
+
+  /// Marks a fresh install as already current, so its empty stores aren't put
+  /// through migrations written for data that doesn't exist.
+  static void initFresh() {
+    // Never downwards. This is reached when nothing says what version the data
+    // is, which on a downgraded install is a state a retired `HiveImport`
+    // marker could produce — and writing [current] over a higher stored version
+    // tells [migrate] there is nothing to do, so the older build then writes
+    // its own shapes over data it cannot read. That is the exact loss the
+    // refusal exists to prevent, arrived at by a different door.
+    if (stored > current) return;
+    _store(current);
+  }
+
+  /// The layout `HiveImport` produces: entities as JSON rows in `kv`.
+  ///
+  /// The import is not a fresh install even though it starts from an empty
+  /// database — it writes the shape that was current when Hive was dropped,
+  /// which later steps still have to convert. Recording [current] instead
+  /// would tell the migrator there is nothing to do and strand every record
+  /// in the shape it landed in.
+  ///
+  /// TODO: delete with `HiveImport`, and bump this in step with it until then.
+  static const hiveImportProduces = 4;
+
+  /// Marks the layout [HiveImport] wrote, so the steps after it still run.
+  static void initAtHiveImport() => _store(hiveImportProduces);
+}
