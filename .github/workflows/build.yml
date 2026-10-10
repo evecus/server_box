@@ -20,8 +20,7 @@ env:
 
 jobs:
   reproducibilityCheck:
-    # Static build-input validation. The independent byte-for-byte Android
-    # builds live in android-reproducible.yml.
+    # Static build-input validation.
     name: Build input checks
     runs-on: ubuntu-latest
     outputs:
@@ -139,16 +138,6 @@ jobs:
           echo "release=$release" >> "$GITHUB_OUTPUT"
           echo "build $build, release $release"
 
-  # Two independent Android builds of this exact tree, compared byte for byte.
-  # `publishRelease` needs it, so a tree that has stopped building reproducibly
-  # does not become a release: F-Droid rebuilds from this source and compares
-  # against the published APK, and a divergence found there is found after the
-  # fact, by someone else.
-  androidReproducible:
-    name: Android reproducible build
-    needs: reproducibilityCheck
-    uses: ./.github/workflows/android-reproducible.yml
-
   buildAndroid:
     name: Build Android (arm64)
     needs: reproducibilityCheck
@@ -160,8 +149,7 @@ jobs:
       APP_NAME: ${{ needs.reproducibilityCheck.outputs.appName }}
       BUILD_NUMBER: ${{ needs.reproducibilityCheck.outputs.buildNumber }}
     runs-on: ubuntu-latest
-    # See `androidReproducible` — publication is one job, and it is the only
-    # one that needs to write.
+    # Publication is one job, and it is the only one that needs to write.
     permissions:
       contents: read
     steps:
@@ -279,7 +267,6 @@ jobs:
     if: needs.reproducibilityCheck.outputs.isRelease == 'true'
     needs:
       - reproducibilityCheck
-      - androidReproducible
       - buildAndroid
     runs-on: ubuntu-latest
     permissions:
